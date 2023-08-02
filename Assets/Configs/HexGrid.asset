@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d438032ecef7374b9b8d052523266ae, type: 3}
   m_Name: HexGrid
   m_EditorClassIdentifier: 
-  <Prefab>k__BackingField: {fileID: -5512035600058380709, guid: 1c0f3c2f1a4de8b4c826c8944732d410,
+  <Prefab>k__BackingField: {fileID: 1237380795285397487, guid: 1c0f3c2f1a4de8b4c826c8944732d410,
     type: 3}
-  <Width>k__BackingField: 5
-  <Height>k__BackingField: 10
-  <SpaceBetweenCells>k__BackingField: 0.86
-  <HeightCell>k__BackingField: 1
+  <SpaceBetweenCells>k__BackingField: 0.88
+  <Width>k__BackingField: 7
+  <Height>k__BackingField: 14

@@ -1,5 +1,4 @@
 ﻿using Rodser.Config;
-using Rodser.Logic;
 using UnityEngine;
 
 namespace Rodser.Core
@@ -8,10 +7,10 @@ namespace Rodser.Core
     {
         [SerializeField] private HexGridConfig hexGridConfig = null;
 
-        private async void Awake()
+        private void Awake()
         {
-            GridFactory gridFactory = new GridFactory();
-            await gridFactory.Create(hexGridConfig);
+            Game game = new Game();
+            game.Start(hexGridConfig);
         }
     }
 }

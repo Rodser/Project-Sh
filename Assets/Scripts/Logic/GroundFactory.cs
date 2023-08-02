@@ -22,17 +22,16 @@ namespace Rodser.Logic
         internal Ground Create(int x, int z)
         {
             float rowOffset = z % 2 * 0.5f;
-            int raised = GetHeight();
 
             Vector3 positionCell = new Vector3
             {
                 x = (x + rowOffset) * _spaceBetweenCells,
-                y = raised,
+                y = 0f,
                 z = z * _spaceBetweenCells * InnerRadiusCoefficient
             };
 
             var ground = Object.Instantiate(_prefab, positionCell, Quaternion.identity, _parent);
-            ground.Raise(raised > 0);
+            ground.Lift(GetHeight());
             return ground;
         }
 
