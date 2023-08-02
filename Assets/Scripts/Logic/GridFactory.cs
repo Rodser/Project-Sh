@@ -26,7 +26,7 @@ namespace Rodser.Logic
                 for (int x = 0; x < hexGridConfig.Width; x++)
                 {
                     grounds[n++] = groundFactory.Create(x, z);
-                    await UniTask.Delay(100);
+                    await UniTask.Delay(10);
                 }
             }
 

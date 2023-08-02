@@ -6,6 +6,8 @@ namespace Rodser.Logic
 {
     internal class GroundFactory
     {
+        private const float InnerRadiusCoefficient = 0.86f;
+
         private float _spaceBetweenCells;
         private Ground _prefab;
         private Transform _parent;
@@ -19,20 +21,24 @@ namespace Rodser.Logic
 
         internal Ground Create(int x, int z)
         {
+            float rowOffset = z % 2 * 0.5f;
+            int raised = GetHeight();
+
             Vector3 positionCell = new Vector3
             {
-                x = (x + z % 2 * 0.5f) * _spaceBetweenCells,
-                y = GetHeight(),
-                z = z * _spaceBetweenCells * 0.86f
+                x = (x + rowOffset) * _spaceBetweenCells,
+                y = raised,
+                z = z * _spaceBetweenCells * InnerRadiusCoefficient
             };
 
-            var g = Object.Instantiate(_prefab, positionCell, Quaternion.identity, _parent);
-            return g;
+            var ground = Object.Instantiate(_prefab, positionCell, Quaternion.identity, _parent);
+            ground.Raise(raised > 0);
+            return ground;
         }
 
-        private float GetHeight()
+        private int GetHeight()
         {
-            return 0f + UnityEngine.Random.Range(0, 2);
+            return 0 + Random.Range(0, 2);
         }
     }
 }

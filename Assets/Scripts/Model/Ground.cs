@@ -7,6 +7,12 @@ namespace Rodser.Model
     {
         public bool IsFree { get; internal set; }
         public int Number { get; internal set; }
+        public bool Raised { get; private set; }
+
+        internal void Raise(bool raised)
+        {
+            Raised = raised;
+        }
 
         internal void Remove()
         {
