@@ -8,6 +8,8 @@ namespace Rodser.Logic
     public class GridFactory
     {
         private readonly HexGridConfig _hexGridConfig;
+        private int _countPit = 0;
+        private Vector2 _holePosition;
 
         public GridFactory(HexGridConfig hexGridConfig)
         {
@@ -17,7 +19,9 @@ namespace Rodser.Logic
         public async UniTask<HexGrid> Create()
         {
             HexGrid grid = new HexGrid();
-            var hex = new GameObject("HexogenGrid");
+
+            CalculateHolePosition();
+            var hex = new GameObject("HexogenGrid");            
             grid.Grounds = await BuilderGrid(hex.transform);
             grid.Initiation();
             return grid;
@@ -27,22 +31,12 @@ namespace Rodser.Logic
         {
             Ground[,] grounds = new Ground[_hexGridConfig.Width, _hexGridConfig.Height];
             GroundFactory groundFactory = new GroundFactory(_hexGridConfig, parent);
-            var xHole = Random.Range(0, _hexGridConfig.Width);
-            var zHole = Random.Range(_hexGridConfig.Height / 2, _hexGridConfig.Height);
 
             for (int z = 0; z < _hexGridConfig.Height; z++)
             {
                 for (int x = 0; x < _hexGridConfig.Width; x++)
                 {
-                    GroundType groundType;
-                    if (x == xHole && z == zHole)
-                    {
-                        groundType = GroundType.Hole;
-                    }
-                    else
-                    {
-                        groundType = GetGroundType(x, z);
-                    }
+                    GroundType groundType = GetGroundType(x, z);                    
 
                     grounds[x, z] = groundFactory.Create(x, z, groundType);
                     await UniTask.Delay(1);
@@ -54,19 +48,53 @@ namespace Rodser.Logic
 
         private GroundType GetGroundType(int x, int y)
         {
-            GroundType type = GetTileType();
-            if (x < Random.value * 5 && x > Random.value * 2)
+            if (TryGetHole(x, y))
+                return GroundType.Hole;
+
+            if (TryGetPit(x, y))
+                return GroundType.Pit;
+
+            return GetTileType();
+        }
+
+        private bool TryGetPit(int x, int y)
+        {
+            if(_countPit >= _hexGridConfig.PitCount) 
+                return false;
+
+            if (x >= _hexGridConfig.MinPitPositionForX - 1 && x < _hexGridConfig.MaxPitPositionForX)
             {
-                if (y < Random.value * 10 && y > Random.value * 4)
+                if (y >= _hexGridConfig.MinPitPositionForY - 1 && y < _hexGridConfig.MaxPitPositionForY)
                 {
-                    type = GroundType.Pit;
+                    if (Random.value < _hexGridConfig.ChanceOfPit * y / _hexGridConfig.Height)
+                    {
+                        _countPit++;
+                        return true;
+                    }
                 }
             }
 
-            return type;
+            return false;
         }
 
-        private static GroundType GetTileType()
+        private bool TryGetHole(int x, int y)
+        {
+            if (x == _holePosition.x && y == _holePosition.y)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private void CalculateHolePosition()
+        {
+            var xHole = Random.Range(_hexGridConfig.MinHolePositionForX, _hexGridConfig.MaxHolePositionForX);
+            var yHole = Random.Range(_hexGridConfig.MinHolePositionForY, _hexGridConfig.MaxHolePositionForY);
+            _holePosition = new Vector2(xHole, yHole);
+        }
+
+        private GroundType GetTileType()
         {
             var type = GroundType.TileMedium;
 
