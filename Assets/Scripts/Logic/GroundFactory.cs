@@ -8,10 +8,10 @@ namespace Rodser.Logic
     {
         private const float InnerRadiusCoefficient = 0.86f;
 
-        private float _spaceBetweenCells;
-        private Ground _prefab;
-        private Transform _parent;
-        private GroundConfig _groundConfig;
+        private readonly float _spaceBetweenCells;
+        private readonly Ground _prefab;
+        private readonly Transform _parent;
+        private readonly GroundConfig _groundConfig;
 
         public GroundFactory(HexGridConfig hexGridConfig, Transform parent)
         {

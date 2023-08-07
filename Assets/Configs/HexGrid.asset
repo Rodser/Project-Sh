@@ -17,10 +17,10 @@ MonoBehaviour:
   <SpaceBetweenCells>k__BackingField: 0.88
   <Width>k__BackingField: 10
   <Height>k__BackingField: 20
-  <MinHolePositionForX>k__BackingField: 3
-  <MaxHolePositionForX>k__BackingField: 8
-  <MinHolePositionForY>k__BackingField: 15
-  <MaxHolePositionForY>k__BackingField: 19
+  <MinHolePositionForX>k__BackingField: 4
+  <MaxHolePositionForX>k__BackingField: 7
+  <MinHolePositionForY>k__BackingField: 13
+  <MaxHolePositionForY>k__BackingField: 18
   <PitCount>k__BackingField: 3
   <ChanceOfPit>k__BackingField: 0.28
   <MinPitPositionForX>k__BackingField: 2

@@ -5,12 +5,13 @@ namespace Rodser.Core
 {
     public class Bootstrapper : MonoBehaviour
     {
-        [SerializeField] private HexGridConfig hexGridConfig = null;
+        [SerializeField] private HexGridConfig _hexGridConfig = null;
+        [SerializeField] private BallConfig _ballConfig = null;
 
         private void Awake()
         {
             Game game = new Game();
-            game.Start(hexGridConfig);
+            game.Start(_hexGridConfig, _ballConfig);
         }
     }
 }

@@ -8,6 +8,7 @@ namespace Rodser.Logic
     public class GridFactory
     {
         private readonly HexGridConfig _hexGridConfig;
+
         private int _countPit = 0;
         private Vector2 _holePosition;
 
