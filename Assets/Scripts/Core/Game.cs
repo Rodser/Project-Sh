@@ -10,8 +10,8 @@ namespace Rodser.Core
 
         internal async void Start(HexGridConfig hexGridConfig)
         {
-            GridFactory gridFactory = new GridFactory();
-            HexGrid hexGrid = await gridFactory.Create(hexGridConfig);
+            GridFactory gridFactory = new GridFactory(hexGridConfig);
+            HexGrid hexGrid = await gridFactory.Create();
 
             InputSystem input = new InputSystem();
             input.Initialize();

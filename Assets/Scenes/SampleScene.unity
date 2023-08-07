@@ -222,7 +222,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 15324836}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.72, y: -1, z: 6.17}
+  m_LocalPosition: {x: 3.72, y: -3.23, z: 6.17}
   m_LocalScale: {x: 2.41, y: 2.41, z: 2.41}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -624,6 +624,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sphere
       objectReference: {fileID: 0}
+    - target: {fileID: 6938837068038565774, guid: 374f65f8833040b4d8fca903b9f6eb6e,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: e603402bf72040e44b7cfa279b7eb75b,
+        type: 2}
     - target: {fileID: 8441584795038376179, guid: 374f65f8833040b4d8fca903b9f6eb6e,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9004708a3927c614885725733b723335, type: 3}
   m_Name: Ground
   m_EditorClassIdentifier: 
-  <Prefab>k__BackingField: {fileID: 0}
-  <MaterialPit>k__BackingField: {fileID: 0}
-  <MaterialHole>k__BackingField: {fileID: 0}
+  <Prefab>k__BackingField: {fileID: 1237380795285397487, guid: 1c0f3c2f1a4de8b4c826c8944732d410,
+    type: 3}
+  <MaterialPit>k__BackingField: {fileID: 2100000, guid: b7a2bfc8dce04c644a41ed9770eaa0fc,
+    type: 2}
+  <MaterialHole>k__BackingField: {fileID: 2100000, guid: 8460b5a7ab80a134cba638115f7f3e6b,
+    type: 2}

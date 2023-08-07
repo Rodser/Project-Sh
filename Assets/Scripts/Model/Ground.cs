@@ -7,7 +7,7 @@ namespace Rodser.Model
 {
     public class Ground : MonoBehaviour
     {        
-        private int _height = 0;
+        private float _height = 0;
         private GroundConfig _groundConfig = null;
 
         public Vector2 Id { get; private set; }
@@ -15,10 +15,10 @@ namespace Rodser.Model
         public bool Raised { get; private set; }
         public List<Ground> Neighbors { get; private set; }
 
-        public void Lift(int height)
-        {            
-            _height = height;
-            Raise(height > 0);
+        public void Lift()
+        {
+            Raise(GroundType == GroundType.TileHigh);
+            _height = (int)GroundType * 0.5f;
             MoveAsync();
         }
 
@@ -44,10 +44,15 @@ namespace Rodser.Model
             }
         }
 
-        internal void Set(Vector2 id, GroundConfig groundConfig)
+        internal void Set(Vector2 id, GroundConfig groundConfig, GroundType groundType)
         {
             Id = id;
             _groundConfig = groundConfig;
+            GroundType = groundType;
+            if (groundType == GroundType.Hole)
+                AppointHole();
+            else if(groundType == GroundType.Pit)
+                AppointPit();
         }
 
         private async void MoveAsync()
@@ -69,7 +74,11 @@ namespace Rodser.Model
         {
             if (GroundType == GroundType.Pit || GroundType == GroundType.Hole)
                 return;
-            Lift((_height + 1) % 2);
+            GroundType = GroundType - 1;
+            if (GroundType < 0)
+                GroundType = GroundType.TileHigh;
+           
+            Lift();
         }
 
         private void Raise(bool raised)

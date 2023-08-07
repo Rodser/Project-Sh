@@ -26,6 +26,7 @@ namespace Rodser.System
             if (ground == null)
                 return;
 
+            Debug.Log(ground.Raised);
             if (ground.Raised)
             {
                 List<Vector2> shifteds = new List<Vector2>();

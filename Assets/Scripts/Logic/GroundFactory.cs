@@ -21,7 +21,7 @@ namespace Rodser.Logic
             _parent = parent;
         }
 
-        internal Ground Create(int x, int z)
+        internal Ground Create(int x, int z, GroundType groundType)
         {
             float rowOffset = z % 2 * 0.5f;
 
@@ -33,14 +33,9 @@ namespace Rodser.Logic
             };
 
             var ground = Object.Instantiate(_prefab, positionCell, Quaternion.identity, _parent);
-            ground.Set(new Vector2(x, z), _groundConfig);
-            ground.Lift(GetHeight());
+            ground.Set(new Vector2(x, z), _groundConfig, groundType);
+            ground.Lift();
             return ground;
-        }
-
-        private int GetHeight()
-        {
-            return 0 + UnityEngine.Random.Range(0, 2);
         }
     }
 }
