@@ -1,19 +1,18 @@
 ﻿using Rodser.Model;
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.InputSystem;
 
-namespace Rodser.Core
+namespace Rodser.System
 {
     internal class MoveSystem
     {
         private readonly InputSystem _input;
-        private readonly HexGrid _hexGrid;
 
-        public MoveSystem(InputSystem input, HexGrid hexGrid)
+        public MoveSystem(InputSystem input)
         {
             input.Click.performed += Move;
             _input = input;
-            _hexGrid = hexGrid;
         }
 
         private void Move(InputAction.CallbackContext callback)
@@ -28,7 +27,10 @@ namespace Rodser.Core
                 return;
 
             if (ground.Raised)
-                _hexGrid.SwapPosition();
+            {
+                List<Vector2> shifteds = new List<Vector2>();
+                ground.SwapWaveAsync(shifteds);
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Rodser.Config;
 using Rodser.Logic;
 using Rodser.Model;
+using Rodser.System;
 
 namespace Rodser.Core
 {
@@ -14,7 +15,7 @@ namespace Rodser.Core
 
             InputSystem input = new InputSystem();
             input.Initialize();
-            MoveSystem moveSystem = new MoveSystem(input, hexGrid);
+            MoveSystem moveSystem = new MoveSystem(input);
         }
     }
 }

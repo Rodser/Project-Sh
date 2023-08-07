@@ -10,26 +10,26 @@ namespace Rodser.Logic
         public async UniTask<HexGrid> Create(HexGridConfig hexGridConfig)
         {
             HexGrid grid = new HexGrid();
-            var hex = new GameObject("HexGrid");
+            var hex = new GameObject("HexogenGrid");
             grid.Grounds = await BuilderGrid(hexGridConfig, hex.transform);
+            grid.Initiation();
             return grid;
         }
 
-        private async UniTask<Ground[]> BuilderGrid(HexGridConfig hexGridConfig, Transform parent)
+        private async UniTask<Ground[,]> BuilderGrid(HexGridConfig hexGridConfig, Transform parent)
         {
-            Ground[] grounds = new Ground[hexGridConfig.Height * hexGridConfig.Width];
+            Ground[,] grounds = new Ground[hexGridConfig.Width, hexGridConfig.Height];
             GroundFactory groundFactory = new GroundFactory(hexGridConfig, parent);
 
-            int n = 0;
             for (int z = 0; z < hexGridConfig.Height; z++)
             {
                 for (int x = 0; x < hexGridConfig.Width; x++)
                 {
-                    grounds[n++] = groundFactory.Create(x, z);
-                    await UniTask.Delay(10);
+                    grounds[x, z] = groundFactory.Create(x, z);
+                    //await UniTask.Delay(10);
                 }
             }
-
+            
             return grounds;
         }
     }

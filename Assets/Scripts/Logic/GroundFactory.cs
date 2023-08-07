@@ -11,11 +11,13 @@ namespace Rodser.Logic
         private float _spaceBetweenCells;
         private Ground _prefab;
         private Transform _parent;
+        private GroundConfig _groundConfig;
 
         public GroundFactory(HexGridConfig hexGridConfig, Transform parent)
         {
+            _groundConfig = hexGridConfig.GroundConfig;
             _spaceBetweenCells = hexGridConfig.SpaceBetweenCells;
-            _prefab = hexGridConfig.Prefab;
+            _prefab = hexGridConfig.GroundConfig.Prefab;
             _parent = parent;
         }
 
@@ -31,13 +33,14 @@ namespace Rodser.Logic
             };
 
             var ground = Object.Instantiate(_prefab, positionCell, Quaternion.identity, _parent);
+            ground.Set(new Vector2(x, z), _groundConfig);
             ground.Lift(GetHeight());
             return ground;
         }
 
         private int GetHeight()
         {
-            return 0 + Random.Range(0, 2);
+            return 0 + UnityEngine.Random.Range(0, 2);
         }
     }
 }
