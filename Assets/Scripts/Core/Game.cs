@@ -19,7 +19,7 @@ namespace Rodser.Core
             input.Initialize();
             MoveSystem moveSystem = new MoveSystem(input);
 
-            BallSystem ballSystem = new BallSystem(ball);
+            BallSystem ballSystem = new BallSystem(ball, hexGrid.Hole.transform.position);
         }
     }
 }

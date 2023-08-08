@@ -18,6 +18,7 @@ namespace Rodser.Logic
         internal Ball Create()
         {
             var ball = Object.Instantiate(_ballConfig.Prefab, GetStartPosition(), Quaternion.identity);
+            ball.SetSpeed(_ballConfig.SpeedMove);
             return ball;
         }
 

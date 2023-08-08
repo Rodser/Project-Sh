@@ -1,4 +1,5 @@
 ﻿using Rodser.Model;
+using UnityEngine;
 
 namespace Rodser.System
 {
@@ -6,9 +7,10 @@ namespace Rodser.System
     {
         private Ball _ball;
 
-        public BallSystem(Ball ball)
+        public BallSystem(Ball ball, Vector3 holePosition)
         {
             _ball = ball;
+            ball.MoveToTargetAsync(holePosition);
         }
     }
 }
