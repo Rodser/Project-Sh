@@ -9,16 +9,21 @@ namespace Rodser.Model
         private Vector3 _target;
         private Rigidbody _rigidbody;
         private float _speed;
+        private Vector3 _startPosition;
 
         public bool AtHole { get; set; }
 
-        internal async void MoveToTargetAsync(Vector3 holePosition)
+        private void Start()
+        {
+            _startPosition = transform.position;
+        }
+
+        internal void MoveToTargetAsync(Vector3 holePosition)
         {
             _target = holePosition;
             _rigidbody = GetComponent<Rigidbody>();
-            
-            await UniTask.Delay(500);
-            await MoveAsync();
+
+            MoveAsync();
         }
 
         internal void SetSpeed(float speedMove)
@@ -26,8 +31,9 @@ namespace Rodser.Model
             _speed = speedMove;
         }
 
-        private async UniTask MoveAsync()
+        private async void MoveAsync()
         {
+            await UniTask.Delay(500);
             while (!AtHole)
             {
                 var force = _target - transform.position;
@@ -39,22 +45,25 @@ namespace Rodser.Model
         private void ReachHole()
         {
             AtHole = false;
-            Debug.Log("Victory");
+            transform.position = _startPosition;
+            AtHole = true;
+            MoveAsync();
         }
 
         private void OnTriggerEnter(Collider other)
         {
             Ground ground = other.GetComponentInParent<Ground>();
-            if (ground == null) 
-                return; 
-        
-            if(ground.GroundType == GroundType.Hole)
+            if (ground == null)
+                return;
+
+            if (ground.GroundType == GroundType.Hole)
             {
                 ReachHole();
+                Debug.Log("Victory");
             }
             else if (ground.GroundType == GroundType.Pit)
             {
-                AtHole = false;
+                ReachHole();
                 Debug.Log("Loozzer");
             }
         }

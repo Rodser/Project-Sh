@@ -2,11 +2,14 @@
 using Rodser.Config;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 namespace Rodser.Model
 {
     public class Ground : MonoBehaviour
-    {        
+    {
+        [SerializeField] Transform _vfxTransform = null;
+
         private float _height = 0;
         private GroundConfig _groundConfig = null;
 
@@ -91,7 +94,7 @@ namespace Rodser.Model
             GroundType = GroundType.Pit;
             GetComponentInChildren<Collider>().isTrigger = true;
             GetComponentInChildren<MeshRenderer>().materials[1] = _groundConfig.MaterialPit;
-            // set effect
+            CreateVFX(_groundConfig.VFXPIt);
 
         }
 
@@ -100,7 +103,12 @@ namespace Rodser.Model
             GroundType = GroundType.Hole;
             GetComponentInChildren<Collider>().isTrigger = true;
             GetComponentInChildren<MeshRenderer>().materials[0] = _groundConfig.MaterialHole;
-            // set effect
+            CreateVFX(_groundConfig.VFXHole);
+        }
+
+        private void CreateVFX(VisualEffect vfx)
+        {
+            Instantiate(vfx, _vfxTransform);
         }
     }
 }
