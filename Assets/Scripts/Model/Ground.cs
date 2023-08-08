@@ -90,7 +90,7 @@ namespace Rodser.Model
         {
             GroundType = GroundType.Pit;
             GetComponentInChildren<Collider>().isTrigger = true;
-            GetComponentInChildren<MeshRenderer>().material = _groundConfig.MaterialPit;
+            GetComponentInChildren<MeshRenderer>().materials[1] = _groundConfig.MaterialPit;
             // set effect
 
         }
@@ -99,7 +99,7 @@ namespace Rodser.Model
         {
             GroundType = GroundType.Hole;
             GetComponentInChildren<Collider>().isTrigger = true;
-            GetComponentInChildren<MeshRenderer>().material = _groundConfig.MaterialHole;
+            GetComponentInChildren<MeshRenderer>().materials[0] = _groundConfig.MaterialHole;
             // set effect
         }
     }
