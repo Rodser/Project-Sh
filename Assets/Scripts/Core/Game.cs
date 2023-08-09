@@ -7,18 +7,26 @@ namespace Rodser.Core
 {
     public class Game
     {
-        internal async void Start(HexGridConfig hexGridConfig, BallConfig ballConfig)
+        private GridFactory _gridFactory;
+        private BallFactory _ballFactory;
+        private InputSystem _input;
+
+        public void Initialize(GameConfig _gameConfig)
+        {            
+            _gridFactory = new GridFactory(_gameConfig.HexGridConfig);
+            _ballFactory = new BallFactory(_gameConfig.BallConfig, _gameConfig.HexGridConfig);
+
+            _input = new InputSystem();
+            Start();
+        }
+
+        private async void Start()
         {
-            GridFactory gridFactory = new GridFactory(hexGridConfig);
-            HexGrid hexGrid = await gridFactory.Create();
+            HexGrid hexGrid = await _gridFactory.Create();
+            Ball ball = _ballFactory.Create();
 
-            BallFactory ballFactory = new BallFactory(ballConfig, hexGridConfig);
-            Ball ball = ballFactory.Create();
-
-            InputSystem input = new InputSystem();
-            input.Initialize();
-            MoveSystem moveSystem = new MoveSystem(input);
-
+            _input.Initialize();
+            MoveSystem moveSystem = new MoveSystem(_input);            
             BallSystem ballSystem = new BallSystem(ball, hexGrid.Hole.transform.position);
         }
     }

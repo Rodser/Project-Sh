@@ -160,7 +160,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.39054564, g: 0.011764685, b: 0.7490196, a: 1}
+  m_BackGroundColor: {r: 0.3412053, g: 0.15419188, b: 0.5188679, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -456,8 +456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf33de2c9311e64494c544172fcc6cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hexGridConfig: {fileID: 11400000, guid: f911fbc3b8cf4df4c9ae7e3a42a30137, type: 2}
-  _ballConfig: {fileID: 11400000, guid: a8527acd33d9fd449b441896abf93678, type: 2}
+  _gameConfig: {fileID: 11400000, guid: 622275ba9f4440b428d6099d51cb73b5, type: 2}
 --- !u!4 &2067594890
 Transform:
   m_ObjectHideFlags: 0
