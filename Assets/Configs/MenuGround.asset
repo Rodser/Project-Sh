@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Prefab>k__BackingField: {fileID: -708445638269883486, guid: 7303104d952c58340bed32b936b6dfe1,
     type: 3}
-  <MaterialHole>k__BackingField: {fileID: 2100000, guid: b7a2bfc8dce04c644a41ed9770eaa0fc,
+  <MaterialHole>k__BackingField: {fileID: 2100000, guid: 8ee1c30587c3a2245b8e03ee8d56f3a0,
     type: 2}
-  <VFXHole>k__BackingField: {fileID: 8135653678282160405, guid: ea6b559a8e5038d4aa177c49770c7971,
+  <VFXHole>k__BackingField: {fileID: 5711579517009558734, guid: ab6731c0f48a83f46af01dd510f9d843,
     type: 3}
   <MaterialPit>k__BackingField: {fileID: 2100000, guid: 8ee1c30587c3a2245b8e03ee8d56f3a0,
     type: 2}
-  <VFXPIt>k__BackingField: {fileID: 5711579517009558734, guid: ab6731c0f48a83f46af01dd510f9d843,
+  <VFXPIt>k__BackingField: {fileID: 8135653678282160405, guid: ea6b559a8e5038d4aa177c49770c7971,
     type: 3}

@@ -41,10 +41,10 @@ namespace Rodser.Model
 
                     if (groundType == GroundType.Hole)
                         Hole = ground;
-
-                   // await UniTask.Delay(1);
                 }
             }
+
+            await UniTask.Yield();
 
             if (isMenu)
                 return;
