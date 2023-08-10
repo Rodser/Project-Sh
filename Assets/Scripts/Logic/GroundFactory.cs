@@ -13,7 +13,7 @@ namespace Rodser.Logic
         private readonly Transform _parent;
         private readonly GroundConfig _groundConfig;
 
-        public GroundFactory(HexGridConfig hexGridConfig, Transform parent)
+        public GroundFactory(HexogenGridConfig hexGridConfig, Transform parent)
         {
             _groundConfig = hexGridConfig.GroundConfig;
             _spaceBetweenCells = hexGridConfig.SpaceBetweenCells;
@@ -21,7 +21,7 @@ namespace Rodser.Logic
             _parent = parent;
         }
 
-        internal Ground Create(int x, int z, GroundType groundType)
+        internal Ground Create(int x, int z, GroundType groundType, bool isMenu)
         {
             float rowOffset = z % 2 * 0.5f;
 
@@ -34,7 +34,12 @@ namespace Rodser.Logic
 
             var ground = Object.Instantiate(_prefab, positionCell, Quaternion.identity, _parent);
             ground.Set(new Vector2(x, z), _groundConfig, groundType);
+
+            if (isMenu)            
+                return ground;
+            
             ground.Lift();
+
             return ground;
         }
     }

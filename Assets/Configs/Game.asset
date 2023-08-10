@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e52782de02b0c409fd8d277376bf85, type: 3}
   m_Name: Game
   m_EditorClassIdentifier: 
-  <HexGridConfig>k__BackingField: {fileID: 11400000, guid: f911fbc3b8cf4df4c9ae7e3a42a30137,
+  <MenuGridConfig>k__BackingField: {fileID: 11400000, guid: 738987c2cbd3a4e4bb367f785fa0285e,
+    type: 2}
+  <LevelGridConfig>k__BackingField: {fileID: 11400000, guid: f911fbc3b8cf4df4c9ae7e3a42a30137,
     type: 2}
   <BallConfig>k__BackingField: {fileID: 11400000, guid: a8527acd33d9fd449b441896abf93678,
     type: 2}

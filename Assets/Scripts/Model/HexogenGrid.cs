@@ -6,15 +6,15 @@ using UnityEngine;
 
 namespace Rodser.Model
 {
-    public class HexGrid
+    public class HexogenGrid
     {
-        private readonly HexGridConfig _hexGridConfig;
+        private readonly HexogenGridConfig _hexGridConfig;
         private readonly Transform _parent;
 
         private int _countPit;
         private Vector2 _holePosition;
 
-        public HexGrid(HexGridConfig hexGridConfig, Transform parent)
+        public HexogenGrid(HexogenGridConfig hexGridConfig, Transform parent)
         {
             _hexGridConfig = hexGridConfig;
             _parent = parent;
@@ -23,7 +23,7 @@ namespace Rodser.Model
         public Ground[,] Grounds { get; internal set; }
         public Ground Hole { get; private set; }
 
-        internal async UniTask BuilderGrid()
+        internal async UniTask BuilderGrid(bool isMenu)
         {
             Grounds = new Ground[_hexGridConfig.Width, _hexGridConfig.Height];
             GroundFactory groundFactory = new GroundFactory(_hexGridConfig, _parent);
@@ -36,16 +36,19 @@ namespace Rodser.Model
                 {
                     GroundType groundType = GetGroundType(x, z);
 
-                    Ground ground = groundFactory.Create(x, z, groundType);
+                    Ground ground = groundFactory.Create(x, z, groundType, isMenu);
                     Grounds[x, z] = ground;
 
                     if (groundType == GroundType.Hole)
                         Hole = ground;
 
-                    await UniTask.Delay(1);
+                   // await UniTask.Delay(1);
                 }
             }
 
+            if (isMenu)
+                return;
+            
             SetNeighbors();
         }
 
@@ -103,8 +106,8 @@ namespace Rodser.Model
 
         private void CalculateHolePosition()
         {
-            var xHole = Random.Range(_hexGridConfig.MinHolePositionForX, _hexGridConfig.MaxHolePositionForX);
-            var yHole = Random.Range(_hexGridConfig.MinHolePositionForY, _hexGridConfig.MaxHolePositionForY);
+            var xHole = Random.Range(_hexGridConfig.MinHolePositionForX - 1, _hexGridConfig.MaxHolePositionForX);
+            var yHole = Random.Range(_hexGridConfig.MinHolePositionForY - 1, _hexGridConfig.MaxHolePositionForY);
             _holePosition = new Vector2(xHole, yHole);
         }
 

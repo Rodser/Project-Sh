@@ -7,9 +7,9 @@ namespace Rodser.Logic
     public class BallFactory
     {
         private readonly BallConfig _ballConfig;
-        private readonly HexGridConfig _hexGridConfig;
+        private readonly HexogenGridConfig _hexGridConfig;
 
-        public BallFactory(BallConfig ballConfig, HexGridConfig hexGridConfig)
+        public BallFactory(BallConfig ballConfig, HexogenGridConfig hexGridConfig)
         {
             _ballConfig = ballConfig;
             _hexGridConfig = hexGridConfig;

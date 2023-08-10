@@ -7,18 +7,21 @@ namespace Rodser.Logic
 {
     public class GridFactory
     {
-        private readonly HexGridConfig _hexGridConfig;
+        private readonly HexogenGridConfig _hexGridConfig;
 
-        public GridFactory(HexGridConfig hexGridConfig)
+        public GridFactory(HexogenGridConfig hexGridConfig)
         {
             _hexGridConfig = hexGridConfig;
         }
 
-        public async UniTask<HexGrid> Create()
+        public async UniTask<HexogenGrid> Create(bool isMenu = false)
         {
-            var hex = new GameObject("HexogenGrid");            
-            HexGrid grid = new HexGrid(_hexGridConfig, hex.transform);
-            await grid.BuilderGrid();
+            string name = isMenu ? "MenuGrid" : "HexogenGrid";
+            var hex = new GameObject(name);            
+
+            HexogenGrid grid = new HexogenGrid(_hexGridConfig, hex.transform);
+            await grid.BuilderGrid(isMenu);
+
             return grid;
         }
     }

@@ -50,7 +50,10 @@ VisualEffect:
   m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
-      m_Array: []
+      m_Array:
+      - m_Value: 0.26
+        m_Name: Radius
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
@@ -61,7 +64,7 @@ VisualEffect:
       m_Array: []
     m_Int:
       m_Array:
-      - m_Value: 137
+      - m_Value: 90
         m_Name: Rate
         m_Overridden: 1
     m_Matrix4x4f:
@@ -104,17 +107,17 @@ VisualEffect:
         m_Overridden: 0
       - m_Value:
           serializedVersion: 2
-          key0: {r: 21.112122, g: 16.601042, b: 8.9034, a: 0}
-          key1: {r: 30.609425, g: 14.993967, b: 0.27219662, a: 1}
-          key2: {r: 3.7675643, g: 0.34331775, b: 0.03945101, a: 1}
-          key3: {r: 0.5188679, g: 0.01713244, b: 0.027378395, a: 0}
+          key0: {r: 2.2427642, g: 48.252174, b: 141.83438, a: 0}
+          key1: {r: 0.045186203, g: 0.80695236, b: 3.3538268, a: 1}
+          key2: {r: 0.08021983, g: 0.10224175, b: 1.1339971, a: 1}
+          key3: {r: 0.040905975, g: 0.054517023, b: 0.19477698, a: 0}
           key4: {r: 0, g: 0, b: 0, a: 0}
           key5: {r: 0, g: 0, b: 0, a: 0}
           key6: {r: 0, g: 0, b: 0, a: 0}
           key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 4048
-          ctime1: 19082
-          ctime2: 40863
+          ctime0: 0
+          ctime1: 23130
+          ctime2: 49922
           ctime3: 65535
           ctime4: 0
           ctime5: 0
@@ -122,7 +125,7 @@ VisualEffect:
           ctime7: 0
           atime0: 0
           atime1: 4433
-          atime2: 50308
+          atime2: 49151
           atime3: 64764
           atime4: 65535
           atime5: 0

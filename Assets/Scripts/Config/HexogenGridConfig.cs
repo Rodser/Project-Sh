@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace Rodser.Config
 {
-    [CreateAssetMenu(fileName = "HexGrid", menuName = "Game/HexGrid", order = 7)]
-    public class HexGridConfig : ScriptableObject
+    [CreateAssetMenu(fileName = "HexogenGrid", menuName = "Game/HexogenGrid", order = 7)]
+    public class HexogenGridConfig : ScriptableObject
     {
         [field: SerializeField] public GroundConfig GroundConfig { get; private set; } = null;
         [field: SerializeField] public float SpaceBetweenCells { get; private set; } = 0.86f;
