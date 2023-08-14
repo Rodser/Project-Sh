@@ -15,6 +15,6 @@ MonoBehaviour:
   <Prefab>k__BackingField: {fileID: 2088807637839125126, guid: 374f65f8833040b4d8fca903b9f6eb6e,
     type: 3}
   <StartPositionX>k__BackingField: 5
-  <StartPositionY>k__BackingField: 7
+  <StartPositionY>k__BackingField: 4
   <StartPositionZ>k__BackingField: 3
   <SpeedMove>k__BackingField: 5

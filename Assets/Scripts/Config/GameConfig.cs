@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Rodser.Core;
+using UnityEngine;
 
 namespace Rodser.Config
 {
@@ -8,7 +9,7 @@ namespace Rodser.Config
         [field: SerializeField] public HexogenGridConfig MenuGridConfig { get; private set; } = null;
         [field: SerializeField] public HexogenGridConfig LevelGridConfig { get; private set; } = null;
         [field: SerializeField] public BallConfig BallConfig { get; private set; } = null;
-        [field: SerializeField] public GameObject Interface { get; private set; } = null;
+        [field: SerializeField] public HUD HUD { get; private set; } = null;
 
     }
 }

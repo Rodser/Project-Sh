@@ -12,23 +12,23 @@ namespace Rodser.Core
         private GridFactory _gridFactory;
         private BallFactory _ballFactory;
         private InputSystem _input;
-        private GameObject _interface;
+        private HUD _hud;
 
         public void Initialize(GameConfig _gameConfig)
         {            
-            //LoadInterface(_gameConfig.Interface);
+            LoadInterface(_gameConfig.HUD);
             _menuGridFactory = new GridFactory(_gameConfig.MenuGridConfig);
             _gridFactory = new GridFactory(_gameConfig.LevelGridConfig);
             _ballFactory = new BallFactory(_gameConfig.BallConfig, _gameConfig.LevelGridConfig);
 
             _input = new InputSystem();
-            //StartMenu();
-            Start();
+            StartMenu();
+            //Start();
         }
 
-        private void LoadInterface(GameObject @interface)
+        private void LoadInterface(HUD hud)
         {
-            _interface = Object.Instantiate(@interface);
+            _hud = Object.Instantiate(hud);
         }
 
         private async void StartMenu()

@@ -15,7 +15,7 @@ MonoBehaviour:
   <GroundConfig>k__BackingField: {fileID: 11400000, guid: d855ac658bf66f04f9055f7ff8c20aa3,
     type: 2}
   <SpaceBetweenCells>k__BackingField: 0.88
-  <CaneraOffset>k__BackingField: 14
+  <CaneraOffset>k__BackingField: 12
   <Width>k__BackingField: 9
   <Height>k__BackingField: 19
   <MinHolePositionForX>k__BackingField: 4
