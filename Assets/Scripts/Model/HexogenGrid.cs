@@ -8,11 +8,15 @@ namespace Rodser.Model
 {
     public class HexogenGrid
     {
+        private const float InnerRadiusCoefficient = 0.86f;
+        
         private readonly HexogenGridConfig _hexGridConfig;
         private readonly Transform _parent;
 
         private int _countPit;
         private Vector2 _holePosition;
+        private Vector3 _offsetPosition;
+        private GroundFactory _groundFactory;
 
         public HexogenGrid(HexogenGridConfig hexGridConfig, Transform parent)
         {
@@ -25,9 +29,7 @@ namespace Rodser.Model
 
         internal async UniTask BuilderGrid(bool isMenu)
         {
-            Grounds = new Ground[_hexGridConfig.Width, _hexGridConfig.Height];
-            GroundFactory groundFactory = new GroundFactory(_hexGridConfig, _parent);
-
+            Initialize();
             CalculateHolePosition();
 
             for (int z = 0; z < _hexGridConfig.Height; z++)
@@ -36,7 +38,7 @@ namespace Rodser.Model
                 {
                     GroundType groundType = GetGroundType(x, z);
 
-                    Ground ground = groundFactory.Create(x, z, groundType, isMenu);
+                    Ground ground = _groundFactory.Create(x, z, _offsetPosition, groundType, isMenu);
                     Grounds[x, z] = ground;
 
                     if (groundType == GroundType.Hole)
@@ -48,8 +50,25 @@ namespace Rodser.Model
 
             if (isMenu)
                 return;
-            
+
             SetNeighbors();
+        }
+
+        private void Initialize()
+        {
+            Grounds = new Ground[_hexGridConfig.Width, _hexGridConfig.Height];
+            _groundFactory = new GroundFactory(_hexGridConfig, _parent);
+            GetOFfsetPosition();
+        }
+
+        private void GetOFfsetPosition()
+        {
+            float rowOffset = _hexGridConfig.Height % 2 * 0.5f;
+
+            var x = (_hexGridConfig.Width + rowOffset) * _hexGridConfig.SpaceBetweenCells * 0.5f;
+            var z = _hexGridConfig.Height * _hexGridConfig.SpaceBetweenCells * InnerRadiusCoefficient * 0.5f;
+            var y = _hexGridConfig.CaneraOffset;
+            _offsetPosition = Camera.main.transform.position - new Vector3(x, y, z);
         }
 
         private void SetNeighbors()

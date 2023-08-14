@@ -15,7 +15,7 @@ namespace Rodser.Core
         private GameObject _interface;
 
         public void Initialize(GameConfig _gameConfig)
-        {
+        {            
             LoadInterface(_gameConfig.Interface);
             _menuGridFactory = new GridFactory(_gameConfig.MenuGridConfig);
             _gridFactory = new GridFactory(_gameConfig.LevelGridConfig);

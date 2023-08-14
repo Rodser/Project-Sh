@@ -7,6 +7,7 @@ namespace Rodser.Config
     {
         [field: SerializeField] public GroundConfig GroundConfig { get; private set; } = null;
         [field: SerializeField] public float SpaceBetweenCells { get; private set; } = 0.86f;
+        [field: SerializeField, Range(5, 20)] public int CaneraOffset { get; private set; }
 
         [field: SerializeField, Space(10), Header("Size grid"), Range(4, 10)] public int Width { get; private set; } = 5;
         [field: SerializeField, Range(4, 20)] public int Height { get; private set; } = 10;

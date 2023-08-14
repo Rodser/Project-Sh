@@ -21,7 +21,7 @@ namespace Rodser.Logic
             _parent = parent;
         }
 
-        internal Ground Create(int x, int z, GroundType groundType, bool isMenu)
+        internal Ground Create(int x, int z, Vector3 offsetPosition, GroundType groundType, bool isMenu)
         {
             float rowOffset = z % 2 * 0.5f;
 
@@ -31,6 +31,7 @@ namespace Rodser.Logic
                 y = 0f,
                 z = z * _spaceBetweenCells * InnerRadiusCoefficient
             };
+            positionCell += offsetPosition;
 
             var ground = Object.Instantiate(_prefab, positionCell, Quaternion.identity, _parent);
             ground.Set(new Vector2(x, z), _groundConfig, groundType);
