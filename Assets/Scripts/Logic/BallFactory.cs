@@ -15,9 +15,11 @@ namespace Rodser.Logic
             _hexGridConfig = hexGridConfig;
         }
 
-        internal Ball Create()
+        internal Ball Create(Vector3 offsetPosition)
         {
-            var ball = Object.Instantiate(_ballConfig.Prefab, GetStartPosition(), Quaternion.identity);
+            var position = GetStartPosition() + offsetPosition;
+
+            var ball = Object.Instantiate(_ballConfig.Prefab, position, Quaternion.identity);
             ball.SetSpeed(_ballConfig.SpeedMove);
             return ball;
         }

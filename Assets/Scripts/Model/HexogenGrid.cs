@@ -15,7 +15,6 @@ namespace Rodser.Model
 
         private int _countPit;
         private Vector2 _holePosition;
-        private Vector3 _offsetPosition;
         private GroundFactory _groundFactory;
 
         public HexogenGrid(HexogenGridConfig hexGridConfig, Transform parent)
@@ -26,6 +25,7 @@ namespace Rodser.Model
 
         public Ground[,] Grounds { get; internal set; }
         public Ground Hole { get; private set; }
+        public Vector3 OffsetPosition { get ; private set ; }
 
         internal async UniTask BuilderGrid(bool isMenu)
         {
@@ -38,7 +38,7 @@ namespace Rodser.Model
                 {
                     GroundType groundType = GetGroundType(x, z);
 
-                    Ground ground = _groundFactory.Create(x, z, _offsetPosition, groundType, isMenu);
+                    Ground ground = _groundFactory.Create(x, z, OffsetPosition, groundType, isMenu);
                     Grounds[x, z] = ground;
 
                     if (groundType == GroundType.Hole)
@@ -68,7 +68,7 @@ namespace Rodser.Model
             var x = (_hexGridConfig.Width + rowOffset) * _hexGridConfig.SpaceBetweenCells * 0.5f;
             var z = _hexGridConfig.Height * _hexGridConfig.SpaceBetweenCells * InnerRadiusCoefficient * 0.5f;
             var y = _hexGridConfig.CaneraOffset;
-            _offsetPosition = Camera.main.transform.position - new Vector3(x, y, z);
+            OffsetPosition = Camera.main.transform.position - new Vector3(x, y, z);
         }
 
         private void SetNeighbors()

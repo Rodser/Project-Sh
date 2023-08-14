@@ -12,17 +12,17 @@ namespace Rodser.Model
 
         private float _height = 0;
         private GroundConfig _groundConfig = null;
+        private float _offset;
 
         public Vector2 Id { get; private set; }
         public GroundType GroundType { get; private set; }
         public bool Raised { get; private set; }
         public List<Ground> Neighbors { get; private set; }
 
-        public void Lift()
+        public void Lift(float offset)
         {
-            Raise(GroundType == GroundType.TileHigh);
-            _height = (int)GroundType * 0.5f;
-            MoveAsync();
+            _offset = offset;
+            Lift();
         }
 
         internal void AddNeighbors(List<Ground> neighbors)
@@ -56,6 +56,13 @@ namespace Rodser.Model
                 AppointHole();
             else if(groundType == GroundType.Pit)
                 AppointPit();
+        }
+
+        private void Lift()
+        {
+            Raise(GroundType == GroundType.TileHigh);
+            _height = (int)GroundType * 0.5f + _offset;
+            MoveAsync();
         }
 
         private async void MoveAsync()

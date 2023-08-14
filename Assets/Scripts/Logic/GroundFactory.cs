@@ -39,7 +39,7 @@ namespace Rodser.Logic
             if (isMenu)            
                 return ground;
             
-            ground.Lift();
+            ground.Lift(offsetPosition.y);
 
             return ground;
         }

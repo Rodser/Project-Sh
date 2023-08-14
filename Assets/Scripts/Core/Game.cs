@@ -16,13 +16,14 @@ namespace Rodser.Core
 
         public void Initialize(GameConfig _gameConfig)
         {            
-            LoadInterface(_gameConfig.Interface);
+            //LoadInterface(_gameConfig.Interface);
             _menuGridFactory = new GridFactory(_gameConfig.MenuGridConfig);
             _gridFactory = new GridFactory(_gameConfig.LevelGridConfig);
             _ballFactory = new BallFactory(_gameConfig.BallConfig, _gameConfig.LevelGridConfig);
 
             _input = new InputSystem();
-            StartMenu();
+            //StartMenu();
+            Start();
         }
 
         private void LoadInterface(GameObject @interface)
@@ -38,7 +39,7 @@ namespace Rodser.Core
         private async void Start()
         {
             HexogenGrid hexGrid = await _gridFactory.Create();
-            Ball ball = _ballFactory.Create();
+            Ball ball = _ballFactory.Create(hexGrid.OffsetPosition);
 
             _input.Initialize();
             MoveSystem moveSystem = new MoveSystem(_input);            
