@@ -102,7 +102,7 @@ namespace Model
                 return false;
             if (y < _hexGridConfig.MinPitPositionForY - 1 || y >= _hexGridConfig.MaxPitPositionForY)
                 return false;
-            if (!(Random.value < _hexGridConfig.ChanceOfPit * y / _hexGridConfig.Height))
+            if (!(Random.value < _hexGridConfig.ChanceOfPit)) // * y / _hexGridConfig.Height))
                 return false;
             
             _countPit++;
