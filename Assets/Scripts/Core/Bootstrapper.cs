@@ -1,17 +1,17 @@
-﻿using Rodser.Config;
-using Rodser.Logic;
+﻿using Core;
+using Rodser.Config;
 using UnityEngine;
 
 namespace Rodser.Core
 {
     public class Bootstrapper : MonoBehaviour
     {
-        [SerializeField] private HexGridConfig hexGridConfig = null;
+        [SerializeField] private GameConfig _gameConfig = null;
 
-        private async void Awake()
+        private void Awake()
         {
-            GridFactory gridFactory = new GridFactory();
-            await gridFactory.Create(hexGridConfig);
+            Game game = new Game();
+            game.Initialize(_gameConfig);
         }
     }
 }

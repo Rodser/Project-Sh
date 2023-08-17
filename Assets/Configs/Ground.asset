@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9004708a3927c614885725733b723335, type: 3}
+  m_Name: Ground
+  m_EditorClassIdentifier: 
+  <Prefab>k__BackingField: {fileID: 1237380795285397487, guid: 1c0f3c2f1a4de8b4c826c8944732d410,
+    type: 3}
+  <MaterialHole>k__BackingField: {fileID: 2100000, guid: 8460b5a7ab80a134cba638115f7f3e6b,
+    type: 2}
+  <VFXHole>k__BackingField: {fileID: 5711579517009558734, guid: ab6731c0f48a83f46af01dd510f9d843,
+    type: 3}
+  <MaterialPit>k__BackingField: {fileID: 2100000, guid: b7a2bfc8dce04c644a41ed9770eaa0fc,
+    type: 2}
+  <VFXPIt>k__BackingField: {fileID: 8135653678282160405, guid: ea6b559a8e5038d4aa177c49770c7971,
+    type: 3}

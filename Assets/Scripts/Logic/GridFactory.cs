@@ -1,36 +1,25 @@
 ﻿using Cysharp.Threading.Tasks;
+using Model;
 using Rodser.Config;
-using Rodser.Model;
 using UnityEngine;
 
-namespace Rodser.Logic
+namespace Logic
 {
     public class GridFactory
     {
-        public async UniTask<HexGrid> Create(HexGridConfig hexGridConfig)
+        private readonly HexogenGridConfig _hexGridConfig;
+
+        public GridFactory(HexogenGridConfig hexGridConfig)
         {
-            HexGrid grid = new HexGrid();
-            var hex = new GameObject("HexGrid");
-            grid.Grounds = await BuilderGrid(hexGridConfig, hex.transform);
-            return grid;
+            _hexGridConfig = hexGridConfig;
         }
 
-        private async UniTask<Ground[]> BuilderGrid(HexGridConfig hexGridConfig, Transform parent)
+        public async UniTask<HexogenGrid> Create(Transform body, bool isMenu = false)
         {
-            Ground[] grounds = new Ground[hexGridConfig.Height * hexGridConfig.Width];
-            GroundFactory groundFactory = new GroundFactory(hexGridConfig, parent);
+            HexogenGrid grid = new HexogenGrid(_hexGridConfig, body);
+            await grid.BuilderGrid(isMenu);
 
-            int n = 0;
-            for (int z = 0; z < hexGridConfig.Height; z++)
-            {
-                for (int x = 0; x < hexGridConfig.Width; x++)
-                {
-                    grounds[n++] = groundFactory.Create(x, z);
-                    await UniTask.Delay(100);
-                }
-            }
-
-            return grounds;
+            return grid;
         }
     }
 }

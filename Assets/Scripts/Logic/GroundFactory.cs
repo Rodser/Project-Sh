@@ -6,33 +6,42 @@ namespace Rodser.Logic
 {
     internal class GroundFactory
     {
-        private float _spaceBetweenCells;
-        private Ground _prefab;
-        private Transform _parent;
+        private const float InnerRadiusCoefficient = 0.86f;
 
-        public GroundFactory(HexGridConfig hexGridConfig, Transform parent)
+        private readonly float _spaceBetweenCells;
+        private readonly Ground _prefab;
+        private readonly Transform _parent;
+        private readonly GroundConfig _groundConfig;
+
+        public GroundFactory(HexogenGridConfig hexGridConfig, Transform parent)
         {
+            _groundConfig = hexGridConfig.GroundConfig;
             _spaceBetweenCells = hexGridConfig.SpaceBetweenCells;
-            _prefab = hexGridConfig.Prefab;
+            _prefab = hexGridConfig.GroundConfig.Prefab;
             _parent = parent;
         }
 
-        internal Ground Create(int x, int z)
+        internal Ground Create(int x, int z, Vector3 offsetPosition, GroundType groundType, bool isMenu)
         {
+            float rowOffset = z % 2 * 0.5f;
+
             Vector3 positionCell = new Vector3
             {
-                x = (x + z % 2 * 0.5f) * _spaceBetweenCells,
-                y = GetHeight(),
-                z = z * _spaceBetweenCells * 0.86f
+                x = (x + rowOffset) * _spaceBetweenCells,
+                y = 0f,
+                z = z * _spaceBetweenCells * InnerRadiusCoefficient
             };
+            positionCell += offsetPosition;
 
-            var g = Object.Instantiate(_prefab, positionCell, Quaternion.identity, _parent);
-            return g;
-        }
+            var ground = Object.Instantiate(_prefab, positionCell, Quaternion.identity, _parent);
+            ground.Set(new Vector2(x, z), _groundConfig, groundType);
 
-        private float GetHeight()
-        {
-            return 0f + UnityEngine.Random.Range(0, 2);
+            if (isMenu)            
+                return ground;
+            
+            ground.Lift(offsetPosition.y);
+
+            return ground;
         }
     }
 }
