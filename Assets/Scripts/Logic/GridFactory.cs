@@ -1,9 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
+using Model;
 using Rodser.Config;
-using Rodser.Model;
 using UnityEngine;
 
-namespace Rodser.Logic
+namespace Logic
 {
     public class GridFactory
     {
@@ -14,12 +14,9 @@ namespace Rodser.Logic
             _hexGridConfig = hexGridConfig;
         }
 
-        public async UniTask<HexogenGrid> Create(bool isMenu = false)
+        public async UniTask<HexogenGrid> Create(Transform body, bool isMenu = false)
         {
-            string name = isMenu ? "MenuGrid" : "HexogenGrid";
-            var hex = new GameObject(name);            
-
-            HexogenGrid grid = new HexogenGrid(_hexGridConfig, hex.transform);
+            HexogenGrid grid = new HexogenGrid(_hexGridConfig, body);
             await grid.BuilderGrid(isMenu);
 
             return grid;

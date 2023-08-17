@@ -1,10 +1,11 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Rodser.Config;
 using Rodser.Logic;
-using System.Collections.Generic;
+using Rodser.Model;
 using UnityEngine;
 
-namespace Rodser.Model
+namespace Model
 {
     public class HexogenGrid
     {

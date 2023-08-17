@@ -1,11 +1,13 @@
 ﻿using Cysharp.Threading.Tasks;
+using Logic;
+using Model;
 using Rodser.Config;
 using Rodser.Logic;
 using Rodser.Model;
 using Rodser.System;
 using UnityEngine;
 
-namespace Rodser.Core
+namespace Core
 {
     public class Game
     {
@@ -15,27 +17,33 @@ namespace Rodser.Core
         private InputSystem _input;
         private HUD _hud;
         private HexogenGrid _currentGrid;
+        private BodyGrid _body;
+        private BodyFactory _bodyFactory;
 
-        public void Initialize(GameConfig _gameConfig)
-        {            
-            LoadInterface(_gameConfig.HUD);
-            _menuGridFactory = new GridFactory(_gameConfig.MenuGridConfig);
-            _gridFactory = new GridFactory(_gameConfig.LevelGridConfig);
-            _ballFactory = new BallFactory(_gameConfig.BallConfig, _gameConfig.LevelGridConfig);
+        public void Initialize(GameConfig gameConfig)
+        {
+            _bodyFactory = new BodyFactory();
+            _menuGridFactory = new GridFactory(gameConfig.MenuGridConfig);
+            _gridFactory = new GridFactory(gameConfig.LevelGridConfig);
+            _ballFactory = new BallFactory(gameConfig.BallConfig, gameConfig.LevelGridConfig);
 
             _input = new InputSystem();
-            StartMenu();
-            //Start();
+            StartMenu(gameConfig);
         }
+
 
         private void LoadInterface(HUD hud)
         {
             _hud = Object.Instantiate(hud);
         }
 
-        private async void StartMenu()
+        private async void StartMenu(GameConfig gameConfig)
         {
-            _currentGrid = await _menuGridFactory.Create(true);
+            LoadInterface(gameConfig.Hud);
+            _body = _bodyFactory.Create();
+
+            _currentGrid = await _menuGridFactory.Create(_body.transform, true);
+            Object.Instantiate(gameConfig.Title, _currentGrid.Hole.transform);
             _hud.StartButton.onClick.AddListener(StartLevelAsync);
         }
 
@@ -48,7 +56,9 @@ namespace Rodser.Core
         private async void LoadLevelAsync()
         {
             Debug.Log("Load Level 1");
-            _currentGrid = await _gridFactory.Create();
+            _body.Did();
+            _body =_bodyFactory.Create();
+            _currentGrid = await _gridFactory.Create(_body.transform);
             Ball ball = _ballFactory.Create(_currentGrid.OffsetPosition);
             
             _input.Initialize();
@@ -56,6 +66,7 @@ namespace Rodser.Core
             BallSystem ballSystem = new BallSystem(ball, _currentGrid.Hole.transform.position);
         }
 
+        // TODO: Выделить систему 
         private async UniTask MoveCameraAsync()
         {
             Debug.Log("Move Camera");
