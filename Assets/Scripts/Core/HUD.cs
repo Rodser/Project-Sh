@@ -5,16 +5,19 @@ namespace Rodser.Core
 {
     public class HUD : MonoBehaviour
     {
-        [SerializeField] private Button _bStart;
+        [field: SerializeField] public Button StartButton { get; private set; }    
+        [field: SerializeField] public RectTransform PanelMainMenu  { get; private set; }
+
 
         private void Awake()
         {
-            _bStart.onClick.AddListener(StartLevel);
+            StartButton.onClick.AddListener(StartLevel);
         }
 
         private void StartLevel()
         {
             Debug.Log("Start");
+            PanelMainMenu.gameObject.SetActive(false);
         }
     }
 }

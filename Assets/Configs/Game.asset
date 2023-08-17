@@ -18,5 +18,5 @@ MonoBehaviour:
     type: 2}
   <BallConfig>k__BackingField: {fileID: 11400000, guid: a8527acd33d9fd449b441896abf93678,
     type: 2}
-  <Interface>k__BackingField: {fileID: 4659737946151262599, guid: 6013984cadfc7d74f903d9820fbb28a5,
+  <HUD>k__BackingField: {fileID: 3827702669069213154, guid: 6013984cadfc7d74f903d9820fbb28a5,
     type: 3}

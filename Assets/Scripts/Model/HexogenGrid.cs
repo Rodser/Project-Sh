@@ -58,10 +58,10 @@ namespace Rodser.Model
         {
             Grounds = new Ground[_hexGridConfig.Width, _hexGridConfig.Height];
             _groundFactory = new GroundFactory(_hexGridConfig, _parent);
-            GetOFfsetPosition();
+            GetOffsetPosition();
         }
 
-        private void GetOFfsetPosition()
+        private void GetOffsetPosition()
         {
             float rowOffset = _hexGridConfig.Height % 2 * 0.5f;
 
@@ -97,30 +97,20 @@ namespace Rodser.Model
         {
             if (_countPit >= _hexGridConfig.PitCount)
                 return false;
-
-            if (x >= _hexGridConfig.MinPitPositionForX - 1 && x < _hexGridConfig.MaxPitPositionForX)
-            {
-                if (y >= _hexGridConfig.MinPitPositionForY - 1 && y < _hexGridConfig.MaxPitPositionForY)
-                {
-                    if (Random.value < _hexGridConfig.ChanceOfPit * y / _hexGridConfig.Height)
-                    {
-                        _countPit++;
-                        return true;
-                    }
-                }
-            }
-
-            return false;
+            if (x < _hexGridConfig.MinPitPositionForX - 1 || x >= _hexGridConfig.MaxPitPositionForX) 
+                return false;
+            if (y < _hexGridConfig.MinPitPositionForY - 1 || y >= _hexGridConfig.MaxPitPositionForY)
+                return false;
+            if (!(Random.value < _hexGridConfig.ChanceOfPit * y / _hexGridConfig.Height))
+                return false;
+            
+            _countPit++;
+            return true;
         }
 
         private bool TryGetHole(int x, int y)
         {
-            if (x == _holePosition.x && y == _holePosition.y)
-            {
-                return true;
-            }
-
-            return false;
+            return x == _holePosition.x && y == _holePosition.y;
         }
 
         private void CalculateHolePosition()

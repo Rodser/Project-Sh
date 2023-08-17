@@ -18,10 +18,10 @@ MonoBehaviour:
   <CaneraOffset>k__BackingField: 15
   <Width>k__BackingField: 10
   <Height>k__BackingField: 20
-  <MinHolePositionForX>k__BackingField: 5
-  <MaxHolePositionForX>k__BackingField: 5
-  <MinHolePositionForY>k__BackingField: 11
-  <MaxHolePositionForY>k__BackingField: 11
+  <MinHolePositionForX>k__BackingField: 7
+  <MaxHolePositionForX>k__BackingField: 7
+  <MinHolePositionForY>k__BackingField: 17
+  <MaxHolePositionForY>k__BackingField: 17
   <PitCount>k__BackingField: 20
   <ChanceOfPit>k__BackingField: 1
   <MinPitPositionForX>k__BackingField: 7
