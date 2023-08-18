@@ -67,8 +67,7 @@ namespace Rodser.Model
 
         private async void MoveAsync()
         {
-            var origin = transform.position;
-            var target = origin;
+            var target = transform.position;
             target.y = _height;
 
             var time = 0f;
