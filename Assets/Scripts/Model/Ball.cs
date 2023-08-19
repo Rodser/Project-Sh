@@ -13,12 +13,14 @@ namespace Model
         private float _speed;
         private Vector3 _startPosition;
         private NotifySystem _notifySystem;
+        private int _countLive;
 
         public bool AtHole { get; set; }
 
         private void Start()
         {
             _startPosition = transform.position;
+            _countLive = 2;
         }
 
         internal void MoveToTargetAsync(Vector3 holePosition)
@@ -44,7 +46,7 @@ namespace Model
             await UniTask.Delay(500);
             while (!AtHole)
             {
-                if(transform == null)
+                if(gameObject == null)
                     return;
                 
                 var force = _target - transform.position;
@@ -55,9 +57,11 @@ namespace Model
 
         private void ReachHole()
         {
-            AtHole = false;
-            transform.position = _startPosition;
+            _countLive--;
+            Debug.Log(_countLive);
             AtHole = true;
+            transform.position = _startPosition;
+            AtHole = false;
             MoveAsync();
         }
 
@@ -67,17 +71,24 @@ namespace Model
             if (ground == null)
                 return;
 
-            if (ground.GroundType == GroundType.Hole)
+            switch (ground.GroundType)
             {
-                ReachHole();
-                Debug.Log("Victory");
-                _notifySystem.Notify(isVictory:true);
-            }
-            else if (ground.GroundType == GroundType.Pit)
-            {
-                ReachHole();
-                Debug.Log("Looser");
-                _notifySystem.Notify(isVictory:false);
+                case GroundType.Hole:
+                    AtHole = true;
+                    Debug.Log("Victory");
+                    Destroy(gameObject, 300);
+                    _notifySystem.Notify(isVictory:true);
+                    break;
+                case GroundType.Pit when _countLive > 0:
+                    AtHole = true;
+                    ReachHole();
+                    break;
+                case GroundType.Pit:
+                    AtHole = true;
+                    Destroy(gameObject, 300);
+                    Debug.Log("Looser");
+                    _notifySystem.Notify(isVictory:false);
+                    break;
             }
         }
     }

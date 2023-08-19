@@ -18,6 +18,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f911fbc3b8cf4df4c9ae7e3a42a30137, type: 2}
   - {fileID: 11400000, guid: ee42832a1ead1fa4aae97d3fd4a195cb, type: 2}
   - {fileID: 11400000, guid: dcbf96a73afb32d49959394a6a3d4956, type: 2}
+  - {fileID: 11400000, guid: 73554acfbcc9cf547bff0e7b76bff2d3, type: 2}
+  - {fileID: 11400000, guid: ee2021cefff70ed4e9e5a761f373c5bb, type: 2}
   <BallConfig>k__BackingField: {fileID: 11400000, guid: a8527acd33d9fd449b441896abf93678,
     type: 2}
   <Hud>k__BackingField: {fileID: 3827702669069213154, guid: 6013984cadfc7d74f903d9820fbb28a5,
