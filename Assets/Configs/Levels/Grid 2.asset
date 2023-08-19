@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d438032ecef7374b9b8d052523266ae, type: 3}
-  m_Name: HexGrid
+  m_Name: Grid 2
   m_EditorClassIdentifier: 
   <GroundConfig>k__BackingField: {fileID: 11400000, guid: d855ac658bf66f04f9055f7ff8c20aa3,
     type: 2}
@@ -22,8 +22,8 @@ MonoBehaviour:
   <MaxHolePositionForX>k__BackingField: 7
   <MinHolePositionForY>k__BackingField: 14
   <MaxHolePositionForY>k__BackingField: 17
-  <PitCount>k__BackingField: 5
-  <ChanceOfPit>k__BackingField: 0.202
+  <PitCount>k__BackingField: 2
+  <ChanceOfPit>k__BackingField: 0.532
   <MinPitPositionForX>k__BackingField: 2
   <MaxPitPositionForX>k__BackingField: 9
   <MinPitPositionForY>k__BackingField: 9

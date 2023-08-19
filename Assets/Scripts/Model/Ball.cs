@@ -1,7 +1,9 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
+using Rodser.Model;
 using UnityEngine;
 
-namespace Rodser.Model
+namespace Model
 {
     [RequireComponent(typeof(Rigidbody))]
     public class Ball : MonoBehaviour
@@ -10,6 +12,7 @@ namespace Rodser.Model
         private Rigidbody _rigidbody;
         private float _speed;
         private Vector3 _startPosition;
+        private NotifySystem _notifySystem;
 
         public bool AtHole { get; set; }
 
@@ -30,12 +33,20 @@ namespace Rodser.Model
         {
             _speed = speedMove;
         }
-
+        
+        internal void SetSystem(NotifySystem notifySystem)
+        {
+            _notifySystem = notifySystem;
+        }
+        
         private async void MoveAsync()
         {
             await UniTask.Delay(500);
             while (!AtHole)
             {
+                if(transform == null)
+                    return;
+                
                 var force = _target - transform.position;
                 _rigidbody.AddForce(force.normalized * _speed, ForceMode.Acceleration);
                 await UniTask.Yield();
@@ -60,11 +71,13 @@ namespace Rodser.Model
             {
                 ReachHole();
                 Debug.Log("Victory");
+                _notifySystem.Notify(isVictory:true);
             }
             else if (ground.GroundType == GroundType.Pit)
             {
                 ReachHole();
-                Debug.Log("Loozzer");
+                Debug.Log("Looser");
+                _notifySystem.Notify(isVictory:false);
             }
         }
     }

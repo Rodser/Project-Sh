@@ -2,8 +2,6 @@
 using Logic;
 using Model;
 using Rodser.Config;
-using Rodser.Logic;
-using Rodser.Model;
 using Rodser.System;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -17,20 +15,23 @@ namespace Core
         private BallFactory _ballFactory;
         private BodyFactory _bodyFactory;
         private LightFactory _lightFactory;
+        
         private InputSystem _input;
         private HUD _hud;
         private HexogenGrid _currentGrid;
         private BodyGrid _body;
         private Camera _camera;
         private GameConfig _gameConfig;
+        
+        private int _currentLevel = 0;
 
         public void Initialize(GameConfig gameConfig)
         {
             _gameConfig = gameConfig;
             _bodyFactory = new BodyFactory();
             _menuGridFactory = new GridFactory(gameConfig.MenuGridConfig);
-            _gridFactory = new GridFactory(gameConfig.LevelGridConfig);
-            _ballFactory = new BallFactory(gameConfig.BallConfig, gameConfig.LevelGridConfig);
+            _gridFactory = new GridFactory(gameConfig.LevelGridConfigs);
+            _ballFactory = new BallFactory(gameConfig.BallConfig, gameConfig.LevelGridConfigs);
             _lightFactory = new LightFactory();
 
             _camera = Camera.main;
@@ -40,6 +41,7 @@ namespace Core
 
         private void LoadInterface(HUD hud)
         {
+            //TODO: Create interface Factory
             _hud = Object.Instantiate(hud);
         }
 
@@ -52,36 +54,41 @@ namespace Core
             Object.Instantiate(_gameConfig.Title, _currentGrid.Hole.transform);
             _lightFactory.Create(_gameConfig.Light, _camera.transform, _body.transform);
             _hud.StartButton.onClick.AddListener(StartLevelAsync);
+            _hud.NextButton.onClick.AddListener(StartLevelAsync);
+            _hud.NotifyEvent += OnNotify;
+        }
+
+        private void OnNotify(bool isVictory)
+        {
+            if (!isVictory)
+                return;
+            
+            if(_currentLevel + 1 < _gameConfig.LevelGridConfigs.Length)
+                _currentLevel++;
         }
 
         private async void StartLevelAsync()
         {
+            //TODO: Fix camera system
             CameraSystem cameraSystem = new CameraSystem();
             await cameraSystem.MoveCameraAsync(_currentGrid.Hole.transform.position, _camera);
-            LoadLevelAsync();
+            LoadLevelAsync(_currentLevel);
         }
 
-        private async void LoadLevelAsync()
+        private async void LoadLevelAsync(int level)
         {
-            Debug.Log("Load Level 1");
+            Debug.Log($"Load Level {level}");
             _body.Did();
             _body =_bodyFactory.Create();
             _lightFactory.Create(_gameConfig.Light, _camera.transform, _body.transform);
 
-            _currentGrid = await _gridFactory.Create(_body.transform);
-            Ball ball = _ballFactory.Create(_currentGrid.OffsetPosition);
+            _currentGrid = await _gridFactory.Create(level, _body.transform);
+            Ball ball = _ballFactory.Create(_currentGrid.OffsetPosition, level);
             
             _input.Initialize();
             MoveSystem moveSystem = new MoveSystem(_input);            
             BallSystem ballSystem = new BallSystem(ball, _currentGrid.Hole.transform.position);
-        }
-    }
-
-    public class LightFactory
-    {
-        public Light Create(Light light, Transform cameraTransform, Transform bodyTransform)
-        {
-            return Object.Instantiate(light, cameraTransform.position, cameraTransform.rotation, bodyTransform);
+            NotifySystem notifySystem = new NotifySystem(ball, _hud);
         }
     }
 }

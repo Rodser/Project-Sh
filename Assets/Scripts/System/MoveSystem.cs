@@ -1,6 +1,7 @@
 ﻿using Rodser.Model;
 using UnityEngine;
 using System.Collections.Generic;
+using Model;
 using UnityEngine.InputSystem;
 
 namespace Rodser.System

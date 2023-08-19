@@ -1,14 +1,15 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Rodser.Config;
-using System.Collections.Generic;
+using Rodser.Model;
 using UnityEngine;
 using UnityEngine.VFX;
 
-namespace Rodser.Model
+namespace Model
 {
     public class Ground : MonoBehaviour
     {
-        [SerializeField] Transform _vfxTransform = null;
+        [SerializeField] private Transform _vfxTransform = null;
 
         private float _height = 0;
         private GroundConfig _groundConfig = null;
@@ -67,6 +68,9 @@ namespace Rodser.Model
 
         private async void MoveAsync()
         {
+            if(transform == null)
+                return;
+            
             var target = transform.position;
             target.y = _height;
 
@@ -95,7 +99,7 @@ namespace Rodser.Model
             Raised = raised;
         }
 
-        public void AppointPit()
+        private void AppointPit()
         {
             GroundType = GroundType.Pit;
             GetComponentInChildren<Collider>().isTrigger = true;
@@ -104,7 +108,7 @@ namespace Rodser.Model
 
         }
 
-        internal void AppointHole()
+        private void AppointHole()
         {
             GroundType = GroundType.Hole;
             GetComponentInChildren<Collider>().isTrigger = true;

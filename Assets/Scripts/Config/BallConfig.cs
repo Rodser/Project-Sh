@@ -1,4 +1,5 @@
-﻿using Rodser.Model;
+﻿using Model;
+using Rodser.Model;
 using UnityEngine;
 
 namespace Rodser.Config
