@@ -24,7 +24,7 @@ MonoBehaviour:
   <MaxHolePositionForY>k__BackingField: 17
   <PitCount>k__BackingField: 4
   <ChanceOfPit>k__BackingField: 0.495
-  <MinPitPositionForX>k__BackingField: 2
-  <MaxPitPositionForX>k__BackingField: 9
+  <MinPitPositionForX>k__BackingField: 3
+  <MaxPitPositionForX>k__BackingField: 8
   <MinPitPositionForY>k__BackingField: 9
   <MaxPitPositionForY>k__BackingField: 15

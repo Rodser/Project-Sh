@@ -1,17 +1,20 @@
 ﻿using Model;
-using Rodser.Model;
 using UnityEngine;
 
-namespace Rodser.System
+namespace System
 {
     internal class BallSystem
     {
-        private Ball _ball;
+        private readonly Ball _ball;
 
-        public BallSystem(Ball ball, Vector3 holePosition)
+        public BallSystem(Ball ball)
         {
             _ball = ball;
-            ball.MoveToTargetAsync(holePosition);
+        }
+
+        public void SetTarget(Vector3 position)
+        {
+            _ball.MoveToTargetAsync(position);
         }
     }
 }

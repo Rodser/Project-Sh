@@ -2,9 +2,7 @@
 using Logic;
 using Model;
 using Rodser.Config;
-using Rodser.System;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Core
 {
@@ -42,7 +40,7 @@ namespace Core
         private void LoadInterface(HUD hud)
         {
             //TODO: Create interface Factory
-            _hud = Object.Instantiate(hud);
+            _hud = UnityEngine.Object.Instantiate(hud);
         }
 
         private async void StartMenu()
@@ -51,7 +49,7 @@ namespace Core
             _body = _bodyFactory.Create();
 
             _currentGrid = await _menuGridFactory.Create(_body.transform, true);
-            Object.Instantiate(_gameConfig.Title, _currentGrid.Hole.transform);
+            UnityEngine.Object.Instantiate(_gameConfig.Title, _currentGrid.Hole.transform);
             _lightFactory.Create(_gameConfig.Light, _camera.transform, _body.transform);
             _hud.StartButton.onClick.AddListener(StartLevelAsync);
             _hud.NextButton.onClick.AddListener(StartLevelAsync);
@@ -86,8 +84,8 @@ namespace Core
             Ball ball = _ballFactory.Create(_currentGrid.OffsetPosition, level);
             
             _input.Initialize();
-            MoveSystem moveSystem = new MoveSystem(_input);            
-            BallSystem ballSystem = new BallSystem(ball, _currentGrid.Hole.transform.position);
+            BallSystem ballSystem = new BallSystem(ball);
+            MoveSystem moveSystem = new MoveSystem(_input, ballSystem);
             NotifySystem notifySystem = new NotifySystem(ball, _hud);
         }
     }

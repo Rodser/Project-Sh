@@ -23,9 +23,9 @@ namespace Model
             _countLive = 2;
         }
 
-        internal void MoveToTargetAsync(Vector3 holePosition)
+        internal void MoveToTargetAsync(Vector3 position)
         {
-            _target = holePosition;
+            _target = position;
             _rigidbody = GetComponent<Rigidbody>();
 
             MoveAsync();

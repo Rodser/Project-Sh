@@ -1,6 +1,6 @@
 ﻿using UnityEngine.InputSystem;
 
-namespace Rodser.System
+namespace System
 {
     public class InputSystem
     {
