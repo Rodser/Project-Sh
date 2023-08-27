@@ -84,8 +84,7 @@ namespace Core
             Ball ball = _ballFactory.Create(_currentGrid.OffsetPosition, level);
             
             _input.Initialize();
-            BallSystem ballSystem = new BallSystem(ball);
-            MoveSystem moveSystem = new MoveSystem(_input, ballSystem);
+            BallMovementSystem ballMovementSystem = new BallMovementSystem(_input, ball, _camera);
             NotifySystem notifySystem = new NotifySystem(ball, _hud);
         }
     }

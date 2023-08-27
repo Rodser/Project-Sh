@@ -5,22 +5,24 @@ using UnityEngine.InputSystem;
 
 namespace System
 {
-    internal class MoveSystem
+    internal class BallMovementSystem
     {
         private readonly InputSystem _input;
-        private readonly BallSystem _ballSystem;
+        private readonly Ball _ball;
+        private readonly Camera _camera;
 
-        public MoveSystem(InputSystem input, BallSystem ballSystem)
+        public BallMovementSystem(InputSystem input, Ball ball, Camera camera)
         {
             input.Click.performed += Move;
             _input = input;
-            _ballSystem = ballSystem;
+            _ball = ball;
+            _camera = camera;
         }
 
         private void Move(InputAction.CallbackContext callback)
         {
             var position = _input.Position.ReadValue<Vector2>();
-            var origin = Camera.main.ScreenPointToRay(position);
+            var origin = _camera.ScreenPointToRay(position);
 
             Physics.Raycast(origin, out RaycastHit hit);
             var ground = hit.collider.GetComponentInParent<Ground>();
@@ -32,7 +34,7 @@ namespace System
             
             List<Vector2> shifteds = new List<Vector2>();
             ground.SwapWaveAsync(shifteds);
-            _ballSystem.SetTarget(ground.transform.position);
+            _ball.MoveToTargetAsync(ground.transform.position);
         }
     }
 }

@@ -43,16 +43,11 @@ namespace Model
         
         private async void MoveAsync()
         {
-            await UniTask.Delay(500);
-            while (!AtHole)
-            {
-                if(gameObject == null)
+            if(gameObject == null)
                     return;
                 
-                var force = _target - transform.position;
-                _rigidbody.AddForce(force.normalized * _speed, ForceMode.Acceleration);
-                await UniTask.Yield();
-            }
+            var force = _target - transform.position;
+            _rigidbody.AddForce(force.normalized * _speed, ForceMode.Impulse);
         }
 
         private void ReachHole()
