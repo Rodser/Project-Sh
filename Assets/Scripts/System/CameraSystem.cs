@@ -5,35 +5,40 @@ namespace System
 {
     public class CameraSystem
     {
-        public async UniTask MoveCameraAsync(Vector3 target, Camera camera)
+        public Camera Camera { get; }
+
+        public CameraSystem(Camera camera)
+        {
+            Camera = camera;
+        }
+
+        public async UniTask MoveCameraAsync(Vector3 target)
         {
             Debug.Log("Move Camera");
             
-            var up = Vector3.Lerp(camera.transform.position, target, 0.4f);
-            up.z += 2f;
-            await Fly(up ,target, camera);
+            var deviation = Vector3.Lerp(Camera.transform.position, target, 0.4f);
+            deviation.z += 2f;
+            await Fly(deviation ,target, Camera.transform);
         }
-        private async UniTask Fly(Vector3 upPosition, Vector3 target, Camera camera)
+        private async UniTask Fly(Vector3 deviation, Vector3 target, Transform transform)
         {
-            Vector3 startPosition = camera.transform.position; 
+            Vector3 startPosition = transform.position; 
             var timeInFly = 0f;
             while (timeInFly < 1)
             {
                 await UniTask.Yield();
                 float speedFlying = 1f;
                 timeInFly += speedFlying * Time.deltaTime;
-                camera.transform.position = GetCurve(startPosition, upPosition, target, timeInFly);
+                transform.position = GetCurve(startPosition, deviation, target, timeInFly);
             }
         }
 
-        private static Vector3 GetCurve(Vector3 point0, Vector3 point1, Vector3 point2, float time)
+        private Vector3 GetCurve(Vector3 a, Vector3 b, Vector3 c, float time)
         {
-            Vector3 point01 = Vector3.Lerp(point0, point1, time);
-            Vector3 point02 = Vector3.Lerp(point1, point2, time);
+            Vector3 ab = Vector3.Lerp(a, b, time);
+            Vector3 bc = Vector3.Lerp(b, c, time);
 
-            Vector3 point12 = Vector3.Lerp(point01, point02, time);
-
-            return point12;
+            return Vector3.Lerp(ab, bc, time);
         }
     }
 }

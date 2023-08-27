@@ -24,21 +24,33 @@ namespace Core
         private int _currentLevel = 0;
         private BallMovementSystem _ballMovementSystem;
         private NotifySystem _notifySystem;
+        private CameraSystem _cameraSystem;
 
         public void Initialize(GameConfig gameConfig)
         {
             _gameConfig = gameConfig;
+        
+            InitializeFactory(gameConfig);
+            InitializeSystem();
+
+            StartMenu();
+        }
+
+        private void InitializeFactory(GameConfig gameConfig)
+        {
             _bodyFactory = new BodyFactory();
             _menuGridFactory = new GridFactory(gameConfig.MenuGridConfig);
             _gridFactory = new GridFactory(gameConfig.LevelGridConfigs);
             _ballFactory = new BallFactory(gameConfig.BallConfig, gameConfig.LevelGridConfigs);
             _lightFactory = new LightFactory();
+        }
 
-            _camera = Camera.main;
+        private void InitializeSystem()
+        {
+            _cameraSystem = new CameraSystem(Camera.main);
+            _camera = _cameraSystem.Camera;
             _input = new InputSystem();
             _input.Initialize();
-
-            StartMenu();
         }
 
         private void LoadInterface(HUD hud)
@@ -60,6 +72,22 @@ namespace Core
             _hud.NotifyEvent += OnNotify;
         }
 
+        private async void LoadLevelAsync(int level)
+        {
+            Debug.Log($"Load Level {level}");
+            _body.Did();
+            _input.Clear();
+
+            _body =_bodyFactory.Create();
+            _lightFactory.Create(_gameConfig.Light, _camera.transform, _body.transform);
+
+            _currentGrid = await _gridFactory.Create(level, _body.transform);
+            Ball ball = _ballFactory.Create(_currentGrid.OffsetPosition, level, _body);
+
+            _ballMovementSystem = new BallMovementSystem(_input, ball, _camera);
+            _notifySystem = new NotifySystem(ball, _hud);
+        }
+
         private void OnNotify(bool isVictory)
         {
             if (!isVictory)
@@ -71,25 +99,8 @@ namespace Core
 
         private async void StartLevelAsync()
         {
-            //TODO: Fix camera system
-            CameraSystem cameraSystem = new CameraSystem();
-            await cameraSystem.MoveCameraAsync(_currentGrid.Hole.transform.position, _camera);
+            await _cameraSystem.MoveCameraAsync(_currentGrid.Hole.transform.position);
             LoadLevelAsync(_currentLevel);
-        }
-
-        private async void LoadLevelAsync(int level)
-        {
-            Debug.Log($"Load Level {level}");
-            _body.Did();
-            _body =_bodyFactory.Create();
-            _lightFactory.Create(_gameConfig.Light, _camera.transform, _body.transform);
-
-            _currentGrid = await _gridFactory.Create(level, _body.transform);
-            Ball ball = _ballFactory.Create(_currentGrid.OffsetPosition, level, _body);
-
-            _input.Clear();
-            _ballMovementSystem = new BallMovementSystem(_input, ball, _camera);
-            _notifySystem = new NotifySystem(ball, _hud);
         }
     }
 }
