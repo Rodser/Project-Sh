@@ -22,6 +22,8 @@ namespace Core
         private GameConfig _gameConfig;
         
         private int _currentLevel = 0;
+        private BallMovementSystem _ballMovementSystem;
+        private NotifySystem _notifySystem;
 
         public void Initialize(GameConfig gameConfig)
         {
@@ -34,6 +36,8 @@ namespace Core
 
             _camera = Camera.main;
             _input = new InputSystem();
+            _input.Initialize();
+
             StartMenu();
         }
 
@@ -81,11 +85,11 @@ namespace Core
             _lightFactory.Create(_gameConfig.Light, _camera.transform, _body.transform);
 
             _currentGrid = await _gridFactory.Create(level, _body.transform);
-            Ball ball = _ballFactory.Create(_currentGrid.OffsetPosition, level);
-            
-            _input.Initialize();
-            BallMovementSystem ballMovementSystem = new BallMovementSystem(_input, ball, _camera);
-            NotifySystem notifySystem = new NotifySystem(ball, _hud);
+            Ball ball = _ballFactory.Create(_currentGrid.OffsetPosition, level, _body);
+
+            _input.Clear();
+            _ballMovementSystem = new BallMovementSystem(_input, ball, _camera);
+            _notifySystem = new NotifySystem(ball, _hud);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Core;
+using Model;
 using Rodser.Config;
 using UnityEngine;
 
@@ -15,11 +16,11 @@ namespace Logic
             _hexGridConfigs = hexGridConfigs;
         }
 
-        internal Ball Create(Vector3 offsetPosition, int level)
+        internal Ball Create(Vector3 offsetPosition, int level, BodyGrid bodyGrid)
         {
             var position = GetStartPosition(level) + offsetPosition;
 
-            var ball = Object.Instantiate(_ballConfig.Prefab, position, Quaternion.identity);
+            var ball = Object.Instantiate(_ballConfig.Prefab, position, Quaternion.identity, bodyGrid.transform);
             ball.SetSpeed(_ballConfig.SpeedMove);
             return ball;
         }

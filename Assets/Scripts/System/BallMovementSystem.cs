@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Model;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +14,7 @@ namespace System
 
         public BallMovementSystem(InputSystem input, Ball ball, Camera camera)
         {
-            input.Click.performed += Move;
+            input.AddListener(Move);
             _input = input;
             _ball = ball;
             _camera = camera;
@@ -34,6 +35,7 @@ namespace System
             
             List<Vector2> shifteds = new List<Vector2>();
             ground.SwapWaveAsync(shifteds);
+            
             _ball.MoveToTargetAsync(ground.transform.position);
         }
     }

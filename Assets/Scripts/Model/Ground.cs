@@ -68,7 +68,7 @@ namespace Model
 
         private async void MoveAsync()
         {
-            if(transform == null)
+            if(gameObject == null)
                 return;
             
             var target = transform.position;

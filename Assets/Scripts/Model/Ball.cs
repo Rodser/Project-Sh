@@ -8,27 +8,25 @@ namespace Model
     [RequireComponent(typeof(Rigidbody))]
     public class Ball : MonoBehaviour
     {
-        private Vector3 _target;
         private Rigidbody _rigidbody;
         private float _speed;
         private Vector3 _startPosition;
         private NotifySystem _notifySystem;
         private int _countLive;
 
-        public bool AtHole { get; set; }
+        public bool AtHole { get; private set; }
 
         private void Start()
         {
             _startPosition = transform.position;
+            _rigidbody = GetComponent<Rigidbody>();
+
             _countLive = 2;
         }
 
         internal void MoveToTargetAsync(Vector3 position)
         {
-            _target = position;
-            _rigidbody = GetComponent<Rigidbody>();
-
-            MoveAsync();
+            MoveAsync(position);
         }
 
         internal void SetSpeed(float speedMove)
@@ -41,23 +39,21 @@ namespace Model
             _notifySystem = notifySystem;
         }
         
-        private async void MoveAsync()
+        private async void MoveAsync(Vector3 position)
         {
             if(gameObject == null)
-                    return;
-                
-            var force = _target - transform.position;
+                 Destroy(this);
+            
+            await UniTask.Delay(150);
+            var force = position - transform.position;
             _rigidbody.AddForce(force.normalized * _speed, ForceMode.Impulse);
         }
 
-        private void ReachHole()
+        private void ResetBallPosition()
         {
             _countLive--;
             Debug.Log(_countLive);
-            AtHole = true;
             transform.position = _startPosition;
-            AtHole = false;
-            MoveAsync();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -75,11 +71,9 @@ namespace Model
                     _notifySystem.Notify(isVictory:true);
                     break;
                 case GroundType.Pit when _countLive > 0:
-                    AtHole = true;
-                    ReachHole();
+                    ResetBallPosition();
                     break;
                 case GroundType.Pit:
-                    AtHole = true;
                     Destroy(gameObject, 300);
                     Debug.Log("Looser");
                     _notifySystem.Notify(isVictory:false);
