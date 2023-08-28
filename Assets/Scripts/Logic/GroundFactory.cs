@@ -1,6 +1,5 @@
 ﻿using Model;
 using Rodser.Config;
-using Rodser.Model;
 using UnityEngine;
 
 namespace Rodser.Logic
@@ -26,13 +25,7 @@ namespace Rodser.Logic
         {
             float rowOffset = z % 2 * 0.5f;
 
-            Vector3 positionCell = new Vector3
-            {
-                x = (x + rowOffset) * _spaceBetweenCells,
-                y = 0f,
-                z = z * _spaceBetweenCells * InnerRadiusCoefficient
-            };
-            positionCell += offsetPosition;
+            var positionCell = GetPositionCell(x, z, offsetPosition, rowOffset);
 
             var ground = Object.Instantiate(_prefab, positionCell, Quaternion.identity, _parent);
             ground.Set(new Vector2(x, z), _groundConfig, groundType);
@@ -43,6 +36,18 @@ namespace Rodser.Logic
             ground.Lift(offsetPosition.y);
 
             return ground;
+        }
+
+        private Vector3 GetPositionCell(int x, int z, Vector3 offsetPosition, float rowOffset)
+        {
+            Vector3 positionCell = new Vector3
+            {
+                x = (x + rowOffset) * _spaceBetweenCells,
+                y = 0f,
+                z = z * _spaceBetweenCells * InnerRadiusCoefficient
+            };
+            positionCell += offsetPosition;
+            return positionCell;
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Rodser.Config;
-using Rodser.Model;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -57,6 +56,8 @@ namespace Model
                 AppointHole();
             else if(groundType == GroundType.Pit)
                 AppointPit();
+            else if (groundType == GroundType.Wall)
+                GroundType = GroundType.Wall;
         }
 
         private void Lift()
@@ -85,7 +86,7 @@ namespace Model
 
         private void Swap()
         {
-            if (GroundType == GroundType.Pit || GroundType == GroundType.Hole)
+            if (GroundType == GroundType.Pit || GroundType == GroundType.Hole || GroundType == GroundType.Wall)
                 return;
             GroundType = GroundType - 1;
             if (GroundType < 0)
@@ -103,7 +104,6 @@ namespace Model
         {
             GroundType = GroundType.Pit;
             GetComponentInChildren<Collider>().isTrigger = true;
-            GetComponentInChildren<MeshRenderer>().material = _groundConfig.MaterialPit;
             CreateVFX(_groundConfig.VFXPIt);
 
         }
@@ -112,7 +112,6 @@ namespace Model
         {
             GroundType = GroundType.Hole;
             GetComponentInChildren<Collider>().isTrigger = true;
-            GetComponentInChildren<MeshRenderer>().material = _groundConfig.MaterialHole;
             CreateVFX(_groundConfig.VFXHole);
         }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
-using Rodser.Model;
 using UnityEngine;
 
 namespace Model

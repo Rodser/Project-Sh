@@ -2,7 +2,6 @@
 using Cysharp.Threading.Tasks;
 using Rodser.Config;
 using Rodser.Logic;
-using Rodser.Model;
 using UnityEngine;
 
 namespace Model
@@ -88,6 +87,9 @@ namespace Model
             if (TryGetHole(x, y))
                 return GroundType.Hole;
 
+            if (TryGetWall(x, y))
+                return GroundType.Wall;
+
             if (TryGetPit(x, y))
                 return GroundType.Pit;
 
@@ -109,6 +111,17 @@ namespace Model
             return true;
         }
 
+        private bool TryGetWall(int x, int y)
+        {
+            if (x == 0 || x == _hexGridConfig.Width - 1)
+                return true;
+            
+            if (y == 0 || y == _hexGridConfig.Height - 1)
+                return true;
+            
+            return false;
+        }
+        
         private bool TryGetHole(int x, int y)
         {
             return x == _holePosition.x && y == _holePosition.y;
