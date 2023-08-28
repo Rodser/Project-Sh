@@ -78,6 +78,9 @@ namespace Model
             var time = 0f;
             while (time < 1)
             {
+                if(transform == null)
+                    return;
+                
                 await UniTask.Yield();
                 time += 1f * Time.deltaTime;
                 transform.position = Vector3.Lerp(transform.position, target, time);

@@ -42,6 +42,7 @@ namespace Core
         public void Notify(bool isVictory = true)
         {
             NotifyEvent?.Invoke(isVictory);
+            _input.Disable();
             PanelMessage.gameObject.SetActive(true);
             Message.text = isVictory ? "Победа" : "Проиграл";
             NextButton.GetComponentInChildren<TextMeshProUGUI>().text = isVictory ? "Вперед" : "Заново";
@@ -65,23 +66,23 @@ namespace Core
 
         private void StartLevel()
         {
-            Debug.Log("Start");            
-            _input.Enable();
-            ReplaceMenu(false);    
+            Debug.Log("Start");
+            ReplaceMenu(false);
             PanelMessage.gameObject.SetActive(false);
+            _input.Enable();
         }
 
         private void GoMenu()
         {
-            BackButton.gameObject.SetActive(true);
             _input.Disable();
+            BackButton.gameObject.SetActive(true);
             ReplaceMenu(true);
         }
 
         private void GoBack()
         {
-            _input.Enable();
             ReplaceMenu(false);
+            _input.Enable();
         }
 
         private void ReplaceMenu(bool isMenu)

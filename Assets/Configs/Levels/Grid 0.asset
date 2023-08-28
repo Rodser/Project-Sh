@@ -20,8 +20,8 @@ MonoBehaviour:
   <Height>k__BackingField: 16
   <MinHolePositionForX>k__BackingField: 3
   <MaxHolePositionForX>k__BackingField: 5
-  <MinHolePositionForY>k__BackingField: 11
-  <MaxHolePositionForY>k__BackingField: 12
+  <MinHolePositionForY>k__BackingField: 10
+  <MaxHolePositionForY>k__BackingField: 10
   <PitCount>k__BackingField: 0
   <ChanceOfPit>k__BackingField: 0
   <MinPitPositionForX>k__BackingField: 0
