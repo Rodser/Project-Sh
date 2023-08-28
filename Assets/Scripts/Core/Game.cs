@@ -32,7 +32,6 @@ namespace Core
         
             InitializeFactory(gameConfig);
             InitializeSystem();
-
             StartMenu();
         }
 
@@ -53,12 +52,6 @@ namespace Core
             _input.Initialize();
         }
 
-        private void LoadInterface(HUD hud)
-        {
-            //TODO: Create interface Factory
-            _hud = UnityEngine.Object.Instantiate(hud);
-        }
-
         private async void StartMenu()
         {
             LoadInterface(_gameConfig.Hud);
@@ -67,9 +60,14 @@ namespace Core
             _currentGrid = await _menuGridFactory.Create(_body.transform, true);
             UnityEngine.Object.Instantiate(_gameConfig.Title, _currentGrid.Hole.transform);
             _lightFactory.Create(_gameConfig.Light, _camera.transform, _body.transform);
-            _hud.StartButton.onClick.AddListener(StartLevelAsync);
-            _hud.NextButton.onClick.AddListener(StartLevelAsync);
-            _hud.NotifyEvent += OnNotify;
+
+            _hud.Set(_input, StartLevelAsync, OnNotify);
+        }
+
+        private void LoadInterface(HUD hud)
+        {
+            //TODO: Create interface Factory
+            _hud = UnityEngine.Object.Instantiate(hud);
         }
 
         private async void LoadLevelAsync(int level)

@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Core
@@ -22,6 +23,7 @@ namespace Core
         [field: SerializeField, Header("Texts")] public TextMeshProUGUI Message  { get; private set; }
 
         public Action<bool> NotifyEvent;
+        private InputSystem _input;
 
         private void Awake()
         {         
@@ -45,6 +47,14 @@ namespace Core
             NextButton.GetComponentInChildren<TextMeshProUGUI>().text = isVictory ? "Вперед" : "Заново";
         }
 
+        public void Set(InputSystem input, UnityAction startLevel, Action<bool> notify)
+        {
+            _input = input;
+            StartButton.onClick.AddListener(startLevel);
+            NextButton.onClick.AddListener(startLevel);
+            NotifyEvent += notify;
+        }
+
         private void Exit()
         {
 #if UNITY_EDITOR
@@ -55,7 +65,8 @@ namespace Core
 
         private void StartLevel()
         {
-            Debug.Log("Start");
+            Debug.Log("Start");            
+            _input.Enable();
             ReplaceMenu(false);    
             PanelMessage.gameObject.SetActive(false);
         }
@@ -63,11 +74,13 @@ namespace Core
         private void GoMenu()
         {
             BackButton.gameObject.SetActive(true);
+            _input.Disable();
             ReplaceMenu(true);
         }
 
         private void GoBack()
         {
+            _input.Enable();
             ReplaceMenu(false);
         }
 
