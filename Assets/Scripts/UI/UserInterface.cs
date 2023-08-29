@@ -1,4 +1,5 @@
 ﻿using System;
+using Core;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -22,12 +23,12 @@ namespace UI
             OptionPanel.gameObject.SetActive(false);
         }
 
-        public void Set(InputSystem input, UnityAction startLevel, Action<bool> notify, Action<int> changeCoin)
+        public void Construct(InputSystem input, Game game, UnityAction startLevel, Action<bool> notify)
         {
             _input = input;
             
             MenuPanel.Subscribe(GoLevel, GoBack, GoOption);
-            HudPanel.Subscribe(GoMenu, changeCoin);
+            HudPanel.Subscribe(GoMenu, game);
             EventPanel.Subscribe(GoLevel);
             OptionPanel.Subscribe(GoBackWithoutOption);
 
@@ -58,17 +59,17 @@ namespace UI
             MenuPanel.ActivateBackButton();
         }
 
-        private void GoOption()
-        {
-            OptionPanel.gameObject.SetActive(true);
-        }
-
         private void GoBack()
         {
             ReplaceMenu(false);
             _input.Enable();
         }
-        
+
+        private void GoOption()
+        {
+            OptionPanel.gameObject.SetActive(true);
+        }
+
         private void GoBackWithoutOption()
         {
             OptionPanel.gameObject.SetActive(false);

@@ -23,7 +23,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bb8778a7f189b4d45994e03f8daae730, type: 2}
   <BallConfig>k__BackingField: {fileID: 11400000, guid: a8527acd33d9fd449b441896abf93678,
     type: 2}
-  <Hud>k__BackingField: {fileID: 3827702669069213154, guid: 6013984cadfc7d74f903d9820fbb28a5,
+  <UserInterface>k__BackingField: {fileID: 3827702669069213154, guid: 6013984cadfc7d74f903d9820fbb28a5,
     type: 3}
   <Title>k__BackingField: {fileID: 4659737946151262599, guid: 131d9b6dd25eabe4dbaaa31bbbfc29f7,
     type: 3}

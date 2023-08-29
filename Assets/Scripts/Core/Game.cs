@@ -27,7 +27,7 @@ namespace Core
         private NotifySystem _notifySystem;
         private CameraSystem _cameraSystem;
         private int _coin;
-        private Action<int> _changeCoin;
+        public event Action<int> ChangeCoin;
 
         public void Initialize(GameConfig gameConfig)
         {
@@ -59,13 +59,13 @@ namespace Core
         {
             LoadInterface(_gameConfig.UserInterface);
             _body = _bodyFactory.Create();
-            _changeCoin?.Invoke(_coin);
 
             _currentGrid = await _menuGridFactory.Create(_body.transform, true);
             UnityEngine.Object.Instantiate(_gameConfig.Title, _currentGrid.Hole.transform);
             _lightFactory.Create(_gameConfig.Light, _camera.transform, _body.transform);
 
-            _userInterface.Set(_input, StartLevelAsync, OnNotify, _changeCoin);
+            _userInterface.Construct(_input, this, StartLevelAsync, OnNotify);
+            ChangeCoin?.Invoke(_coin);
         }
 
         private void LoadInterface(UserInterface userInterface)
@@ -95,8 +95,8 @@ namespace Core
             if (!isVictory)
                 return;
             
-            _coin += (int)(100 + UnityEngine.Random.value);
-            _changeCoin?.Invoke(_coin);
+            _coin += (int)(100 + UnityEngine.Random.value); // TODO: Create Coin System
+            ChangeCoin?.Invoke(_coin);
             
             if(_currentLevel + 1 < _gameConfig.LevelGridConfigs.Length)
                 _currentLevel++;

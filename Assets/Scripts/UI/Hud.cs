@@ -1,4 +1,4 @@
-using System;
+using Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,10 +11,10 @@ namespace UI
         [field: SerializeField] public Button PauseButton { get; private set; }    
         [field: SerializeField] public TextMeshProUGUI Coin  { get; private set; }
 
-        public void Subscribe(UnityAction goMenu, Action<int> changeCoin)
+        public void Subscribe(UnityAction goMenu, Game game)
         {
             PauseButton.onClick.AddListener(goMenu);
-            changeCoin += ChangeCoin;
+            game.ChangeCoin += ChangeCoin;
         }
 
         private void ChangeCoin(int coin)
