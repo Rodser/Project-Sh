@@ -1,21 +1,21 @@
-using Core;
 using Model;
+using UI;
 
 namespace System
 {
     internal class NotifySystem
     {
-        private readonly HUD _hud;
+        private readonly UserInterface _userInterface;
 
-        public NotifySystem(Ball ball, HUD hud)
+        public NotifySystem(Ball ball, UserInterface userInterface)
         {
-            _hud = hud;
+            _userInterface = userInterface;
             ball.SetSystem(this);
         }
 
         public void Notify(bool isVictory)
         {
-            _hud.Notify(isVictory);
+            _userInterface.Notify(isVictory);
         }
     }
 }

@@ -2,6 +2,7 @@
 using Logic;
 using Model;
 using Rodser.Config;
+using UI;
 using UnityEngine;
 
 namespace Core
@@ -15,7 +16,7 @@ namespace Core
         private LightFactory _lightFactory;
         
         private InputSystem _input;
-        private HUD _hud;
+        private UserInterface _userInterface;
         private HexogenGrid _currentGrid;
         private BodyGrid _body;
         private Camera _camera;
@@ -25,6 +26,8 @@ namespace Core
         private BallMovementSystem _ballMovementSystem;
         private NotifySystem _notifySystem;
         private CameraSystem _cameraSystem;
+        private int _coin;
+        private Action<int> _changeCoin;
 
         public void Initialize(GameConfig gameConfig)
         {
@@ -54,20 +57,21 @@ namespace Core
 
         private async void StartMenu()
         {
-            LoadInterface(_gameConfig.Hud);
+            LoadInterface(_gameConfig.UserInterface);
             _body = _bodyFactory.Create();
+            _changeCoin?.Invoke(_coin);
 
             _currentGrid = await _menuGridFactory.Create(_body.transform, true);
             UnityEngine.Object.Instantiate(_gameConfig.Title, _currentGrid.Hole.transform);
             _lightFactory.Create(_gameConfig.Light, _camera.transform, _body.transform);
 
-            _hud.Set(_input, StartLevelAsync, OnNotify);
+            _userInterface.Set(_input, StartLevelAsync, OnNotify, _changeCoin);
         }
 
-        private void LoadInterface(HUD hud)
+        private void LoadInterface(UserInterface userInterface)
         {
             //TODO: Create interface Factory
-            _hud = UnityEngine.Object.Instantiate(hud);
+            _userInterface = UnityEngine.Object.Instantiate(userInterface);
         }
 
         private async void LoadLevelAsync(int level)
@@ -83,13 +87,16 @@ namespace Core
             Ball ball = _ballFactory.Create(_currentGrid.OffsetPosition, level, _body);
 
             _ballMovementSystem = new BallMovementSystem(_input, ball, _camera);
-            _notifySystem = new NotifySystem(ball, _hud);
+            _notifySystem = new NotifySystem(ball, _userInterface);
         }
 
         private void OnNotify(bool isVictory)
         {
             if (!isVictory)
                 return;
+            
+            _coin += (int)(100 + UnityEngine.Random.value);
+            _changeCoin?.Invoke(_coin);
             
             if(_currentLevel + 1 < _gameConfig.LevelGridConfigs.Length)
                 _currentLevel++;
