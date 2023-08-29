@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Rodser.Config;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -11,7 +10,6 @@ namespace Model
         [SerializeField] private Transform _vfxTransform = null;
 
         private float _height = 0;
-        private GroundConfig _groundConfig = null;
         private float _offset;
 
         public Vector2 Id { get; private set; }
@@ -23,6 +21,12 @@ namespace Model
         {
             _offset = offset;
             Lift();
+        }
+
+        internal void Set(Vector2 id, GroundType groundType)
+        {
+            Id = id;
+            GroundType = groundType;
         }
 
         internal void AddNeighbors(List<Ground> neighbors)
@@ -45,19 +49,6 @@ namespace Model
             {
                 ground.SwapWaveAsync(shifteds);
             }
-        }
-
-        internal void Set(Vector2 id, GroundConfig groundConfig, GroundType groundType)
-        {
-            Id = id;
-            _groundConfig = groundConfig;
-            GroundType = groundType;
-            if (groundType == GroundType.Hole)
-                AppointHole();
-            else if(groundType == GroundType.Pit)
-                AppointPit();
-            else if (groundType == GroundType.Wall)
-                GroundType = GroundType.Wall;
         }
 
         private void Lift()
@@ -101,21 +92,6 @@ namespace Model
         private void Raise(bool raised)
         {
             Raised = raised;
-        }
-
-        private void AppointPit()
-        {
-            GroundType = GroundType.Pit;
-            GetComponentInChildren<Collider>().isTrigger = true;
-            CreateVFX(_groundConfig.VFXPIt);
-
-        }
-
-        private void AppointHole()
-        {
-            GroundType = GroundType.Hole;
-            GetComponentInChildren<Collider>().isTrigger = true;
-            CreateVFX(_groundConfig.VFXHole);
         }
 
         private void CreateVFX(VisualEffect vfx)

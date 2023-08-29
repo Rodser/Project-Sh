@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Logic;
 using Rodser.Config;
-using Rodser.Logic;
 using UnityEngine;
 
 namespace Model

@@ -1,3 +1,4 @@
+using Config;
 using UnityEngine;
 
 namespace Rodser.Config

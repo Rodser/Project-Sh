@@ -1,15 +1,16 @@
-﻿using Model;
+﻿using Config;
+using Model;
 using Rodser.Config;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
-namespace Rodser.Logic
+namespace Logic
 {
     internal class GroundFactory
     {
         private const float InnerRadiusCoefficient = 0.86f;
 
         private readonly float _spaceBetweenCells;
-        private readonly Ground _prefab;
         private readonly Transform _parent;
         private readonly GroundConfig _groundConfig;
 
@@ -17,7 +18,6 @@ namespace Rodser.Logic
         {
             _groundConfig = hexGridConfig.GroundConfig;
             _spaceBetweenCells = hexGridConfig.SpaceBetweenCells;
-            _prefab = hexGridConfig.GroundConfig.Prefab;
             _parent = parent;
         }
 
@@ -25,17 +25,29 @@ namespace Rodser.Logic
         {
             float rowOffset = z % 2 * 0.5f;
 
+            Ground ground = null;
             var positionCell = GetPositionCell(x, z, offsetPosition, rowOffset);
+            var groundId = new Vector2(x, z);
 
-            var ground = Object.Instantiate(_prefab, positionCell, Quaternion.identity, _parent);
-            ground.Set(new Vector2(x, z), _groundConfig, groundType);
+            ground = groundType switch
+            {
+                GroundType.Pit => GroundInstantiate(_groundConfig.PrefabPit, positionCell),
+                GroundType.Hole => GroundInstantiate(_groundConfig.PrefabHole, positionCell),
+                GroundType.Wall => GroundInstantiate(_groundConfig.PrefabWall, positionCell),
+                _ => GroundInstantiate(_groundConfig.Prefab, positionCell)
+            };
 
-            if (isMenu)            
-                return ground;
-            
-            ground.Lift(offsetPosition.y);
+            ground.Set(groundId, groundType);
+
+            if (!isMenu)            
+                ground.Lift(offsetPosition.y);
 
             return ground;
+        }
+
+        private Ground GroundInstantiate(Ground prefab, Vector3 positionCell)
+        {
+            return Object.Instantiate(prefab, positionCell, Quaternion.identity, _parent);
         }
 
         private Vector3 GetPositionCell(int x, int z, Vector3 offsetPosition, float rowOffset)
