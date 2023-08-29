@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &5979298048210950428
 Light:
@@ -44,7 +44,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.8962264, g: 0.87143797, b: 0.71444464, a: 1}
+  m_Color: {r: 0.7137255, g: 0.7733163, b: 0.8980392, a: 1}
   m_Intensity: 100.39
   m_Range: 44.6
   m_SpotAngle: 88.175
