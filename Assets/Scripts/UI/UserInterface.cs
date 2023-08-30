@@ -23,14 +23,14 @@ namespace UI
             OptionPanel.gameObject.SetActive(false);
         }
 
-        public void Construct(InputSystem input, Game game, UnityAction startLevel, Action<bool> notify)
+        public void Construct(InputSystem input, Game game, AudioSource music, UnityAction startLevel, Action<bool> notify)
         {
             _input = input;
             
             MenuPanel.Subscribe(GoLevel, GoBack, GoOption);
             HudPanel.Subscribe(GoMenu, game);
             EventPanel.Subscribe(GoLevel);
-            OptionPanel.Subscribe(GoBackWithoutOption);
+            OptionPanel.Subscribe(music, GoBackWithoutOption);
 
             _startLevelEvent += startLevel;
             _notifyEvent += notify;

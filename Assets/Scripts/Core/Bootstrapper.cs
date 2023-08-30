@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using Config;
+using Core;
 using Rodser.Config;
 using UnityEngine;
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Config;
 using Logic;
 using Model;
 using Rodser.Config;
@@ -63,8 +64,9 @@ namespace Core
             _currentGrid = await _menuGridFactory.Create(_body.transform, true);
             UnityEngine.Object.Instantiate(_gameConfig.Title, _currentGrid.Hole.transform);
             _lightFactory.Create(_gameConfig.Light, _camera.transform, _body.transform);
-
-            _userInterface.Construct(_input, this, StartLevelAsync, OnNotify);
+            
+            var musicSource = UnityEngine.Object.Instantiate(_gameConfig.Music);
+            _userInterface.Construct(_input, this, musicSource, StartLevelAsync, OnNotify);
             ChangeCoin?.Invoke(_coin);
         }
 
