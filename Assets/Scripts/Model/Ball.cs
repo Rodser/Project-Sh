@@ -66,14 +66,14 @@ namespace Model
                 case GroundType.Hole:
                     AtHole = true;
                     Debug.Log("Victory");
-                    Destroy(gameObject, 300);
+                    Destroy(gameObject, 1000);
                     _notifySystem.Notify(isVictory:true);
                     break;
                 case GroundType.Pit when _countLive > 0:
                     ResetBallPosition();
                     break;
                 case GroundType.Pit:
-                    Destroy(gameObject, 300);
+                    Destroy(gameObject, 1000);
                     Debug.Log("Looser");
                     _notifySystem.Notify(isVictory:false);
                     break;
