@@ -23,9 +23,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bb8778a7f189b4d45994e03f8daae730, type: 2}
   <BallConfig>k__BackingField: {fileID: 11400000, guid: a8527acd33d9fd449b441896abf93678,
     type: 2}
-  <UserInterface>k__BackingField: {fileID: 3827702669069213154, guid: 6013984cadfc7d74f903d9820fbb28a5,
+  <UserInterface>k__BackingField: {fileID: 45827344354813724, guid: 6013984cadfc7d74f903d9820fbb28a5,
     type: 3}
-  <Title>k__BackingField: {fileID: 4659737946151262599, guid: 131d9b6dd25eabe4dbaaa31bbbfc29f7,
+  <Title>k__BackingField: {fileID: 8800412636015804918, guid: 131d9b6dd25eabe4dbaaa31bbbfc29f7,
     type: 3}
   <Light>k__BackingField: {fileID: 5979298048210950428, guid: 33147493b382dfc4cb7f1452f91c74b5,
+    type: 3}
+  <Music>k__BackingField: {fileID: 4851624645008334375, guid: 9f71b4a923ae8004bbaf2ccdd160650a,
     type: 3}
