@@ -28,6 +28,8 @@ namespace Core
         private NotifySystem _notifySystem;
         private CameraSystem _cameraSystem;
         private int _coin;
+
+        public event Action<int, bool> ChangeHealth;
         public event Action<int> ChangeCoin;
 
         public void Initialize(GameConfig gameConfig)
@@ -86,7 +88,7 @@ namespace Core
             _lightFactory.Create(_gameConfig.Light, _camera.transform, _body.transform);
 
             _currentGrid = await _gridFactory.Create(level, _body.transform);
-            Ball ball = _ballFactory.Create(_currentGrid.OffsetPosition, level, _body);
+            Ball ball = _ballFactory.Create(_currentGrid.OffsetPosition, level, _body, ChangeHealth);
 
             _ballMovementSystem = new BallMovementSystem(_input, ball, _camera);
             _notifySystem = new NotifySystem(ball, _userInterface);

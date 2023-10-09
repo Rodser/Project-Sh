@@ -7,11 +7,13 @@ namespace Model
     [RequireComponent(typeof(Rigidbody))]
     public class Ball : MonoBehaviour
     {
+        private Action<int, bool> _changeHealth;
+
         private Rigidbody _rigidbody;
         private float _speed;
         private Vector3 _startPosition;
         private NotifySystem _notifySystem;
-        private int _countLive;
+        private int _health;
 
         public bool AtHole { get; private set; }
 
@@ -20,7 +22,7 @@ namespace Model
             _startPosition = transform.position;
             _rigidbody = GetComponent<Rigidbody>();
 
-            _countLive = 2;
+            _health = 3;
         }
 
         internal void MoveToTargetAsync(Vector3 position)
@@ -28,9 +30,11 @@ namespace Model
             MoveAsync(position);
         }
 
-        internal void SetSpeed(float speedMove)
+        internal void Construct(float speedMove, Action<int, bool> changeHealth)
         {
             _speed = speedMove;
+            _changeHealth = changeHealth;
+            _changeHealth?.Invoke(_health, false);
         }
         
         internal void SetSystem(NotifySystem notifySystem)
@@ -50,8 +54,9 @@ namespace Model
 
         private void ResetBallPosition()
         {
-            _countLive--;
-            Debug.Log(_countLive);
+            _health--;
+            _changeHealth?.Invoke(_health, true);
+            Debug.Log(_health);
             transform.position = _startPosition;
         }
 
@@ -69,7 +74,7 @@ namespace Model
                     Destroy(gameObject, 1000);
                     _notifySystem.Notify(isVictory:true);
                     break;
-                case GroundType.Pit when _countLive > 0:
+                case GroundType.Pit when _health > 0:
                     ResetBallPosition();
                     break;
                 case GroundType.Pit:

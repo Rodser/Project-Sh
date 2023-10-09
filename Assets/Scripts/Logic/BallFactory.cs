@@ -16,12 +16,12 @@ namespace Logic
             _hexGridConfigs = hexGridConfigs;
         }
 
-        internal Ball Create(Vector3 offsetPosition, int level, BodyGrid bodyGrid)
+        internal Ball Create(Vector3 offsetPosition, int level, BodyGrid bodyGrid, System.Action<int, bool> changeHealth)
         {
             var position = GetStartPosition(level) + offsetPosition;
 
             var ball = Object.Instantiate(_ballConfig.Prefab, position, Quaternion.identity, bodyGrid.transform);
-            ball.SetSpeed(_ballConfig.SpeedMove);
+            ball.Construct(_ballConfig.SpeedMove, changeHealth);
             return ball;
         }
 
