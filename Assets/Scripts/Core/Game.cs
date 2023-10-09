@@ -18,6 +18,7 @@ namespace Core
         
         private InputSystem _input;
         private UserInterface _userInterface;
+        private CoinSystem _coinSystem;
         private HexogenGrid _currentGrid;
         private BodyGrid _body;
         private Camera _camera;
@@ -27,7 +28,6 @@ namespace Core
         private BallMovementSystem _ballMovementSystem;
         private NotifySystem _notifySystem;
         private CameraSystem _cameraSystem;
-        private int _coin;
 
         public event Action<int, bool> ChangeHealth;
         public event Action<int> ChangeCoin;
@@ -69,7 +69,7 @@ namespace Core
             
             var musicSource = UnityEngine.Object.Instantiate(_gameConfig.Music);
             _userInterface.Construct(_input, this, musicSource, StartLevelAsync, OnNotify);
-            ChangeCoin?.Invoke(_coin);
+            _coinSystem = new CoinSystem(ChangeCoin);
         }
 
         private void LoadInterface(UserInterface userInterface)
@@ -98,10 +98,9 @@ namespace Core
         {
             if (!isVictory)
                 return;
-            
-            _coin += (int)(100 + UnityEngine.Random.value); // TODO: Create Coin System
-            ChangeCoin?.Invoke(_coin);
-            
+
+            _coinSystem.Change();
+                                    
             if(_currentLevel + 1 < _gameConfig.LevelGridConfigs.Length)
                 _currentLevel++;
         }
