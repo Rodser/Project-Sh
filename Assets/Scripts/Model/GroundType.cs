@@ -1,4 +1,4 @@
-﻿namespace Rodser.Model
+﻿namespace Model
 {
     public enum GroundType
     {
@@ -7,5 +7,6 @@
         TileLow = 0,
         TileMedium = 1,
         TileHigh = 2,
+        Wall = 3
     }
 }

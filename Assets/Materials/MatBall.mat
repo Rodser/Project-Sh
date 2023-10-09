@@ -21,18 +21,17 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MatBall
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 1fb907db720c19c4bb55cb1682f5b446,
+    type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _EMISSION
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Opaque
+  stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -98,6 +97,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _Amount: 5
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -116,6 +116,7 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
@@ -126,9 +127,13 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - _scale: 22
+    - _thicknes: 2
     m_Colors:
     - _BaseColor: {r: 0.8867924, g: 0.34618965, b: 0.037646834, a: 1}
-    - _Color: {r: 0.8867924, g: 0.34618962, b: 0.037646834, a: 1}
-    - _EmissionColor: {r: 1.6037736, g: 0.28852856, b: 0.05295482, a: 1}
+    - _Color: {r: 1.1878862, g: 0.078431405, b: 1.772549, a: 1}
+    - _EmissionColor: {r: 1.1060785, g: 0.1511409, b: 3.207548, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _direction: {r: 0.58, g: 0.46, b: 0, a: 0}
+    - _speed: {r: 0.64, g: 0.52, b: 0, a: 0}
   m_BuildTextureStacks: []

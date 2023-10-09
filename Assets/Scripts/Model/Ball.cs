@@ -1,53 +1,63 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Rodser.Model
+namespace Model
 {
     [RequireComponent(typeof(Rigidbody))]
     public class Ball : MonoBehaviour
     {
-        private Vector3 _target;
+        private Action<int, bool> _changeHealth;
+
         private Rigidbody _rigidbody;
         private float _speed;
         private Vector3 _startPosition;
+        private NotifySystem _notifySystem;
+        private int _health;
 
-        public bool AtHole { get; set; }
+        public bool AtHole { get; private set; }
 
         private void Start()
         {
             _startPosition = transform.position;
-        }
-
-        internal void MoveToTargetAsync(Vector3 holePosition)
-        {
-            _target = holePosition;
             _rigidbody = GetComponent<Rigidbody>();
 
-            MoveAsync();
+            _health = 3;
         }
 
-        internal void SetSpeed(float speedMove)
+        internal void MoveToTargetAsync(Vector3 position)
+        {
+            MoveAsync(position);
+        }
+
+        internal void Construct(float speedMove, Action<int, bool> changeHealth)
         {
             _speed = speedMove;
+            _changeHealth = changeHealth;
+            _changeHealth?.Invoke(_health, false);
+        }
+        
+        internal void SetSystem(NotifySystem notifySystem)
+        {
+            _notifySystem = notifySystem;
+        }
+        
+        private async void MoveAsync(Vector3 position)
+        {
+            if(gameObject == null)
+                 Destroy(this);
+            
+            await UniTask.Delay(150);
+            var force = position - transform.position;
+            _rigidbody.AddForce(force.normalized * _speed, ForceMode.Impulse);
         }
 
-        private async void MoveAsync()
+        private void ResetBallPosition()
         {
-            await UniTask.Delay(500);
-            while (!AtHole)
-            {
-                var force = _target - transform.position;
-                _rigidbody.AddForce(force.normalized * _speed, ForceMode.Acceleration);
-                await UniTask.Yield();
-            }
-        }
-
-        private void ReachHole()
-        {
-            AtHole = false;
+            _health--;
+            _changeHealth?.Invoke(_health, true);
+            Debug.Log(_health);
             transform.position = _startPosition;
-            AtHole = true;
-            MoveAsync();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -56,15 +66,22 @@ namespace Rodser.Model
             if (ground == null)
                 return;
 
-            if (ground.GroundType == GroundType.Hole)
+            switch (ground.GroundType)
             {
-                ReachHole();
-                Debug.Log("Victory");
-            }
-            else if (ground.GroundType == GroundType.Pit)
-            {
-                ReachHole();
-                Debug.Log("Loozzer");
+                case GroundType.Hole:
+                    AtHole = true;
+                    Debug.Log("Victory");
+                    Destroy(gameObject, 1000);
+                    _notifySystem.Notify(isVictory:true);
+                    break;
+                case GroundType.Pit when _health > 0:
+                    ResetBallPosition();
+                    break;
+                case GroundType.Pit:
+                    Destroy(gameObject, 1000);
+                    Debug.Log("Looser");
+                    _notifySystem.Notify(isVictory:false);
+                    break;
             }
         }
     }

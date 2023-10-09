@@ -1,34 +1,36 @@
-﻿using Rodser.Config;
-using Rodser.Model;
+﻿using Core;
+using Model;
+using Rodser.Config;
 using UnityEngine;
 
-namespace Rodser.Logic
+namespace Logic
 {
     public class BallFactory
     {
         private readonly BallConfig _ballConfig;
-        private readonly HexogenGridConfig _hexGridConfig;
+        private readonly HexogenGridConfig[] _hexGridConfigs;
 
-        public BallFactory(BallConfig ballConfig, HexogenGridConfig hexGridConfig)
+        public BallFactory(BallConfig ballConfig, HexogenGridConfig[] hexGridConfigs)
         {
             _ballConfig = ballConfig;
-            _hexGridConfig = hexGridConfig;
+            _hexGridConfigs = hexGridConfigs;
         }
 
-        internal Ball Create(Vector3 offsetPosition)
+        internal Ball Create(Vector3 offsetPosition, int level, BodyGrid bodyGrid, System.Action<int, bool> changeHealth)
         {
-            var position = GetStartPosition() + offsetPosition;
+            var position = GetStartPosition(level) + offsetPosition;
 
-            var ball = Object.Instantiate(_ballConfig.Prefab, position, Quaternion.identity);
-            ball.SetSpeed(_ballConfig.SpeedMove);
+            var ball = Object.Instantiate(_ballConfig.Prefab, position, Quaternion.identity, bodyGrid.transform);
+            ball.Construct(_ballConfig.SpeedMove, changeHealth);
             return ball;
         }
 
-        private Vector3 GetStartPosition()
+        private Vector3 GetStartPosition(int level)
         {
-            float x = _ballConfig.StartPositionX * _hexGridConfig.SpaceBetweenCells;
+            var hexGridConfig = _hexGridConfigs[level];
+            float x = _ballConfig.StartPositionX * hexGridConfig.SpaceBetweenCells;
             float y = _ballConfig.StartPositionY;
-            float z = _ballConfig.StartPositionZ * _hexGridConfig.SpaceBetweenCells;
+            float z = _ballConfig.StartPositionZ * hexGridConfig.SpaceBetweenCells;
             
             return new Vector3(x, y, z);
         }

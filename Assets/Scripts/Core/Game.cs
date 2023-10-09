@@ -1,10 +1,9 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Config;
 using Logic;
 using Model;
 using Rodser.Config;
-using Rodser.Logic;
-using Rodser.Model;
-using Rodser.System;
+using UI;
 using UnityEngine;
 
 namespace Core
@@ -14,90 +13,103 @@ namespace Core
         private GridFactory _menuGridFactory;
         private GridFactory _gridFactory;
         private BallFactory _ballFactory;
+        private BodyFactory _bodyFactory;
+        private LightFactory _lightFactory;
+        
         private InputSystem _input;
-        private HUD _hud;
+        private UserInterface _userInterface;
         private HexogenGrid _currentGrid;
         private BodyGrid _body;
-        private BodyFactory _bodyFactory;
+        private Camera _camera;
+        private GameConfig _gameConfig;
+        
+        private int _currentLevel = 0;
+        private BallMovementSystem _ballMovementSystem;
+        private NotifySystem _notifySystem;
+        private CameraSystem _cameraSystem;
+        private int _coin;
+
+        public event Action<int, bool> ChangeHealth;
+        public event Action<int> ChangeCoin;
 
         public void Initialize(GameConfig gameConfig)
         {
+            _gameConfig = gameConfig;
+        
+            InitializeFactory(gameConfig);
+            InitializeSystem();
+            StartMenu();
+        }
+
+        private void InitializeFactory(GameConfig gameConfig)
+        {
             _bodyFactory = new BodyFactory();
             _menuGridFactory = new GridFactory(gameConfig.MenuGridConfig);
-            _gridFactory = new GridFactory(gameConfig.LevelGridConfig);
-            _ballFactory = new BallFactory(gameConfig.BallConfig, gameConfig.LevelGridConfig);
+            _gridFactory = new GridFactory(gameConfig.LevelGridConfigs);
+            _ballFactory = new BallFactory(gameConfig.BallConfig, gameConfig.LevelGridConfigs);
+            _lightFactory = new LightFactory();
+        }
 
+        private void InitializeSystem()
+        {
+            _cameraSystem = new CameraSystem(Camera.main);
+            _camera = _cameraSystem.Camera;
             _input = new InputSystem();
-            StartMenu(gameConfig);
+            _input.Initialize();
         }
 
-
-        private void LoadInterface(HUD hud)
+        private async void StartMenu()
         {
-            _hud = Object.Instantiate(hud);
-        }
-
-        private async void StartMenu(GameConfig gameConfig)
-        {
-            LoadInterface(gameConfig.Hud);
+            LoadInterface(_gameConfig.UserInterface);
             _body = _bodyFactory.Create();
 
             _currentGrid = await _menuGridFactory.Create(_body.transform, true);
-            Object.Instantiate(gameConfig.Title, _currentGrid.Hole.transform);
-            _hud.StartButton.onClick.AddListener(StartLevelAsync);
+            UnityEngine.Object.Instantiate(_gameConfig.Title, _currentGrid.Hole.transform);
+            _lightFactory.Create(_gameConfig.Light, _camera.transform, _body.transform);
+            
+            var musicSource = UnityEngine.Object.Instantiate(_gameConfig.Music);
+            _userInterface.Construct(_input, this, musicSource, StartLevelAsync, OnNotify);
+            ChangeCoin?.Invoke(_coin);
+        }
+
+        private void LoadInterface(UserInterface userInterface)
+        {
+            //TODO: Create interface Factory
+            _userInterface = UnityEngine.Object.Instantiate(userInterface);
+        }
+
+        private async void LoadLevelAsync(int level)
+        {
+            Debug.Log($"Load Level {level}");
+            _body.Did();
+            _input.Clear();
+
+            _body =_bodyFactory.Create();
+            _lightFactory.Create(_gameConfig.Light, _camera.transform, _body.transform);
+
+            _currentGrid = await _gridFactory.Create(level, _body.transform);
+            Ball ball = _ballFactory.Create(_currentGrid.OffsetPosition, level, _body, ChangeHealth);
+
+            _ballMovementSystem = new BallMovementSystem(_input, ball, _camera);
+            _notifySystem = new NotifySystem(ball, _userInterface);
+        }
+
+        private void OnNotify(bool isVictory)
+        {
+            if (!isVictory)
+                return;
+            
+            _coin += (int)(100 + UnityEngine.Random.value); // TODO: Create Coin System
+            ChangeCoin?.Invoke(_coin);
+            
+            if(_currentLevel + 1 < _gameConfig.LevelGridConfigs.Length)
+                _currentLevel++;
         }
 
         private async void StartLevelAsync()
         {
-            await MoveCameraAsync();
-            LoadLevelAsync();
-        }
-
-        private async void LoadLevelAsync()
-        {
-            Debug.Log("Load Level 1");
-            _body.Did();
-            _body =_bodyFactory.Create();
-            _currentGrid = await _gridFactory.Create(_body.transform);
-            Ball ball = _ballFactory.Create(_currentGrid.OffsetPosition);
-            
-            _input.Initialize();
-            MoveSystem moveSystem = new MoveSystem(_input);            
-            BallSystem ballSystem = new BallSystem(ball, _currentGrid.Hole.transform.position);
-        }
-
-        // TODO: Выделить систему 
-        private async UniTask MoveCameraAsync()
-        {
-            Debug.Log("Move Camera");
-            Camera camera = Camera.main;
-            Vector3 target = _currentGrid.Hole.transform.position;
-
-            
-            var up = Vector3.Lerp(camera.transform.position, target, 0.5f);
-            up.z += 3f;
-            await Fly(camera.transform.position, up ,target);
-        }
-        private async UniTask Fly(Vector3 startPosition, Vector3 upPosition, Vector3 target)
-        {
-            var timeInFly = 0f;
-            while (timeInFly < 1)
-            {
-                await UniTask.Yield();
-                float speedFlying = 1f;
-                timeInFly += speedFlying * Time.deltaTime;
-                Camera.main.transform.position = GetCurve(startPosition, upPosition, target, timeInFly);
-            }
-        }
-
-        private static Vector3 GetCurve(Vector3 point0, Vector3 point1, Vector3 point2, float time)
-        {
-            Vector3 point01 = Vector3.Lerp(point0, point1, time);
-            Vector3 point02 = Vector3.Lerp(point1, point2, time);
-
-            Vector3 point12 = Vector3.Lerp(point01, point02, time);
-
-            return point12;
+            await _cameraSystem.MoveCameraAsync(_currentGrid.Hole.transform.position);
+            LoadLevelAsync(_currentLevel);
         }
     }
 }

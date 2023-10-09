@@ -14,11 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Prefab>k__BackingField: {fileID: -708445638269883486, guid: 7303104d952c58340bed32b936b6dfe1,
     type: 3}
-  <MaterialHole>k__BackingField: {fileID: 2100000, guid: 8ee1c30587c3a2245b8e03ee8d56f3a0,
-    type: 2}
-  <VFXHole>k__BackingField: {fileID: 5711579517009558734, guid: ab6731c0f48a83f46af01dd510f9d843,
+  <PrefabHole>k__BackingField: {fileID: 1212152755492316714, guid: 7f32605fb307c8746b68412c338020dc,
     type: 3}
-  <MaterialPit>k__BackingField: {fileID: 2100000, guid: 8ee1c30587c3a2245b8e03ee8d56f3a0,
-    type: 2}
-  <VFXPIt>k__BackingField: {fileID: 8135653678282160405, guid: ea6b559a8e5038d4aa177c49770c7971,
+  <PrefabPit>k__BackingField: {fileID: 6687966686362730728, guid: 2a614237c2b287b48bb902df5cd21bc5,
+    type: 3}
+  <PrefabWall>k__BackingField: {fileID: 1237380795285397487, guid: dcfd0c0901a8e73449d08868954f443b,
     type: 3}

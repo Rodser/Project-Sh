@@ -1,18 +1,21 @@
-﻿using Cysharp.Threading.Tasks;
-using Rodser.Config;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.VFX;
 
-namespace Rodser.Model
+namespace Model
 {
     public class Ground : MonoBehaviour
     {
-        [SerializeField] Transform _vfxTransform = null;
+        [SerializeField] private Transform _vfxTransform = null;
+        [SerializeField] private GameObject _top = null;
+        [SerializeField] private Color[] _colors;
+
+        private const float TimeMoving = 1f;
 
         private float _height = 0;
-        private GroundConfig _groundConfig = null;
         private float _offset;
+        private Material _topMaterial;
 
         public Vector2 Id { get; private set; }
         public GroundType GroundType { get; private set; }
@@ -21,8 +24,16 @@ namespace Rodser.Model
 
         public void Lift(float offset)
         {
-            _offset = offset;
+            _offset = offset;     
+            _topMaterial = GetColor();
+
             Lift();
+        }
+
+        internal void Set(Vector2 id, GroundType groundType)
+        {
+            Id = id;
+            GroundType = groundType;
         }
 
         internal void AddNeighbors(List<Ground> neighbors)
@@ -47,70 +58,70 @@ namespace Rodser.Model
             }
         }
 
-        internal void Set(Vector2 id, GroundConfig groundConfig, GroundType groundType)
-        {
-            Id = id;
-            _groundConfig = groundConfig;
-            GroundType = groundType;
-            if (groundType == GroundType.Hole)
-                AppointHole();
-            else if(groundType == GroundType.Pit)
-                AppointPit();
-        }
-
         private void Lift()
         {
             Raise(GroundType == GroundType.TileHigh);
             _height = (int)GroundType * 0.5f + _offset;
+
+            SetColorAsync();
             MoveAsync();
+        }
+
+        private async void SetColorAsync()
+        {
+            if(IsStationary())
+                return;
+            await UniTask.Delay(300);
+
+            int index = (int) GroundType;
+            _topMaterial.color = _colors[index];
         }
 
         private async void MoveAsync()
         {
-            var origin = transform.position;
-            var target = origin;
+            if(gameObject == null)
+                return;
+            
+            var target = transform.position;
             target.y = _height;
 
             var time = 0f;
-            while (time < 1)
+            while (time < TimeMoving)
             {
+                if(transform == null)
+                    return;
+                
                 await UniTask.Yield();
-                time += 1f * Time.deltaTime;
+                time += Time.deltaTime;
                 transform.position = Vector3.Lerp(transform.position, target, time);
             }
         }
 
         private void Swap()
         {
-            if (GroundType == GroundType.Pit || GroundType == GroundType.Hole)
+            if (IsStationary())
                 return;
+
             GroundType = GroundType - 1;
             if (GroundType < 0)
                 GroundType = GroundType.TileHigh;
-           
+
             Lift();
+        }
+
+        private Material GetColor()
+        {
+            return IsStationary() ? null : _top.GetComponent<Renderer>().materials[0];
+        }
+
+        private bool IsStationary()
+        {
+            return GroundType == GroundType.Pit || GroundType == GroundType.Hole || GroundType == GroundType.Wall;
         }
 
         private void Raise(bool raised)
         {
             Raised = raised;
-        }
-
-        public void AppointPit()
-        {
-            GroundType = GroundType.Pit;
-            GetComponentInChildren<Collider>().isTrigger = true;
-            GetComponentInChildren<MeshRenderer>().material = _groundConfig.MaterialPit;
-            CreateVFX(_groundConfig.VFXPIt);
-
-        }
-
-        internal void AppointHole()
-        {
-            GroundType = GroundType.Hole;
-            GetComponentInChildren<Collider>().isTrigger = true;
-            GetComponentInChildren<MeshRenderer>().material = _groundConfig.MaterialHole;
-            CreateVFX(_groundConfig.VFXHole);
         }
 
         private void CreateVFX(VisualEffect vfx)
