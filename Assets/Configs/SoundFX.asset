@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e63dbef652eab0418308a6270773a74, type: 3}
+  m_Name: SoundFX
+  m_EditorClassIdentifier: 
+  <ButtonSFX>k__BackingField: {fileID: 4851624645008334375, guid: c0abc6f0af4d5af42b0b0da678251bbd,
+    type: 3}
+  <BoomSFX>k__BackingField: {fileID: 4851624645008334375, guid: 529bd3106286fcb4cbaa1b2cb1f26f27,
+    type: 3}
+  <WinnerSFX>k__BackingField: {fileID: 4851624645008334375, guid: 28208950d44a0f740b50eb4b4c3ccc86,
+    type: 3}
+  <LooserSFX>k__BackingField: {fileID: 4851624645008334375, guid: ace67b1fa6225b54a8752d10c720c607,
+    type: 3}
+  <Music>k__BackingField: {fileID: 4851624645008334375, guid: 9f71b4a923ae8004bbaf2ccdd160650a,
+    type: 3}

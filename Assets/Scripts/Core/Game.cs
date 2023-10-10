@@ -2,7 +2,6 @@
 using Config;
 using Logic;
 using Model;
-using Rodser.Config;
 using UI;
 using UnityEngine;
 
@@ -12,6 +11,7 @@ namespace Core
     {
         private GridFactory _menuGridFactory;
         private GridFactory _gridFactory;
+        private SoundFactory _soundFactory;
         private BallFactory _ballFactory;
         private BodyFactory _bodyFactory;
         private LightFactory _lightFactory;
@@ -45,6 +45,7 @@ namespace Core
         {
             _bodyFactory = new BodyFactory();
             _menuGridFactory = new GridFactory(gameConfig.MenuGridConfig);
+            _soundFactory = new SoundFactory(_gameConfig.SFXConfig);
             _gridFactory = new GridFactory(gameConfig.LevelGridConfigs);
             _ballFactory = new BallFactory(gameConfig.BallConfig, gameConfig.LevelGridConfigs);
             _lightFactory = new LightFactory();
@@ -66,9 +67,8 @@ namespace Core
             _currentGrid = await _menuGridFactory.Create(_body.transform, true);
             UnityEngine.Object.Instantiate(_gameConfig.Title, _currentGrid.Hole.transform);
             _lightFactory.Create(_gameConfig.Light, _camera.transform, _body.transform);
-            
-            var musicSource = UnityEngine.Object.Instantiate(_gameConfig.Music);
-            _userInterface.Construct(_input, this, musicSource, StartLevelAsync, OnNotify);
+
+            _userInterface.Construct(_input, this, _soundFactory, StartLevelAsync, OnNotify);
             _coinSystem = new CoinSystem(ChangeCoin);
         }
 
@@ -89,8 +89,8 @@ namespace Core
 
             _currentGrid = await _gridFactory.Create(level, _body.transform);
             Ball ball = _ballFactory.Create(_currentGrid.OffsetPosition, level, _body, ChangeHealth);
-
-            _ballMovementSystem = new BallMovementSystem(_input, ball, _camera);
+            var boomSFX = _soundFactory.Create(SFX.Boom);
+            _ballMovementSystem = new BallMovementSystem(_input, ball, boomSFX, _camera);
             _notifySystem = new NotifySystem(ball, _userInterface);
         }
 
@@ -107,6 +107,7 @@ namespace Core
 
         private async void StartLevelAsync()
         {
+            _userInterface.PlayMusic();
             await _cameraSystem.MoveCameraAsync(_currentGrid.Hole.transform.position);
             LoadLevelAsync(_currentLevel);
         }

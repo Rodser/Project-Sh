@@ -15,6 +15,8 @@ namespace UI
         private Action<bool> _notifyEvent;
         private UnityAction _startLevelEvent;
         private InputSystem _input;
+        private AudioSource _music;
+        private AudioSource _clickSFX;
 
         private void Awake()
         {
@@ -23,17 +25,25 @@ namespace UI
             OptionPanel.gameObject.SetActive(false);
         }
 
-        public void Construct(InputSystem input, Game game, AudioSource music, UnityAction startLevel, Action<bool> notify)
+        public void Construct(InputSystem input, Game game, SoundFactory soundFactory, UnityAction startLevel, Action<bool> notify)
         {
             _input = input;
-            
+            _music = soundFactory.Create(SFX.Music);
+            _clickSFX = soundFactory.Create(SFX.Click);
+
             MenuPanel.Subscribe(GoLevel, GoBack, GoOption);
             HudPanel.Subscribe(GoMenu, game);
-            EventPanel.Subscribe(GoLevel);
-            OptionPanel.Subscribe(music, GoBackWithoutOption);
+            EventPanel.Subscribe(GoLevel, soundFactory);
+            OptionPanel.Subscribe(_music, GoBackWithoutOption);
 
             _startLevelEvent += startLevel;
             _notifyEvent += notify;
+        }
+
+        public void PlayMusic()
+        {
+            _music.Stop();
+            _music.Play();
         }
 
         public void Notify(bool isVictory = true)
@@ -46,6 +56,8 @@ namespace UI
 
         private void GoLevel()
         {
+            _clickSFX.Play();
+
             ReplaceMenu(false);
             EventPanel.gameObject.SetActive(false);
             _startLevelEvent?.Invoke();
@@ -54,6 +66,8 @@ namespace UI
 
         private void GoMenu()
         {
+            _clickSFX.Play();
+
             _input.Disable();
             ReplaceMenu(true);
             MenuPanel.ActivateBackButton();
@@ -61,17 +75,23 @@ namespace UI
 
         private void GoBack()
         {
+            _clickSFX.Play();
+
             ReplaceMenu(false);
             _input.Enable();
         }
 
         private void GoOption()
         {
+            _clickSFX.Play();
+
             OptionPanel.gameObject.SetActive(true);
         }
 
         private void GoBackWithoutOption()
         {
+            _clickSFX.Play();
+
             OptionPanel.gameObject.SetActive(false);
         }
         

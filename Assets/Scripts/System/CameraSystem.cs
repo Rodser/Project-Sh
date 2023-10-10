@@ -24,10 +24,10 @@ namespace System
         {
             Vector3 startPosition = transform.position; 
             var timeInFly = 0f;
-            while (timeInFly < 1)
+            while (timeInFly < 1f)
             {
                 await UniTask.Yield();
-                float speedFlying = 1f;
+                float speedFlying = 0.7f;
                 timeInFly += speedFlying * Time.deltaTime;
                 transform.position = GetCurve(startPosition, deviation, target, timeInFly);
             }
