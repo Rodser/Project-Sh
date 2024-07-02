@@ -3,7 +3,7 @@ using Core;
 using Rodser.Config;
 using UnityEngine;
 
-namespace Rodser.Core
+namespace Core
 {
     public class Bootstrapper : MonoBehaviour
     {
