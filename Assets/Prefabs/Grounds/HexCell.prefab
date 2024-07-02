@@ -253,13 +253,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1386704715661813049, guid: 80206b9c6aa1d5d49aa8ca13634b5997,
         type: 3}
+      propertyPath: m_PropertySheet.m_Vector2f.m_Array.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386704715661813049, guid: 80206b9c6aa1d5d49aa8ca13634b5997,
+        type: 3}
       propertyPath: m_PropertySheet.m_Gradient.m_Array.Array.data[0].m_Name
       value: New Gradient
       objectReference: {fileID: 0}
     - target: {fileID: 1386704715661813049, guid: 80206b9c6aa1d5d49aa8ca13634b5997,
         type: 3}
+      propertyPath: m_PropertySheet.m_Vector2f.m_Array.Array.data[0].m_Name
+      value: Speed
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386704715661813049, guid: 80206b9c6aa1d5d49aa8ca13634b5997,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector2f.m_Array.Array.data[0].m_Value.x
+      value: 0.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386704715661813049, guid: 80206b9c6aa1d5d49aa8ca13634b5997,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector2f.m_Array.Array.data[0].m_Value.y
+      value: -0.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386704715661813049, guid: 80206b9c6aa1d5d49aa8ca13634b5997,
+        type: 3}
       propertyPath: m_PropertySheet.m_Gradient.m_Array.Array.data[0].m_Overridden
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386704715661813049, guid: 80206b9c6aa1d5d49aa8ca13634b5997,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector2f.m_Array.Array.data[0].m_Overridden
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1386704715661813049, guid: 80206b9c6aa1d5d49aa8ca13634b5997,
         type: 3}
