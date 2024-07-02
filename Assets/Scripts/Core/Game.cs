@@ -2,7 +2,6 @@
 using Config;
 using Logic;
 using Model;
-using Rodser.Config;
 using UI;
 using UnityEngine;
 
@@ -12,12 +11,14 @@ namespace Core
     {
         private GridFactory _menuGridFactory;
         private GridFactory _gridFactory;
+        private SoundFactory _soundFactory;
         private BallFactory _ballFactory;
         private BodyFactory _bodyFactory;
         private LightFactory _lightFactory;
         
         private InputSystem _input;
         private UserInterface _userInterface;
+        private CoinSystem _coinSystem;
         private HexogenGrid _currentGrid;
         private BodyGrid _body;
         private Camera _camera;
@@ -27,7 +28,6 @@ namespace Core
         private BallMovementSystem _ballMovementSystem;
         private NotifySystem _notifySystem;
         private CameraSystem _cameraSystem;
-        private int _coin;
 
         public event Action<int, bool> ChangeHealth;
         public event Action<int> ChangeCoin;
@@ -45,6 +45,7 @@ namespace Core
         {
             _bodyFactory = new BodyFactory();
             _menuGridFactory = new GridFactory(gameConfig.MenuGridConfig);
+            _soundFactory = new SoundFactory(_gameConfig.SFXConfig);
             _gridFactory = new GridFactory(gameConfig.LevelGridConfigs);
             _ballFactory = new BallFactory(gameConfig.BallConfig, gameConfig.LevelGridConfigs);
             _lightFactory = new LightFactory();
@@ -66,10 +67,9 @@ namespace Core
             _currentGrid = await _menuGridFactory.Create(_body.transform, true);
             UnityEngine.Object.Instantiate(_gameConfig.Title, _currentGrid.Hole.transform);
             _lightFactory.Create(_gameConfig.Light, _camera.transform, _body.transform);
-            
-            var musicSource = UnityEngine.Object.Instantiate(_gameConfig.Music);
-            _userInterface.Construct(_input, this, musicSource, StartLevelAsync, OnNotify);
-            ChangeCoin?.Invoke(_coin);
+
+            _userInterface.Construct(_input, this, _soundFactory, StartLevelAsync, OnNotify);
+            _coinSystem = new CoinSystem(ChangeCoin);
         }
 
         private void LoadInterface(UserInterface userInterface)
@@ -89,8 +89,8 @@ namespace Core
 
             _currentGrid = await _gridFactory.Create(level, _body.transform);
             Ball ball = _ballFactory.Create(_currentGrid.OffsetPosition, level, _body, ChangeHealth);
-
-            _ballMovementSystem = new BallMovementSystem(_input, ball, _camera);
+            var boomSFX = _soundFactory.Create(SFX.Boom);
+            _ballMovementSystem = new BallMovementSystem(_input, ball, boomSFX, _camera);
             _notifySystem = new NotifySystem(ball, _userInterface);
         }
 
@@ -98,16 +98,16 @@ namespace Core
         {
             if (!isVictory)
                 return;
-            
-            _coin += (int)(100 + UnityEngine.Random.value); // TODO: Create Coin System
-            ChangeCoin?.Invoke(_coin);
-            
+
+            _coinSystem.Change();
+                                    
             if(_currentLevel + 1 < _gameConfig.LevelGridConfigs.Length)
                 _currentLevel++;
         }
 
         private async void StartLevelAsync()
         {
+            _userInterface.PlayMusic();
             await _cameraSystem.MoveCameraAsync(_currentGrid.Hole.transform.position);
             LoadLevelAsync(_currentLevel);
         }
