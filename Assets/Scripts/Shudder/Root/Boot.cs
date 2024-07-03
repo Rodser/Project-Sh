@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GameApp.Root
+namespace Shudder.Root
 {
     public class Boot : MonoBehaviour
     {

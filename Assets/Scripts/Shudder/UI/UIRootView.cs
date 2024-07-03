@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GameApp.UI
+namespace Shudder.UI
 {
     public class UIRootView : MonoBehaviour
     {

@@ -1,10 +1,11 @@
 using System.Collections;
-using GameApp.UI;
+using Shudder.Gameplay.Root;
+using Shudder.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Coroutine = Utils.Coroutine;
 
-namespace GameApp.Root
+namespace Shudder.Root
 {
     public class GameEntryPoint
     {
@@ -50,6 +51,9 @@ namespace GameApp.Root
             _coroutine.StartCoroutine(LoadSceneAsync(SceneName.GAMEPLAY));
 
             yield return new WaitForSeconds(1);
+
+            var entryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>();
+            entryPoint.Run();
             
             _uiRoot.HideLoadingScreen();
         }

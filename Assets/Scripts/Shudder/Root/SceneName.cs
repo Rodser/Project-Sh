@@ -1,4 +1,4 @@
-namespace GameApp.Root
+namespace Shudder.Root
 {
     public class SceneName
     {

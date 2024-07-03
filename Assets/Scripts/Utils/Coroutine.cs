@@ -4,6 +4,5 @@ namespace Utils
 {
     public class Coroutine : MonoBehaviour
     {
-        
     }
 }
