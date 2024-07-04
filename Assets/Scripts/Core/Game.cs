@@ -1,7 +1,10 @@
 ﻿using System;
 using Config;
+using DI;
 using Logic;
 using Model;
+using Shudder.Gameplay.Characters.Factoryes;
+using Shudder.UI;
 using UI;
 using UnityEngine;
 
@@ -9,13 +12,6 @@ namespace Core
 {
     public class Game
     {
-        private GridFactory _menuGridFactory;
-        private GridFactory _gridFactory;
-        private SoundFactory _soundFactory;
-        private BallFactory _ballFactory;
-        private BodyFactory _bodyFactory;
-        private LightFactory _lightFactory;
-        
         private InputSystem _input;
         private UserInterface _userInterface;
         private CoinSystem _coinSystem;
@@ -23,59 +19,45 @@ namespace Core
         private BodyGrid _body;
         private Camera _camera;
         private GameConfig _gameConfig;
+        private DIContainer _container;
         
         private int _currentLevel = 0;
         private BallMovementSystem _ballMovementSystem;
         private NotifySystem _notifySystem;
-        private CameraSystem _cameraSystem;
 
         public event Action<int, bool> ChangeHealth;
         public event Action<int> ChangeCoin;
 
-        public void Initialize(GameConfig gameConfig)
+        public void Run(DIContainer container, GameConfig gameConfig)
         {
+            _container = container;
             _gameConfig = gameConfig;
         
-            InitializeFactory(gameConfig);
-            InitializeSystem();
             StartMenu();
-        }
-
-        private void InitializeFactory(GameConfig gameConfig)
-        {
-            _bodyFactory = new BodyFactory();
-            _menuGridFactory = new GridFactory(gameConfig.MenuGridConfig);
-            _soundFactory = new SoundFactory(_gameConfig.SFXConfig);
-            _gridFactory = new GridFactory(gameConfig.LevelGridConfigs);
-            _ballFactory = new BallFactory(gameConfig.BallConfig, gameConfig.LevelGridConfigs);
-            _lightFactory = new LightFactory();
-        }
-
-        private void InitializeSystem()
-        {
-            _cameraSystem = new CameraSystem(Camera.main);
-            _camera = _cameraSystem.Camera;
-            _input = new InputSystem();
+            _input = _container.Resolve<InputSystem>();
             _input.Initialize();
         }
 
         private async void StartMenu()
         {
-            LoadInterface(_gameConfig.UserInterface);
-            _body = _bodyFactory.Create();
+            _body = _container.Resolve<BodyFactory>().Create();
 
-            _currentGrid = await _menuGridFactory.Create(_body.transform, true);
+            _currentGrid = await _container.Resolve<GridFactory>("MenuGrid").Create(_body.transform, true);
+            _camera = _container.Resolve<CameraSystem>().Camera;
             UnityEngine.Object.Instantiate(_gameConfig.Title, _currentGrid.Hole.transform);
-            _lightFactory.Create(_gameConfig.Light, _camera.transform, _body.transform);
+            _container.Resolve<LightFactory>().Create(_gameConfig.Light, _camera.transform, _body.transform);
 
-            _userInterface.Construct(_input, this, _soundFactory, StartLevelAsync, OnNotify);
+            _userInterface = LoadInterface();
+            _userInterface.Construct(_input, this, _container.Resolve<SoundFactory>(), StartLevelAsync, OnNotify);
             _coinSystem = new CoinSystem(ChangeCoin);
         }
 
-        private void LoadInterface(UserInterface userInterface)
+        private UserInterface LoadInterface()
         {
-            //TODO: Create interface Factory
-            _userInterface = UnityEngine.Object.Instantiate(userInterface);
+            var prefab = _gameConfig.UserInterface;
+            var userInterface = UnityEngine.Object.Instantiate(prefab);
+            _container.Resolve<UIRootView>().AttachSceneUI(userInterface.gameObject);
+            return userInterface;
         }
 
         private async void LoadLevelAsync(int level)
@@ -84,14 +66,16 @@ namespace Core
             _body.Did();
             _input.Clear();
 
-            _body =_bodyFactory.Create();
-            _lightFactory.Create(_gameConfig.Light, _camera.transform, _body.transform);
+            _body =_container.Resolve<BodyFactory>().Create();
+            _container.Resolve<LightFactory>().Create(_gameConfig.Light, _camera.transform, _body.transform);
 
-            _currentGrid = await _gridFactory.Create(level, _body.transform);
-            Ball ball = _ballFactory.Create(_currentGrid.OffsetPosition, level, _body, ChangeHealth);
-            var boomSFX = _soundFactory.Create(SFX.Boom);
+            _currentGrid = await _container.Resolve<GridFactory>("LevelGrid").Create(level, _body.transform);
+            Ball ball = _container.Resolve<BallFactory>().Create(_currentGrid.OffsetPosition, level, _body, ChangeHealth);
+            var boomSFX = _container.Resolve<SoundFactory>().Create(SFX.Boom);
             _ballMovementSystem = new BallMovementSystem(_input, ball, boomSFX, _camera);
             _notifySystem = new NotifySystem(ball, _userInterface);
+
+            var hero = _container.Resolve<HeroFactory>().Create(_currentGrid.OffsetPosition, level, _body.gameObject);
         }
 
         private void OnNotify(bool isVictory)
@@ -108,7 +92,7 @@ namespace Core
         private async void StartLevelAsync()
         {
             _userInterface.PlayMusic();
-            await _cameraSystem.MoveCameraAsync(_currentGrid.Hole.transform.position);
+            await _container.Resolve<CameraSystem>().MoveCameraAsync(_currentGrid.Hole.transform.position);
             LoadLevelAsync(_currentLevel);
         }
     }
