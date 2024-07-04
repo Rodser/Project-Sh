@@ -1,4 +1,5 @@
 using System.Collections;
+using DI;
 using Shudder.Gameplay.Root;
 using Shudder.UI;
 using UnityEngine;
@@ -9,27 +10,32 @@ namespace Shudder.Root
 {
     public class GameEntryPoint
     {
-        private readonly UIRootView _uiRoot;
-        private readonly Coroutine _coroutine;
+        private readonly DIContainer _container;
 
         public GameEntryPoint()
         {
-            _coroutine = new GameObject("[COROUTINE]").AddComponent<Coroutine>();
-            Object.DontDestroyOnLoad(_coroutine.gameObject);
+            _container = new DIContainer();
+            
+            var coroutine = new GameObject("[COROUTINE]").AddComponent<Coroutine>();
+            Object.DontDestroyOnLoad(coroutine.gameObject);
+            
+            _container.RegisterInstance(coroutine);
             
             var prefabUIRoot = Resources.Load<UIRootView>("UIRoot");
-            _uiRoot = Object.Instantiate(prefabUIRoot);
-            Object.DontDestroyOnLoad(_uiRoot.gameObject);    
+            var uiRoot = Object.Instantiate(prefabUIRoot);
+            Object.DontDestroyOnLoad(uiRoot.gameObject);  
+           
+            _container.RegisterInstance(uiRoot);
         }
-        
+
         public void RunGame()
         {
 #if UNITY_EDITOR
             var sceneName = SceneManager.GetActiveScene().name;
 
-            if(sceneName == SceneName.GAMEPLAY)
+            if (sceneName == SceneName.GAMEPLAY)
             {
-                _coroutine.StartCoroutine(LoadAndStartGameplayScene());
+                _container.Resolve<Coroutine>().StartCoroutine(LoadAndStartGameplayScene());
                 return;
             }
 
@@ -40,34 +46,30 @@ namespace Shudder.Root
                 return;
             }
 #endif
-            _coroutine.StartCoroutine(LoadAndStartGameplayScene());
+            _container.Resolve<Coroutine>().StartCoroutine(LoadAndStartGameplayScene());
         }
-        
+
         private IEnumerator LoadAndStartGameplayScene()
         {
-            _uiRoot.ShowLoadingScreen();
+            var uiRoot = _container.Resolve<UIRootView>();
+            var coroutine = _container.Resolve<Coroutine>();
+            
+            uiRoot.ShowLoadingScreen();
 
-            _coroutine.StartCoroutine(LoadSceneAsync(SceneName.BOOT));
-            _coroutine.StartCoroutine(LoadSceneAsync(SceneName.GAMEPLAY));
+            coroutine.StartCoroutine(LoadSceneAsync(SceneName.BOOT));
+            coroutine.StartCoroutine(LoadSceneAsync(SceneName.GAMEPLAY));
 
             yield return new WaitForSeconds(1);
 
-            var entryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>();
-            entryPoint.Run();
+            var gameplay = Object.FindFirstObjectByType<GameplayEntryPoint>();
+            gameplay.Initialisation(_container);
             
-            _uiRoot.HideLoadingScreen();
+            uiRoot.HideLoadingScreen();
         }
         
         private IEnumerator LoadSceneAsync(string sceneName)
         {
-            var operation = SceneManager.LoadSceneAsync(sceneName);
-
-            while (operation != null && operation.progress < 0.9f)
-            {
-                yield return null;
-            }
-            
-            yield return null;
+            yield return SceneManager.LoadSceneAsync(sceneName);
         }
     }
 }
