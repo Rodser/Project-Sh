@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Utils
 {
-    public class Coroutine : MonoBehaviour
+    public class Coroutines : MonoBehaviour
     {
     }
 }

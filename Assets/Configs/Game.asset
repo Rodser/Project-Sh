@@ -18,7 +18,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2650cb6d634136e48907e8fa4404b2bd, type: 2}
   - {fileID: 11400000, guid: a8527acd33d9fd449b441896abf93678, type: 2}
   - {fileID: 11400000, guid: 570f02cb10b8e824a94b7040eb77cd38, type: 2}
-  - {fileID: 3892405736073224096, guid: 6013984cadfc7d74f903d9820fbb28a5, type: 3}
   <LevelGridConfigs>k__BackingField:
   - {fileID: 11400000, guid: f911fbc3b8cf4df4c9ae7e3a42a30137, type: 2}
   - {fileID: 11400000, guid: ee42832a1ead1fa4aae97d3fd4a195cb, type: 2}

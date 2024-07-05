@@ -1,18 +1,21 @@
 ﻿using System;
 using Config;
+using Cysharp.Threading.Tasks;
 using DI;
 using Logic;
 using Model;
 using Shudder.Gameplay.Characters.Factoryes;
+using Shudder.Gameplay.Services;
 using Shudder.UI;
 using UI;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Core
 {
     public class Game
     {
-        private InputSystem _input;
+        private InputService _input;
         private UserInterface _userInterface;
         private CoinSystem _coinSystem;
         private HexogenGrid _currentGrid;
@@ -22,9 +25,9 @@ namespace Core
         private DIContainer _container;
         
         private int _currentLevel = 0;
-        private BallMovementSystem _ballMovementSystem;
         private NotifySystem _notifySystem;
 
+        public event UnityAction OnStartLevel;
         public event Action<int, bool> ChangeHealth;
         public event Action<int> ChangeCoin;
 
@@ -34,8 +37,14 @@ namespace Core
             _gameConfig = gameConfig;
         
             StartMenu();
-            _input = _container.Resolve<InputSystem>();
-            _input.Initialize();
+            _input = _container.Resolve<InputService>();
+
+            OnStartLevel += StartLevel;
+        }
+
+        private void StartLevel()
+        {
+            StartLevelAsync();
         }
 
         private async void StartMenu()
@@ -43,12 +52,16 @@ namespace Core
             _body = _container.Resolve<BodyFactory>().Create();
 
             _currentGrid = await _container.Resolve<GridFactory>("MenuGrid").Create(_body.transform, true);
-            _camera = _container.Resolve<CameraSystem>().Camera;
+            _camera = _container.Resolve<CameraService>().Camera;
             UnityEngine.Object.Instantiate(_gameConfig.Title, _currentGrid.Hole.transform);
             _container.Resolve<LightFactory>().Create(_gameConfig.Light, _camera.transform, _body.transform);
 
             _userInterface = LoadInterface();
-            _userInterface.Construct(_input, this, _container.Resolve<SoundFactory>(), StartLevelAsync, OnNotify);
+            _userInterface.Construct(_input, 
+                this,
+                _container.Resolve<SoundFactory>(),
+                OnStartLevel,
+                OnNotify);
             _coinSystem = new CoinSystem(ChangeCoin);
         }
 
@@ -60,7 +73,7 @@ namespace Core
             return userInterface;
         }
 
-        private async void LoadLevelAsync(int level)
+        private async UniTask LoadLevelAsync(int level)
         {
             Debug.Log($"Load Level {level}");
             _body.Did();
@@ -70,12 +83,11 @@ namespace Core
             _container.Resolve<LightFactory>().Create(_gameConfig.Light, _camera.transform, _body.transform);
 
             _currentGrid = await _container.Resolve<GridFactory>("LevelGrid").Create(level, _body.transform);
-            Ball ball = _container.Resolve<BallFactory>().Create(_currentGrid.OffsetPosition, level, _body, ChangeHealth);
-            var boomSFX = _container.Resolve<SoundFactory>().Create(SFX.Boom);
-            _ballMovementSystem = new BallMovementSystem(_input, ball, boomSFX, _camera);
-            _notifySystem = new NotifySystem(ball, _userInterface);
+            //var boomSFX = _container.Resolve<SoundFactory>().Create(SFX.Boom);
 
-            var hero = _container.Resolve<HeroFactory>().Create(_currentGrid.OffsetPosition, level, _body.gameObject);
+            var heroView = _container.Resolve<HeroFactory>().Create(_currentGrid.OffsetPosition, level, _body.gameObject);
+            var moveService = _container.Resolve<HeroMoveService>();
+            moveService.Subscribe(heroView);
         }
 
         private void OnNotify(bool isVictory)
@@ -92,8 +104,11 @@ namespace Core
         private async void StartLevelAsync()
         {
             _userInterface.PlayMusic();
-            await _container.Resolve<CameraSystem>().MoveCameraAsync(_currentGrid.Hole.transform.position);
-            LoadLevelAsync(_currentLevel);
+
+            var cameraService = _container.Resolve<CameraService>();
+            await cameraService.MoveCameraAsync(_currentGrid.Hole.transform.position);
+            
+            await LoadLevelAsync(_currentLevel);
         }
     }
 }

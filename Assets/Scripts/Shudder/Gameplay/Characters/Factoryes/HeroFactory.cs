@@ -1,7 +1,7 @@
-using Core;
 using Rodser.Config;
 using Shudder.Gameplay.Characters.Configs;
 using Shudder.Gameplay.Characters.Models;
+using Shudder.Gameplay.Characters.Views;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Characters.Factoryes
@@ -17,14 +17,14 @@ namespace Shudder.Gameplay.Characters.Factoryes
             _hexGridConfigs = hexGridConfigs;
         }
 
-        public Hero Create(Vector3 offsetPosition, int level, GameObject parent)
+        public HeroView Create(Vector3 offsetPosition, int level, GameObject parent)
         {
             var position = GetStartPosition(level) + offsetPosition;
 
             var hero = new Hero(3, _heroConfig.SpeedMove);
             var heroView = Object.Instantiate(_heroConfig.Prefab, position, Quaternion.identity, parent.transform);
             heroView.Construct(hero);
-            return hero;
+            return heroView;
         }
 
         private Vector3 GetStartPosition(int level)

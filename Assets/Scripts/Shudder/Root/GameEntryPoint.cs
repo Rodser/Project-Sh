@@ -4,7 +4,7 @@ using Shudder.Gameplay.Root;
 using Shudder.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Coroutine = Utils.Coroutine;
+using Utils;
 
 namespace Shudder.Root
 {
@@ -16,7 +16,7 @@ namespace Shudder.Root
         {
             _container = new DIContainer();
             
-            var coroutine = new GameObject("[COROUTINE]").AddComponent<Coroutine>();
+            var coroutine = new GameObject("[COROUTINE]").AddComponent<Coroutines>();
             Object.DontDestroyOnLoad(coroutine.gameObject);
             
             _container.RegisterInstance(coroutine);
@@ -35,7 +35,7 @@ namespace Shudder.Root
 
             if (sceneName == SceneName.GAMEPLAY)
             {
-                _container.Resolve<Coroutine>().StartCoroutine(LoadAndStartGameplayScene());
+                _container.Resolve<Coroutines>().StartCoroutine(LoadAndStartGameplayScene());
                 return;
             }
 
@@ -46,13 +46,13 @@ namespace Shudder.Root
                 return;
             }
 #endif
-            _container.Resolve<Coroutine>().StartCoroutine(LoadAndStartGameplayScene());
+            _container.Resolve<Coroutines>().StartCoroutine(LoadAndStartGameplayScene());
         }
 
         private IEnumerator LoadAndStartGameplayScene()
         {
             var uiRoot = _container.Resolve<UIRootView>();
-            var coroutine = _container.Resolve<Coroutine>();
+            var coroutine = _container.Resolve<Coroutines>();
             
             uiRoot.ShowLoadingScreen();
 

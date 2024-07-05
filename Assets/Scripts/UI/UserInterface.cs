@@ -1,5 +1,6 @@
 ﻿using System;
 using Core;
+using Shudder.Gameplay.Services;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,7 +15,7 @@ namespace UI
 
         private Action<bool> _notifyEvent;
         private UnityAction _startLevelEvent;
-        private InputSystem _input;
+        private InputService _input;
         private AudioSource _music;
         private AudioSource _clickSFX;
 
@@ -25,7 +26,7 @@ namespace UI
             OptionPanel.gameObject.SetActive(false);
         }
 
-        public void Construct(InputSystem input, Game game, SoundFactory soundFactory, UnityAction startLevel, Action<bool> notify)
+        public void Construct(InputService input, Game game, SoundFactory soundFactory, UnityAction startLevel, Action<bool> notify)
         {
             _input = input;
             _music = soundFactory.Create(SFX.Music);

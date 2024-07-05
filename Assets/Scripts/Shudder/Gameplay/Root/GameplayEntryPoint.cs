@@ -1,4 +1,3 @@
-using System;
 using Config;
 using Core;
 using DI;
@@ -6,6 +5,7 @@ using Logic;
 using Rodser.Config;
 using Shudder.Gameplay.Characters.Configs;
 using Shudder.Gameplay.Characters.Factoryes;
+using Shudder.Gameplay.Services;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Root
@@ -19,14 +19,14 @@ namespace Shudder.Gameplay.Root
         {
             _container = new DIContainer(container);
 
-            InitializeFactory();
-            InitializeSystem();
+            InitializeFactories();
+            InitializeServices();
             
             Game game = new Game();
             game.Run(_container, _gameConfig);
         }
         
-        private void InitializeFactory()
+        private void InitializeFactories()
         {
             _container.RegisterTransient(c => new BodyFactory());
             _container.RegisterTransient("MenuGrid",c => 
@@ -41,10 +41,11 @@ namespace Shudder.Gameplay.Root
             _container.RegisterTransient(c =>  new LightFactory());
         }
 
-        private void InitializeSystem()
+        private void InitializeServices()
         {
-            _container.RegisterSingleton(c => new CameraSystem(Camera.main));
-            _container.RegisterSingleton(c => new InputSystem());
+            _container.RegisterSingleton(c => new CameraService(Camera.main));
+            _container.RegisterSingleton(c => new InputService());
+            _container.RegisterSingleton(c => new HeroMoveService(_container));
         }
     }
 }

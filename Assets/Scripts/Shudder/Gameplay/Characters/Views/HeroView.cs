@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using Model;
 using Shudder.Gameplay.Characters.Models;
 using UnityEngine;
@@ -8,35 +7,26 @@ namespace Shudder.Gameplay.Characters.Views
     [RequireComponent(typeof(Rigidbody))]
     public class HeroView : MonoBehaviour
     {
-        private Rigidbody _rigidbody;
         private Vector3 _startPosition;
-        private Hero _hero;
+        public Hero Hero;
+        
+        public Rigidbody Rigidbody { get; private set; }
 
         private void Start()
         {
             _startPosition = transform.position;
-            _rigidbody = GetComponent<Rigidbody>();
+            Rigidbody = GetComponent<Rigidbody>();
         }
 
         public void Construct(Hero hero)
         {
-            _hero = hero;
+            Hero = hero;
         }
         
-        private async void MoveAsync(Vector3 position)
-        {
-            if(gameObject == null)
-                 Destroy(this);
-            
-            await UniTask.Delay(150);
-            var force = position - transform.position;
-            _rigidbody.AddForce(force.normalized * _hero.Speed, ForceMode.Impulse);
-        }
-
         private void ResetBallPosition()
         {
-            _hero.Damage();
-            Debug.Log(_hero.Health);
+            Hero.Damage();
+            Debug.Log(Hero.Health);
             transform.position = _startPosition;
         }
 
@@ -49,11 +39,11 @@ namespace Shudder.Gameplay.Characters.Views
             switch (ground.GroundType)
             {
                 case GroundType.Hole:
-                    _hero.AtHole = true;
+                    Hero.AtHole = true;
                     Debug.Log("Victory");
                     Destroy(gameObject, 1000);
                     break;
-                case GroundType.Pit when _hero.Health > 0:
+                case GroundType.Pit when Hero.Health > 0:
                     ResetBallPosition();
                     break;
                 case GroundType.Pit:
