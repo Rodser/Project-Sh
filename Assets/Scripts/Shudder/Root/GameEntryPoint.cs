@@ -1,10 +1,10 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Gameplay.Root;
+using Shudder.MainMenu.Root;
 using Shudder.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Utils;
 
 namespace Shudder.Root
 {
@@ -16,50 +16,56 @@ namespace Shudder.Root
         {
             _container = new DIContainer();
             
-            var coroutine = new GameObject("[COROUTINE]").AddComponent<Coroutines>();
-            Object.DontDestroyOnLoad(coroutine.gameObject);
-            
-            _container.RegisterInstance(coroutine);
-            
-            var prefabUIRoot = Resources.Load<UIRootView>("UIRoot");
-            var uiRoot = Object.Instantiate(prefabUIRoot);
-            Object.DontDestroyOnLoad(uiRoot.gameObject);  
-           
+            var uiRoot = CreateUIRoot();
             _container.RegisterInstance(uiRoot);
         }
-
+            
         public void RunGame()
         {
 #if UNITY_EDITOR
             var sceneName = SceneManager.GetActiveScene().name;
 
-            if (sceneName == SceneName.GAMEPLAY)
+            switch (sceneName)
             {
-                _container.Resolve<Coroutines>().StartCoroutine(LoadAndStartGameplayScene());
-                return;
+                case SceneName.GAMEPLAY:
+                    LoadAndStartGameplayScene();
+                    return;
+                case SceneName.MAIN_MENU:
+                    LoadAndStartMainMenuScene();
+                    break;
             }
-
-            // if (sceneName == SceneName.MAIN_MENU)
 
             if (sceneName != SceneName.BOOT)
             {
                 return;
             }
 #endif
-            _container.Resolve<Coroutines>().StartCoroutine(LoadAndStartGameplayScene());
+            LoadAndStartMainMenuScene();
         }
-
-        private IEnumerator LoadAndStartGameplayScene()
+        
+        private async void LoadAndStartMainMenuScene()
         {
             var uiRoot = _container.Resolve<UIRootView>();
-            var coroutine = _container.Resolve<Coroutines>();
             
             uiRoot.ShowLoadingScreen();
 
-            coroutine.StartCoroutine(LoadSceneAsync(SceneName.BOOT));
-            coroutine.StartCoroutine(LoadSceneAsync(SceneName.GAMEPLAY));
+            await LoadSceneAsync(SceneName.BOOT);
+            await LoadSceneAsync(SceneName.MAIN_MENU);
+           
+            var entryPoint = Object.FindFirstObjectByType<MainMenuEntryPoint>();
+            entryPoint.Initialisation(_container);
+            
+            uiRoot.HideLoadingScreen();
+        }
+        
+        private async void LoadAndStartGameplayScene()
+        {
+            var uiRoot = _container.Resolve<UIRootView>();
+            
+            uiRoot.ShowLoadingScreen();
 
-            yield return new WaitForSeconds(1);
+            await LoadSceneAsync(SceneName.BOOT);
+            await LoadSceneAsync(SceneName.GAMEPLAY);
 
             var gameplay = Object.FindFirstObjectByType<GameplayEntryPoint>();
             gameplay.Initialisation(_container);
@@ -67,9 +73,17 @@ namespace Shudder.Root
             uiRoot.HideLoadingScreen();
         }
         
-        private IEnumerator LoadSceneAsync(string sceneName)
+        private UIRootView CreateUIRoot()
         {
-            yield return SceneManager.LoadSceneAsync(sceneName);
+            var prefabUIRoot = Resources.Load<UIRootView>("UIRoot");
+            var uiRoot = Object.Instantiate(prefabUIRoot);
+            Object.DontDestroyOnLoad(uiRoot.gameObject);
+            return uiRoot;
+        }
+        
+        private async UniTask LoadSceneAsync(string sceneName)
+        {
+            await SceneManager.LoadSceneAsync(sceneName);
         }
     }
 }

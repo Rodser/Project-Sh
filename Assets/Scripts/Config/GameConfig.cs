@@ -13,7 +13,7 @@ namespace Config
         [field: SerializeField] public HexogenGridConfig[] LevelGridConfigs { get; private set; } = null;
         [field: SerializeField] public GameObject Title { get; private set; } = null;
         [field: SerializeField] public Light Light{ get; private set; } = null;
-        [field: SerializeField] public UserInterface UserInterface { get; private set; } = null;[field: SerializeField] 
+        [field: SerializeField] public UserInterface UserInterface { get; private set; } = null;
         
         public T GetConfig<T>()
         {

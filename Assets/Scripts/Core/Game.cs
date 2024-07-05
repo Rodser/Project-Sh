@@ -27,7 +27,6 @@ namespace Core
         private int _currentLevel = 0;
         private NotifySystem _notifySystem;
 
-        public event UnityAction OnStartLevel;
         public event Action<int, bool> ChangeHealth;
         public event Action<int> ChangeCoin;
 
@@ -36,47 +35,22 @@ namespace Core
             _container = container;
             _gameConfig = gameConfig;
         
-            StartMenu();
             _input = _container.Resolve<InputService>();
-
-            OnStartLevel += StartLevel;
-        }
-
-        private void StartLevel()
-        {
+            _camera = Camera.main;
             StartLevelAsync();
         }
 
-        private async void StartMenu()
+        private async void StartLevelAsync()
         {
-            _body = _container.Resolve<BodyFactory>().Create();
-
-            _currentGrid = await _container.Resolve<GridFactory>("MenuGrid").Create(_body.transform, true);
-            _camera = _container.Resolve<CameraService>().Camera;
-            UnityEngine.Object.Instantiate(_gameConfig.Title, _currentGrid.Hole.transform);
-            _container.Resolve<LightFactory>().Create(_gameConfig.Light, _camera.transform, _body.transform);
-
-            _userInterface = LoadInterface();
-            _userInterface.Construct(_input, 
-                this,
-                _container.Resolve<SoundFactory>(),
-                OnStartLevel,
-                OnNotify);
-            _coinSystem = new CoinSystem(ChangeCoin);
-        }
-
-        private UserInterface LoadInterface()
-        {
-            var prefab = _gameConfig.UserInterface;
-            var userInterface = UnityEngine.Object.Instantiate(prefab);
-            _container.Resolve<UIRootView>().AttachSceneUI(userInterface.gameObject);
-            return userInterface;
+            await LoadLevelAsync(_currentLevel);
         }
 
         private async UniTask LoadLevelAsync(int level)
         {
             Debug.Log($"Load Level {level}");
-            _body.Did();
+            if (_body != null)
+                _body.Did();
+
             _input.Clear();
 
             _body =_container.Resolve<BodyFactory>().Create();
@@ -99,16 +73,6 @@ namespace Core
                                     
             if(_currentLevel + 1 < _gameConfig.LevelGridConfigs.Length)
                 _currentLevel++;
-        }
-
-        private async void StartLevelAsync()
-        {
-            _userInterface.PlayMusic();
-
-            var cameraService = _container.Resolve<CameraService>();
-            await cameraService.MoveCameraAsync(_currentGrid.Hole.transform.position);
-            
-            await LoadLevelAsync(_currentLevel);
         }
     }
 }

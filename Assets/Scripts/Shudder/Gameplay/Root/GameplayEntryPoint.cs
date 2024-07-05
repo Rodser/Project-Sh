@@ -2,7 +2,6 @@ using Config;
 using Core;
 using DI;
 using Logic;
-using Rodser.Config;
 using Shudder.Gameplay.Characters.Configs;
 using Shudder.Gameplay.Characters.Factoryes;
 using Shudder.Gameplay.Services;
@@ -28,21 +27,18 @@ namespace Shudder.Gameplay.Root
         
         private void InitializeFactories()
         {
-            _container.RegisterTransient(c => new BodyFactory());
-            _container.RegisterTransient("MenuGrid",c => 
-                new GridFactory(_gameConfig.GetConfig<HexogenGridConfig>()));
-            _container.RegisterTransient(c => new SoundFactory(_gameConfig.GetConfig<SFXConfig>()));
-            _container.RegisterTransient("LevelGrid",c => 
+            _container.RegisterSingleton("LevelGrid",c => 
                 new GridFactory(_gameConfig.LevelGridConfigs));
-            _container.RegisterTransient(c => 
-                new BallFactory(_gameConfig.GetConfig<BallConfig>(), _gameConfig.LevelGridConfigs));
+            _container.RegisterSingleton(c => new BodyFactory());
+
             _container.RegisterSingleton(c => 
                 new HeroFactory(_gameConfig.GetConfig<HeroConfig>(), _gameConfig.LevelGridConfigs));
-            _container.RegisterTransient(c =>  new LightFactory());
+            _container.RegisterSingleton(c => new LightFactory());
+            _container.RegisterSingleton(c => new SoundFactory(_gameConfig.GetConfig<SFXConfig>()));
         }
 
         private void InitializeServices()
-        {
+        {       
             _container.RegisterSingleton(c => new CameraService(Camera.main));
             _container.RegisterSingleton(c => new InputService());
             _container.RegisterSingleton(c => new HeroMoveService(_container));
