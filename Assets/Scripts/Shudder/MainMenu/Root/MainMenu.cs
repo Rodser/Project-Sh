@@ -24,6 +24,7 @@ namespace Shudder.MainMenu.Root
             readEventBus.FlyCamera.AddListener(FlyCameraAndStartGameplayAsync);
             readEventBus.ExitGame.AddListener(ExitGame);
         }
+        
         private async void FlyCameraAndStartGameplayAsync()
         {
             var cameraService = _container.Resolve<CameraService>();

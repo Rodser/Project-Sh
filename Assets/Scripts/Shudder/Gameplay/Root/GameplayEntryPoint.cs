@@ -3,7 +3,7 @@ using Core;
 using DI;
 using Logic;
 using Shudder.Gameplay.Characters.Configs;
-using Shudder.Gameplay.Characters.Factoryes;
+using Shudder.Gameplay.Characters.Factories;
 using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Services;
 using UnityEngine;

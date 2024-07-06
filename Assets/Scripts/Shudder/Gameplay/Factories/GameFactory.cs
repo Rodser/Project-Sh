@@ -2,7 +2,7 @@ using Config;
 using Cysharp.Threading.Tasks;
 using DI;
 using Logic;
-using Shudder.Gameplay.Characters.Factoryes;
+using Shudder.Gameplay.Characters.Factories;
 using Shudder.Gameplay.Root;
 using Shudder.Gameplay.Services;
 using UnityEngine;
@@ -23,9 +23,11 @@ namespace Shudder.Gameplay.Factories
 
         public async void Create()
         {
-            _game = new Game();
-            _game.Camera = _container.Resolve<CameraService>().Camera;
-            
+            _game = new Game(_container)
+            {
+                Camera = _container.Resolve<CameraService>().Camera
+            };
+
             await LoadLevelAsync(_game.CurrentLevel);
         }
 
@@ -49,6 +51,8 @@ namespace Shudder.Gameplay.Factories
             
             var moveService = _container.Resolve<HeroMoveService>();
             moveService.Subscribe(heroView);
+            _game.HeroView = heroView; //TODO: dadly
+            _game.Run();
         }
     }
 }

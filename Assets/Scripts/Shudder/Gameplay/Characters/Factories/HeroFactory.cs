@@ -4,7 +4,7 @@ using Shudder.Gameplay.Characters.Models;
 using Shudder.Gameplay.Characters.Views;
 using UnityEngine;
 
-namespace Shudder.Gameplay.Characters.Factoryes
+namespace Shudder.Gameplay.Characters.Factories
 {
     public class HeroFactory
     {
@@ -31,7 +31,7 @@ namespace Shudder.Gameplay.Characters.Factoryes
         {
             var hexGridConfig = _hexGridConfigs[level];
             float x = _heroConfig.StartPositionX * hexGridConfig.SpaceBetweenCells;
-            float y = _heroConfig.StartPositionY;
+            float y = _heroConfig.StartPositionY - 2;
             float z = _heroConfig.StartPositionZ * hexGridConfig.SpaceBetweenCells;
             
             return new Vector3(x, y, z);
