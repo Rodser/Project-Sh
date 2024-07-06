@@ -1,6 +1,6 @@
-﻿using Core;
+﻿using Config;
+using Core;
 using Model;
-using Rodser.Config;
 using UnityEngine;
 
 namespace Logic

@@ -5,7 +5,6 @@ namespace Shudder.Gameplay.Services
 {
     public class CameraService
     {
-        private bool _isMoving;
         public Camera Camera { get; }
 
         public CameraService(Camera camera)

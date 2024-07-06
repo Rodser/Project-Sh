@@ -8,7 +8,6 @@ namespace UI
 {
     public class UserInterface : MonoBehaviour
     {
-        [field: SerializeField] public Menu MenuPanel  { get; private set; }
         [field: SerializeField] public Setting OptionPanel  { get; private set; }
         [field: SerializeField] public EventPanel EventPanel  { get; private set; }
         [field: SerializeField] public Hud HudPanel  { get; private set; }
@@ -26,14 +25,12 @@ namespace UI
             OptionPanel.gameObject.SetActive(false);
         }
 
-        public void Construct(InputService input, Game game, SoundFactory soundFactory, UnityAction startLevel, Action<bool> notify)
+        public void Construct(InputService input, SoundFactory soundFactory, UnityAction startLevel, Action<bool> notify)
         {
             _input = input;
             _music = soundFactory.Create(SFX.Music);
             _clickSFX = soundFactory.Create(SFX.Click);
 
-            MenuPanel.Subscribe(GoLevel, GoBack, GoOption);
-            HudPanel.Subscribe(GoMenu, game);
             EventPanel.Subscribe(GoLevel, soundFactory);
             OptionPanel.Subscribe(_music, GoBackWithoutOption);
 
@@ -71,7 +68,6 @@ namespace UI
 
             _input.Disable();
             ReplaceMenu(true);
-            MenuPanel.ActivateBackButton();
         }
 
         private void GoBack()
@@ -99,7 +95,6 @@ namespace UI
         private void ReplaceMenu(bool isMenu)
         {
             HudPanel.gameObject.SetActive(!isMenu);
-            MenuPanel.gameObject.SetActive(isMenu);
         }
     }
 }

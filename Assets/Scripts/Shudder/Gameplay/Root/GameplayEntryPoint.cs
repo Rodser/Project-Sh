@@ -4,6 +4,7 @@ using DI;
 using Logic;
 using Shudder.Gameplay.Characters.Configs;
 using Shudder.Gameplay.Characters.Factoryes;
+using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Services;
 using UnityEngine;
 
@@ -20,9 +21,9 @@ namespace Shudder.Gameplay.Root
 
             InitializeFactories();
             InitializeServices();
-            
-            Game game = new Game();
-            game.Run(_container, _gameConfig);
+
+            var gameFactory = new GameFactory(_container, _gameConfig);
+            gameFactory.Create();
         }
         
         private void InitializeFactories()

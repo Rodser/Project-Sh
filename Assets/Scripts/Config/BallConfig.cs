@@ -1,7 +1,7 @@
 ﻿using Model;
 using UnityEngine;
 
-namespace Rodser.Config
+namespace Config
 {
     [CreateAssetMenu(fileName = "Ball", menuName = "Game/Ball", order = 9)]
     public class BallConfig : ScriptableObject

@@ -1,4 +1,3 @@
-using Rodser.Config;
 using Shudder.UI;
 using UnityEngine;
 

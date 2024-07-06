@@ -5,7 +5,7 @@ using Shudder.Gameplay.Services;
 using UnityEditor;
 using UnityEngine;
 
-namespace Shudder.MainMenu
+namespace Shudder.MainMenu.Root
 {
     public class MainMenu
     {

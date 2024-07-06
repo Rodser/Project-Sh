@@ -1,7 +1,5 @@
-using Core;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace UI
@@ -12,13 +10,6 @@ namespace UI
         [field: SerializeField] public Image healthImage { get; private set; }    
         [field: SerializeField] public Button PauseButton { get; private set; }
         [field: SerializeField] public TextMeshProUGUI Coin  { get; private set; }
-
-        public void Subscribe(UnityAction goMenu, Game game)
-        {
-            PauseButton.onClick.AddListener(goMenu);
-            game.ChangeCoin += ChangeCoin;
-            game.ChangeHealth += ChangeHealth;
-        }
 
         private void ChangeCoin(int coin)
         {

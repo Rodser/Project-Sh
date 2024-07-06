@@ -1,4 +1,4 @@
-using Rodser.Config;
+using Config;
 using Shudder.Gameplay.Characters.Configs;
 using Shudder.Gameplay.Characters.Models;
 using Shudder.Gameplay.Characters.Views;

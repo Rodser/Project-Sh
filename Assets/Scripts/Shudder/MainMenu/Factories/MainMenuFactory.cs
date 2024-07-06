@@ -41,7 +41,7 @@ namespace Shudder.MainMenu.Factories
 
             var menuUI = CreateUIMainMenu();
             menuUI.Bind(_triggerEventBus);
-            var menu = new MainMenu(_container, _menuGrid);
+            var menu = new Root.MainMenu(_container, _menuGrid);
         }
 
         private UIMenuView CreateUIMainMenu()
