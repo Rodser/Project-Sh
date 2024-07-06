@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace Shudder.Gameplay.Services
 {
-    public class InputService
+    public class InputService : IDisposable
     {
         private readonly InputControl _inputAControl;
         private Action<InputAction.CallbackContext> _action;
@@ -40,6 +40,11 @@ namespace Shudder.Gameplay.Services
         public void Clear()
         {
             Click.performed -= _action;
+        }
+
+        public void Dispose()
+        {
+            _inputAControl.Actionmap.Disable();
         }
     }
 }

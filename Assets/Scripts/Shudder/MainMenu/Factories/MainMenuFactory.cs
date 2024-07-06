@@ -3,6 +3,7 @@ using Core;
 using DI;
 using Logic;
 using Model;
+using Shudder.Events;
 using Shudder.Gameplay.Services;
 using Shudder.UI;
 using UnityEngine;
@@ -12,24 +13,22 @@ namespace Shudder.MainMenu.Factories
 {
     public class MainMenuFactory
     {
-        public event UnityAction OnStartLevel;
-
         private readonly DIContainer _container;
-        private readonly MenuConfig _menu;
+        private readonly MenuConfig _menuConfig;
         private readonly InputService _input;
+        private readonly EventBus _eventBus;
         
         private BodyGrid _body;
         private HexogenGrid _menuGrid;
         private Camera _camera;
 
-        public MainMenuFactory(DIContainer container, MenuConfig menu)
+        public MainMenuFactory(DIContainer container, MenuConfig menuConfig)
         {
             _container = container;
-            _menu = menu;
+            _menuConfig = menuConfig;
         
             _input = _container.Resolve<InputService>();
-
-            OnStartLevel += StartLevel;
+            _eventBus = _container.Resolve<EventBus>();
         }
 
         public async void Create()
@@ -39,15 +38,16 @@ namespace Shudder.MainMenu.Factories
 
             _menuGrid = await _container.Resolve<GridFactory>("MenuGrid").Create(_body.transform, true);
             
-            Object.Instantiate(_menu.Title, _menuGrid.Hole.transform);
-            _container.Resolve<LightFactory>().Create(_menu.Light, _camera.transform, _body.transform);
+            Object.Instantiate(_menuConfig.Title, _menuGrid.Hole.transform);
+            _container.Resolve<LightFactory>().Create(_menuConfig.Light, _camera.transform, _body.transform);
 
             var menuUI = LoadInterface();
+            menuUI.Bind(_eventBus);
         }
 
         private UIMenuView LoadInterface()
         {
-            var prefab = _menu.UIMenuView;
+            var prefab = _menuConfig.UIMenuView;
             var menuUI = Object.Instantiate(prefab);
             _container.Resolve<UIRootView>().AttachSceneUI(menuUI.gameObject);
             return menuUI;

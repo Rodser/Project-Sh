@@ -20,22 +20,22 @@ namespace Shudder.MainMenu.Root
             InitializeFactories();
             InitializeServices();
 
-            var mwnu = new MainMenuFactory(_container, _menuConfiguration);
-            mwnu.Create();
+            var menuFactory = new MainMenuFactory(_container, _menuConfiguration);
+            menuFactory.Create();
         }
         
         private void InitializeFactories()
         {
-            _container.RegisterTransient(c => new BodyFactory());
-            _container.RegisterTransient("MenuGrid",c => 
+            _container.RegisterSingleton(c => new BodyFactory());
+            _container.RegisterSingleton("MenuGrid",c => 
                 new GridFactory(_menuConfiguration.MenuGridConfig));
-            _container.RegisterTransient(c =>  new LightFactory());
+            _container.RegisterSingleton(c =>  new LightFactory());
         }
 
         private void InitializeServices()
         {
             _container.RegisterSingleton(c => new CameraService(Camera.main));
-            _container.RegisterSingleton(c => new InputService());
+            //_container.RegisterSingleton(c => new InputService());
         }
     }
 }

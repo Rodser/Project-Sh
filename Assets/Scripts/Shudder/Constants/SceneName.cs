@@ -1,4 +1,4 @@
-namespace Shudder.Root
+namespace Shudder.Constants
 {
     public class SceneName
     {

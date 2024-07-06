@@ -1,11 +1,10 @@
 using UnityEngine.Events;
 
-namespace Shudder.Root
+namespace Shudder.Events
 {
-    public class EventBus
+    public class EventBus : IReadOnlyEventBus
     {
         public UnityEvent StartGameplayScene { get; } = new();
-
 
         public void TriggerStartGameplayScene()
         {

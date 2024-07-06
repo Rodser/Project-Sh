@@ -39,8 +39,8 @@ namespace Shudder.Gameplay.Root
 
         private void InitializeServices()
         {       
-            _container.RegisterSingleton(c => new CameraService(Camera.main));
-            _container.RegisterSingleton(c => new InputService());
+            _container.RegisterSingleton(c => new CameraService(Camera.main)); 
+            //_container.RegisterSingleton(c => new InputService());
             _container.RegisterSingleton(c => new HeroMoveService(_container));
         }
     }
