@@ -1,7 +1,6 @@
-using Config;
 using UnityEngine;
 
-namespace Rodser.Config
+namespace Config
 {
     [CreateAssetMenu(fileName = "HexogenGrid", menuName = "Game/HexogenGrid", order = 7)]
     public class HexogenGridConfig : ScriptableObject

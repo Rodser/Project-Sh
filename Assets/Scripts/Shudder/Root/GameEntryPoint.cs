@@ -1,10 +1,13 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using DI;
+using Shudder.Constants;
+using Shudder.Events;
 using Shudder.Gameplay.Root;
+using Shudder.Gameplay.Services;
+using Shudder.MainMenu.Root;
 using Shudder.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Coroutine = Utils.Coroutine;
 
 namespace Shudder.Root
 {
@@ -16,16 +19,11 @@ namespace Shudder.Root
         {
             _container = new DIContainer();
             
-            var coroutine = new GameObject("[COROUTINE]").AddComponent<Coroutine>();
-            Object.DontDestroyOnLoad(coroutine.gameObject);
-            
-            _container.RegisterInstance(coroutine);
-            
-            var prefabUIRoot = Resources.Load<UIRootView>("UIRoot");
-            var uiRoot = Object.Instantiate(prefabUIRoot);
-            Object.DontDestroyOnLoad(uiRoot.gameObject);  
-           
-            _container.RegisterInstance(uiRoot);
+            RegisterService();
+            RegisterEventBus();
+            RegisterUIRoot();
+
+            Subscribe();
         }
 
         public void RunGame()
@@ -33,43 +31,89 @@ namespace Shudder.Root
 #if UNITY_EDITOR
             var sceneName = SceneManager.GetActiveScene().name;
 
-            if (sceneName == SceneName.GAMEPLAY)
+            switch (sceneName)
             {
-                _container.Resolve<Coroutine>().StartCoroutine(LoadAndStartGameplayScene());
-                return;
+                case SceneName.GAMEPLAY:
+                    LoadAndStartGameplayScene();
+                    return;
+                case SceneName.MAIN_MENU:
+                    LoadAndStartMainMenuScene();
+                    break;
             }
-
-            // if (sceneName == SceneName.MAIN_MENU)
 
             if (sceneName != SceneName.BOOT)
             {
                 return;
             }
 #endif
-            _container.Resolve<Coroutine>().StartCoroutine(LoadAndStartGameplayScene());
+            LoadAndStartMainMenuScene();
         }
 
-        private IEnumerator LoadAndStartGameplayScene()
+        private async void LoadAndStartMainMenuScene()
         {
             var uiRoot = _container.Resolve<UIRootView>();
-            var coroutine = _container.Resolve<Coroutine>();
-            
             uiRoot.ShowLoadingScreen();
 
-            coroutine.StartCoroutine(LoadSceneAsync(SceneName.BOOT));
-            coroutine.StartCoroutine(LoadSceneAsync(SceneName.GAMEPLAY));
+            await LoadSceneAsync(SceneName.BOOT);
+            await LoadSceneAsync(SceneName.MAIN_MENU);
+           
+            var entryPoint = Object.FindFirstObjectByType<MainMenuEntryPoint>();
+            entryPoint.Initialisation(_container);
+            
+            uiRoot.HideLoadingScreen();
+        }
 
-            yield return new WaitForSeconds(1);
+        private async void LoadAndStartGameplayScene()
+        {
+            var uiRoot = _container.Resolve<UIRootView>();
+            uiRoot.ShowLoadingScreen();
+
+            await LoadSceneAsync(SceneName.BOOT);
+            await LoadSceneAsync(SceneName.GAMEPLAY);
 
             var gameplay = Object.FindFirstObjectByType<GameplayEntryPoint>();
             gameplay.Initialisation(_container);
             
             uiRoot.HideLoadingScreen();
         }
-        
-        private IEnumerator LoadSceneAsync(string sceneName)
+
+        private UIRootView CreateUIRoot()
         {
-            yield return SceneManager.LoadSceneAsync(sceneName);
+            var prefabUIRoot = Resources.Load<UIRootView>("UIRoot");
+            var uiRoot = Object.Instantiate(prefabUIRoot);
+            Object.DontDestroyOnLoad(uiRoot.gameObject);
+            return uiRoot;
+        }
+
+        private void Subscribe()
+        {
+            _container
+                .Resolve<IReadOnlyEventBus>()
+                .StartGameplayScene
+                .AddListener(LoadAndStartGameplayScene);
+        }
+
+        private void RegisterUIRoot()
+        {
+            var uiRoot = CreateUIRoot();
+            _container.RegisterInstance(uiRoot);
+        }
+
+        private void RegisterEventBus()
+        {
+            var eventBus = new EventBus();
+            _container.RegisterInstance((ITriggerOnlyEventBus)eventBus);
+            _container.RegisterInstance((IReadOnlyEventBus)eventBus);
+        }
+
+        private void RegisterService()
+        {
+            _container.RegisterSingleton(c => new InputService());
+        }
+
+        private async UniTask LoadSceneAsync(string sceneName)
+        {
+            await SceneManager.LoadSceneAsync(sceneName);
         }
     }
 }

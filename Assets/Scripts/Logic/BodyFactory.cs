@@ -5,9 +5,9 @@ namespace Logic
 {
     public class BodyFactory
     {
-        public BodyGrid Create()
+        public BodyGrid Create(string nameBody = "Grid")
         {
-            return new GameObject("Grid").AddComponent<BodyGrid>();
+            return new GameObject(nameBody).AddComponent<BodyGrid>();
         }
     }
 }

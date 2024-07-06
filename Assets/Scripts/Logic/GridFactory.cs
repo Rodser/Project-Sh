@@ -1,6 +1,6 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using Config;
+using Cysharp.Threading.Tasks;
 using Model;
-using Rodser.Config;
 using UnityEngine;
 
 namespace Logic

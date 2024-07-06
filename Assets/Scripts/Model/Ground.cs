@@ -88,10 +88,10 @@ namespace Model
             var time = 0f;
             while (time < TimeMoving)
             {
-                if(transform == null)
-                    return;
-                
                 await UniTask.Yield();
+             
+                if(gameObject == null)
+                    return;
                 time += Time.deltaTime;
                 transform.position = Vector3.Lerp(transform.position, target, time);
             }
