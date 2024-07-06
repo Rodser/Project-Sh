@@ -35,7 +35,6 @@ namespace Shudder.MainMenu.Root
         private void InitializeServices()
         {
             _container.RegisterSingleton(c => new CameraService(Camera.main));
-            //_container.RegisterSingleton(c => new InputService());
         }
     }
 }

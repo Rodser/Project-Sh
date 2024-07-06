@@ -30,7 +30,6 @@ namespace Shudder.Gameplay.Root
             _container.RegisterSingleton("LevelGrid",c => 
                 new GridFactory(_gameConfig.LevelGridConfigs));
             _container.RegisterSingleton(c => new BodyFactory());
-
             _container.RegisterSingleton(c => 
                 new HeroFactory(_gameConfig.GetConfig<HeroConfig>(), _gameConfig.LevelGridConfigs));
             _container.RegisterSingleton(c => new LightFactory());
@@ -40,7 +39,6 @@ namespace Shudder.Gameplay.Root
         private void InitializeServices()
         {       
             _container.RegisterSingleton(c => new CameraService(Camera.main)); 
-            //_container.RegisterSingleton(c => new InputService());
             _container.RegisterSingleton(c => new HeroMoveService(_container));
         }
     }

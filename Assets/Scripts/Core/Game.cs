@@ -6,10 +6,8 @@ using Logic;
 using Model;
 using Shudder.Gameplay.Characters.Factoryes;
 using Shudder.Gameplay.Services;
-using Shudder.UI;
 using UI;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Core
 {

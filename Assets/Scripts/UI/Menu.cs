@@ -19,7 +19,7 @@ namespace UI
             StartButton.onClick.AddListener(goLevel);
             BackButton.onClick.AddListener(goBack);
             OptionButton.onClick.AddListener(goOption);
-            ExitButton.onClick.AddListener(Exit);
+            ExitButton.onClick.AddListener(ExitGame);
         }
 
         public void ActivateBackButton()
@@ -27,7 +27,7 @@ namespace UI
             BackButton.gameObject.SetActive(true);
         }
         
-        private void Exit()
+        private void ExitGame()
         {
 #if UNITY_EDITOR
             EditorApplication.ExitPlaymode();

@@ -18,18 +18,14 @@ namespace Shudder.Root
         public GameEntryPoint()
         {
             _container = new DIContainer();
-            _container.RegisterSingleton(c => new InputService());
             
-            var eventBus = new EventBus();
-            _container.RegisterInstance(eventBus);
-            _container.RegisterInstance((IReadOnlyEventBus)eventBus);
-            
-            var uiRoot = CreateUIRoot();
-            _container.RegisterInstance(uiRoot);
+            RegisterService();
+            RegisterEventBus();
+            RegisterUIRoot();
 
-            _container.Resolve<IReadOnlyEventBus>().StartGameplayScene.AddListener(LoadAndStartGameplayScene);
+            Subscribe();
         }
-            
+
         public void RunGame()
         {
 #if UNITY_EDITOR
@@ -52,7 +48,7 @@ namespace Shudder.Root
 #endif
             LoadAndStartMainMenuScene();
         }
-        
+
         private async void LoadAndStartMainMenuScene()
         {
             var uiRoot = _container.Resolve<UIRootView>();
@@ -66,7 +62,7 @@ namespace Shudder.Root
             
             uiRoot.HideLoadingScreen();
         }
-        
+
         private async void LoadAndStartGameplayScene()
         {
             var uiRoot = _container.Resolve<UIRootView>();
@@ -80,7 +76,7 @@ namespace Shudder.Root
             
             uiRoot.HideLoadingScreen();
         }
-        
+
         private UIRootView CreateUIRoot()
         {
             var prefabUIRoot = Resources.Load<UIRootView>("UIRoot");
@@ -88,7 +84,33 @@ namespace Shudder.Root
             Object.DontDestroyOnLoad(uiRoot.gameObject);
             return uiRoot;
         }
-        
+
+        private void Subscribe()
+        {
+            _container
+                .Resolve<IReadOnlyEventBus>()
+                .StartGameplayScene
+                .AddListener(LoadAndStartGameplayScene);
+        }
+
+        private void RegisterUIRoot()
+        {
+            var uiRoot = CreateUIRoot();
+            _container.RegisterInstance(uiRoot);
+        }
+
+        private void RegisterEventBus()
+        {
+            var eventBus = new EventBus();
+            _container.RegisterInstance((ITriggerOnlyEventBus)eventBus);
+            _container.RegisterInstance((IReadOnlyEventBus)eventBus);
+        }
+
+        private void RegisterService()
+        {
+            _container.RegisterSingleton(c => new InputService());
+        }
+
         private async UniTask LoadSceneAsync(string sceneName)
         {
             await SceneManager.LoadSceneAsync(sceneName);

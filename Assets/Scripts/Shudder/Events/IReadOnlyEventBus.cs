@@ -4,7 +4,8 @@ namespace Shudder.Events
 {
     public interface IReadOnlyEventBus
     {
-        public UnityEvent StartGameplayScene { get; }
-
+        UnityEvent StartGameplayScene { get; }
+        UnityEvent FlyCamera { get; }
+        UnityEvent ExitGame { get; }
     }
 }
