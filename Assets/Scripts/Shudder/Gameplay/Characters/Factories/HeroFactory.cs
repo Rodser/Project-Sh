@@ -12,16 +12,16 @@ namespace Shudder.Gameplay.Characters.Factories
     {
         private readonly DIContainer _container;
         private readonly HeroConfig _heroConfig;
-        private readonly HexogenGridConfig[] _hexGridConfigs;
+        private readonly Indicator _selectIndicator;
 
-        public HeroFactory(DIContainer container, HeroConfig heroConfig, HexogenGridConfig[] hexGridConfigs)
+        public HeroFactory(DIContainer container, GameConfig gameConfig)
         {
             _container = container;
-            _heroConfig = heroConfig;
-            _hexGridConfigs = hexGridConfigs;
+            _heroConfig = gameConfig.GetConfig<HeroConfig>();
+            _selectIndicator = gameConfig.SelectIndicator;
         }
         
-        public Hero Create(Ground[,] grounds, int level, GameObject parent)
+        public Hero Create(Ground[,] grounds)
         {
             var ground = grounds[_heroConfig.StartPositionX, _heroConfig.StartPositionY];
             var position = ground.AnchorPoint.position;
@@ -33,7 +33,7 @@ namespace Shudder.Gameplay.Characters.Factories
             
             var heroView = Object.Instantiate(_heroConfig.Prefab, position, Quaternion.identity, ground.AnchorPoint);
             heroView.Construct(_container, hero);
-            hero.ChangeGround(ground);
+            hero.ChangeGround(ground, _selectIndicator);
             hero.ChangePosition(ground.AnchorPoint.position);
             return hero;
         }

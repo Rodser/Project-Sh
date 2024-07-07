@@ -35,11 +35,14 @@ namespace Shudder.Gameplay.Characters.Models
             triggerEventBus.TriggerChangeHeroPosition(position);
         }
 
-        public void ChangeGround(Ground ground)
+        public void ChangeGround(Ground ground, Indicator prefab)
         {
+            CurrentGround?.RemoveSelectIndicators();
             CurrentGround = ground;
             var triggerEventBus = _container.Resolve<ITriggerOnlyEventBus>();
             triggerEventBus.TriggerChangeHeroParentGround(ground.AnchorPoint);
+            
+            CurrentGround.CreateSelectIndicators(prefab);
         }
     }
 }

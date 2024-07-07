@@ -13,10 +13,8 @@ MonoBehaviour:
   m_Name: Game
   m_EditorClassIdentifier: 
   <Configs>k__BackingField:
-  - {fileID: 11400000, guid: 738987c2cbd3a4e4bb367f785fa0285e, type: 2}
   - {fileID: 11400000, guid: d855ac658bf66f04f9055f7ff8c20aa3, type: 2}
   - {fileID: 11400000, guid: 2650cb6d634136e48907e8fa4404b2bd, type: 2}
-  - {fileID: 11400000, guid: a8527acd33d9fd449b441896abf93678, type: 2}
   - {fileID: 11400000, guid: 570f02cb10b8e824a94b7040eb77cd38, type: 2}
   <LevelGridConfigs>k__BackingField:
   - {fileID: 11400000, guid: f911fbc3b8cf4df4c9ae7e3a42a30137, type: 2}
@@ -25,9 +23,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 73554acfbcc9cf547bff0e7b76bff2d3, type: 2}
   - {fileID: 11400000, guid: ee2021cefff70ed4e9e5a761f373c5bb, type: 2}
   - {fileID: 11400000, guid: bb8778a7f189b4d45994e03f8daae730, type: 2}
-  <Title>k__BackingField: {fileID: 8800412636015804918, guid: 131d9b6dd25eabe4dbaaa31bbbfc29f7,
+  <SelectIndicator>k__BackingField: {fileID: 8478324856384917096, guid: 978788be5a66a15478b5464689a0440a,
     type: 3}
   <Light>k__BackingField: {fileID: 5979298048210950428, guid: 33147493b382dfc4cb7f1452f91c74b5,
-    type: 3}
-  <UserInterface>k__BackingField: {fileID: 45827344354813724, guid: 6013984cadfc7d74f903d9820fbb28a5,
     type: 3}
