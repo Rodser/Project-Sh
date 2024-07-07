@@ -1,21 +1,36 @@
+using DI;
+using Model;
+using Shudder.Events;
+using UnityEngine;
+
 namespace Shudder.Gameplay.Characters.Models
 {
     public class Hero
     {
-        public bool AtHole { get; set; }
-        public float Speed { get; private set;}
-        public int Health { get; private set;}
+        private readonly DIContainer _container;
 
-        public Hero(int health, float speed)
+        public Hero(DIContainer container, float speed)
         {
-            Health = health;
+            _container = container;
             Speed = speed;
             AtHole = false;
         }
-        
+
+        public bool AtHole { get; set; }
+        public float Speed { get; private set;}
+        public int Health { get; set;}
+        public Ground CurrentGround { get; set; }
+
         public void Damage()
         {
             Health--;
+        }
+
+        public void Move(Vector3 position)
+        {
+            Debug.Log($"Hero Move position {position}");
+            var triggerEventBus = _container.Resolve<ITriggerOnlyEventBus>();
+            triggerEventBus.ChangeHeroPosition(position);
         }
     }
 }

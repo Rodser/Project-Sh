@@ -12,7 +12,7 @@ namespace Shudder.Gameplay.Root
         public int CurrentLevel { get; set; }
         public Camera Camera { get; set; }
         public BodyGrid Body { get; set; }
-        public HeroView HeroView { get; set; }
+        public Vector3 HeroPosition { get; set; }
 
         public Game(DIContainer container)
         {
@@ -35,7 +35,7 @@ namespace Shudder.Gameplay.Root
         private async void FlyCameraAndStartGameplayAsync()
         {
             var cameraService = _container.Resolve<CameraService>();
-            var position = HeroView.transform.position;
+            var position = HeroPosition;
             position.y += 10;
             await cameraService.MoveCameraAsync(position);
             

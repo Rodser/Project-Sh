@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Shudder.Events
@@ -7,6 +8,7 @@ namespace Shudder.Events
         public UnityEvent StartGameplayScene { get; } = new();
         public UnityEvent FlyCamera { get; } = new();
         public UnityEvent ExitGame { get; } = new();
+        public UnityEvent<Vector3> ChangeHeroPosition { get; } = new();
 
         public void TriggerStartGameplayScene()
         {
@@ -21,6 +23,11 @@ namespace Shudder.Events
         public void TriggerExitGame()
         {
             ExitGame?.Invoke();
+        }
+
+        void ITriggerOnlyEventBus.ChangeHeroPosition(Vector3 position)
+        {
+            ChangeHeroPosition?.Invoke(position);
         }
     }
 }

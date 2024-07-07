@@ -45,13 +45,13 @@ namespace Shudder.Gameplay.Factories
                 .Resolve<GridFactory>("LevelGrid")
                 .Create(level, _game.Body.transform);
 
-            var heroView = _container
+            var hero = _container
                 .Resolve<HeroFactory>()
-                .Create(currentGrid.OffsetPosition, level, _game.Body.gameObject);
+                .Create(currentGrid.Grounds, level, _game.Body.gameObject);
             
             var moveService = _container.Resolve<HeroMoveService>();
-            moveService.Subscribe(heroView);
-            _game.HeroView = heroView; //TODO: dadly
+            moveService.Subscribe(hero);
+            _game.HeroPosition = hero.CurrentGround.transform.position; //TODO: dadly
             _game.Run();
         }
     }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DI;
 using Model;
+using Shudder.Gameplay.Characters.Models;
 using Shudder.Gameplay.Characters.Views;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,16 +11,16 @@ namespace Shudder.Gameplay.Services
     public class HeroMoveService
     {
         private readonly DIContainer _container;
-        private HeroView _heroView;
+        private Hero _hero;
 
         public HeroMoveService(DIContainer container)
         {
             _container = container;
         }
 
-        public void Subscribe(HeroView heroView)
+        public void Subscribe(Hero hero)
         {
-            _heroView = heroView;
+            _hero = hero;
             _container.Resolve<InputService>().AddListener(Move);
         }
         
@@ -30,26 +31,30 @@ namespace Shudder.Gameplay.Services
             var origin = _container.Resolve<CameraService>().Camera.ScreenPointToRay(position);
 
             Physics.Raycast(origin, out RaycastHit hit);
-            var ground = hit.collider.GetComponentInParent<Ground>();
+            var selectGround = hit.collider.GetComponentInParent<Ground>();
 
-            if (ground == null)
+            if (selectGround == null)
                 return;
-            if (!ground.Raised)
+            if (!selectGround.Raised)
                 return;
 
-            List<Vector2> shifteds = new List<Vector2>();
-            ground.SwapWaveAsync(shifteds);
+            foreach (Ground groundNeighbor in _hero.CurrentGround.Neighbors)
+            {
+                if (selectGround.Id == groundNeighbor.Id)
+                {
+                    MoveToTarget(selectGround.transform.position);
+                    _hero.CurrentGround = selectGround;
 
-            MoveToTarget(ground.transform.position);
+                    selectGround.SwapWaveAsync(new List<Vector2>());
+                }
+            }
         }
 
         private void MoveToTarget(Vector3 position)
         {
-            if(_heroView.gameObject == null)
-                Object.Destroy(_heroView.gameObject);
-            
-            var force = position - _heroView.transform.position;
-            _heroView.Rigidbody.AddForce(force.normalized * _heroView.Hero.Speed, ForceMode.Impulse);
+            position.y += 0.5f;
+
+            _hero.Move(position);
         }
     }
 }

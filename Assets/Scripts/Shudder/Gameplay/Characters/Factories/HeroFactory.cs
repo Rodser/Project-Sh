@@ -1,4 +1,6 @@
 using Config;
+using DI;
+using Model;
 using Shudder.Gameplay.Characters.Configs;
 using Shudder.Gameplay.Characters.Models;
 using Shudder.Gameplay.Characters.Views;
@@ -8,33 +10,32 @@ namespace Shudder.Gameplay.Characters.Factories
 {
     public class HeroFactory
     {
+        private readonly DIContainer _container;
         private readonly HeroConfig _heroConfig;
         private readonly HexogenGridConfig[] _hexGridConfigs;
 
-        public HeroFactory(HeroConfig heroConfig, HexogenGridConfig[] hexGridConfigs)
+        public HeroFactory(DIContainer container, HeroConfig heroConfig, HexogenGridConfig[] hexGridConfigs)
         {
+            _container = container;
             _heroConfig = heroConfig;
             _hexGridConfigs = hexGridConfigs;
         }
-
-        public HeroView Create(Vector3 offsetPosition, int level, GameObject parent)
+        
+        public Hero Create(Ground[,] grounds, int level, GameObject parent)
         {
-            var position = GetStartPosition(level) + offsetPosition;
-
-            var hero = new Hero(3, _heroConfig.SpeedMove);
-            var heroView = Object.Instantiate(_heroConfig.Prefab, position, Quaternion.identity, parent.transform);
-            heroView.Construct(hero);
-            return heroView;
-        }
-
-        private Vector3 GetStartPosition(int level)
-        {
-            var hexGridConfig = _hexGridConfigs[level];
-            float x = _heroConfig.StartPositionX * hexGridConfig.SpaceBetweenCells;
-            float y = _heroConfig.StartPositionY - 2;
-            float z = _heroConfig.StartPositionZ * hexGridConfig.SpaceBetweenCells;
+            var ground = grounds[_heroConfig.StartPositionX, _heroConfig.StartPositionY];
+            var position = ground.transform.position;
+            position.y += 0.5f;
             
-            return new Vector3(x, y, z);
+            var hero = new Hero(_container, _heroConfig.SpeedMove)
+            {
+                Health = 3,
+                CurrentGround = ground
+            };
+            
+            var heroView = Object.Instantiate(_heroConfig.Prefab, position, Quaternion.identity, parent.transform);
+            heroView.Construct(_container, hero);
+            return hero;
         }
     }
 }

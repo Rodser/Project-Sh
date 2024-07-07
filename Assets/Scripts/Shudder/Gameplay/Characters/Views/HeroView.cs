@@ -1,4 +1,6 @@
+using DI;
 using Model;
+using Shudder.Events;
 using Shudder.Gameplay.Characters.Models;
 using UnityEngine;
 
@@ -18,11 +20,18 @@ namespace Shudder.Gameplay.Characters.Views
             Rigidbody = GetComponent<Rigidbody>();
         }
 
-        public void Construct(Hero hero)
+        public void Construct(DIContainer container, Hero hero)
         {
             Hero = hero;
+            container.Resolve<IReadOnlyEventBus>().ChangeHeroPosition.AddListener(OnChangePosition);
         }
-        
+
+        private void OnChangePosition(Vector3 position)
+        {
+            Debug.Log("On change position in heroView");
+            transform.position = position;
+        }
+
         private void ResetBallPosition()
         {
             Hero.Damage();

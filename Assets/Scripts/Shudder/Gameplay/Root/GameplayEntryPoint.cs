@@ -32,7 +32,7 @@ namespace Shudder.Gameplay.Root
                 new GridFactory(_gameConfig.LevelGridConfigs));
             _container.RegisterSingleton(c => new BodyFactory());
             _container.RegisterSingleton(c => 
-                new HeroFactory(_gameConfig.GetConfig<HeroConfig>(), _gameConfig.LevelGridConfigs));
+                new HeroFactory(_container, _gameConfig.GetConfig<HeroConfig>(), _gameConfig.LevelGridConfigs));
             _container.RegisterSingleton(c => new LightFactory());
             _container.RegisterSingleton(c => new SoundFactory(_gameConfig.GetConfig<SFXConfig>()));
         }
