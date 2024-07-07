@@ -7,7 +7,7 @@ namespace Model
 {
     public class Ground : MonoBehaviour
     {
-        [SerializeField] private Transform _vfxTransform = null;
+        [SerializeField] private Transform _anchorPoint = null;
         [SerializeField] private GameObject _top = null;
         [SerializeField] private Color[] _colors;
 
@@ -21,6 +21,7 @@ namespace Model
         public GroundType GroundType { get; private set; }
         public bool Raised { get; private set; }
         public List<Ground> Neighbors { get; private set; }
+        public Transform AnchorPoint => _anchorPoint;
 
         public void Lift(float offset)
         {
@@ -126,7 +127,7 @@ namespace Model
 
         private void CreateVFX(VisualEffect vfx)
         {
-            Instantiate(vfx, _vfxTransform);
+            Instantiate(vfx, AnchorPoint);
         }
     }
 }

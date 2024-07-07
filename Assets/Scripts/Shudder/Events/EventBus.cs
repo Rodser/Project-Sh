@@ -9,6 +9,7 @@ namespace Shudder.Events
         public UnityEvent FlyCamera { get; } = new();
         public UnityEvent ExitGame { get; } = new();
         public UnityEvent<Vector3> ChangeHeroPosition { get; } = new();
+        public UnityEvent<Transform> ChangeHeroParentGround { get; } = new();
 
         public void TriggerStartGameplayScene()
         {
@@ -25,9 +26,14 @@ namespace Shudder.Events
             ExitGame?.Invoke();
         }
 
-        void ITriggerOnlyEventBus.ChangeHeroPosition(Vector3 position)
+        public void TriggerChangeHeroPosition(Vector3 position)
         {
             ChangeHeroPosition?.Invoke(position);
+        }
+
+        public void TriggerChangeHeroParentGround(Transform parent)
+        {
+            ChangeHeroParentGround?.Invoke(parent);
         }
     }
 }

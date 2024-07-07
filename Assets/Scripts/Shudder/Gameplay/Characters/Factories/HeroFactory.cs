@@ -24,17 +24,17 @@ namespace Shudder.Gameplay.Characters.Factories
         public Hero Create(Ground[,] grounds, int level, GameObject parent)
         {
             var ground = grounds[_heroConfig.StartPositionX, _heroConfig.StartPositionY];
-            var position = ground.transform.position;
-            position.y += 0.5f;
-            
+            var position = ground.AnchorPoint.position;
+
             var hero = new Hero(_container, _heroConfig.SpeedMove)
             {
                 Health = 3,
-                CurrentGround = ground
             };
             
-            var heroView = Object.Instantiate(_heroConfig.Prefab, position, Quaternion.identity, parent.transform);
+            var heroView = Object.Instantiate(_heroConfig.Prefab, position, Quaternion.identity, ground.AnchorPoint);
             heroView.Construct(_container, hero);
+            hero.ChangeGround(ground);
+            hero.ChangePosition(ground.AnchorPoint.position);
             return hero;
         }
     }

@@ -24,6 +24,12 @@ namespace Shudder.Gameplay.Characters.Views
         {
             Hero = hero;
             container.Resolve<IReadOnlyEventBus>().ChangeHeroPosition.AddListener(OnChangePosition);
+            container.Resolve<IReadOnlyEventBus>().ChangeHeroParentGround.AddListener(OnChangeParent);
+        }
+
+        private void OnChangeParent(Transform parent)
+        {
+            transform.SetParent(parent);
         }
 
         private void OnChangePosition(Vector3 position)

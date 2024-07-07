@@ -9,5 +9,6 @@ namespace Shudder.Events
         UnityEvent FlyCamera { get; }
         UnityEvent ExitGame { get; }
         UnityEvent<Vector3> ChangeHeroPosition { get; }
+        UnityEvent<Transform> ChangeHeroParentGround { get; }
     }
 }

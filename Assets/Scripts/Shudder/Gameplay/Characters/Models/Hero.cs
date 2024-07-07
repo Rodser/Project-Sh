@@ -19,18 +19,27 @@ namespace Shudder.Gameplay.Characters.Models
         public bool AtHole { get; set; }
         public float Speed { get; private set;}
         public int Health { get; set;}
-        public Ground CurrentGround { get; set; }
+        public Ground CurrentGround { get; private set; }
+        public Vector3 Position { get; private set; }
 
         public void Damage()
         {
             Health--;
         }
 
-        public void Move(Vector3 position)
+        public void ChangePosition(Vector3 position)
         {
             Debug.Log($"Hero Move position {position}");
+            Position = position;
             var triggerEventBus = _container.Resolve<ITriggerOnlyEventBus>();
-            triggerEventBus.ChangeHeroPosition(position);
+            triggerEventBus.TriggerChangeHeroPosition(position);
+        }
+
+        public void ChangeGround(Ground ground)
+        {
+            CurrentGround = ground;
+            var triggerEventBus = _container.Resolve<ITriggerOnlyEventBus>();
+            triggerEventBus.TriggerChangeHeroParentGround(ground.AnchorPoint);
         }
     }
 }

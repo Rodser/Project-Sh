@@ -35,6 +35,7 @@ Transform:
   - {fileID: 6302511970387881155}
   - {fileID: 6980228731146181906}
   - {fileID: 7517371006497701347}
+  - {fileID: 5813916728711142578}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1212152755492316714
@@ -49,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f115716d32b06dd45853d3f810697cad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vfxTransform: {fileID: 7700589315242368487}
+  _anchorPoint: {fileID: 5813916728711142578}
   _top: {fileID: 0}
   _colors: []
 --- !u!65 &2771338252187334646
@@ -131,6 +132,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -156,6 +160,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3576455174089827452
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5813916728711142578}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5813916728711142578
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3576455174089827452}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4091148295487791929}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5891604622182366630
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,32 +248,32 @@ PrefabInstance:
     - target: {fileID: 582666032555565856, guid: 9bf65535d71b83847939d7ea9a51d713,
         type: 3}
       propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Value.x
-      value: 0.4417663
-      objectReference: {fileID: 0}
-    - target: {fileID: 582666032555565856, guid: 9bf65535d71b83847939d7ea9a51d713,
-        type: 3}
-      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Value.y
-      value: 0.40408188
-      objectReference: {fileID: 0}
-    - target: {fileID: 582666032555565856, guid: 9bf65535d71b83847939d7ea9a51d713,
-        type: 3}
-      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Value.z
       value: 1.6226416
       objectReference: {fileID: 0}
     - target: {fileID: 582666032555565856, guid: 9bf65535d71b83847939d7ea9a51d713,
         type: 3}
+      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Value.y
+      value: 0.6186393
+      objectReference: {fileID: 0}
+    - target: {fileID: 582666032555565856, guid: 9bf65535d71b83847939d7ea9a51d713,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Value.z
+      value: 0.40778422
+      objectReference: {fileID: 0}
+    - target: {fileID: 582666032555565856, guid: 9bf65535d71b83847939d7ea9a51d713,
+        type: 3}
       propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[1].m_Value.x
-      value: 0.19065136
+      value: 1.924671
       objectReference: {fileID: 0}
     - target: {fileID: 582666032555565856, guid: 9bf65535d71b83847939d7ea9a51d713,
         type: 3}
       propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[1].m_Value.y
-      value: 1.9246709
+      value: 1.1261201
       objectReference: {fileID: 0}
     - target: {fileID: 582666032555565856, guid: 9bf65535d71b83847939d7ea9a51d713,
         type: 3}
       propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[1].m_Value.z
-      value: 1.0405706
+      value: 0.19145945
       objectReference: {fileID: 0}
     - target: {fileID: 582666032555565856, guid: 9bf65535d71b83847939d7ea9a51d713,
         type: 3}
@@ -396,13 +431,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4303946886966207735, guid: bb6305492546d7f43b3b58bd914a8ab0,
         type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Value
+      value: 0.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 4303946886966207735, guid: bb6305492546d7f43b3b58bd914a8ab0,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[1].m_Value
+      value: 0.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 4303946886966207735, guid: bb6305492546d7f43b3b58bd914a8ab0,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector2f.m_Array.Array.data[0].m_Value.y
+      value: 0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 4303946886966207735, guid: bb6305492546d7f43b3b58bd914a8ab0,
+        type: 3}
       propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Value.x
-      value: 0.07664484
+      value: 0.6960268
       objectReference: {fileID: 0}
     - target: {fileID: 4303946886966207735, guid: bb6305492546d7f43b3b58bd914a8ab0,
         type: 3}
       propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Value.y
-      value: 2.0789912
+      value: 0.08321584
       objectReference: {fileID: 0}
     - target: {fileID: 4303946886966207735, guid: bb6305492546d7f43b3b58bd914a8ab0,
         type: 3}
