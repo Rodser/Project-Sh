@@ -60,7 +60,7 @@ namespace Shudder.Gameplay.Factories
             
             var moveService = _container.Resolve<HeroMoveService>();
             moveService.Subscribe(hero);
-            _game.HeroPosition = hero.CurrentGround.AnchorPoint.position; //TODO: dadly
+            _game.HeroPosition = hero.CurrentGround.AnchorPoint.position;
             _game.Run();
         }
     }

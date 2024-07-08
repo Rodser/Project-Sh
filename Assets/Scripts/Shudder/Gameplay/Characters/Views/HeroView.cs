@@ -72,7 +72,7 @@ namespace Shudder.Gameplay.Characters.Views
 
         private async void RunNewLevel()
         {
-            await UniTask.Delay(1000);
+            await UniTask.Delay(500);
             _triggerEventBus.TriggerVictory();
         }
     }

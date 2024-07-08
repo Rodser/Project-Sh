@@ -2,7 +2,6 @@ using Config;
 using Core;
 using DI;
 using Logic;
-using Shudder.Gameplay.Characters.Configs;
 using Shudder.Gameplay.Characters.Factories;
 using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Services;
@@ -37,8 +36,9 @@ namespace Shudder.Gameplay.Root
         }
 
         private void InitializeServices()
-        {       
+        {      
             _container.RegisterSingleton(c => new CameraService(Camera.main)); 
+            _container.RegisterSingleton(c => new CameraSurveillanceService(_container, Camera.main));
             _container.RegisterSingleton(c => new HeroMoveService(_container, _gameConfig.SelectIndicator));
             _container.RegisterSingleton(c=> new CheckingPossibilityOfJumpService());
         }

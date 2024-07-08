@@ -21,6 +21,7 @@ namespace Shudder.Gameplay.Root
         public void Run()
         {
             FlyCameraAndStartGameplayAsync();
+            _container.Resolve<CameraSurveillanceService>().Follow();
         }
 
         public void DieBody()
