@@ -29,7 +29,6 @@ namespace Shudder.Gameplay.Characters.Models
 
         public void ChangePosition(Vector3 position)
         {
-            Debug.Log($"Hero Move position {position}");
             Position = position;
             var triggerEventBus = _container.Resolve<ITriggerOnlyEventBus>();
             triggerEventBus.TriggerChangeHeroPosition(position);

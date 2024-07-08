@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using DI;
 using Model;
 using Shudder.Events;
@@ -10,8 +11,9 @@ namespace Shudder.Gameplay.Characters.Views
     public class HeroView : MonoBehaviour
     {
         private Vector3 _startPosition;
+        private ITriggerOnlyEventBus _triggerEventBus;
+
         public Hero Hero;
-        
         public Rigidbody Rigidbody { get; private set; }
 
         private void Start()
@@ -23,6 +25,7 @@ namespace Shudder.Gameplay.Characters.Views
         public void Construct(DIContainer container, Hero hero)
         {
             Hero = hero;
+            _triggerEventBus = container.Resolve<ITriggerOnlyEventBus>();
             container.Resolve<IReadOnlyEventBus>().ChangeHeroPosition.AddListener(OnChangePosition);
             container.Resolve<IReadOnlyEventBus>().ChangeHeroParentGround.AddListener(OnChangeParent);
         }
@@ -34,7 +37,6 @@ namespace Shudder.Gameplay.Characters.Views
 
         private void OnChangePosition(Vector3 position)
         {
-            Debug.Log("On change position in heroView");
             transform.position = position;
         }
 
@@ -56,7 +58,7 @@ namespace Shudder.Gameplay.Characters.Views
                 case GroundType.Hole:
                     Hero.AtHole = true;
                     Debug.Log("Victory");
-                    Destroy(gameObject, 1000);
+                    RunNewLevel();
                     break;
                 case GroundType.Pit when Hero.Health > 0:
                     ResetBallPosition();
@@ -66,6 +68,12 @@ namespace Shudder.Gameplay.Characters.Views
                     Debug.Log("Looser");
                     break;
             }
+        }
+
+        private async void RunNewLevel()
+        {
+            await UniTask.Delay(1000);
+            _triggerEventBus.TriggerVictory();
         }
     }
 }

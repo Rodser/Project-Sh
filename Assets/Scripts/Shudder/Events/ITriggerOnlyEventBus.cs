@@ -9,5 +9,6 @@ namespace Shudder.Events
         void TriggerExitGame();
         void TriggerChangeHeroPosition(Vector3 position);
         void TriggerChangeHeroParentGround(Transform parent);
+        void TriggerVictory();
     }
 }

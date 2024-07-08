@@ -32,16 +32,16 @@ namespace Shudder.Gameplay.Services
         
         private async void Move(InputAction.CallbackContext callback)
         {
-            if(!TryGetSelectGround(out Ground selectGround))
-                return;
-
-            foreach (var groundNeighbor in _hero.CurrentGround.Neighbors
-                         .Where(g => g.Id == selectGround.Id))
+            if (TryGetSelectGround(out var selectGround))
             {
-                await MoveToTarget(groundNeighbor.AnchorPoint.position);
-                _hero.ChangeGround(groundNeighbor, _selectIndicator);
-                
-                groundNeighbor.SwapWaveAsync(new List<Vector2>(), SwapLimit);
+                foreach (var groundNeighbor in _hero.CurrentGround.Neighbors
+                             .Where(g => g.Id == selectGround.Id))
+                {
+                    await MoveToTarget(groundNeighbor.AnchorPoint.position);
+                    _hero.ChangeGround(groundNeighbor, _selectIndicator);
+
+                    groundNeighbor.SwapWaveAsync(new List<Vector2>(), SwapLimit);
+                }
             }
         }
 
@@ -56,40 +56,12 @@ namespace Shudder.Gameplay.Services
 
             if (selectGround == null)
                 return false;
-            if (!CheckGroundType(selectGround))
-                return false;
             
-            return true;
+            return _container
+                .Resolve<CheckingPossibilityOfJumpService>()
+                .CheckPossible(selectGround.GroundType, _hero.CurrentGround.GroundType);
         }
-
-        private bool CheckGroundType(Ground ground)
-        {
-            Debug.Log($"{ground.GroundType}");
-
-            if (ground.GroundType == GroundType.TileHigh)
-            {
-                switch (_hero.CurrentGround.GroundType)
-                {
-                    case GroundType.TileHigh:
-                    case GroundType.TileMedium:
-                    case GroundType.Hole:
-                        return true;
-                }
-            }
-            else if (ground.GroundType == GroundType.TileLow)
-            {
-                switch (_hero.CurrentGround.GroundType)
-                {
-                    case GroundType.TileLow:
-                    case GroundType.TileMedium:
-                    case GroundType.Hole:
-                        return true;
-                }
-            }
-
-            return ground.GroundType == GroundType.TileMedium;
-        }
-        
+      
         private async UniTask MoveToTarget(Vector3 targetPosition)
         {
             var deviation = Vector3.Lerp(_hero.Position, targetPosition, 0.4f);

@@ -2,10 +2,12 @@ using Config;
 using Cysharp.Threading.Tasks;
 using DI;
 using Logic;
+using Shudder.Events;
 using Shudder.Gameplay.Characters.Factories;
 using Shudder.Gameplay.Root;
 using Shudder.Gameplay.Services;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Shudder.Gameplay.Factories
 {
@@ -19,6 +21,13 @@ namespace Shudder.Gameplay.Factories
         {
             _container = container;
             _gameConfig = gameConfig;
+            container.Resolve<IReadOnlyEventBus>().HasVictory.AddListener(OnHasVictory);
+        }
+
+        private async void OnHasVictory()
+        {
+            await UniTask.Delay(500);
+            await LoadLevelAsync(++_game.CurrentLevel);
         }
 
         public async void Create()
@@ -51,7 +60,7 @@ namespace Shudder.Gameplay.Factories
             
             var moveService = _container.Resolve<HeroMoveService>();
             moveService.Subscribe(hero);
-            _game.HeroPosition = hero.CurrentGround.transform.position; //TODO: dadly
+            _game.HeroPosition = hero.CurrentGround.AnchorPoint.position; //TODO: dadly
             _game.Run();
         }
     }

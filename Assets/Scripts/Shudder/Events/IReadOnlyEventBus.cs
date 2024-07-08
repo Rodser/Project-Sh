@@ -10,5 +10,6 @@ namespace Shudder.Events
         UnityEvent ExitGame { get; }
         UnityEvent<Vector3> ChangeHeroPosition { get; }
         UnityEvent<Transform> ChangeHeroParentGround { get; }
+        UnityEvent HasVictory { get; }
     }
 }

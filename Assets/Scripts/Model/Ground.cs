@@ -50,6 +50,7 @@ namespace Model
             
             foreach (Ground neighbor in Neighbors)
             {
+                // if (jump is possible) 
                 _boxSelectIndicators.Add(Instantiate(prefab, neighbor.AnchorPoint));
             }
         }
@@ -58,7 +59,7 @@ namespace Model
         {
             foreach (Indicator indicator in _boxSelectIndicators)
             {
-                Destroy(indicator);
+                Destroy(indicator.gameObject);
             }
 
             _boxSelectIndicators = null;
@@ -103,7 +104,7 @@ namespace Model
 
         private async void MoveAsync()
         {
-            if(gameObject == null)
+            if(!gameObject)
                 return;
             
             var target = transform.position;

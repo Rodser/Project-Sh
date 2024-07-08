@@ -1,6 +1,5 @@
 using Core;
 using DI;
-using Shudder.Gameplay.Characters.Views;
 using Shudder.Gameplay.Services;
 using UnityEngine;
 
@@ -38,19 +37,6 @@ namespace Shudder.Gameplay.Root
             var position = HeroPosition;
             position.y += 10;
             await cameraService.MoveCameraAsync(position);
-            
-            // _triggerEventBus.TriggerStartGameplayScene();
-        }
-        
-        private void OnNotify(bool isVictory)
-        {
-            //if (!isVictory)
-                return;
-
-            //_coinSystem.Change();
-                                    
-           // if(_currentLevel + 1 < _gameConfig.LevelGridConfigs.Length)
-             //   _currentLevel++;
         }
     }
 }

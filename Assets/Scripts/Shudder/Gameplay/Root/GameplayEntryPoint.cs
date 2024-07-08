@@ -40,6 +40,7 @@ namespace Shudder.Gameplay.Root
         {       
             _container.RegisterSingleton(c => new CameraService(Camera.main)); 
             _container.RegisterSingleton(c => new HeroMoveService(_container, _gameConfig.SelectIndicator));
+            _container.RegisterSingleton(c=> new CheckingPossibilityOfJumpService());
         }
     }
 }

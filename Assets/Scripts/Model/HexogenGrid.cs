@@ -156,7 +156,7 @@ namespace Model
 
         private void FindNeighbors(int x, int y, List<Ground> neighbors)
         {
-            if (y % 2 == 0)
+            if (y % 2 != 0)
             {
                 if (x - 1 >= 0)
                 {
