@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using Shudder.Gameplay.Models;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -17,7 +18,6 @@ namespace Model
         private float _height = 0;
         private float _offset;
         private Material _topMaterial;
-        private List<Indicator> _boxSelectIndicators;
 
         public Vector2 Id { get; private set; }
         public GroundType GroundType { get; private set; }
@@ -44,27 +44,6 @@ namespace Model
             Neighbors = neighbors;
         }
         
-        public void CreateSelectIndicators(Indicator prefab)
-        {
-            _boxSelectIndicators = new List<Indicator>();
-            
-            foreach (Ground neighbor in Neighbors)
-            {
-                // if (jump is possible) 
-                _boxSelectIndicators.Add(Instantiate(prefab, neighbor.AnchorPoint));
-            }
-        }
-        
-        public void RemoveSelectIndicators()
-        {
-            foreach (Indicator indicator in _boxSelectIndicators)
-            {
-                Destroy(indicator.gameObject);
-            }
-
-            _boxSelectIndicators = null;
-        }
-        
         internal async void SwapWaveAsync(List<Vector2> shifteds, int swapLimit)
         {
             if(swapLimit <= 0)
@@ -81,6 +60,7 @@ namespace Model
             {
                 ground.SwapWaveAsync(shifteds, --swapLimit);
             }
+            // Create indicators
         }
 
         private void Lift()

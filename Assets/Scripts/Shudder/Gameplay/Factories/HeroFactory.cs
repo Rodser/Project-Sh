@@ -1,24 +1,21 @@
 using Config;
 using DI;
 using Model;
-using Shudder.Gameplay.Characters.Configs;
-using Shudder.Gameplay.Characters.Models;
-using Shudder.Gameplay.Characters.Views;
+using Shudder.Gameplay.Configs;
+using Shudder.Gameplay.Models;
 using UnityEngine;
 
-namespace Shudder.Gameplay.Characters.Factories
+namespace Shudder.Gameplay.Factories
 {
     public class HeroFactory
     {
         private readonly DIContainer _container;
         private readonly HeroConfig _heroConfig;
-        private readonly Indicator _selectIndicator;
 
         public HeroFactory(DIContainer container, GameConfig gameConfig)
         {
             _container = container;
             _heroConfig = gameConfig.GetConfig<HeroConfig>();
-            _selectIndicator = gameConfig.SelectIndicator;
         }
         
         public Hero Create(Ground[,] grounds)
@@ -32,9 +29,9 @@ namespace Shudder.Gameplay.Characters.Factories
             };
             
             var heroView = Object.Instantiate(_heroConfig.Prefab, position, Quaternion.identity, ground.AnchorPoint);
-            heroView.Construct(_container, hero);
-            hero.ChangeGround(ground, _selectIndicator);
+            heroView.Construct(_container);
             hero.ChangePosition(ground.AnchorPoint.position);
+            hero.ChangeGround(ground);
             return hero;
         }
     }

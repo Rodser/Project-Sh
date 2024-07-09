@@ -1,9 +1,10 @@
-﻿using Config;
-using Model;
+﻿using Model;
+using Shudder.Gameplay.Configs;
+using Shudder.Gameplay.Models;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Logic
+namespace Shudder.Gameplay.Factories
 {
     internal class GroundFactory
     {

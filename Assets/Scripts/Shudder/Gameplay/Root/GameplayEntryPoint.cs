@@ -4,7 +4,8 @@ using Cysharp.Threading.Tasks;
 using DI;
 using Logic;
 using Shudder.Events;
-using Shudder.Gameplay.Characters.Factories;
+using Shudder.Gameplay.Configs;
+using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Services;
 using UnityEngine;
 
@@ -46,10 +47,11 @@ namespace Shudder.Gameplay.Root
         {      
             _container.RegisterSingleton(c => new CameraService(Camera.main)); 
             _container.RegisterSingleton(c => new CameraSurveillanceService(_container, Camera.main));
-            _container.RegisterSingleton(c => new HeroMoveService(_container, _gameConfig.SelectIndicator));
+            _container.RegisterSingleton(c => new HeroMoveService(_container));
             _container.RegisterSingleton(c => new CheckingPossibilityOfJumpService());
             _container.RegisterSingleton(c => new LevelLoadingService(_container, _gameConfig));
             _container.RegisterSingleton(c => new VictoryHandlerService(_container, _gameConfig));
+            _container.RegisterSingleton(c => new IndicatorService(_container, _gameConfig));
         }
 
         private void Subscribe()

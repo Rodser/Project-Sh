@@ -4,7 +4,9 @@ using DI;
 using Logic;
 using Model;
 using Shudder.Events;
+using Shudder.Gameplay.Models;
 using Shudder.Gameplay.Services;
+using Shudder.MainMenu.Configs;
 using Shudder.UI;
 using UnityEngine;
 

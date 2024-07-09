@@ -1,6 +1,6 @@
-using Core;
 using DI;
 using Shudder.Events;
+using Shudder.Gameplay.Models;
 using Shudder.Gameplay.Services;
 using UnityEngine;
 
@@ -31,7 +31,7 @@ namespace Shudder.Gameplay.Root
 
         public void DieBody()
         {
-            if(Body == null)
+            if(Body is null)
                 return;
             Object.Destroy(Body.gameObject);
             Body = null;

@@ -1,4 +1,4 @@
-﻿namespace Model
+﻿namespace Shudder.Gameplay.Models
 {
     public enum GroundType
     {

@@ -2,32 +2,23 @@ using Cysharp.Threading.Tasks;
 using DI;
 using Model;
 using Shudder.Events;
-using Shudder.Gameplay.Characters.Models;
+using Shudder.Gameplay.Models;
 using UnityEngine;
 
-namespace Shudder.Gameplay.Characters.Views
+namespace Shudder.Gameplay.Views
 {
     [RequireComponent(typeof(Rigidbody))]
     public class HeroView : MonoBehaviour
     {
-        private Vector3 _startPosition;
         private ITriggerOnlyEventBus _triggerEventBus;
 
-        public Hero Hero;
-        public Rigidbody Rigidbody { get; private set; }
-
-        private void Start()
+        public void Construct(DIContainer container)
         {
-            _startPosition = transform.position;
-            Rigidbody = GetComponent<Rigidbody>();
-        }
-
-        public void Construct(DIContainer container, Hero hero)
-        {
-            Hero = hero;
             _triggerEventBus = container.Resolve<ITriggerOnlyEventBus>();
-            container.Resolve<IReadOnlyEventBus>().ChangeHeroPosition.AddListener(OnChangePosition);
-            container.Resolve<IReadOnlyEventBus>().ChangeHeroParentGround.AddListener(OnChangeParent);
+            var readEventBus = container.Resolve<IReadOnlyEventBus>();
+            
+            readEventBus.ChangeHeroPosition.AddListener(OnChangePosition);
+            readEventBus.ChangeHeroParentGround.AddListener(OnChangeParent);
         }
 
         private void OnChangeParent(Transform parent)
@@ -40,28 +31,17 @@ namespace Shudder.Gameplay.Characters.Views
             transform.position = position;
         }
 
-        private void ResetBallPosition()
-        {
-            Hero.Damage();
-            Debug.Log(Hero.Health);
-            transform.position = _startPosition;
-        }
-
         private void OnTriggerEnter(Collider other)
         {
             Ground ground = other.GetComponentInParent<Ground>();
-            if (ground == null)
+            if (ground is null)
                 return;
 
             switch (ground.GroundType)
             {
                 case GroundType.Hole:
-                    Hero.AtHole = true;
                     Debug.Log("Victory");
                     RunNewLevel();
-                    break;
-                case GroundType.Pit when Hero.Health > 0:
-                    ResetBallPosition();
                     break;
                 case GroundType.Pit:
                     Destroy(gameObject, 1000);

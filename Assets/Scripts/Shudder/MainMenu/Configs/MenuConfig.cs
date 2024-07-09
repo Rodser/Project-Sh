@@ -1,7 +1,8 @@
+using Shudder.Gameplay.Configs;
 using Shudder.UI;
 using UnityEngine;
 
-namespace Config
+namespace Shudder.MainMenu.Configs
 {
     [CreateAssetMenu(fileName = "Menu", menuName = "Game/Menu", order = 12)]
     public class MenuConfig : ScriptableObject

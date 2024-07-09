@@ -1,4 +1,5 @@
 using Core;
+using Shudder.Gameplay.Models;
 using UnityEngine;
 
 namespace Logic

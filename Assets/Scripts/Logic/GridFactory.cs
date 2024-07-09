@@ -1,6 +1,7 @@
 ﻿using Config;
 using Cysharp.Threading.Tasks;
 using Model;
+using Shudder.Gameplay.Configs;
 using UnityEngine;
 
 namespace Logic

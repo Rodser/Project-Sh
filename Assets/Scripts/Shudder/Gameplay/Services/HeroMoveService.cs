@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using Config;
 using Cysharp.Threading.Tasks;
 using DI;
 using Model;
-using Shudder.Gameplay.Characters.Models;
+using Shudder.Gameplay.Models;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,16 +11,14 @@ namespace Shudder.Gameplay.Services
 {
     public class HeroMoveService
     {
-        private const int SwapLimit = 7;
+        private const int SwapLimit = 5;
         
         private readonly DIContainer _container;
-        private readonly Indicator _selectIndicator;
         private Hero _hero;
 
-        public HeroMoveService(DIContainer container, Indicator selectIndicator)
+        public HeroMoveService(DIContainer container)
         {
             _container = container;
-            _selectIndicator = selectIndicator;
         }
 
         public void Subscribe(Hero hero)
@@ -38,7 +35,7 @@ namespace Shudder.Gameplay.Services
                              .Where(g => g.Id == selectGround.Id))
                 {
                     await MoveToTarget(groundNeighbor.AnchorPoint.position);
-                    _hero.ChangeGround(groundNeighbor, _selectIndicator);
+                    _hero.ChangeGround(groundNeighbor);
 
                     groundNeighbor.SwapWaveAsync(new List<Vector2>(), SwapLimit);
                 }

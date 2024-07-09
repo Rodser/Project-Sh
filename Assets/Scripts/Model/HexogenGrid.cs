@@ -2,6 +2,9 @@
 using Config;
 using Cysharp.Threading.Tasks;
 using Logic;
+using Shudder.Gameplay.Configs;
+using Shudder.Gameplay.Factories;
+using Shudder.Gameplay.Models;
 using UnityEngine;
 
 namespace Model

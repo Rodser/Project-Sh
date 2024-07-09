@@ -2,6 +2,7 @@ using Config;
 using DI;
 using Logic;
 using Shudder.Gameplay.Services;
+using Shudder.MainMenu.Configs;
 using Shudder.MainMenu.Factories;
 using UnityEngine;
 

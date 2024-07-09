@@ -1,7 +1,7 @@
-using Shudder.Gameplay.Characters.Views;
+using Shudder.Gameplay.Views;
 using UnityEngine;
 
-namespace Shudder.Gameplay.Characters.Configs
+namespace Shudder.Gameplay.Configs
 {
     [CreateAssetMenu(fileName = "Hero", menuName = "Game/Hero", order = 11)]
     public class HeroConfig : ScriptableObject
