@@ -24,7 +24,7 @@ namespace Shudder.Gameplay.Services
         private async void OnChangePosition(Vector3 position)
         {
             var start = _camera.transform.position;
-            position.y =  _camera.transform.position.y;
+            position.y = _camera.transform.position.y;
 
             var time = 0f;
             while (time < 1f)

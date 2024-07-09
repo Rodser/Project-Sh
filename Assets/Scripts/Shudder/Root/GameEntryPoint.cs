@@ -72,7 +72,7 @@ namespace Shudder.Root
             await LoadSceneAsync(SceneName.GAMEPLAY);
 
             var gameplay = Object.FindFirstObjectByType<GameplayEntryPoint>();
-            gameplay.Initialisation(_container);
+            await gameplay.Initialisation(_container);
             
             uiRoot.HideLoadingScreen();
         }
