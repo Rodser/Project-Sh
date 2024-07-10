@@ -1,6 +1,6 @@
 using DI;
-using Model;
 using Shudder.Events;
+using Shudder.Gameplay.Models;
 using Shudder.Gameplay.Services;
 using UnityEditor;
 using UnityEngine;
@@ -28,7 +28,7 @@ namespace Shudder.MainMenu.Root
         private async void FlyCameraAndStartGameplayAsync()
         {
             var cameraService = _container.Resolve<CameraService>();
-            await cameraService.MoveCameraAsync(_menuGrid.Hole.transform.position);
+            await cameraService.MoveCameraAsync(_menuGrid.Hole.AnchorPoint.position);
             
             _triggerEventBus.TriggerStartGameplayScene();
         }

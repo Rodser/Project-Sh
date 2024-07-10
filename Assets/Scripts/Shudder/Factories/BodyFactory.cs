@@ -1,8 +1,7 @@
-using Core;
 using Shudder.Gameplay.Models;
 using UnityEngine;
 
-namespace Logic
+namespace Shudder.Gameplay.Factories
 {
     public class BodyFactory
     {

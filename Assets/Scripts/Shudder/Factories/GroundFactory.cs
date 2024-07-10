@@ -1,8 +1,9 @@
-﻿using Model;
+﻿using DI;
 using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Models;
+using Shudder.Gameplay.Services;
+using Shudder.Gameplay.Views;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Shudder.Gameplay.Factories
 {
@@ -10,42 +11,45 @@ namespace Shudder.Gameplay.Factories
     {
         private const float InnerRadiusCoefficient = 0.86f;
 
-        private readonly float _spaceBetweenCells;
-        private readonly Transform _parent;
-        private readonly GroundConfig _groundConfig;
+        private float _spaceBetweenCells;
+        private readonly DIContainer _container;
+        private Transform _parent;
+        private GroundConfig _groundConfig;
 
-        public GroundFactory(HexogenGridConfig hexGridConfig, Transform parent)
+        public GroundFactory(DIContainer container)
+        {
+            _container = container;
+        }
+
+        internal Ground Create(HexogenGridConfig hexGridConfig, Transform parent, int x, int z, Vector3 offsetPosition, GroundType groundType, bool isMenu)
         {
             _groundConfig = hexGridConfig.GroundConfig;
             _spaceBetweenCells = hexGridConfig.SpaceBetweenCells;
             _parent = parent;
-        }
-
-        internal Ground Create(int x, int z, Vector3 offsetPosition, GroundType groundType, bool isMenu)
-        {
-            float rowOffset = z % 2 * 0.5f;
-
-            Ground ground = null;
+            
+            var rowOffset = z % 2 * 0.5f;
             var positionCell = GetPositionCell(x, z, offsetPosition, rowOffset);
-            var groundId = new Vector2(x, z);
 
-            ground = groundType switch
+            var groundView = groundType switch
             {
                 GroundType.Pit => GroundInstantiate(_groundConfig.PrefabPit, positionCell),
                 GroundType.Hole => GroundInstantiate(_groundConfig.PrefabHole, positionCell),
                 GroundType.Wall => GroundInstantiate(_groundConfig.PrefabWall, positionCell),
                 _ => GroundInstantiate(_groundConfig.Prefab, positionCell)
             };
+            var groundId = new Vector2(x, z);
+            groundView.Construct(groundId);
 
-            ground.Set(groundId, groundType);
-
-            if (!isMenu)            
-                ground.Lift(offsetPosition.y);
+            var ground = new Ground(groundId, groundType, groundView.AnchorPoint);
+            ground.ChangePosition.AddListener(groundView.ChangePosition);
+            
+            //if (!isMenu)            
+            //    _container.Resolve<LiftService>().MoveAsync(ground, offsetPosition.y);
 
             return ground;
         }
 
-        private Ground GroundInstantiate(Ground prefab, Vector3 positionCell)
+        private GroundView GroundInstantiate(GroundView prefab, Vector3 positionCell)
         {
             return Object.Instantiate(prefab, positionCell, Quaternion.identity, _parent);
         }

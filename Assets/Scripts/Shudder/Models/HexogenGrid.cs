@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
-using Config;
 using Cysharp.Threading.Tasks;
-using Logic;
+using DI;
 using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Factories;
-using Shudder.Gameplay.Models;
+using Shudder.Gameplay.Services;
 using UnityEngine;
 
-namespace Model
+namespace Shudder.Gameplay.Models
 {
     public class HexogenGrid
     {
         private const float InnerRadiusCoefficient = 0.86f;
-        
+
+        private readonly DIContainer _container;
         private readonly HexogenGridConfig _hexGridConfig;
         private readonly Transform _parent;
 
@@ -20,13 +20,14 @@ namespace Model
         private Vector2 _holePosition;
         private GroundFactory _groundFactory;
 
-        public HexogenGrid(HexogenGridConfig hexGridConfig, Transform parent)
+        public HexogenGrid(DIContainer container, HexogenGridConfig hexGridConfig, Transform parent)
         {
+            _container = container;
             _hexGridConfig = hexGridConfig;
             _parent = parent;
         }
 
-        public Ground[,] Grounds { get; internal set; }
+        public Ground[,] Grounds { get; private set; }
         public Ground Hole { get; private set; }
         public Vector3 OffsetPosition { get ; private set ; }
 
@@ -41,7 +42,8 @@ namespace Model
                 {
                     GroundType groundType = GetGroundType(x, z);
 
-                    Ground ground = _groundFactory.Create(x, z, OffsetPosition, groundType, isMenu);
+                    Ground ground = _groundFactory
+                        .Create(_hexGridConfig, _parent, x, z, OffsetPosition, groundType, isMenu);
                     Grounds[x, z] = ground;
 
                     if (groundType == GroundType.Hole)
@@ -60,18 +62,19 @@ namespace Model
         private void Initialize()
         {
             Grounds = new Ground[_hexGridConfig.Width, _hexGridConfig.Height];
-            _groundFactory = new GroundFactory(_hexGridConfig, _parent);
-            GetOffsetPosition();
+            _groundFactory = _container.Resolve<GroundFactory>();
+            OffsetPosition = GetOffsetPosition();
         }
 
-        private void GetOffsetPosition()
+        private Vector3 GetOffsetPosition()
         {
-            float rowOffset = _hexGridConfig.Height % 2 * 0.5f;
+            var rowOffset = _hexGridConfig.Height % 2 * 0.5f;
 
             var x = (_hexGridConfig.Width + rowOffset) * _hexGridConfig.SpaceBetweenCells * 0.5f;
             var z = _hexGridConfig.Height * _hexGridConfig.SpaceBetweenCells * InnerRadiusCoefficient * 0.5f;
             var y = _hexGridConfig.CaneraOffset;
-            OffsetPosition = Camera.main.transform.position - new Vector3(x, y, z);
+            
+            return _container.Resolve<CameraService>().Camera.transform.position - new Vector3(x, y, z);
         }
 
         private void SetNeighbors()
@@ -127,7 +130,7 @@ namespace Model
         
         private bool TryGetHole(int x, int y)
         {
-            return x == _holePosition.x && y == _holePosition.y;
+            return Mathf.Approximately(x, _holePosition.x) && Mathf.Approximately(y, _holePosition.y);
         }
 
         private void CalculateHolePosition()
