@@ -36,8 +36,9 @@ namespace Shudder.Gameplay.Root
         private void InitializeFactories()
         {
             _container.RegisterSingleton("LevelGrid",c => 
-                new GridFactory(_gameConfig.LevelGridConfigs));
+                new GridFactory(_container, _gameConfig.LevelGridConfigs));
             _container.RegisterSingleton(c => new BodyFactory());
+            _container.RegisterSingleton(c => new GroundFactory(_container));
             _container.RegisterSingleton(c => new HeroFactory(_container, _gameConfig));
             _container.RegisterSingleton(c => new LightFactory());
             _container.RegisterSingleton(c => new SoundFactory(_gameConfig.GetConfig<SFXConfig>()));
@@ -52,6 +53,9 @@ namespace Shudder.Gameplay.Root
             _container.RegisterSingleton(c => new LevelLoadingService(_container, _gameConfig));
             _container.RegisterSingleton(c => new VictoryHandlerService(_container, _gameConfig));
             _container.RegisterSingleton(c => new IndicatorService(_container, _gameConfig));
+            _container.RegisterTransient(c => new LiftService());
+            _container.RegisterTransient(c => new SwapService(_container));
+
         }
 
         private void Subscribe()

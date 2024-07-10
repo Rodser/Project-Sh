@@ -3,6 +3,9 @@ using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Models;
 using Shudder.Gameplay.Services;
 using Shudder.Gameplay.Views;
+using Shudder.Models;
+using Shudder.Models.Interfaces;
+using Shudder.Presenters;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Factories
@@ -38,15 +41,15 @@ namespace Shudder.Gameplay.Factories
                 _ => GroundInstantiate(_groundConfig.Prefab, positionCell)
             };
             var groundId = new Vector2(x, z);
-            groundView.Construct(groundId);
 
-            var ground = new Ground(groundId, groundType, groundView.AnchorPoint);
-            ground.ChangePosition.AddListener(groundView.ChangePosition);
+            IGround ground = new Ground(groundId, groundType, offsetPosition);
+            var presenter = new GroundPresenter(ground);
+            groundView.Construct(presenter);
             
-            //if (!isMenu)            
-            //    _container.Resolve<LiftService>().MoveAsync(ground, offsetPosition.y);
+            if (!isMenu)            
+                _container.Resolve<LiftService>().MoveAsync(groundView, offsetPosition.y);
 
-            return ground;
+            return (Ground)ground;
         }
 
         private GroundView GroundInstantiate(GroundView prefab, Vector3 positionCell)

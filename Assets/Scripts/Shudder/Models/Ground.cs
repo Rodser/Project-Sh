@@ -1,37 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Shudder.Gameplay.Models;
+using Shudder.Models.Interfaces;
+using Shudder.Presenters;
 using UnityEngine;
-using UnityEngine.Events;
 
-namespace Shudder.Gameplay.Models
+namespace Shudder.Models
 {
-    public class Ground
+    public class Ground : IGround
     {
-        public UnityEvent<Vector3> ChangePosition = new ();
-        
-        public Ground(Vector2 groundId, GroundType groundType, Transform anchorPoint)
+        public Ground(Vector2 groundId, GroundType groundType, Vector3 offsetPosition)
         {
             Id = groundId;
             GroundType = groundType;
-            AnchorPoint = anchorPoint;
+            OffsetPosition = offsetPosition;
         }
 
         public Vector2 Id { get; }
-        public Transform AnchorPoint { get; }
+        public Transform AnchorPoint => Presenter.View.AnchorPoint;
         public GroundType GroundType { get; set; }
-        public List<Ground> Neighbors { get; private set; }
-        public Vector3 Position
-        {
-            get => Position;
-            set
-            {
-                Position = value;
-                ChangePosition?.Invoke(value);
-            }
-        }
+        public Vector3 OffsetPosition { get; }
+        public List<Ground> Neighbors { get; set; }
+        public GroundPresenter Presenter { get; set; }
 
         internal void AddNeighbors(List<Ground> neighbors)
         {
             Neighbors = neighbors;
+        }
+
+        public void ChangeGroundType(GroundType groundType)
+        {
+            GroundType = groundType;
         }
     }
 }

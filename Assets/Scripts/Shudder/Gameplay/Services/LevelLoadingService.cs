@@ -1,4 +1,3 @@
-using Config;
 using Cysharp.Threading.Tasks;
 using DI;
 using Logic;

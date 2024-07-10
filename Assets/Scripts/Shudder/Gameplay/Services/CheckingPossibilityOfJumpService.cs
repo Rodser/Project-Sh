@@ -1,4 +1,3 @@
-using Model;
 using Shudder.Gameplay.Models;
 
 namespace Shudder.Gameplay.Services

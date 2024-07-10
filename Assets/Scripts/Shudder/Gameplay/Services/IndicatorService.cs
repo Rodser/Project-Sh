@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using Config;
 using DI;
-using Model;
 using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Models;
+using Shudder.Models;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Services

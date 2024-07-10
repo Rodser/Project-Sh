@@ -131,11 +131,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6b878d29c2b20cc469ac060b10a45f14,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: -708445638269883486}
+      addedObject: {fileID: 6998818658209380649}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6b878d29c2b20cc469ac060b10a45f14,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6998818658209380649}
+      addedObject: {fileID: 3421150331008012711}
   m_SourcePrefab: {fileID: 100100000, guid: 6b878d29c2b20cc469ac060b10a45f14, type: 3}
 --- !u!1 &529796931839558634 stripped
 GameObject:
@@ -143,21 +143,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 836365858890497723}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-708445638269883486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 529796931839558634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f115716d32b06dd45853d3f810697cad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _vfxTransform: {fileID: 526334915087228125}
-  _top: {fileID: 0}
-  _colors: []
 --- !u!65 &6998818658209380649
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -179,6 +164,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7255724, y: 0.5, z: 0.77839446}
   m_Center: {x: -0.009632558, y: 0, z: -0.022225857}
+--- !u!114 &3421150331008012711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529796931839558634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e19c3305de4f088cc969b5d7c44bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _anchorPoint: {fileID: 526334915087228125}
+  _top: {fileID: 0}
+  _colors: []
 --- !u!4 &869730380294642000 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6b878d29c2b20cc469ac060b10a45f14,
@@ -193,6 +193,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 869730380294642000}
     m_Modifications:
+    - target: {fileID: 495573890557208812, guid: 80206b9c6aa1d5d49aa8ca13634b5997,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1386704715661813049, guid: 80206b9c6aa1d5d49aa8ca13634b5997,
         type: 3}
       propertyPath: m_Asset
@@ -203,6 +208,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EdgeVFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403694087581238934, guid: 80206b9c6aa1d5d49aa8ca13634b5997,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8670955493002838948, guid: 80206b9c6aa1d5d49aa8ca13634b5997,
         type: 3}

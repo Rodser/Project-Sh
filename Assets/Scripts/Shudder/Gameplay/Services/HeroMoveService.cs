@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using DI;
-using Model;
 using Shudder.Gameplay.Models;
+using Shudder.Gameplay.Views;
+using Shudder.Models.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -37,19 +38,29 @@ namespace Shudder.Gameplay.Services
                     await MoveToTarget(groundNeighbor.AnchorPoint.position);
                     _hero.ChangeGround(groundNeighbor);
 
-                    groundNeighbor.SwapWaveAsync(new List<Vector2>(), SwapLimit);
+                    await _container
+                        .Resolve<SwapService>()
+                        .SwapWaveAsync(groundNeighbor, new List<Vector2>(), SwapLimit);
+                
+                    _container.Resolve<IndicatorService>().CreateSelectIndicators(_hero.CurrentGround);
                 }
             }
         }
 
-        private bool TryGetSelectGround(out Ground selectGround)
+        private bool TryGetSelectGround(out IGround selectGround)
         {
             var input = _container.Resolve<InputService>();
             var position = input.Position.ReadValue<Vector2>();
             var origin = _container.Resolve<CameraService>().Camera.ScreenPointToRay(position);
 
             Physics.Raycast(origin, out RaycastHit hit);
-            selectGround = hit.collider.GetComponentInParent<Ground>();
+            if (hit.collider is null)
+            {
+                selectGround = null;
+                return false;
+            }
+            
+            selectGround = hit.collider.GetComponentInParent<GroundView>().Presenter.Ground;
 
             if (selectGround == null)
                 return false;
@@ -72,7 +83,7 @@ namespace Shudder.Gameplay.Services
             var timeInFly = 0f;
             while (timeInFly < 1f)
             {
-                float speedFlying = 0.7f;
+                float speedFlying = 1f;
                 timeInFly += speedFlying * Time.deltaTime;
                 var position = GetCurve(startPosition, deviation, target, timeInFly);
                 _hero.ChangePosition(position);

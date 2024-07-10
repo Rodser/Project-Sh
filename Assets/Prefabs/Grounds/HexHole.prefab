@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4091148295487791929}
-  - component: {fileID: 1212152755492316714}
   - component: {fileID: 6409535789072998977}
+  - component: {fileID: 5115549473494731789}
   m_Layer: 0
   m_Name: HexHole
   m_TagString: Untagged
@@ -38,21 +38,6 @@ Transform:
   - {fileID: 5813916728711142578}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1212152755492316714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1172427305808086648}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f115716d32b06dd45853d3f810697cad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _anchorPoint: {fileID: 5813916728711142578}
-  _top: {fileID: 0}
-  _colors: []
 --- !u!65 &6409535789072998977
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -74,6 +59,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.98, y: 0.67, z: 0.85}
   m_Center: {x: -0.008661509, y: 0.04, z: -0.018482447}
+--- !u!114 &5115549473494731789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172427305808086648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e19c3305de4f088cc969b5d7c44bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _anchorPoint: {fileID: 5813916728711142578}
+  _top: {fileID: 0}
+  _colors: []
 --- !u!1 &3347049304644831750
 GameObject:
   m_ObjectHideFlags: 0

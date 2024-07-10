@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using DI;
-using Model;
 using Shudder.Events;
 using Shudder.Gameplay.Models;
 using UnityEngine;
@@ -33,11 +32,11 @@ namespace Shudder.Gameplay.Views
 
         private void OnTriggerEnter(Collider other)
         {
-            Ground ground = other.GetComponentInParent<Ground>();
+            var ground = other.GetComponentInParent<GroundView>();
             if (ground is null)
                 return;
 
-            switch (ground.GroundType)
+            switch (ground.Presenter.Ground.GroundType)
             {
                 case GroundType.Hole:
                     Debug.Log("Victory");
@@ -47,6 +46,8 @@ namespace Shudder.Gameplay.Views
                     Destroy(gameObject, 1000);
                     Debug.Log("Looser");
                     break;
+                default:
+                    return;
             }
         }
 

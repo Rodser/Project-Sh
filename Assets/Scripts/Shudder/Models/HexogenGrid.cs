@@ -4,6 +4,8 @@ using DI;
 using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Services;
+using Shudder.Models;
+using Shudder.Models.Interfaces;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Models

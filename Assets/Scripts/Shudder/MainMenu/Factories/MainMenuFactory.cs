@@ -1,9 +1,7 @@
-using Config;
-using Core;
 using DI;
 using Logic;
-using Model;
 using Shudder.Events;
+using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Models;
 using Shudder.Gameplay.Services;
 using Shudder.MainMenu.Configs;
@@ -38,12 +36,12 @@ namespace Shudder.MainMenu.Factories
                 .Resolve<GridFactory>("MenuGrid")
                 .Create(_body.transform, true);
             
-            Object.Instantiate(_menuConfig.Title, _menuGrid.Hole.transform);
+            Object.Instantiate(_menuConfig.Title, _menuGrid.Hole.AnchorPoint);
             _container.Resolve<LightFactory>().Create(_menuConfig.Light, _camera.transform, _body.transform);
 
             var menuUI = CreateUIMainMenu();
             menuUI.Bind(_triggerEventBus);
-            var menu = new Root.MainMenu(_container, _menuGrid);
+            var menu = new Models.MainMenu(_container, _menuGrid);
         }
 
         private UIMenuView CreateUIMainMenu()

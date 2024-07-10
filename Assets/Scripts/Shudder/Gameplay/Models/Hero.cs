@@ -1,7 +1,8 @@
+using Cysharp.Threading.Tasks;
 using DI;
-using Model;
 using Shudder.Events;
 using Shudder.Gameplay.Services;
+using Shudder.Models;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Models
@@ -38,14 +39,17 @@ namespace Shudder.Gameplay.Models
 
         public void ChangeGround(Ground ground)
         {
-            if (CurrentGround is not null)
+            if (CurrentGround is null)
+            {
+                _indicatorService.CreateSelectIndicators(ground);
+            }
+            else
             {
                 _indicatorService.RemoveSelectIndicators();
             }
 
             CurrentGround = ground;
             _triggerEventBus.TriggerChangeHeroParentGround(ground.AnchorPoint);
-            _indicatorService.CreateSelectIndicators(CurrentGround);
         }
     }
 }
