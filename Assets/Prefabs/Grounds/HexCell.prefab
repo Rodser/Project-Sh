@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5416955390668101085}
-  - component: {fileID: 1237380795285397487}
+  - component: {fileID: 3727912014917743728}
   m_Layer: 0
   m_Name: HexCell
   m_TagString: Untagged
@@ -32,9 +32,10 @@ Transform:
   m_Children:
   - {fileID: 7848369037730450205}
   - {fileID: 2122400764161808145}
+  - {fileID: 2796818697387237434}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1237380795285397487
+--- !u!114 &3727912014917743728
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,15 +44,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 262577551451366791}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f115716d32b06dd45853d3f810697cad, type: 3}
+  m_Script: {fileID: 11500000, guid: f4e19c3305de4f088cc969b5d7c44bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vfxTransform: {fileID: 7848369037730450205}
+  _anchorPoint: {fileID: 2796818697387237434}
   _top: {fileID: 1846904178791701562}
   _colors:
-  - {r: 0.23466921, g: 0.2042542, b: 0.2830189, a: 1}
-  - {r: 0.23197757, g: 0.21867211, b: 0.24528301, a: 1}
-  - {r: 0.24317706, g: 0.26415092, b: 0.24047701, a: 1}
+  - {r: 0.8396226, g: 0.8376017, b: 0.11485406, a: 0}
 --- !u!1 &3091629707677287346
 GameObject:
   m_ObjectHideFlags: 0
@@ -67,7 +66,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7848369037730450205
 Transform:
   m_ObjectHideFlags: 0
@@ -82,6 +81,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1987218985330234775}
+  m_Father: {fileID: 5416955390668101085}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7018740891667735309
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2796818697387237434}
+  m_Layer: 0
+  m_Name: point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2796818697387237434
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7018740891667735309}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 5416955390668101085}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1945257335452381434
@@ -149,13 +179,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1160392383469332181, guid: 2143485acbc45cc49b90738230f1007f,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: -876546973899608171, guid: 98e4c0b91c6e0e24a8518c1823ac1864,
         type: 3}
     - target: {fileID: -895306380916907690, guid: 2143485acbc45cc49b90738230f1007f,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 8ee1c30587c3a2245b8e03ee8d56f3a0, type: 2}
     - target: {fileID: 243041194690276544, guid: 2143485acbc45cc49b90738230f1007f,
@@ -175,7 +205,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1222837968856308057, guid: 2143485acbc45cc49b90738230f1007f,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 17a54d972945d6244bfc9a2947f8bd6d, type: 2}
     m_RemovedComponents: []
@@ -238,7 +268,7 @@ PrefabInstance:
     - target: {fileID: 495573890557208812, guid: 80206b9c6aa1d5d49aa8ca13634b5997,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1386704715661813049, guid: 80206b9c6aa1d5d49aa8ca13634b5997,
         type: 3}

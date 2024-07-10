@@ -1,7 +1,8 @@
-using Config;
 using DI;
 using Logic;
+using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Services;
+using Shudder.MainMenu.Configs;
 using Shudder.MainMenu.Factories;
 using UnityEngine;
 
@@ -28,7 +29,8 @@ namespace Shudder.MainMenu.Root
         {
             _container.RegisterSingleton(c => new BodyFactory());
             _container.RegisterSingleton("MenuGrid",c => 
-                new GridFactory(_menuConfiguration.MenuGridConfig));
+                new GridFactory(_container, _menuConfiguration.MenuGridConfig));
+            _container.RegisterSingleton(c => new GroundFactory(_container));
             _container.RegisterSingleton(c =>  new LightFactory());
         }
 
