@@ -165,8 +165,8 @@
     ],
     "m_VertexContext": {
         "m_Position": {
-            "x": 54.99998474121094,
-            "y": -186.0
+            "x": -450.9999694824219,
+            "y": -695.0000610351563
         },
         "m_Blocks": [
             {
@@ -182,8 +182,8 @@
     },
     "m_FragmentContext": {
         "m_Position": {
-            "x": 54.99999237060547,
-            "y": 78.0
+            "x": -450.9999694824219,
+            "y": -431.0000305175781
         },
         "m_Blocks": [
             {
@@ -210,6 +210,7 @@
     "m_OutputNode": {
         "m_Id": ""
     },
+    "m_SubDatas": [],
     "m_ActiveTargets": [
         {
             "m_Id": "05e1793915ad4485adf44cb0cf8a82fb"
@@ -253,10 +254,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1900.0001220703125,
-            "y": -722.0,
+            "x": -1666.0,
+            "y": -759.0,
             "width": 120.0001220703125,
-            "height": 149.0
+            "height": 148.99993896484376
         }
     },
     "m_Slots": [
@@ -305,6 +306,9 @@
     "m_AlphaClip": false,
     "m_CastShadows": true,
     "m_ReceiveShadows": true,
+    "m_DisableTint": false,
+    "m_AdditionalMotionVectorMode": 0,
+    "m_AlembicMotionVectors": false,
     "m_SupportsLODCrossFade": false,
     "m_CustomEditorGUI": "",
     "m_SupportVFX": true
@@ -1130,10 +1134,10 @@
     "hlslDeclarationOverride": 2,
     "m_Hidden": false,
     "m_Value": {
-        "r": 1.0413563251495362,
-        "g": 0.06635864078998566,
-        "b": 3.168627977371216,
-        "a": 0.0
+        "r": 0.7411764860153198,
+        "g": 0.5490196347236633,
+        "b": 0.30980393290519717,
+        "a": 1.0
     },
     "isMainColor": false,
     "m_ColorMode": 1
@@ -1558,10 +1562,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -2127.0,
-            "y": -743.0,
-            "width": 207.9998779296875,
-            "height": 312.9999694824219
+            "x": -1893.0,
+            "y": -780.0000610351563,
+            "width": 208.0,
+            "height": 313.00006103515627
         }
     },
     "m_Slots": [
