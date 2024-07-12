@@ -1,19 +1,19 @@
 using DI;
 using Shudder.Events;
-using Shudder.Models;
 using Shudder.Services;
 using UnityEditor;
 using UnityEngine;
+using Grid = Shudder.Models.Grid;
 
 namespace Shudder.MainMenu.Models
 {
     public class MainMenu
     {
         private readonly DIContainer _container;
-        private readonly HexogenGrid _menuGrid;
+        private readonly Grid _menuGrid;
         private readonly ITriggerOnlyEventBus _triggerEventBus;
 
-        public MainMenu(DIContainer container, HexogenGrid menuGrid)
+        public MainMenu(DIContainer container, Grid menuGrid)
         {
             _container = container;
             _menuGrid = menuGrid;

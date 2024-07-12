@@ -1,10 +1,9 @@
 using DI;
 using Shudder.Events;
-using Shudder.Gameplay.Models;
 using Shudder.Gameplay.Services;
-using Shudder.Models;
 using Shudder.Services;
 using UnityEngine;
+using Grid = Shudder.Models.Grid;
 
 namespace Shudder.Gameplay.Root
 {
@@ -16,7 +15,7 @@ namespace Shudder.Gameplay.Root
         
         public int CurrentLevel { get; set; }
         public Camera Camera { get; set; }
-        public BodyGrid Body { get; set; }
+        public Grid CurrentGrid { get; private set; }
 
         public Game(DIContainer container)
         {
@@ -31,12 +30,12 @@ namespace Shudder.Gameplay.Root
             _container.Resolve<CameraSurveillanceService>().Follow();
         }
 
-        public void DieBody()
+        public void DestroyGrid()
         {
-            if(Body is null)
+            if(CurrentGrid is null)
                 return;
-            Object.Destroy(Body.gameObject);
-            Body = null;
+            Object.Destroy(CurrentGrid.Presenter.View.gameObject);
+            CurrentGrid = null;
         }
 
         private void OnChangeHeroPosition(Vector3 position) => 
@@ -48,6 +47,11 @@ namespace Shudder.Gameplay.Root
             var position = _heroPosition;
             position.y += 10;
             await cameraService.MoveCameraAsync(position);
+        }
+
+        public void SetCurrentGrid(Grid currentGrid)
+        {
+            CurrentGrid = currentGrid;
         }
     }
 }

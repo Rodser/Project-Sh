@@ -28,7 +28,6 @@ namespace Shudder.MainMenu.Root
         
         private void InitializeFactories()
         {
-            _container.RegisterSingleton(c => new BodyFactory());
             _container.RegisterSingleton("MenuGrid",c => 
                 new GridFactory(_container, _menuConfiguration.MenuGridConfig));
             _container.RegisterSingleton(c => new GroundFactory(_container));

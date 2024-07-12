@@ -42,7 +42,6 @@ namespace Shudder.Gameplay.Root
         {
             _container.RegisterSingleton("LevelGrid",c => 
                 new GridFactory(_container, _gameConfig.LevelGridConfigs));
-            _container.RegisterSingleton(c => new BodyFactory());
             _container.RegisterSingleton(c => new GroundFactory(_container));
             _container.RegisterSingleton(c => new HeroFactory(_container, _gameConfig));
             _container.RegisterSingleton(c => new LightFactory());
