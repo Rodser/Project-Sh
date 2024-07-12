@@ -1,7 +1,7 @@
 using DI;
 using Shudder.Events;
-using Shudder.Gameplay.Models;
-using Shudder.Gameplay.Services;
+using Shudder.Models;
+using Shudder.Services;
 using UnityEditor;
 using UnityEngine;
 

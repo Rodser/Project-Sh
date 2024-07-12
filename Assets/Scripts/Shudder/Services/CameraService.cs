@@ -1,16 +1,20 @@
 using Cysharp.Threading.Tasks;
+using Shudder.Models;
 using UnityEngine;
 
-namespace Shudder.Gameplay.Services
+namespace Shudder.Services
 {
     public class CameraService
     {
-        public Camera Camera { get; }
+        private readonly CameraFollow _cameraFollow;
 
-        public CameraService(Camera camera)
+        public CameraService(CameraFollow cameraFollow)
         {
-            Camera = camera;
+            _cameraFollow = cameraFollow;
         }
+
+        public Camera Camera => _cameraFollow.Presenter.View.Camera;
+        public CameraFollow CameraFollow => _cameraFollow;
 
         public async UniTask MoveCameraAsync(Vector3 target)
         {

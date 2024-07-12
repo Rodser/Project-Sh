@@ -3,10 +3,14 @@ using Core;
 using Cysharp.Threading.Tasks;
 using DI;
 using Logic;
+using Shudder.Configs;
 using Shudder.Events;
-using Shudder.Gameplay.Configs;
+using Shudder.Factories;
 using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Services;
+using Shudder.Models;
+using Shudder.Services;
+using Shudder.Vews;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Root
@@ -22,6 +26,7 @@ namespace Shudder.Gameplay.Root
         {
             _container = new DIContainer(container);
 
+            InitializeCameraService();
             InitializeFactories();
             InitializeServices();
 
@@ -46,7 +51,6 @@ namespace Shudder.Gameplay.Root
 
         private void InitializeServices()
         {      
-            _container.RegisterSingleton(c => new CameraService(Camera.main)); 
             _container.RegisterSingleton(c => new CameraSurveillanceService(_container, Camera.main));
             _container.RegisterSingleton(c => new HeroMoveService(_container));
             _container.RegisterSingleton(c => new CheckingPossibilityOfJumpService());
@@ -56,6 +60,17 @@ namespace Shudder.Gameplay.Root
             _container.RegisterTransient(c => new LiftService());
             _container.RegisterTransient(c => new SwapService(_container));
 
+        }
+        
+        private void InitializeCameraService()
+        {
+            CameraFollowView cameraFollowView = FindFirstObjectByType<CameraFollowView>();
+            
+            CameraFollow cameraFollow = cameraFollowView is null 
+                ? new CameraFollowFactory().Create() 
+                : cameraFollowView.Presenter.CameraFollow;  
+            
+            _container.RegisterSingleton(c => new CameraService(cameraFollow));
         }
 
         private void Subscribe()

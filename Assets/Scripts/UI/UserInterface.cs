@@ -1,6 +1,7 @@
 ﻿using System;
 using Core;
 using Shudder.Gameplay.Services;
+using Shudder.Services;
 using UnityEngine;
 using UnityEngine.Events;
 

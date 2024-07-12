@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DI;
+using Shudder.Configs;
 using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Models;
 using Shudder.Models;

@@ -1,6 +1,7 @@
 using Config;
 using Cysharp.Threading.Tasks;
 using DI;
+using Shudder.Configs;
 using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Root;
 

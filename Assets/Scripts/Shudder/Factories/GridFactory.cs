@@ -1,10 +1,10 @@
 ﻿using Cysharp.Threading.Tasks;
 using DI;
-using Shudder.Gameplay.Configs;
-using Shudder.Gameplay.Models;
+using Shudder.Configs;
+using Shudder.Models;
 using UnityEngine;
 
-namespace Shudder.Gameplay.Factories
+namespace Shudder.Factories
 {
     public class GridFactory
     {

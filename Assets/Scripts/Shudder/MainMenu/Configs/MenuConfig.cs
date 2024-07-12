@@ -1,3 +1,4 @@
+using Shudder.Configs;
 using Shudder.Gameplay.Configs;
 using Shudder.UI;
 using UnityEngine;

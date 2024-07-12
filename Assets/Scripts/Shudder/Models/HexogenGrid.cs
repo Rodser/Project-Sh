@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DI;
-using Shudder.Gameplay.Configs;
-using Shudder.Gameplay.Factories;
-using Shudder.Gameplay.Services;
-using Shudder.Models;
-using Shudder.Models.Interfaces;
+using Shudder.Configs;
+using Shudder.Factories;
+using Shudder.Services;
 using UnityEngine;
 
-namespace Shudder.Gameplay.Models
+namespace Shudder.Models
 {
     public class HexogenGrid
     {

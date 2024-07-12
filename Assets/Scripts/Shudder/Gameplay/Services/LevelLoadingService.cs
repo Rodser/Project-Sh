@@ -1,6 +1,8 @@
 using Cysharp.Threading.Tasks;
 using DI;
 using Logic;
+using Shudder.Configs;
+using Shudder.Factories;
 using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Root;

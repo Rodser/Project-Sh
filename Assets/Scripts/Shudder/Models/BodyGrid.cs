@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Shudder.Gameplay.Models
+namespace Shudder.Models
 {
     public class BodyGrid : MonoBehaviour
     {

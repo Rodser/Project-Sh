@@ -3,6 +3,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Gameplay.Models;
+using Shudder.Models;
 using Shudder.Models.Interfaces;
 using UnityEngine;
 

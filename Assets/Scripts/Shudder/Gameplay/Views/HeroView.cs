@@ -2,6 +2,8 @@ using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Events;
 using Shudder.Gameplay.Models;
+using Shudder.Models;
+using Shudder.Vews;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Views

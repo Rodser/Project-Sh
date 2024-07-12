@@ -1,7 +1,7 @@
 using Shudder.Presenters;
 using UnityEngine;
 
-namespace Shudder.Gameplay.Views
+namespace Shudder.Vews
 {
     public class GroundView : MonoBehaviour
     {

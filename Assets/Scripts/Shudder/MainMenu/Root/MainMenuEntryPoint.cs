@@ -1,9 +1,10 @@
 using DI;
 using Logic;
-using Shudder.Gameplay.Factories;
-using Shudder.Gameplay.Services;
+using Shudder.Factories;
 using Shudder.MainMenu.Configs;
 using Shudder.MainMenu.Factories;
+using Shudder.Models;
+using Shudder.Services;
 using UnityEngine;
 
 namespace Shudder.MainMenu.Root
@@ -17,9 +18,9 @@ namespace Shudder.MainMenu.Root
         public void Initialisation(DIContainer container)
         {
             _container = new DIContainer(container);
-            
+
+            InitializeCameraService();
             InitializeFactories();
-            InitializeServices();
 
             var menuFactory = new MainMenuFactory(_container, _menuConfiguration);
             menuFactory.Create();
@@ -34,9 +35,10 @@ namespace Shudder.MainMenu.Root
             _container.RegisterSingleton(c =>  new LightFactory());
         }
 
-        private void InitializeServices()
+        private void InitializeCameraService()
         {
-            _container.RegisterSingleton(c => new CameraService(Camera.main));
+            CameraFollow cameraFollow = new CameraFollowFactory().Create();
+            _container.RegisterSingleton(c => new CameraService(cameraFollow));
         }
     }
 }

@@ -2,6 +2,8 @@ using DI;
 using Shudder.Events;
 using Shudder.Gameplay.Models;
 using Shudder.Gameplay.Services;
+using Shudder.Models;
+using Shudder.Services;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Root

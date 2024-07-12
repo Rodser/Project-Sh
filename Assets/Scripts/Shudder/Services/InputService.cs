@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.InputSystem;
 
-namespace Shudder.Gameplay.Services
+namespace Shudder.Services
 {
     public class InputService : IDisposable
     {

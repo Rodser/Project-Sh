@@ -1,14 +1,13 @@
 ﻿using DI;
-using Shudder.Gameplay.Configs;
-using Shudder.Gameplay.Models;
+using Shudder.Configs;
 using Shudder.Gameplay.Services;
-using Shudder.Gameplay.Views;
 using Shudder.Models;
 using Shudder.Models.Interfaces;
 using Shudder.Presenters;
+using Shudder.Vews;
 using UnityEngine;
 
-namespace Shudder.Gameplay.Factories
+namespace Shudder.Factories
 {
     internal class GroundFactory
     {

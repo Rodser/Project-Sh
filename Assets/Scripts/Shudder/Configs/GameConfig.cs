@@ -1,9 +1,8 @@
 ﻿using System.Linq;
-using Config;
 using Shudder.Gameplay.Models;
 using UnityEngine;
 
-namespace Shudder.Gameplay.Configs
+namespace Shudder.Configs
 {
     [CreateAssetMenu(fileName = "Game", menuName = "Game/Game", order = 6)]
     public class GameConfig : ScriptableObject

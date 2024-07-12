@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Shudder.Gameplay.Configs
+namespace Shudder.Configs
 {
     [CreateAssetMenu(fileName = "HexogenGrid", menuName = "Game/HexogenGrid", order = 7)]
     public class HexogenGridConfig : ScriptableObject
