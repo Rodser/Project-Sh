@@ -10,8 +10,8 @@ namespace Shudder.Configs
         [field: SerializeField, Range(5, 20)] public int CaneraOffset { get; private set; }
 
         [field: Space(10), Header("Size grid")]
-        [field: SerializeField, Range(4, 10)] public int Width { get; private set; } = 5;
-        [field: SerializeField, Range(4, 20)] public int Height { get; private set; } = 10;
+        [field: SerializeField, Range(4, 30)] public int Width { get; private set; } = 5;
+        [field: SerializeField, Range(4, 50)] public int Height { get; private set; } = 10;
        
         [field: Space(10), Header("Hole")]
         [field: SerializeField, Range(0, 10)] public int MinHolePositionForX { get; private set; }
