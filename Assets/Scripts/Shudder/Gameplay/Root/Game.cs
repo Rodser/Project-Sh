@@ -30,10 +30,25 @@ namespace Shudder.Gameplay.Root
             _container.Resolve<CameraSurveillanceService>().Follow();
         }
 
+        public void SetCurrentGrid(Grid currentGrid)
+        {
+            CurrentGrid = currentGrid;
+        }
+
         public void DestroyGrid()
         {
             if(CurrentGrid is null)
                 return;
+            for (var x = 0; x < CurrentGrid.Grounds.GetLength(0); x++)
+            {for (var y = 0; y < CurrentGrid.Grounds.GetLength(1); y++)
+            {
+                var ground = CurrentGrid.Grounds[x, y];
+                
+                Object.Destroy(ground.Presenter.View.gameObject);
+                ground.Presenter.View = null;
+            }}
+
+            CurrentGrid.Grounds = null;
             Object.Destroy(CurrentGrid.Presenter.View.gameObject);
             CurrentGrid = null;
         }
@@ -47,11 +62,6 @@ namespace Shudder.Gameplay.Root
             var position = _heroPosition;
             position.y += 10;
             await cameraService.MoveCameraAsync(position);
-        }
-
-        public void SetCurrentGrid(Grid currentGrid)
-        {
-            CurrentGrid = currentGrid;
         }
     }
 }

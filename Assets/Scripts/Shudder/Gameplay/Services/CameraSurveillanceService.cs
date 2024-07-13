@@ -23,13 +23,18 @@ namespace Shudder.Gameplay.Services
 
         private async void OnChangePosition(Vector3 position)
         {
+            if(_camera == null)
+                return;
+            
             var start = _camera.transform.position;
             var end = new Vector3(position.x, _camera.transform.position.y, position.z - 2f);
 
+            var speed = 0.6f;
             var time = 0f;
             while (time < 1f)
             {
-                const float speed = 0.6f;
+                if(_camera == null)
+                    return;
                 time += speed * Time.deltaTime;
                 _camera.transform.position = Vector3.Lerp(start, end, time);
 
