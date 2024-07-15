@@ -25,5 +25,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bb8778a7f189b4d45994e03f8daae730, type: 2}
   <SelectIndicator>k__BackingField: {fileID: 8478324856384917096, guid: 978788be5a66a15478b5464689a0440a,
     type: 3}
-  <Light>k__BackingField: {fileID: 5979298048210950428, guid: 33147493b382dfc4cb7f1452f91c74b5,
+  <Light>k__BackingField: {fileID: 2212752190946412240, guid: 33147493b382dfc4cb7f1452f91c74b5,
     type: 3}

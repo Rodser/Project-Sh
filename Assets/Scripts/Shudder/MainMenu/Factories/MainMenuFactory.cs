@@ -1,13 +1,9 @@
 using DI;
-using Logic;
 using Shudder.Events;
 using Shudder.Factories;
 using Shudder.MainMenu.Configs;
-using Shudder.Services;
 using Shudder.UI;
-using Shudder.Vews;
 using UnityEngine;
-using Grid = Shudder.Models.Grid;
 
 namespace Shudder.MainMenu.Factories
 {
@@ -16,8 +12,6 @@ namespace Shudder.MainMenu.Factories
         private readonly DIContainer _container;
         private readonly MenuConfig _menuConfig;
         
-        private Grid _menuGrid;
-        private CameraFollowView _cameraView;
         private readonly ITriggerOnlyEventBus _triggerEventBus;
 
         public MainMenuFactory(DIContainer container, MenuConfig menuConfig)
@@ -30,17 +24,16 @@ namespace Shudder.MainMenu.Factories
 
         public async void Create()
         {
-            _cameraView = _container.Resolve<CameraService>().View;
-            _menuGrid = await _container
+            var menuGrid = await _container
                 .Resolve<GridFactory>("MenuGrid")
                 .Create(-1, true);
             
-            Object.Instantiate(_menuConfig.Title, _menuGrid.Hole.AnchorPoint);
-            _container.Resolve<LightFactory>().Create(_menuConfig.Light, _cameraView.transform, _menuGrid.Presenter.View.transform);
+            Object.Instantiate(_menuConfig.Title, menuGrid.Hole.AnchorPoint);
+            _container.Resolve<LightFactory>().Create(_menuConfig.Light, menuGrid);
 
             var menuUI = CreateUIMainMenu();
             menuUI.Bind(_triggerEventBus);
-            var menu = new Models.MainMenu(_container, _menuGrid);
+            var menu = new Models.MainMenu(_container, menuGrid);
         }
 
         private UIMenuView CreateUIMainMenu()

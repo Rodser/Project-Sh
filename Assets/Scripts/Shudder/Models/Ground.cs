@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Shudder.Gameplay.Models;
+﻿using System.Collections.Generic;
 using Shudder.Models.Interfaces;
 using Shudder.Presenters;
 using UnityEngine;

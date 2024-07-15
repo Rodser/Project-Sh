@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using DI;
-using Logic;
 using Shudder.Configs;
 using Shudder.Factories;
 using Shudder.Gameplay.Factories;
@@ -33,11 +32,9 @@ namespace Shudder.Gameplay.Services
 
             game.SetCurrentGrid(currentGrid);
 
-            await UniTask.Yield();
-            
             _container
                 .Resolve<LightFactory>()
-                .Create(_gameConfig.Light, game.CameraFollow.Presenter.View.transform, currentGrid.Presenter.View.transform);
+                .Create(_gameConfig.Light, currentGrid);
 
             var hero = _container
                 .Resolve<HeroFactory>()

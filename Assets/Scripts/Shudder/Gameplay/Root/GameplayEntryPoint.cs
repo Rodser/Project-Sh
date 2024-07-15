@@ -2,7 +2,6 @@ using Config;
 using Core;
 using Cysharp.Threading.Tasks;
 using DI;
-using Logic;
 using Shudder.Configs;
 using Shudder.Events;
 using Shudder.Factories;
@@ -78,8 +77,9 @@ namespace Shudder.Gameplay.Root
             _container.Resolve<IReadOnlyEventBus>().HasVictory.AddListener(OnHasVictory);
         }
 
-        private void OnHasVictory()
+        private async void OnHasVictory(Transform groundAnchorPoint)
         {
+            await _container.Resolve<CameraService>().MoveCameraAsync(groundAnchorPoint.position);
             _container.Resolve<VictoryHandlerService>().HasVictory(_game);
         }
     }

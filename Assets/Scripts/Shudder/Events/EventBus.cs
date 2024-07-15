@@ -10,7 +10,7 @@ namespace Shudder.Events
         public UnityEvent ExitGame { get; } = new();
         public UnityEvent<Vector3> ChangeHeroPosition { get; } = new();
         public UnityEvent<Transform> ChangeHeroParentGround { get; } = new();
-        public UnityEvent HasVictory { get; } = new();
+        public UnityEvent<Transform> HasVictory { get; } = new();
 
         public void TriggerStartGameplayScene() => 
             StartGameplayScene?.Invoke();
@@ -27,7 +27,7 @@ namespace Shudder.Events
         public void TriggerChangeHeroParentGround(Transform parent) => 
             ChangeHeroParentGround?.Invoke(parent);
 
-        public void TriggerVictory() =>
-            HasVictory?.Invoke();
+        public void TriggerVictory(Transform groundAnchorPoint) =>
+            HasVictory?.Invoke(groundAnchorPoint);
     }
 }

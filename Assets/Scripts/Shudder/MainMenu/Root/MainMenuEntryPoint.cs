@@ -1,5 +1,4 @@
 using DI;
-using Logic;
 using Shudder.Factories;
 using Shudder.MainMenu.Configs;
 using Shudder.MainMenu.Factories;
@@ -32,7 +31,7 @@ namespace Shudder.MainMenu.Root
                 new GridFactory(_container, _menuConfiguration.MenuGridConfig));
             _container.RegisterSingleton(c => new BuilderGridService(_container));
             _container.RegisterSingleton(c => new GroundFactory(_container));
-            _container.RegisterSingleton(c =>  new LightFactory());
+            _container.RegisterSingleton(c => new LightFactory());
         }
 
         private void InitializeCameraService()

@@ -3,6 +3,7 @@ using DI;
 using Shudder.Events;
 using Shudder.Gameplay.Models;
 using Shudder.Models;
+using Shudder.Services;
 using Shudder.Vews;
 using UnityEngine;
 
@@ -42,7 +43,7 @@ namespace Shudder.Gameplay.Views
             {
                 case GroundType.Hole:
                     Debug.Log("Victory");
-                    RunNewLevel();
+                    RunNewLevel(ground.AnchorPoint);
                     break;
                 case GroundType.Pit:
                     Destroy(gameObject, 1000);
@@ -53,10 +54,10 @@ namespace Shudder.Gameplay.Views
             }
         }
 
-        private async void RunNewLevel()
+        private async void RunNewLevel(Transform groundAnchorPoint)
         {
             await UniTask.Delay(500);
-            _triggerEventBus.TriggerVictory();
+            _triggerEventBus.TriggerVictory(groundAnchorPoint);
         }
     }
 }
