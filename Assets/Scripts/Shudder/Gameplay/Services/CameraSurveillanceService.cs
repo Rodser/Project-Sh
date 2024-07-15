@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Events;
+using Shudder.Vews;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Services
@@ -8,35 +9,36 @@ namespace Shudder.Gameplay.Services
     public class CameraSurveillanceService
     {
         private readonly DIContainer _container;
-        private readonly Camera _camera;
+        
+        private CameraFollowView _cameraFollowView;
 
-        public CameraSurveillanceService(DIContainer container, Camera camera)
+        public CameraSurveillanceService(DIContainer container)
         {
             _container = container;
-            _camera = camera;
         }
 
-        public void Follow()
+        public void Follow(CameraFollowView cameraFollowView)
         {
+            _cameraFollowView = cameraFollowView;
             _container.Resolve<IReadOnlyEventBus>().ChangeHeroPosition.AddListener(OnChangePosition);
         }
 
         private async void OnChangePosition(Vector3 position)
         {
-            if(_camera == null)
+            if(_cameraFollowView == null)
                 return;
             
-            var start = _camera.transform.position;
-            var end = new Vector3(position.x, _camera.transform.position.y, position.z - 2f);
+            var start = _cameraFollowView.transform.position;
+            var end = new Vector3(position.x, _cameraFollowView.transform.position.y, position.z);
 
             var speed = 0.6f;
             var time = 0f;
             while (time < 1f)
             {
-                if(_camera == null)
+                if(_cameraFollowView == null)
                     return;
                 time += speed * Time.deltaTime;
-                _camera.transform.position = Vector3.Lerp(start, end, time);
+                _cameraFollowView.transform.position = Vector3.Lerp(start, end, time);
 
                 await UniTask.Yield();
             }

@@ -39,17 +39,17 @@ namespace Shudder.Gameplay.Models
 
         public void ChangeGround(Ground ground)
         {
-            if (CurrentGround is null)
-            {
-                _indicatorService.CreateSelectIndicators(ground);
-            }
-            else
-            {
-                _indicatorService.RemoveSelectIndicators();
-            }
-
+            _indicatorService.RemoveSelectIndicators();
             CurrentGround = ground;
             _triggerEventBus.TriggerChangeHeroParentGround(ground.AnchorPoint);
+        }
+
+        public async void SetGround(Ground ground)
+        {
+            CurrentGround = ground;
+            
+            await UniTask.Delay(500);
+            _indicatorService.CreateSelectIndicators(ground);
         }
     }
 }

@@ -32,10 +32,12 @@ namespace Shudder.Gameplay.Services
                 .Create(level);
 
             game.SetCurrentGrid(currentGrid);
+
+            await UniTask.Yield();
             
             _container
                 .Resolve<LightFactory>()
-                .Create(_gameConfig.Light, game.Camera.transform, currentGrid.Presenter.View.transform);
+                .Create(_gameConfig.Light, game.CameraFollow.Presenter.View.transform, currentGrid.Presenter.View.transform);
 
             var hero = _container
                 .Resolve<HeroFactory>()

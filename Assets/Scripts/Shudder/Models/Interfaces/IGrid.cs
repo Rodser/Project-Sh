@@ -1,5 +1,4 @@
 using Shudder.Presenters;
-using UnityEngine;
 
 namespace Shudder.Models.Interfaces
 {
@@ -8,6 +7,5 @@ namespace Shudder.Models.Interfaces
         GridPresenter Presenter { get; set; }
         Ground[,] Grounds { get; set; }
         Ground Hole { get; set; }
-        Vector3 OffsetPosition { get ; set ; }
     }
 }

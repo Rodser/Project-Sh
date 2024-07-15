@@ -1,26 +1,26 @@
 using Cysharp.Threading.Tasks;
 using Shudder.Models;
+using Shudder.Vews;
 using UnityEngine;
 
 namespace Shudder.Services
 {
     public class CameraService
     {
-        private readonly CameraFollow _cameraFollow;
-
         public CameraService(CameraFollow cameraFollow)
         {
-            _cameraFollow = cameraFollow;
+            CameraFollow = cameraFollow;
         }
 
-        public Camera Camera => _cameraFollow.Presenter.View.Camera;
-        public CameraFollow CameraFollow => _cameraFollow;
+        public Camera Camera => View.Camera;
+        public CameraFollow CameraFollow { get; }
+        public CameraFollowView View => CameraFollow.Presenter.View;
 
         public async UniTask MoveCameraAsync(Vector3 target)
         {
-            var deviation = Vector3.Lerp(Camera.transform.position, target, 0.4f);
+            var deviation = Vector3.Lerp(View.transform.position, target, 0.4f);
             deviation.z += 2f;
-            await Fly(deviation ,target, Camera.transform);
+            await Fly(deviation ,target, View.transform);
         }
         
         private async UniTask Fly(Vector3 deviation, Vector3 target, Transform transform)
