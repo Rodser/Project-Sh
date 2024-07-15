@@ -16,8 +16,8 @@ MonoBehaviour:
     type: 2}
   <SpaceBetweenCells>k__BackingField: 0.88
   <CaneraOffset>k__BackingField: 10
-  <Width>k__BackingField: 5
-  <Height>k__BackingField: 8
+  <Width>k__BackingField: 7
+  <Height>k__BackingField: 7
   <MinHolePositionForX>k__BackingField: 2
   <MaxHolePositionForX>k__BackingField: 3
   <MinHolePositionForY>k__BackingField: 5

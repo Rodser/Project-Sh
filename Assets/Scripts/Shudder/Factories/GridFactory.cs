@@ -39,20 +39,20 @@ namespace Shudder.Factories
                                      throw new ArgumentNullException("_container.Resolve<BuilderGridService>()");
             if (isMenu)
             {
-                builderGridService = await builderGridService.CreateGrounds(grid, _hexogenGridConfig, isMenu);
-                builderGridService = await builderGridService.EstablishPit();
-                builderGridService = await builderGridService.EstablishHole();
+               return await builderGridService
+                    .CreateGrounds(grid, _hexogenGridConfig, isMenu)
+                    .EstablishPit()
+                    .EstablishHole()
+                    .GetBuild();
             }
             else
             {
-                builderGridService = await builderGridService.CreateGrounds(grid, _hexogenGridConfigs[level], isMenu);
-                builderGridService = await builderGridService.EstablishPit();
-                builderGridService = await builderGridService.EstablishHole();
-                builderGridService = await builderGridService.SetNeighbors();
+                return await builderGridService
+                    .CreateGrounds(grid, _hexogenGridConfigs[level], isMenu)
+                    .EstablishPit()
+                    .EstablishHole()
+                    .GetBuild();
             }
-
-            return await builderGridService.GetBuild();
         }
-
     }
 }

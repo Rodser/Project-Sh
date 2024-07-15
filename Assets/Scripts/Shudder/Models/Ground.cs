@@ -14,6 +14,11 @@ namespace Shudder.Models
             OffsetPosition = offsetPosition;
         }
 
+        public Ground(GroundType groundType)
+        {
+            GroundType = groundType;
+        }
+
         public Vector2 Id { get; }
         public Transform AnchorPoint => Presenter.View.AnchorPoint;
         public GroundType GroundType { get; set; }

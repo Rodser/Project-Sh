@@ -18,18 +18,20 @@ namespace Shudder.Services
         private GroundFactory _groundFactory;
         private Vector3 _offsetPosition;
         private bool _isMenu;
+        private Ground[,] _cells;
 
         public BuilderGridService(DIContainer container)
         {
             _container = container;
         }
 
-        public async UniTask<BuilderGridService> CreateGrounds(Grid grid, HexogenGridConfig config, bool isMenu)
+        public  BuilderGridService CreateGrounds(Grid grid, HexogenGridConfig config, bool isMenu)
         {
             _grid = grid;
             _config = config;
             _isMenu = isMenu;
             _grid.Grounds = new Ground[config.Width, config.Height];
+            _cells = new Ground[config.Width, config.Height];
             _offsetPosition = GetOffsetPosition(config);
             _groundFactory = _container.Resolve<GroundFactory>();
 
@@ -37,10 +39,9 @@ namespace Shudder.Services
             {
                 for (int x = 0; x < config.Width; x++)
                 {
-                    GroundType groundType = GetGroundType();
-
-                    grid.Grounds[x, z] = await _groundFactory.Create(config, _grid.Presenter.View.transform, x, z,
-                        _offsetPosition, groundType, isMenu);
+                    _cells[x, z] = new Ground(GetGroundType());
+                    //grid.Grounds[x, z] = await _groundFactory.Create(config, _grid.Presenter.View.transform, x, z,
+                     //   _offsetPosition, groundType, isMenu);
                 }
             }
             Debug.Log("Create Grounds");
@@ -52,7 +53,7 @@ namespace Shudder.Services
         //     return builder._grid;
         // }
 
-        public async UniTask<BuilderGridService> EstablishPit()
+        public BuilderGridService EstablishPit()
         {
             for (int y = 0; y < _grid.Grounds.GetLength(1); y++)
             {
@@ -61,10 +62,10 @@ namespace Shudder.Services
                     if (!TryGetPit(x, y)) 
                         continue;
                     
-                    _grid.Grounds[x, y].GroundType = GroundType.Pit;
-                    Object.Destroy(_grid.Grounds[x, y].Presenter.View.gameObject);
-                    _grid.Grounds[x, y].Presenter.View = null;
-                    await UniTask.Yield();
+                    _cells[x, y].GroundType = GroundType.Pit;
+                   // Object.Destroy(_grid.Grounds[x, y].Presenter.View.gameObject);
+                   // _grid.Grounds[x, y].Presenter.View = null;
+                   // await UniTask.Yield();
                 }
             }
             Debug.Log("Establish Pit");
@@ -72,36 +73,29 @@ namespace Shudder.Services
             return this;
         }
 
-        public async UniTask<BuilderGridService> EstablishHole()
+        public BuilderGridService EstablishHole()
         {
-            for (int y = 0; y < _grid.Grounds.GetLength(1); y++)
-            {
-                for (int x = 0; x < _grid.Grounds.GetLength(0); x++)
-                {
-                    if (!TryGetHole(x, y) || _grid.Hole != null) 
-                        continue;
-
-                    if (_grid.Grounds[x, y] != null) 
-                        Object.Destroy(_grid.Grounds[x, y].Presenter.View.gameObject);
-                    
-                    _grid.Grounds[x, y] = await _groundFactory
-                        .Create(_config, _grid.Presenter.View.transform, x,y, _offsetPosition, GroundType.Hole, _isMenu);
-                    
-                    _grid.Hole = _grid.Grounds[x, y];
-                }
-            }
+            var v = CalculateHolePosition(_config);
+                    _cells[v.x, v.y].GroundType = GroundType.Hole;
+                    // if (_grid.Grounds[x, y] != null) 
+                    //     Object.Destroy(_grid.Grounds[x, y].Presenter.View.gameObject);
+                    //
+                    // _grid.Grounds[x, y] = await _groundFactory
+                    //     .Create(_config, _grid.Presenter.View.transform, x,y, _offsetPosition, GroundType.Hole, _isMenu);
+                    //
+                    // _grid.Hole = _grid.Grounds[x, y];
+                
             Debug.Log("Establish Hole");
             return this;
         }
         
-        public async UniTask<BuilderGridService>  SetNeighbors()
+        public BuilderGridService  SetNeighbors()
         {
             for (int y = 0; y < _grid.Grounds.GetLength(1); y++)
             {
                 for (int x = 0; x < _grid.Grounds.GetLength(0); x++)
                 {
                     AddAllNeighbors(_grid, y, x);
-                    await UniTask.Yield();
                 }
             }
             Debug.Log("Set Neighbors");
@@ -110,7 +104,18 @@ namespace Shudder.Services
 
         public async UniTask<Grid> GetBuild()
         {
-            await UniTask.Yield();
+            for (int z = 0; z < _config.Height; z++)
+            {
+                for (int x = 0; x < _config.Width; x++)
+                {
+                        _grid.Grounds[x, z] = await _groundFactory.Create(_config, _grid.Presenter.View.transform, x, z,
+                        _offsetPosition,  _cells[x, z].GroundType, _isMenu);
+                        if (_cells[x, z].GroundType == GroundType.Hole)
+                            _grid.Hole = _grid.Grounds[x, z];
+                }
+            }
+
+            SetNeighbors();
             return _grid;
         }
 
@@ -120,7 +125,7 @@ namespace Shudder.Services
 
             var x = (config.Width + rowOffset) * config.SpaceBetweenCells * 0.5f;
             var z = config.Height * config.SpaceBetweenCells * Coefficient.InnerRadiusCoefficient * 0.5f;
-            var y = config.CaneraOffset;
+            var y = 0f; // config.CaneraOffset;
 
             return _container.Resolve<CameraService>().CameraFollow.Presenter.View.transform.position - new Vector3(x, y, z);
         }
@@ -157,11 +162,11 @@ namespace Shudder.Services
             return Mathf.Approximately(x, holePosition.x) && Mathf.Approximately(y, holePosition.y);
         }
 
-        private Vector3 CalculateHolePosition(HexogenGridConfig config)
+        private Vector2Int CalculateHolePosition(HexogenGridConfig config)
         {
             var xHole = Random.Range(config.MinHolePositionForX - 1, config.MaxHolePositionForX);
             var yHole = Random.Range(config.MinHolePositionForY - 1, config.MaxHolePositionForY);
-            return new Vector2(xHole, yHole);
+            return new Vector2Int(xHole, yHole);
         }
 
         private GroundType GetGroundType()

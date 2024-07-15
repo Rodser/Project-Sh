@@ -79,7 +79,9 @@ namespace Shudder.Gameplay.Root
 
         private async void OnHasVictory(Transform groundAnchorPoint)
         {
-            await _container.Resolve<CameraService>().MoveCameraAsync(groundAnchorPoint.position);
+            var position = groundAnchorPoint.position;
+            position.y -= 2;
+            await _container.Resolve<CameraService>().MoveCameraAsync(position);
             _container.Resolve<VictoryHandlerService>().HasVictory(_game);
         }
     }

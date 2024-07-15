@@ -1,2 +1,2 @@
-Build path: D:/Build/Shudder/RGDS.Shudder.0.3.5
-Build number: 1
+Build path: D:/Build/Shudder/RGDS.Shudder.0.3.6
+Build number: 2
