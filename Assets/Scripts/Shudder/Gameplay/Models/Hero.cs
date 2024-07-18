@@ -3,6 +3,7 @@ using DI;
 using Shudder.Events;
 using Shudder.Gameplay.Services;
 using Shudder.Models;
+using Shudder.Models.Interfaces;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Models
@@ -23,7 +24,7 @@ namespace Shudder.Gameplay.Models
         public bool AtHole { get; set; }
         public float Speed { get; private set;}
         public int Health { get; set;}
-        public Ground CurrentGround { get; private set; }
+        public IGround CurrentGround { get; private set; }
         public Vector3 Position { get; private set; }
 
         public void Damage()
@@ -37,7 +38,7 @@ namespace Shudder.Gameplay.Models
             _triggerEventBus.TriggerChangeHeroPosition(position);
         }
 
-        public void ChangeGround(Ground ground)
+        public void ChangeGround(IGround ground)
         {
             _indicatorService.RemoveSelectIndicators();
             CurrentGround = ground;

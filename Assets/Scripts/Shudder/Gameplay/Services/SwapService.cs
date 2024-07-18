@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using DI;
-using Shudder.Gameplay.Models;
 using Shudder.Models;
 using Shudder.Models.Interfaces;
 using UnityEngine;
@@ -18,7 +17,7 @@ namespace Shudder.Gameplay.Services
             _container = container;
         }
         
-        public async UniTask SwapWaveAsync(IGround ground, List<Vector2> offsetItems, int swapLimit)
+        public async UniTask SwapWaveAsync(IGround ground, List<Vector2> offsetItems, int swapLimit, bool isHero)
         {
             if(swapLimit <= 0)
                 return;
@@ -27,16 +26,16 @@ namespace Shudder.Gameplay.Services
                 return;
             
             offsetItems.Add(ground.Id);
-            Swap(ground);
+            Swap(ground, isHero);
             await UniTask.Delay(100);
 
             foreach (var neighbor in ground.Neighbors)
             {
-                await SwapWaveAsync(neighbor, offsetItems, --swapLimit);
+                await SwapWaveAsync(neighbor, offsetItems, --swapLimit, false);
             }
         }
 
-        private void Swap(IGround ground)
+        private void Swap(IGround ground, bool isHero)
         {
             var groundType = ground.GroundType;
             if (IsStationary(groundType))
@@ -44,7 +43,9 @@ namespace Shudder.Gameplay.Services
 
             groundType -= 1;
             if (groundType < 0)
-                groundType = GroundType.TileHigh;
+            {
+                groundType = isHero ? GroundType.TileLow : GroundType.TileHigh;
+            }
             ground.ChangeGroundType(groundType);
 
             _container.Resolve<LiftService>().MoveAsync(ground.Presenter.View, ground.OffsetPosition.y);

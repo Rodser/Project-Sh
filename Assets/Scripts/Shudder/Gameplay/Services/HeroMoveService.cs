@@ -3,7 +3,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Gameplay.Models;
-using Shudder.Gameplay.Views;
+using Shudder.Models;
 using Shudder.Models.Interfaces;
 using Shudder.Services;
 using Shudder.Vews;
@@ -14,7 +14,7 @@ namespace Shudder.Gameplay.Services
 {
     public class HeroMoveService
     {
-        private const int SwapLimit = 5;
+        private const int SwapLimit = 6;
         
         private readonly DIContainer _container;
         private Hero _hero;
@@ -32,21 +32,31 @@ namespace Shudder.Gameplay.Services
         
         private async void Move(InputAction.CallbackContext callback)
         {
-            if (TryGetSelectGround(out var selectGround))
+            if (!TryGetSelectGround(out var selectGround)) 
+                return;
+            
+            if (selectGround.Id == _hero.CurrentGround.Id)
+                MoveHeroAndSwapWave(selectGround.Presenter.Ground);
+            else
             {
                 foreach (var groundNeighbor in _hero.CurrentGround.Neighbors
-                             .Where(g => g.Id == selectGround.Id))
+                             .Where(g => g.Id == selectGround.Id || selectGround.Id == _hero.CurrentGround.Id))
                 {
-                    await MoveToTarget(groundNeighbor.AnchorPoint.position);
-                    _hero.ChangeGround(groundNeighbor);
-
-                    await _container
-                        .Resolve<SwapService>()
-                        .SwapWaveAsync(groundNeighbor, new List<Vector2>(), SwapLimit);
-                
-                    _container.Resolve<IndicatorService>().CreateSelectIndicators(_hero.CurrentGround);
+                    MoveHeroAndSwapWave(groundNeighbor);
                 }
             }
+        }
+
+        private async void MoveHeroAndSwapWave(IGround ground)
+        {
+            await MoveToTarget(ground.AnchorPoint.position);
+            _hero.ChangeGround(ground);
+
+            await _container
+                .Resolve<SwapService>()
+                .SwapWaveAsync(ground, new List<Vector2>(), SwapLimit, true);
+                
+            _container.Resolve<IndicatorService>().CreateSelectIndicators(_hero.CurrentGround);
         }
 
         private bool TryGetSelectGround(out IGround selectGround)

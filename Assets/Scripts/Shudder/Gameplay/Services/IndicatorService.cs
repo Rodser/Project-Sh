@@ -3,6 +3,7 @@ using DI;
 using Shudder.Configs;
 using Shudder.Gameplay.Models;
 using Shudder.Models;
+using Shudder.Models.Interfaces;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Services
@@ -21,7 +22,7 @@ namespace Shudder.Gameplay.Services
         }
 
 
-        public void CreateSelectIndicators(Ground ground)
+        public void CreateSelectIndicators(IGround ground)
         {
             if(ground.Neighbors == null)
                 return;
