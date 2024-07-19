@@ -34,24 +34,31 @@ namespace Shudder.Gameplay.Services
         {
             if (!TryGetSelectGround(out var selectGround)) 
                 return;
-            
+
             if (selectGround.Id == _hero.CurrentGround.Id)
-                MoveHeroAndSwapWave(selectGround.Presenter.Ground);
+            {
+                MoveHero(selectGround.Presenter.Ground);
+                RunSwapWave(selectGround);
+            }
             else
             {
                 foreach (var groundNeighbor in _hero.CurrentGround.Neighbors
                              .Where(g => g.Id == selectGround.Id || selectGround.Id == _hero.CurrentGround.Id))
                 {
-                    MoveHeroAndSwapWave(groundNeighbor);
+                    MoveHero(groundNeighbor);
+                    RunSwapWave(groundNeighbor);
                 }
             }
         }
 
-        private async void MoveHeroAndSwapWave(IGround ground)
+        private async void MoveHero(IGround ground)
         {
             await MoveToTarget(ground.AnchorPoint.position);
             _hero.ChangeGround(ground);
+        }
 
+        private async void RunSwapWave(IGround ground)
+        {
             await _container
                 .Resolve<SwapService>()
                 .SwapWaveAsync(ground, new List<Vector2>(), SwapLimit, true);
@@ -84,8 +91,8 @@ namespace Shudder.Gameplay.Services
       
         private async UniTask MoveToTarget(Vector3 targetPosition)
         {
-            var deviation = Vector3.Lerp(_hero.Position, targetPosition, 0.4f);
-            deviation.z += 2f;
+            var deviation = Vector3.Lerp(_hero.Position, targetPosition, 0.5f);
+            deviation.y += 1f;
             await Fly(deviation ,targetPosition);
         }
         

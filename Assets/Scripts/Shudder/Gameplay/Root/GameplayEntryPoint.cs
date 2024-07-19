@@ -9,6 +9,7 @@ using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Services;
 using Shudder.Models;
 using Shudder.Services;
+using Shudder.UI;
 using Shudder.Vews;
 using UnityEngine;
 
@@ -79,9 +80,9 @@ namespace Shudder.Gameplay.Root
 
         private async void OnHasVictory(Transform groundAnchorPoint)
         {
-            var position = groundAnchorPoint.position;
-            position.y -= 2;
-            await _container.Resolve<CameraService>().MoveCameraAsync(position);
+            _container.Resolve<CameraSurveillanceService>().UnFollow();
+            await _container.Resolve<CameraService>().Diving(groundAnchorPoint.position);
+            _container.Resolve<UIRootView>().ShowLoadingScreen();
             _container.Resolve<VictoryHandlerService>().HasVictory(_game);
         }
     }

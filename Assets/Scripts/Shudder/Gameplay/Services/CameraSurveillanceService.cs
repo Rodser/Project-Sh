@@ -22,6 +22,11 @@ namespace Shudder.Gameplay.Services
             _cameraFollowView = cameraFollowView;
             _container.Resolve<IReadOnlyEventBus>().ChangeHeroPosition.AddListener(OnChangePosition);
         }
+        
+        public void UnFollow()
+        {
+            _container.Resolve<IReadOnlyEventBus>().ChangeHeroPosition.RemoveListener(OnChangePosition);
+        }
 
         private async void OnChangePosition(Vector3 position)
         {

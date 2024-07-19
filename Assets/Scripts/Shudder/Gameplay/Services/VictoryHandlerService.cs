@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Configs;
 using Shudder.Gameplay.Root;
+using Shudder.UI;
 
 namespace Shudder.Gameplay.Services
 {
@@ -22,6 +23,7 @@ namespace Shudder.Gameplay.Services
             if(game.CurrentLevel < _gameConfig.LevelGridConfigs.Length - 1)
                 game.CurrentLevel++;
             await _container.Resolve<LevelLoadingService>().LoadAsync(game);
+            _container.Resolve<UIRootView>().HideLoadingScreen();
             game.Run();
         }
     }
