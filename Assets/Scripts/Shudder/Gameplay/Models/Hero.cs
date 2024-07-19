@@ -1,14 +1,15 @@
 using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Events;
+using Shudder.Gameplay.Models.Interfaces;
+using Shudder.Gameplay.Presenters;
 using Shudder.Gameplay.Services;
-using Shudder.Models;
 using Shudder.Models.Interfaces;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Models
 {
-    public class Hero
+    public class Hero : IHero
     {
         private readonly ITriggerOnlyEventBus _triggerEventBus;
         private readonly IndicatorService _indicatorService;
@@ -22,10 +23,10 @@ namespace Shudder.Gameplay.Models
         }
 
         public bool AtHole { get; set; }
-        public float Speed { get; private set;}
+        public float Speed { get; set;}
         public int Health { get; set;}
-        public IGround CurrentGround { get; private set; }
-        public Vector3 Position { get; private set; }
+        public IGround CurrentGround { get; set; }
+        public Vector3 Position { get; set; }
 
         public void Damage()
         {
@@ -45,12 +46,14 @@ namespace Shudder.Gameplay.Models
             _triggerEventBus.TriggerChangeHeroParentGround(ground.AnchorPoint);
         }
 
-        public async void SetGround(Ground ground)
+        public async void SetGround(IGround ground)
         {
             CurrentGround = ground;
             
             await UniTask.Delay(500);
             _indicatorService.CreateSelectIndicators(ground);
         }
+
+        public HeroPresenter Presenter { get; set; }
     }
 }

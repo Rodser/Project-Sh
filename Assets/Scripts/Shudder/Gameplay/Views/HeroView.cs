@@ -1,9 +1,8 @@
 using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Events;
-using Shudder.Gameplay.Models;
+using Shudder.Gameplay.Presenters;
 using Shudder.Models;
-using Shudder.Services;
 using Shudder.Vews;
 using UnityEngine;
 
@@ -14,10 +13,15 @@ namespace Shudder.Gameplay.Views
     {
         private ITriggerOnlyEventBus _triggerEventBus;
 
-        public void Construct(DIContainer container)
+        public HeroPresenter Presenter { get; set; }
+
+        public void Construct(DIContainer container, HeroPresenter presenter)
         {
             _triggerEventBus = container.Resolve<ITriggerOnlyEventBus>();
             var readEventBus = container.Resolve<IReadOnlyEventBus>();
+            
+            Presenter = presenter;
+            Presenter.SetView(this);
             
             readEventBus.ChangeHeroPosition.AddListener(OnChangePosition);
             readEventBus.ChangeHeroParentGround.AddListener(OnChangeParent);

@@ -1,8 +1,8 @@
-using Config;
 using DI;
 using Shudder.Configs;
 using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Models;
+using Shudder.Gameplay.Presenters;
 using Shudder.Models;
 using UnityEngine;
 
@@ -30,7 +30,8 @@ namespace Shudder.Gameplay.Factories
             };
             
             var heroView = Object.Instantiate(_heroConfig.Prefab, position, Quaternion.identity, ground.AnchorPoint);
-            heroView.Construct(_container);
+            var presenter = new HeroPresenter(hero);
+            heroView.Construct(_container, presenter);
             hero.ChangePosition(ground.AnchorPoint.position);
             hero.SetGround(ground);
             return hero;
