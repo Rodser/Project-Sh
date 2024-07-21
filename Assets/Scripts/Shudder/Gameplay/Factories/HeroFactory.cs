@@ -32,7 +32,6 @@ namespace Shudder.Gameplay.Factories
             var heroView = Object.Instantiate(_heroConfig.Prefab, position, Quaternion.identity, ground.AnchorPoint);
             var presenter = new HeroPresenter(hero);
             heroView.Construct(_container, presenter);
-            hero.ChangePosition(ground.AnchorPoint.position);
             hero.SetGround(ground);
             return hero;
         }

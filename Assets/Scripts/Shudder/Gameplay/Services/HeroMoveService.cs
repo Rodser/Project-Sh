@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using DI;
-using Shudder.Gameplay.Models;
-using Shudder.Models;
+using Shudder.Gameplay.Configs;
+using Shudder.Gameplay.Models.Interfaces;
 using Shudder.Models.Interfaces;
 using Shudder.Services;
 using Shudder.Vews;
@@ -15,46 +16,50 @@ namespace Shudder.Gameplay.Services
     public class HeroMoveService
     {
         private const int SwapLimit = 6;
-        
-        private readonly DIContainer _container;
-        private Hero _hero;
 
-        public HeroMoveService(DIContainer container)
+        private readonly DIContainer _container;
+        private readonly HeroConfig _heroConfig;
+        private IHero _hero;
+        private readonly JumpService _jumpService;
+
+        public HeroMoveService(DIContainer container, HeroConfig heroConfig)
         {
             _container = container;
+            _heroConfig = heroConfig;
+            _jumpService = _container.Resolve<JumpService>();
         }
 
-        public void Subscribe(Hero hero)
+        public void Subscribe(IHero hero)
         {
             _hero = hero;
             _container.Resolve<InputService>().AddListener(Move);
         }
-        
+
         private async void Move(InputAction.CallbackContext callback)
         {
-            if (!TryGetSelectGround(out var selectGround)) 
+            if (!TryGetSelectGround(out var selectGround))
                 return;
 
             if (selectGround.Id == _hero.CurrentGround.Id)
             {
-                MoveHero(selectGround.Presenter.Ground);
+                await MoveHero(selectGround.Presenter.Ground);
                 RunSwapWave(selectGround);
             }
             else
             {
                 foreach (var groundNeighbor in _hero.CurrentGround.Neighbors
-                             .Where(g => g.Id == selectGround.Id || selectGround.Id == _hero.CurrentGround.Id))
+                             .Where(g => g.Id == selectGround.Id))
                 {
-                    MoveHero(groundNeighbor);
+                    await MoveHero(groundNeighbor);
                     RunSwapWave(groundNeighbor);
                 }
             }
         }
 
-        private async void MoveHero(IGround ground)
+        private async UniTask MoveHero(IGround ground)
         {
-            await MoveToTarget(ground.AnchorPoint.position);
             _hero.ChangeGround(ground);
+            await MoveToTarget(ground.AnchorPoint);
         }
 
         private async void RunSwapWave(IGround ground)
@@ -62,7 +67,7 @@ namespace Shudder.Gameplay.Services
             await _container
                 .Resolve<SwapService>()
                 .SwapWaveAsync(ground, new List<Vector2>(), SwapLimit, true);
-                
+
             _container.Resolve<IndicatorService>().CreateSelectIndicators(_hero.CurrentGround);
         }
 
@@ -78,44 +83,20 @@ namespace Shudder.Gameplay.Services
                 selectGround = null;
                 return false;
             }
-            
+
             selectGround = hit.collider.GetComponentInParent<GroundView>().Presenter.Ground;
 
             if (selectGround == null)
                 return false;
-            
+
             return _container
                 .Resolve<CheckingPossibilityOfJumpService>()
                 .CheckPossible(selectGround.GroundType, _hero.CurrentGround.GroundType);
         }
-      
-        private async UniTask MoveToTarget(Vector3 targetPosition)
-        {
-            var deviation = Vector3.Lerp(_hero.Position, targetPosition, 0.5f);
-            deviation.y += 1f;
-            await Fly(deviation ,targetPosition);
-        }
-        
-        private async UniTask Fly(Vector3 deviation, Vector3 target)
-        {
-            Vector3 startPosition = _hero.Position; 
-            var timeInFly = 0f;
-            while (timeInFly < 1f)
-            {
-                float speedFlying = 1f;
-                timeInFly += speedFlying * Time.deltaTime;
-                var position = GetCurve(startPosition, deviation, target, timeInFly);
-                _hero.ChangePosition(position);
-                await UniTask.Yield();
-            }
-        }
 
-        private Vector3 GetCurve(Vector3 a, Vector3 b, Vector3 c, float time)
+        private async UniTask MoveToTarget(Transform target)
         {
-            Vector3 ab = Vector3.Lerp(a, b, time);
-            Vector3 bc = Vector3.Lerp(b, c, time);
-
-            return Vector3.Lerp(ab, bc, time);
+            await _jumpService.Jump(_heroConfig.JumpConfig, _hero.Presenter.View.transform, target);
         }
     }
 }

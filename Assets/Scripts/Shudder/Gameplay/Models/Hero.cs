@@ -5,7 +5,6 @@ using Shudder.Gameplay.Models.Interfaces;
 using Shudder.Gameplay.Presenters;
 using Shudder.Gameplay.Services;
 using Shudder.Models.Interfaces;
-using UnityEngine;
 
 namespace Shudder.Gameplay.Models
 {
@@ -22,26 +21,20 @@ namespace Shudder.Gameplay.Models
             _indicatorService = container.Resolve<IndicatorService>();
         }
 
-        public bool AtHole { get; set; }
         public float Speed { get; set;}
         public int Health { get; set;}
         public IGround CurrentGround { get; set; }
-        public Vector3 Position { get; set; }
+        public HeroPresenter Presenter { get; set; }
 
         public void Damage()
         {
             Health--;
         }
 
-        public void ChangePosition(Vector3 position)
-        {
-            Position = position;
-            _triggerEventBus.TriggerChangeHeroPosition(position);
-        }
-
         public void ChangeGround(IGround ground)
         {
             _indicatorService.RemoveSelectIndicators();
+            Presenter.View.ChangeGround(ground.Presenter.View.transform);
             CurrentGround = ground;
             _triggerEventBus.TriggerChangeHeroParentGround(ground.AnchorPoint);
         }
@@ -49,11 +42,9 @@ namespace Shudder.Gameplay.Models
         public async void SetGround(IGround ground)
         {
             CurrentGround = ground;
-            
+            Presenter.View.transform.position = ground.AnchorPoint.position;
             await UniTask.Delay(500);
             _indicatorService.CreateSelectIndicators(ground);
         }
-
-        public HeroPresenter Presenter { get; set; }
     }
 }

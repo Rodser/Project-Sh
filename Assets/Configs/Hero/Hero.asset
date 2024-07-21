@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Prefab>k__BackingField: {fileID: 3032623474956690496, guid: 8e0f285c21cdcf14e8d5c06c57ba936b,
     type: 3}
+  <JumpConfig>k__BackingField: {fileID: 11400000, guid: 16c6991abef3d9241843cfd95b676a8b,
+    type: 2}
   <StartPositionX>k__BackingField: 3
   <StartPositionY>k__BackingField: 2
   <StartPositionZ>k__BackingField: 3

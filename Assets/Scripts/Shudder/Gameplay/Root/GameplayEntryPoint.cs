@@ -5,6 +5,7 @@ using DI;
 using Shudder.Configs;
 using Shudder.Events;
 using Shudder.Factories;
+using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Services;
 using Shudder.Models;
@@ -52,13 +53,14 @@ namespace Shudder.Gameplay.Root
         private void InitializeServices()
         {      
             _container.RegisterSingleton(c => new CameraSurveillanceService(_container));
-            _container.RegisterSingleton(c => new HeroMoveService(_container));
+            _container.RegisterSingleton(c => new HeroMoveService(_container, _gameConfig.GetConfig<HeroConfig>()));
             _container.RegisterSingleton(c => new CheckingPossibilityOfJumpService());
             _container.RegisterSingleton(c => new LevelLoadingService(_container, _gameConfig));
             _container.RegisterSingleton(c => new VictoryHandlerService(_container, _gameConfig));
             _container.RegisterSingleton(c => new IndicatorService(_container, _gameConfig));
             _container.RegisterTransient(c => new LiftService());
             _container.RegisterTransient(c => new SwapService(_container));
+            _container.RegisterSingleton(c => new JumpService());
 
         }
         

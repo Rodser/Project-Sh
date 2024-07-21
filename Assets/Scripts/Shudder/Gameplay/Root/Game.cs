@@ -1,5 +1,6 @@
 using DI;
-using Shudder.Events;
+using Shudder.Gameplay.Models;
+using Shudder.Gameplay.Models.Interfaces;
 using Shudder.Gameplay.Services;
 using Shudder.Models;
 using Shudder.Services;
@@ -12,23 +13,21 @@ namespace Shudder.Gameplay.Root
     {
         private readonly DIContainer _container;
 
-        private Vector3 _heroPosition;
-        
         public int CurrentLevel { get; set; }
         public CameraFollow CameraFollow { get; set; }
         public Grid CurrentGrid { get; private set; }
+        public IHero Hero { get; set; }
 
         public Game(DIContainer container)
         {
             _container = container;
             CameraFollow = _container.Resolve<CameraService>().CameraFollow;
-            _container.Resolve<IReadOnlyEventBus>().ChangeHeroPosition.AddListener(OnChangeHeroPosition);
         }
 
-        public void Run()
+        public async void Run()
         {
-            FlyCameraAsync();
-            _container.Resolve<CameraSurveillanceService>().Follow(CameraFollow.Presenter.View);
+            await _container.Resolve<CameraService>().MoveCameraAsync(Hero.Presenter.View.transform.position);
+            _container.Resolve<CameraSurveillanceService>().Follow(CameraFollow.Presenter.View, Hero);
         }
 
         public void SetCurrentGrid(Grid currentGrid)
@@ -57,14 +56,6 @@ namespace Shudder.Gameplay.Root
             CurrentGrid.Grounds = null;
             Object.Destroy(CurrentGrid.Presenter.View.gameObject);
             CurrentGrid = null;
-        }
-
-        private void OnChangeHeroPosition(Vector3 position) => 
-            _heroPosition = position;
-
-        private async void FlyCameraAsync()
-        {
-            await _container.Resolve<CameraService>().MoveCameraAsync(_heroPosition);
         }
     }
 }

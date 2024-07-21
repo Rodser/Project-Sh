@@ -22,19 +22,11 @@ namespace Shudder.Gameplay.Views
             
             Presenter = presenter;
             Presenter.SetView(this);
-            
-            readEventBus.ChangeHeroPosition.AddListener(OnChangePosition);
-            readEventBus.ChangeHeroParentGround.AddListener(OnChangeParent);
         }
 
-        private void OnChangeParent(Transform parent)
+        public void ChangeGround(Transform parentGround)
         {
-            transform.SetParent(parent);
-        }
-
-        private void OnChangePosition(Vector3 position)
-        {
-            transform.position = position;
+            transform.SetParent(parentGround);
         }
 
         private void OnTriggerEnter(Collider other)
