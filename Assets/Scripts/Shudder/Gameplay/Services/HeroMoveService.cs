@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using DI;
 using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Models.Interfaces;
@@ -15,8 +14,6 @@ namespace Shudder.Gameplay.Services
 {
     public class HeroMoveService
     {
-        private const int SwapLimit = 6;
-
         private readonly DIContainer _container;
         private readonly HeroConfig _heroConfig;
         private IHero _hero;
@@ -66,7 +63,7 @@ namespace Shudder.Gameplay.Services
         {
             await _container
                 .Resolve<SwapService>()
-                .SwapWaveAsync(ground, new List<Vector2>(), SwapLimit, true);
+                .SwapWaveAsync(ground, new List<Vector2>(), true);
 
             _container.Resolve<IndicatorService>().CreateSelectIndicators(_hero.CurrentGround);
         }

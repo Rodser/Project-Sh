@@ -35,5 +35,17 @@ namespace Shudder.Models
         {
             GroundType = groundType;
         }
+
+        public void ToDestroy()
+        {
+            if(GroundType == GroundType.Hole || GroundType == GroundType.Pit)
+                return;
+            
+            if(Presenter.View == null)
+                return;
+            
+            Object.Destroy(Presenter.View.gameObject);
+            GroundType = GroundType.Pit;
+        }
     }
 }

@@ -108,8 +108,9 @@ namespace Shudder.Services
             {
                 for (int x = 0; x < _config.Width; x++)
                 {
-                        _grid.Grounds[x, z] = await _groundFactory.Create(_config, _grid.Presenter.View.transform, x, z,
-                        _offsetPosition,  _cells[x, z].GroundType, _isMenu);
+                        _grid.Grounds[x, z] = await _groundFactory
+                            .Create(_config, _grid.Presenter.View.transform, x, z, _offsetPosition,  _cells[x, z].GroundType, _isMenu);
+                        
                         if (_cells[x, z].GroundType == GroundType.Hole)
                             _grid.Hole = _grid.Grounds[x, z];
                 }

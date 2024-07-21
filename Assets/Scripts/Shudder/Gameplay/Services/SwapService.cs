@@ -11,27 +11,40 @@ namespace Shudder.Gameplay.Services
     public class SwapService
     {
         private readonly DIContainer _container;
+        
+        private int _swapLimit = 6;
 
         public SwapService(DIContainer container)
         {
             _container = container;
         }
-        
-        public async UniTask SwapWaveAsync(IGround ground, List<Vector2> offsetItems, int swapLimit, bool isHero)
+
+        public async UniTask SwapWaveAsync(IGround ground, List<Vector2> offsetItems, bool isHero)
         {
-            if(swapLimit <= 0)
-                return;
+            if(isHero)
+                _swapLimit = 5;
             
             if (offsetItems.Any(item => item == ground.Id))
                 return;
+            
+            if (_swapLimit == 0)
+            {
+                ground.ToDestroy();
+                return;
+            }
             
             offsetItems.Add(ground.Id);
             Swap(ground, isHero);
             await UniTask.Delay(100);
 
-            foreach (var neighbor in ground.Neighbors)
+            for (var i = 0; i < ground.Neighbors.Count; i++)
             {
-                await SwapWaveAsync(neighbor, offsetItems, --swapLimit, false);
+                var neighbor = ground.Neighbors[i];
+                _swapLimit--;
+                if (_swapLimit < 0)
+                    return;
+
+                await SwapWaveAsync(neighbor, offsetItems, false);
             }
         }
 
