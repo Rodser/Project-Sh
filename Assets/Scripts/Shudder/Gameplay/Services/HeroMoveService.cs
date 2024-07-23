@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Gameplay.Configs;
@@ -44,11 +43,14 @@ namespace Shudder.Gameplay.Services
             }
             else
             {
-                foreach (var groundNeighbor in _hero.CurrentGround.Neighbors
-                             .Where(g => g.Id == selectGround.Id))
+                for (int i = 0; i < _hero.CurrentGround.Neighbors.Count; i++)
                 {
-                    await MoveHero(groundNeighbor);
-                    RunSwapWave(groundNeighbor);
+                    var neighbor = _hero.CurrentGround.Neighbors[i];
+                    if (neighbor.Id != selectGround.Id)
+                        continue;
+                    
+                    await MoveHero(neighbor);
+                    RunSwapWave(neighbor);
                 }
             }
         }

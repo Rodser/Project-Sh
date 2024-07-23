@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using DI;
 using Shudder.Configs;
 using Shudder.Gameplay.Models;
@@ -45,8 +46,9 @@ namespace Shudder.Gameplay.Services
             if(_boxSelectIndicators == null)
                 return;
             
-            foreach (Indicator indicator in _boxSelectIndicators)
-            { 
+            foreach (var indicator in _boxSelectIndicators
+                         .Where(i => i != null))
+            {
                 Object.Destroy(indicator.gameObject);
             }
 

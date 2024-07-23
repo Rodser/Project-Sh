@@ -1,7 +1,5 @@
-using Cysharp.Threading.Tasks;
-using Shudder.Gameplay.Views;
+using DG.Tweening;
 using Shudder.Vews;
-using UnityEngine;
 
 namespace Shudder.Gameplay.Services
 {
@@ -16,16 +14,8 @@ namespace Shudder.Gameplay.Services
             var target = groundView.transform.position;
             target.y = height;
 
-            var time = 0f;
-            while (time < 1)
-            {
-                await UniTask.Yield();
-             
-                if(groundView == null)
-                    return;
-                time += Time.deltaTime;
-                groundView.transform.position = Vector3.Lerp(groundView.transform.position, target, time);
-            }
+            var move = groundView.transform.DOMove(target, 0.2f);
+            await move.AsyncWaitForCompletion();
         }
     }
 }

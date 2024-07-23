@@ -35,17 +35,35 @@ namespace Shudder.Gameplay.Services
             
             offsetItems.Add(ground.Id);
             Swap(ground, isHero);
-            await UniTask.Delay(100);
-
+            
             for (var i = 0; i < ground.Neighbors.Count; i++)
             {
                 var neighbor = ground.Neighbors[i];
                 _swapLimit--;
                 if (_swapLimit < 0)
                     return;
-
-                await SwapWaveAsync(neighbor, offsetItems, false);
+                
+                if (_swapLimit == 0)
+                {
+                    if(Random.value < 0.5f)
+                        neighbor.ToDestroy();
+                    return;
+                }
+                
+                Swap(neighbor, false);
+                await UniTask.Delay(50);
             }
+            
+            // for (var i = 0; i < ground.Neighbors.Count; i++)
+            // {
+            //     var neighbor = ground.Neighbors[i];
+            //     _swapLimit--;
+            //     if (_swapLimit < 0)
+            //         return;
+            //
+            //     await UniTask.Delay(500);
+            //     await SwapWaveAsync(neighbor, offsetItems, false);
+            // }
         }
 
         private void Swap(IGround ground, bool isHero)
@@ -64,7 +82,7 @@ namespace Shudder.Gameplay.Services
             _container.Resolve<LiftService>().MoveAsync(ground.Presenter.View, ground.OffsetPosition.y);
         }
         
-        private bool IsStationary(GroundType groundType)
+        private static bool IsStationary(GroundType groundType)
         {
             return groundType == GroundType.Pit || groundType == GroundType.Hole || groundType == GroundType.Wall;
         }

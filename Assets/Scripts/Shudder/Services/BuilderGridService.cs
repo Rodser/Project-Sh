@@ -40,18 +40,11 @@ namespace Shudder.Services
                 for (int x = 0; x < config.Width; x++)
                 {
                     _cells[x, z] = new Ground(GetGroundType());
-                    //grid.Grounds[x, z] = await _groundFactory.Create(config, _grid.Presenter.View.transform, x, z,
-                     //   _offsetPosition, groundType, isMenu);
                 }
             }
             Debug.Log("Create Grounds");
             return this;
         }
-        
-        // public static implicit operator Grid(BuilderGridService builder)
-        // {
-        //     return builder._grid;
-        // }
 
         public BuilderGridService EstablishPit()
         {
@@ -63,9 +56,6 @@ namespace Shudder.Services
                         continue;
                     
                     _cells[x, y].GroundType = GroundType.Pit;
-                   // Object.Destroy(_grid.Grounds[x, y].Presenter.View.gameObject);
-                   // _grid.Grounds[x, y].Presenter.View = null;
-                   // await UniTask.Yield();
                 }
             }
             Debug.Log("Establish Pit");
@@ -77,28 +67,8 @@ namespace Shudder.Services
         {
             var v = CalculateHolePosition(_config);
                     _cells[v.x, v.y].GroundType = GroundType.Hole;
-                    // if (_grid.Grounds[x, y] != null) 
-                    //     Object.Destroy(_grid.Grounds[x, y].Presenter.View.gameObject);
-                    //
-                    // _grid.Grounds[x, y] = await _groundFactory
-                    //     .Create(_config, _grid.Presenter.View.transform, x,y, _offsetPosition, GroundType.Hole, _isMenu);
-                    //
-                    // _grid.Hole = _grid.Grounds[x, y];
                 
             Debug.Log("Establish Hole");
-            return this;
-        }
-        
-        public BuilderGridService  SetNeighbors()
-        {
-            for (int y = 0; y < _grid.Grounds.GetLength(1); y++)
-            {
-                for (int x = 0; x < _grid.Grounds.GetLength(0); x++)
-                {
-                    AddAllNeighbors(_grid, y, x);
-                }
-            }
-            Debug.Log("Set Neighbors");
             return this;
         }
 
@@ -116,8 +86,22 @@ namespace Shudder.Services
                 }
             }
 
-            SetNeighbors();
+            await SetNeighbors();
             return _grid;
+        }
+
+        private async UniTask SetNeighbors()
+        {
+            for (int y = 0; y < _grid.Grounds.GetLength(1); y++)
+            {
+                for (int x = 0; x < _grid.Grounds.GetLength(0); x++)
+                {
+                    AddAllNeighbors(_grid, y, x);
+                    await UniTask.Yield();
+                }
+            }
+
+            Debug.Log("Set Neighbors");
         }
 
         private Vector3 GetOffsetPosition(HexogenGridConfig config)
@@ -126,7 +110,7 @@ namespace Shudder.Services
 
             var x = (config.Width + rowOffset) * config.SpaceBetweenCells * 0.5f;
             var z = config.Height * config.SpaceBetweenCells * Coefficient.InnerRadiusCoefficient * 0.5f;
-            var y = 0f; // config.CaneraOffset;
+            var y = 0f; 
 
             return _container.Resolve<CameraService>().CameraFollow.Presenter.View.transform.position - new Vector3(x, y, z);
         }
@@ -155,12 +139,6 @@ namespace Shudder.Services
                 return true;
 
             return false;
-        }
-
-        private bool TryGetHole(int x, int y)
-        {
-            var holePosition = CalculateHolePosition(_config);
-            return Mathf.Approximately(x, holePosition.x) && Mathf.Approximately(y, holePosition.y);
         }
 
         private Vector2Int CalculateHolePosition(HexogenGridConfig config)

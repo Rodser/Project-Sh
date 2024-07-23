@@ -18,7 +18,7 @@ namespace Shudder.Factories
         private bool CanCreate()
         {
             var value = Random.value;
-            return value > 0.7f;
+            return value > 0.8f;
         }
     }
 }
