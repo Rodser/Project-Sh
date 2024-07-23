@@ -98,7 +98,7 @@ namespace Shudder.Root
         private void CreateAndRegisterUIRoot()
         {
             var uiRoot = CreateUIRoot();
-            _container.RegisterInstance(uiRoot);
+            _container.RegisterInstance(uiRoot);    
         }
 
         private void RegisterEventBus()

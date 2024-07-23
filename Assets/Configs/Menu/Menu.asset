@@ -20,3 +20,7 @@ MonoBehaviour:
     type: 3}
   <UIMenuView>k__BackingField: {fileID: 7604280713154014770, guid: 33aaf7cb44533fc4e827602d14eb1c99,
     type: 3}
+  <HeroConfig>k__BackingField: {fileID: 11400000, guid: 548e79446a984e248a4fd5464caa97b3,
+    type: 2}
+  <CameraPosition>k__BackingField: {x: -0.5, y: 0, z: 0}
+  <CameraRotation>k__BackingField: {x: -50, y: 0, z: 0}

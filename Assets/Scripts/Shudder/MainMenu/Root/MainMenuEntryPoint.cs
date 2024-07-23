@@ -1,5 +1,6 @@
 using DI;
 using Shudder.Factories;
+using Shudder.Gameplay.Factories;
 using Shudder.MainMenu.Configs;
 using Shudder.MainMenu.Factories;
 using Shudder.Models;
@@ -32,6 +33,7 @@ namespace Shudder.MainMenu.Root
             _container.RegisterSingleton(c => new BuilderGridService(_container));
             _container.RegisterSingleton(c => new GroundFactory(_container));
             _container.RegisterSingleton(c => new LightFactory());
+            _container.RegisterSingleton(c => new HeroFactory(_container, _menuConfiguration.HeroConfig));
         }
 
         private void InitializeCameraService()

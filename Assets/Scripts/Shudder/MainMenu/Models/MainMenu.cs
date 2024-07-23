@@ -28,7 +28,7 @@ namespace Shudder.MainMenu.Models
         private async void FlyCameraAndStartGameplayAsync()
         {
             var cameraService = _container.Resolve<CameraService>();
-            await cameraService.MoveCameraAsync(_menuGrid.Hole.AnchorPoint.position);
+            await cameraService.MoveCameraAsync(_menuGrid.Hole.AnchorPoint.position, 2f);
             
             _triggerEventBus.TriggerStartGameplayScene();
         }

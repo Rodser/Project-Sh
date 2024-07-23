@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <GroundConfig>k__BackingField: {fileID: 11400000, guid: 67bd75025859c0d49a10f42f7bc6dc8f,
     type: 2}
-  <SpaceBetweenCells>k__BackingField: 0.88
+  <SpaceBetweenCells>k__BackingField: 0.89
   <CaneraOffset>k__BackingField: 12
-  <Width>k__BackingField: 5
-  <Height>k__BackingField: 5
-  <MinHolePositionForX>k__BackingField: 2
-  <MaxHolePositionForX>k__BackingField: 3
-  <MinHolePositionForY>k__BackingField: 2
+  <Width>k__BackingField: 4
+  <Height>k__BackingField: 4
+  <MinHolePositionForX>k__BackingField: 3
+  <MaxHolePositionForX>k__BackingField: 4
+  <MinHolePositionForY>k__BackingField: 3
   <MaxHolePositionForY>k__BackingField: 3
   <PitCount>k__BackingField: 4
   <ChanceOfPit>k__BackingField: 0.28

@@ -21,6 +21,10 @@ namespace Shudder.Gameplay.Models
             _indicatorService = container.Resolve<IndicatorService>();
         }
 
+        public Hero()
+        {
+        }
+        
         public float Speed { get; set;}
         public int Health { get; set;}
         public IGround CurrentGround { get; set; }

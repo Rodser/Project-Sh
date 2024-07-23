@@ -12,7 +12,10 @@ namespace Shudder.Configs
         [field: SerializeField] public HexogenGridConfig[] LevelGridConfigs { get; private set; } = null;
         [field: SerializeField] public Indicator SelectIndicator { get; private set; } = null;
         [field: SerializeField] public LightPointView Light{ get; private set; } = null;
-        
+     
+        [field: Space, Header("Camera")]
+        [field: SerializeField] public Vector3 CameraRotation { get; private set; }
+
         public T GetConfig<T>()
         {
             return Configs.Where(c => 

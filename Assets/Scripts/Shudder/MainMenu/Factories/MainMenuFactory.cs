@@ -1,7 +1,10 @@
+using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Events;
 using Shudder.Factories;
+using Shudder.Gameplay.Factories;
 using Shudder.MainMenu.Configs;
+using Shudder.Services;
 using Shudder.UI;
 using UnityEngine;
 
@@ -28,12 +31,20 @@ namespace Shudder.MainMenu.Factories
                 .Resolve<GridFactory>("MenuGrid")
                 .Create(-1, true);
             
-            Object.Instantiate(_menuConfig.Title, menuGrid.Hole.AnchorPoint);
             _container.Resolve<LightFactory>().Create(_menuConfig.Light, menuGrid);
+            _container.Resolve<HeroFactory>().CreateEmpty(menuGrid.Grounds);
+            await MoveCamera();
 
             var menuUI = CreateUIMainMenu();
             menuUI.Bind(_triggerEventBus);
             var menu = new Models.MainMenu(_container, menuGrid);
+        }
+
+        private async UniTask MoveCamera()
+        {
+            var position = _menuConfig.CameraPosition; 
+            var rotation = _menuConfig.CameraRotation; 
+            await _container.Resolve<CameraService>().MoveCameraAsync(position, rotation);
         }
 
         private UIMenuView CreateUIMainMenu()

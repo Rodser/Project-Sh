@@ -1,5 +1,5 @@
 using DI;
-using Shudder.Gameplay.Models;
+using Shudder.Configs;
 using Shudder.Gameplay.Models.Interfaces;
 using Shudder.Gameplay.Services;
 using Shudder.Models;
@@ -12,21 +12,27 @@ namespace Shudder.Gameplay.Root
     public class Game
     {
         private readonly DIContainer _container;
+        private readonly GameConfig _gameConfig;
 
         public int CurrentLevel { get; set; }
         public CameraFollow CameraFollow { get; set; }
         public Grid CurrentGrid { get; private set; }
         public IHero Hero { get; set; }
 
-        public Game(DIContainer container)
+        public Game(DIContainer container, GameConfig gameConfig)
         {
             _container = container;
+            _gameConfig = gameConfig;
             CameraFollow = _container.Resolve<CameraService>().CameraFollow;
         }
 
         public async void Run()
         {
-            await _container.Resolve<CameraService>().MoveCameraAsync(Hero.Presenter.View.transform.position);
+            var rotation = _gameConfig.CameraRotation;
+            await _container
+                .Resolve<CameraService>()
+                .MoveCameraAsync(Hero.Presenter.View.transform.position, rotation, 2.5f);
+            
             _container.Resolve<CameraSurveillanceService>().Follow(CameraFollow.Presenter.View, Hero);
         }
 

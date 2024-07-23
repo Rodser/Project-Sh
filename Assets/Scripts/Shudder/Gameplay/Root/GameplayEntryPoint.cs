@@ -31,7 +31,7 @@ namespace Shudder.Gameplay.Root
             InitializeFactories();
             InitializeServices();
 
-            _game = new Game(_container);
+            _game = new Game(_container, _gameConfig);
 
             await _container.Resolve<LevelLoadingService>().LoadAsync(_game);
             Subscribe();
@@ -45,8 +45,8 @@ namespace Shudder.Gameplay.Root
                 new GridFactory(_container, _gameConfig.LevelGridConfigs));
             _container.RegisterSingleton(c => new BuilderGridService(_container));
             _container.RegisterSingleton(c => new GroundFactory(_container));
-            _container.RegisterSingleton(c => new HeroFactory(_container, _gameConfig));
             _container.RegisterSingleton(c => new LightFactory());
+            _container.RegisterSingleton(c => new HeroFactory(_container, _gameConfig.GetConfig<HeroConfig>()));
             _container.RegisterSingleton(c => new SoundFactory(_gameConfig.GetConfig<SFXConfig>()));
         }
 
@@ -83,7 +83,11 @@ namespace Shudder.Gameplay.Root
         private async void OnHasVictory(Transform groundAnchorPoint)
         {
             _container.Resolve<CameraSurveillanceService>().UnFollow();
-            await _container.Resolve<CameraService>().Diving(groundAnchorPoint.position);
+            
+            await _container
+                .Resolve<CameraService>()
+                .MoveCameraAsync(groundAnchorPoint.position, 2f);
+            
             _container.Resolve<UIRootView>().ShowLoadingScreen();
             _container.Resolve<VictoryHandlerService>().HasVictory(_game);
         }
