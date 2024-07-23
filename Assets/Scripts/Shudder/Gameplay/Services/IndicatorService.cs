@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
 using DI;
-using Shudder.Gameplay.Configs;
+using Shudder.Configs;
 using Shudder.Gameplay.Models;
 using Shudder.Models;
+using Shudder.Models.Interfaces;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Services
@@ -21,8 +23,11 @@ namespace Shudder.Gameplay.Services
         }
 
 
-        public void CreateSelectIndicators(Ground ground)
+        public void CreateSelectIndicators(IGround ground)
         {
+            if(ground.Neighbors == null)
+                return;
+            
             _boxSelectIndicators = new List<Indicator>();
             
             foreach (Ground neighbor in ground.Neighbors)
@@ -38,8 +43,12 @@ namespace Shudder.Gameplay.Services
         
         public void RemoveSelectIndicators()
         {
-            foreach (Indicator indicator in _boxSelectIndicators)
-            { 
+            if(_boxSelectIndicators == null)
+                return;
+            
+            foreach (var indicator in _boxSelectIndicators
+                         .Where(i => i != null))
+            {
                 Object.Destroy(indicator.gameObject);
             }
 

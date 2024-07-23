@@ -14,5 +14,6 @@ namespace Shudder.Models.Interfaces
         List<Ground> Neighbors { get; set; }
         GroundPresenter Presenter { get; set; }
         void ChangeGroundType(GroundType groundType);
+        void ToDestroy();
     }
 }

@@ -1,51 +1,67 @@
 using DI;
-using Shudder.Events;
-using Shudder.Gameplay.Models;
+using Shudder.Configs;
+using Shudder.Gameplay.Models.Interfaces;
 using Shudder.Gameplay.Services;
+using Shudder.Models;
+using Shudder.Services;
 using UnityEngine;
+using Grid = Shudder.Models.Grid;
 
 namespace Shudder.Gameplay.Root
 {
     public class Game
     {
         private readonly DIContainer _container;
+        private readonly GameConfig _gameConfig;
 
-        private Vector3 _heroPosition;
-        
         public int CurrentLevel { get; set; }
-        public Camera Camera { get; set; }
-        public BodyGrid Body { get; set; }
+        public CameraFollow CameraFollow { get; set; }
+        public Grid CurrentGrid { get; private set; }
+        public IHero Hero { get; set; }
 
-        public Game(DIContainer container)
+        public Game(DIContainer container, GameConfig gameConfig)
         {
             _container = container;
-            Camera = _container.Resolve<CameraService>().Camera;
-            _container.Resolve<IReadOnlyEventBus>().ChangeHeroPosition.AddListener(OnChangeHeroPosition);
+            _gameConfig = gameConfig;
+            CameraFollow = _container.Resolve<CameraService>().CameraFollow;
         }
 
-        public void Run()
+        public async void Run()
         {
-            FlyCameraAndStartGameplayAsync();
-            _container.Resolve<CameraSurveillanceService>().Follow();
+            var rotation = _gameConfig.CameraRotation;
+            await _container
+                .Resolve<CameraService>()
+                .MoveCameraAsync(Hero.Presenter.View.transform.position, rotation, 2.5f);
+            
+            _container.Resolve<CameraSurveillanceService>().Follow(CameraFollow.Presenter.View, Hero);
         }
 
-        public void DieBody()
+        public void SetCurrentGrid(Grid currentGrid)
         {
-            if(Body is null)
+            CurrentGrid = currentGrid;
+        }
+
+        public void DestroyGrid()
+        {
+            if(CurrentGrid is null)
                 return;
-            Object.Destroy(Body.gameObject);
-            Body = null;
-        }
+            
+            for (var x = 0; x < CurrentGrid.Grounds.GetLength(0); x++)
+            {
+                for (var y = 0; y < CurrentGrid.Grounds.GetLength(1); y++)
+                {
+                    var ground = CurrentGrid.Grounds[x, y];
 
-        private void OnChangeHeroPosition(Vector3 position) => 
-            _heroPosition = position;
+                    if(ground.GroundType == GroundType.Pit)
+                        continue;
+                    Object.Destroy(ground.Presenter.View.gameObject);
+                    ground.Presenter.View = null;
+                }
+            }
 
-        private async void FlyCameraAndStartGameplayAsync()
-        {
-            var cameraService = _container.Resolve<CameraService>();
-            var position = _heroPosition;
-            position.y += 10;
-            await cameraService.MoveCameraAsync(position);
+            CurrentGrid.Grounds = null;
+            Object.Destroy(CurrentGrid.Presenter.View.gameObject);
+            CurrentGrid = null;
         }
     }
 }

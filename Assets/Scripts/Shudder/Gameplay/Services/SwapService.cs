@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using DI;
-using Shudder.Gameplay.Models;
+using Shudder.Models;
 using Shudder.Models.Interfaces;
 using UnityEngine;
 
@@ -11,31 +11,62 @@ namespace Shudder.Gameplay.Services
     public class SwapService
     {
         private readonly DIContainer _container;
+        
+        private int _swapLimit = 6;
 
         public SwapService(DIContainer container)
         {
             _container = container;
         }
-        
-        public async UniTask SwapWaveAsync(IGround ground, List<Vector2> offsetItems, int swapLimit)
+
+        public async UniTask SwapWaveAsync(IGround ground, List<Vector2> offsetItems, bool isHero)
         {
-            if(swapLimit <= 0)
-                return;
+            if(isHero)
+                _swapLimit = 5;
             
             if (offsetItems.Any(item => item == ground.Id))
                 return;
             
-            offsetItems.Add(ground.Id);
-            Swap(ground);
-            await UniTask.Delay(100);
-
-            foreach (var neighbor in ground.Neighbors)
+            if (_swapLimit == 0)
             {
-                await SwapWaveAsync(neighbor, offsetItems, --swapLimit);
+                ground.ToDestroy();
+                return;
             }
+            
+            offsetItems.Add(ground.Id);
+            Swap(ground, isHero);
+            
+            for (var i = 0; i < ground.Neighbors.Count; i++)
+            {
+                var neighbor = ground.Neighbors[i];
+                _swapLimit--;
+                if (_swapLimit < 0)
+                    return;
+                
+                if (_swapLimit == 0)
+                {
+                    if(Random.value < 0.5f)
+                        neighbor.ToDestroy();
+                    return;
+                }
+                
+                Swap(neighbor, false);
+                await UniTask.Delay(50);
+            }
+            
+            // for (var i = 0; i < ground.Neighbors.Count; i++)
+            // {
+            //     var neighbor = ground.Neighbors[i];
+            //     _swapLimit--;
+            //     if (_swapLimit < 0)
+            //         return;
+            //
+            //     await UniTask.Delay(500);
+            //     await SwapWaveAsync(neighbor, offsetItems, false);
+            // }
         }
 
-        private void Swap(IGround ground)
+        private void Swap(IGround ground, bool isHero)
         {
             var groundType = ground.GroundType;
             if (IsStationary(groundType))
@@ -43,13 +74,15 @@ namespace Shudder.Gameplay.Services
 
             groundType -= 1;
             if (groundType < 0)
-                groundType = GroundType.TileHigh;
+            {
+                groundType = isHero ? GroundType.TileLow : GroundType.TileHigh;
+            }
             ground.ChangeGroundType(groundType);
 
             _container.Resolve<LiftService>().MoveAsync(ground.Presenter.View, ground.OffsetPosition.y);
         }
         
-        private bool IsStationary(GroundType groundType)
+        private static bool IsStationary(GroundType groundType)
         {
             return groundType == GroundType.Pit || groundType == GroundType.Hole || groundType == GroundType.Wall;
         }

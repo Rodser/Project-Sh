@@ -1,38 +1,45 @@
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using DI;
-using Shudder.Events;
-using UnityEngine;
+using Shudder.Gameplay.Models.Interfaces;
+using Shudder.Vews;
 
 namespace Shudder.Gameplay.Services
 {
     public class CameraSurveillanceService
     {
         private readonly DIContainer _container;
-        private readonly Camera _camera;
+        
+        private CameraFollowView _cameraFollowView;
+        private IHero _hero;
 
-        public CameraSurveillanceService(DIContainer container, Camera camera)
+        public CameraSurveillanceService(DIContainer container)
         {
             _container = container;
-            _camera = camera;
         }
 
-        public void Follow()
+        public void Follow(CameraFollowView cameraFollowView, IHero hero)
         {
-            _container.Resolve<IReadOnlyEventBus>().ChangeHeroPosition.AddListener(OnChangePosition);
+            _cameraFollowView = cameraFollowView;
+            _hero = hero;
+            ChangePosition();
+        }
+        
+        public void UnFollow()
+        {
+            _cameraFollowView = null;
+            _hero = null;
         }
 
-        private async void OnChangePosition(Vector3 position)
+        private async void ChangePosition()
         {
-            var start = _camera.transform.position;
-            position.y = _camera.transform.position.y;
-
-            var time = 0f;
-            while (time < 1f)
+            var duration = 0.6f;
+            while (_hero != null)
             {
-                const float speed = 0.7f;
-                time += speed * Time.deltaTime;
-                _camera.transform.position = Vector3.Lerp(start, position, time);
-
+                if(_cameraFollowView == null)
+                    return; 
+               
+                _cameraFollowView.transform.DOMove(_hero.Presenter.View.transform.position, duration);
                 await UniTask.Yield();
             }
         }

@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5416955390668101085}
-  - component: {fileID: 1237380795285397487}
   - component: {fileID: 4607616447008395185}
   m_Layer: 0
   m_Name: HexPitMenu
@@ -35,21 +34,6 @@ Transform:
   - {fileID: 1508748190601980978}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1237380795285397487
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 262577551451366791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f115716d32b06dd45853d3f810697cad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _vfxTransform: {fileID: 7848369037730450205}
-  _top: {fileID: 0}
-  _colors: []
 --- !u!65 &4607616447008395185
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -168,7 +152,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 1ab8ffdb5e4da194bbd7c2fb6ec0ecf6,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 48072607bbc26174288533c33d11df03, type: 2}
     - target: {fileID: 919132149155446097, guid: 1ab8ffdb5e4da194bbd7c2fb6ec0ecf6,
@@ -259,6 +243,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491349945225780132, guid: 855411948b30c9547b84ce7767da07d7,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

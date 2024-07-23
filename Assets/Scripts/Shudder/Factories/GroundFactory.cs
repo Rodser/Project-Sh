@@ -1,19 +1,18 @@
-﻿using DI;
-using Shudder.Gameplay.Configs;
-using Shudder.Gameplay.Models;
+﻿using Cysharp.Threading.Tasks;
+using DI;
+using Shudder.Configs;
+using Shudder.Constants;
 using Shudder.Gameplay.Services;
-using Shudder.Gameplay.Views;
 using Shudder.Models;
 using Shudder.Models.Interfaces;
 using Shudder.Presenters;
+using Shudder.Vews;
 using UnityEngine;
 
-namespace Shudder.Gameplay.Factories
+namespace Shudder.Factories
 {
     internal class GroundFactory
     {
-        private const float InnerRadiusCoefficient = 0.86f;
-
         private float _spaceBetweenCells;
         private readonly DIContainer _container;
         private Transform _parent;
@@ -24,7 +23,7 @@ namespace Shudder.Gameplay.Factories
             _container = container;
         }
 
-        internal Ground Create(HexogenGridConfig hexGridConfig, Transform parent, int x, int z, Vector3 offsetPosition, GroundType groundType, bool isMenu)
+        public async UniTask<Ground> Create(HexogenGridConfig hexGridConfig, Transform parent, int x, int z, Vector3 offsetPosition, GroundType groundType, bool isMenu)
         {
             _groundConfig = hexGridConfig.GroundConfig;
             _spaceBetweenCells = hexGridConfig.SpaceBetweenCells;
@@ -49,6 +48,7 @@ namespace Shudder.Gameplay.Factories
             if (!isMenu)            
                 _container.Resolve<LiftService>().MoveAsync(groundView, offsetPosition.y);
 
+            await UniTask.Yield();
             return (Ground)ground;
         }
 
@@ -63,7 +63,7 @@ namespace Shudder.Gameplay.Factories
             {
                 x = (x + rowOffset) * _spaceBetweenCells,
                 y = 0f,
-                z = z * _spaceBetweenCells * InnerRadiusCoefficient
+                z = z * _spaceBetweenCells * Coefficient.InnerRadiusCoefficient
             };
             positionCell += offsetPosition;
             return positionCell;

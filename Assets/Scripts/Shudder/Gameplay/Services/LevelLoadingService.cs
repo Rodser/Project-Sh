@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using DI;
-using Logic;
-using Shudder.Gameplay.Configs;
+using Shudder.Configs;
+using Shudder.Factories;
 using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Root;
 using UnityEngine;
@@ -24,20 +24,23 @@ namespace Shudder.Gameplay.Services
             var level = game.CurrentLevel;
             Debug.Log($"Load Level {level}");
             
-            game.DieBody();
-            game.Body = _container.Resolve<BodyFactory>().Create();
-            
-            _container
-                .Resolve<LightFactory>()
-                .Create(_gameConfig.Light, game.Camera.transform, game.Body.transform);
+            game.DestroyGrid();
             
             var currentGrid = await _container
                 .Resolve<GridFactory>("LevelGrid")
-                .Create(level, game.Body.transform);
+                .Create(level);
+
+            game.SetCurrentGrid(currentGrid);
+
+            _container
+                .Resolve<LightFactory>()
+                .Create(_gameConfig.Light, currentGrid);
 
             var hero = _container
                 .Resolve<HeroFactory>()
                 .Create(currentGrid.Grounds);
+
+            game.Hero = hero;
             
             var moveService = _container.Resolve<HeroMoveService>();
             moveService.Subscribe(hero);

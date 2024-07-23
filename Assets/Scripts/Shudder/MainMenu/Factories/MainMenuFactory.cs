@@ -1,10 +1,10 @@
+using Cysharp.Threading.Tasks;
 using DI;
-using Logic;
 using Shudder.Events;
+using Shudder.Factories;
 using Shudder.Gameplay.Factories;
-using Shudder.Gameplay.Models;
-using Shudder.Gameplay.Services;
 using Shudder.MainMenu.Configs;
+using Shudder.Services;
 using Shudder.UI;
 using UnityEngine;
 
@@ -15,9 +15,6 @@ namespace Shudder.MainMenu.Factories
         private readonly DIContainer _container;
         private readonly MenuConfig _menuConfig;
         
-        private BodyGrid _body;
-        private HexogenGrid _menuGrid;
-        private Camera _camera;
         private readonly ITriggerOnlyEventBus _triggerEventBus;
 
         public MainMenuFactory(DIContainer container, MenuConfig menuConfig)
@@ -30,18 +27,24 @@ namespace Shudder.MainMenu.Factories
 
         public async void Create()
         {
-            _camera = _container.Resolve<CameraService>().Camera;
-            _body = _container.Resolve<BodyFactory>().Create();
-            _menuGrid = await _container
+            var menuGrid = await _container
                 .Resolve<GridFactory>("MenuGrid")
-                .Create(_body.transform, true);
+                .Create(-1, true);
             
-            Object.Instantiate(_menuConfig.Title, _menuGrid.Hole.AnchorPoint);
-            _container.Resolve<LightFactory>().Create(_menuConfig.Light, _camera.transform, _body.transform);
+            _container.Resolve<LightFactory>().Create(_menuConfig.Light, menuGrid);
+            _container.Resolve<HeroFactory>().CreateEmpty(menuGrid.Grounds);
+            await MoveCamera();
 
             var menuUI = CreateUIMainMenu();
             menuUI.Bind(_triggerEventBus);
-            var menu = new Models.MainMenu(_container, _menuGrid);
+            var menu = new Models.MainMenu(_container, menuGrid);
+        }
+
+        private async UniTask MoveCamera()
+        {
+            var position = _menuConfig.CameraPosition; 
+            var rotation = _menuConfig.CameraRotation; 
+            await _container.Resolve<CameraService>().MoveCameraAsync(position, rotation);
         }
 
         private UIMenuView CreateUIMainMenu()

@@ -1,13 +1,14 @@
 using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Events;
+using Shudder.Gameplay.Models.Interfaces;
+using Shudder.Gameplay.Presenters;
 using Shudder.Gameplay.Services;
-using Shudder.Models;
-using UnityEngine;
+using Shudder.Models.Interfaces;
 
 namespace Shudder.Gameplay.Models
 {
-    public class Hero
+    public class Hero : IHero
     {
         private readonly ITriggerOnlyEventBus _triggerEventBus;
         private readonly IndicatorService _indicatorService;
@@ -20,36 +21,34 @@ namespace Shudder.Gameplay.Models
             _indicatorService = container.Resolve<IndicatorService>();
         }
 
-        public bool AtHole { get; set; }
-        public float Speed { get; private set;}
+        public Hero()
+        {
+        }
+        
+        public float Speed { get; set;}
         public int Health { get; set;}
-        public Ground CurrentGround { get; private set; }
-        public Vector3 Position { get; private set; }
+        public IGround CurrentGround { get; set; }
+        public HeroPresenter Presenter { get; set; }
 
         public void Damage()
         {
             Health--;
         }
 
-        public void ChangePosition(Vector3 position)
+        public void ChangeGround(IGround ground)
         {
-            Position = position;
-            _triggerEventBus.TriggerChangeHeroPosition(position);
-        }
-
-        public void ChangeGround(Ground ground)
-        {
-            if (CurrentGround is null)
-            {
-                _indicatorService.CreateSelectIndicators(ground);
-            }
-            else
-            {
-                _indicatorService.RemoveSelectIndicators();
-            }
-
+            _indicatorService.RemoveSelectIndicators();
+            Presenter.View.ChangeGround(ground.Presenter.View.transform);
             CurrentGround = ground;
             _triggerEventBus.TriggerChangeHeroParentGround(ground.AnchorPoint);
+        }
+
+        public async void SetGround(IGround ground)
+        {
+            CurrentGround = ground;
+            Presenter.View.transform.position = ground.AnchorPoint.position;
+            await UniTask.Delay(500);
+            _indicatorService.CreateSelectIndicators(ground);
         }
     }
 }

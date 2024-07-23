@@ -1,10 +1,14 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
 using DI;
-using Shudder.Gameplay.Configs;
-using Shudder.Gameplay.Models;
+using Shudder.Configs;
+using Shudder.Presenters;
+using Shudder.Services;
+using Shudder.Vews;
 using UnityEngine;
+using Grid = Shudder.Models.Grid;
 
-namespace Shudder.Gameplay.Factories
+namespace Shudder.Factories
 {
     public class GridFactory
     {
@@ -17,27 +21,38 @@ namespace Shudder.Gameplay.Factories
             _container = container;
             _hexogenGridConfigs = hexogenGridConfigs;
         }
-        
+
         public GridFactory(DIContainer container, HexogenGridConfig hexogenGridConfig)
         {
             _container = container;
             _hexogenGridConfig = hexogenGridConfig;
         }
-        
-        public async UniTask<HexogenGrid> Create(int level, Transform body, bool isMenu = false)
-        {
-            var grid = new HexogenGrid(_container, _hexogenGridConfigs[level], body);
-            await grid.BuilderGrid(isMenu);
 
-            return grid;
-        }
-              
-        public async UniTask<HexogenGrid> Create(Transform body, bool isMenu = false)
+        public async UniTask<Grid> Create(int level = -1, bool isMenu = false)
         {
-            var grid = new HexogenGrid(_container, _hexogenGridConfig, body);
-            await grid.BuilderGrid(isMenu);
+            var grid = new Grid();
+            var gridView = new GameObject("Grid").AddComponent<GridView>();
+            var presenter = new GridPresenter(grid);
+            presenter.SetView(gridView);
 
-            return grid;
+            var builderGridService = _container.Resolve<BuilderGridService>() ?? 
+                                     throw new ArgumentNullException("_container.Resolve<BuilderGridService>()");
+            if (isMenu)
+            {
+               return await builderGridService
+                    .CreateGrounds(grid, _hexogenGridConfig, isMenu)
+                    .EstablishPit()
+                    .EstablishHole()
+                    .GetBuild();
+            }
+            else
+            {
+                return await builderGridService
+                    .CreateGrounds(grid, _hexogenGridConfigs[level], isMenu)
+                    .EstablishPit()
+                    .EstablishHole()
+                    .GetBuild();
+            }
         }
     }
 }

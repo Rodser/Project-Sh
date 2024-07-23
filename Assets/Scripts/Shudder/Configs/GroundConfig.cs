@@ -1,7 +1,7 @@
-﻿using Shudder.Gameplay.Views;
+﻿using Shudder.Vews;
 using UnityEngine;
 
-namespace Shudder.Gameplay.Configs
+namespace Shudder.Configs
 {
     [CreateAssetMenu(fileName = "Ground", menuName = "Game/Ground", order = 8)]
     public class GroundConfig : ScriptableObject

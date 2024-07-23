@@ -98,7 +98,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Amount: 5
+    - _Amount: 6
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -128,14 +128,14 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _scale: 22
-    - _thicknes: 2
+    - _scale: 10
+    - _thicknes: 1
     m_Colors:
     - _BaseColor: {r: 0.8867924, g: 0.34618965, b: 0.037646834, a: 1}
-    - _Color: {r: 1.1878862, g: 0.078431405, b: 1.772549, a: 1}
+    - _Color: {r: 2.0539365, g: 1.9508576, b: 0.24220945, a: 1}
     - _EmissionColor: {r: 1.1060785, g: 0.1511409, b: 3.207548, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _direction: {r: 0.58, g: 0.46, b: 0, a: 0}
-    - _speed: {r: 0.64, g: 0.52, b: 0, a: 0}
+    - _direction: {r: 0.46, g: 0.46, b: 0, a: 0}
+    - _speed: {r: 0.33, g: 0.34, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

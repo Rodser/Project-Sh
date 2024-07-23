@@ -4,9 +4,11 @@ namespace Shudder.UI
 {
     public class UIRootView : MonoBehaviour
     {
-        [SerializeField] private GameObject _loadingScreen;
         [SerializeField] private Transform _uiSceneContainer;
+        [SerializeField] private LoadingScreenView _loadingScreenView;
 
+        public LoadingScreenView LoadingScreenView => _loadingScreenView;
+        
         private void Awake()
         {
             HideLoadingScreen();
@@ -14,12 +16,12 @@ namespace Shudder.UI
 
         public void ShowLoadingScreen()
         {
-            _loadingScreen.SetActive(true);
+            _loadingScreenView.gameObject.SetActive(true);
         }
 
         public void HideLoadingScreen()
         {
-            _loadingScreen.SetActive(false);
+            _loadingScreenView.gameObject.SetActive(false);
         }
 
         public void AttachSceneUI(GameObject sceneUI)

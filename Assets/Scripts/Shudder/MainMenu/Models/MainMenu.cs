@@ -1,19 +1,19 @@
 using DI;
 using Shudder.Events;
-using Shudder.Gameplay.Models;
-using Shudder.Gameplay.Services;
+using Shudder.Services;
 using UnityEditor;
 using UnityEngine;
+using Grid = Shudder.Models.Grid;
 
 namespace Shudder.MainMenu.Models
 {
     public class MainMenu
     {
         private readonly DIContainer _container;
-        private readonly HexogenGrid _menuGrid;
+        private readonly Grid _menuGrid;
         private readonly ITriggerOnlyEventBus _triggerEventBus;
 
-        public MainMenu(DIContainer container, HexogenGrid menuGrid)
+        public MainMenu(DIContainer container, Grid menuGrid)
         {
             _container = container;
             _menuGrid = menuGrid;
@@ -28,7 +28,7 @@ namespace Shudder.MainMenu.Models
         private async void FlyCameraAndStartGameplayAsync()
         {
             var cameraService = _container.Resolve<CameraService>();
-            await cameraService.MoveCameraAsync(_menuGrid.Hole.AnchorPoint.position);
+            await cameraService.MoveCameraAsync(_menuGrid.Hole.AnchorPoint.position, 2f);
             
             _triggerEventBus.TriggerStartGameplayScene();
         }

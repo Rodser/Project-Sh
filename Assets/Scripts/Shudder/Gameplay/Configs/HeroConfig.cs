@@ -7,6 +7,7 @@ namespace Shudder.Gameplay.Configs
     public class HeroConfig : ScriptableObject
     {
         [field: SerializeField] public HeroView Prefab { get; private set; }
+        [field: SerializeField] public JumpConfig JumpConfig { get; private set; }
         [field: SerializeField] public int StartPositionX { get; private set; }
         [field: SerializeField] public int StartPositionY { get; private set; }
         [field: SerializeField] public int StartPositionZ { get; private set; }

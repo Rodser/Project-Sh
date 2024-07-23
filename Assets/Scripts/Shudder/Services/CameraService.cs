@@ -1,44 +1,42 @@
 using Cysharp.Threading.Tasks;
+using Shudder.Models;
+using Shudder.Vews;
 using UnityEngine;
+using DG.Tweening;
 
-namespace Shudder.Gameplay.Services
+namespace Shudder.Services
 {
     public class CameraService
     {
-        public Camera Camera { get; }
+        private Vector3 _startPosition;
+        private Vector3 _startRotation;
 
-        public CameraService(Camera camera)
+        public CameraService(CameraFollow cameraFollow)
         {
-            Camera = camera;
+            CameraFollow = cameraFollow;
         }
 
-        public async UniTask MoveCameraAsync(Vector3 target)
+        public Camera Camera => View.Camera;
+        public CameraFollow CameraFollow { get; }
+        public CameraFollowView View => CameraFollow.Presenter.View;
+        
+        public async UniTask MoveCameraAsync(Vector3 target, float durationMove)
         {
-            var deviation = Vector3.Lerp(Camera.transform.position, target, 0.4f);
-            deviation.z += 2f;
-            await Fly(deviation ,target, Camera.transform);
+            View.transform.DOJump(target, 1.4f, 1, durationMove);
+            View.transform.DORotate(Vector3.zero, durationMove);
+            await UniTask.Delay((int)(durationMove * 1000));
+
+            target.y -= 2f;
+            View.transform.DOMove(target, 0.4f, true);
+            await UniTask.Delay(400);
         }
         
-        private async UniTask Fly(Vector3 deviation, Vector3 target, Transform transform)
+        public async UniTask MoveCameraAsync(Vector3 targetPosition, Vector3 targetRotation, float durationMove = 3f)
         {
-            Vector3 startPosition = transform.position; 
-            var timeInFly = 0f;
-            while (timeInFly < 1f)
-            {
-                float speedFlying = 0.7f;
-                timeInFly += speedFlying * Time.deltaTime;
-                transform.position = GetCurve(startPosition, deviation, target, timeInFly);
-
-            await UniTask.Yield();
-            }
-        }
-
-        private Vector3 GetCurve(Vector3 a, Vector3 b, Vector3 c, float time)
-        {
-            Vector3 ab = Vector3.Lerp(a, b, time);
-            Vector3 bc = Vector3.Lerp(b, c, time);
-
-            return Vector3.Lerp(ab, bc, time);
+            View.transform.DOMove(targetPosition, durationMove);
+            View.transform.DORotate(targetRotation, durationMove);
+            
+            await UniTask.Delay((int)(durationMove * 1000));
         }
     }
 }

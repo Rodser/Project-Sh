@@ -1,7 +1,9 @@
 using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Events;
-using Shudder.Gameplay.Models;
+using Shudder.Gameplay.Presenters;
+using Shudder.Models;
+using Shudder.Vews;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Views
@@ -11,23 +13,20 @@ namespace Shudder.Gameplay.Views
     {
         private ITriggerOnlyEventBus _triggerEventBus;
 
-        public void Construct(DIContainer container)
+        public HeroPresenter Presenter { get; set; }
+
+        public void Construct(DIContainer container, HeroPresenter presenter)
         {
             _triggerEventBus = container.Resolve<ITriggerOnlyEventBus>();
             var readEventBus = container.Resolve<IReadOnlyEventBus>();
             
-            readEventBus.ChangeHeroPosition.AddListener(OnChangePosition);
-            readEventBus.ChangeHeroParentGround.AddListener(OnChangeParent);
+            Presenter = presenter;
+            Presenter.SetView(this);
         }
 
-        private void OnChangeParent(Transform parent)
+        public void ChangeGround(Transform parentGround)
         {
-            transform.SetParent(parent);
-        }
-
-        private void OnChangePosition(Vector3 position)
-        {
-            transform.position = position;
+            transform.SetParent(parentGround);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -40,7 +39,7 @@ namespace Shudder.Gameplay.Views
             {
                 case GroundType.Hole:
                     Debug.Log("Victory");
-                    RunNewLevel();
+                    RunNewLevel(ground.AnchorPoint);
                     break;
                 case GroundType.Pit:
                     Destroy(gameObject, 1000);
@@ -51,10 +50,10 @@ namespace Shudder.Gameplay.Views
             }
         }
 
-        private async void RunNewLevel()
+        private async void RunNewLevel(Transform groundAnchorPoint)
         {
             await UniTask.Delay(500);
-            _triggerEventBus.TriggerVictory();
+            _triggerEventBus.TriggerVictory(groundAnchorPoint);
         }
     }
 }

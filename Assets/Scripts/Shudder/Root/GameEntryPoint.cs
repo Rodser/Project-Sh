@@ -3,11 +3,12 @@ using DI;
 using Shudder.Constants;
 using Shudder.Events;
 using Shudder.Gameplay.Root;
-using Shudder.Gameplay.Services;
 using Shudder.MainMenu.Root;
+using Shudder.Services;
 using Shudder.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 namespace Shudder.Root
 {
@@ -19,9 +20,10 @@ namespace Shudder.Root
         {
             _container = new DIContainer();
             
-            RegisterService();
+            CreateAndRegisterUIRoot();
+            
             RegisterEventBus();
-            RegisterUIRoot();
+            RegisterService();
 
             Subscribe();
         }
@@ -93,10 +95,10 @@ namespace Shudder.Root
                 .AddListener(LoadAndStartGameplayScene);
         }
 
-        private void RegisterUIRoot()
+        private void CreateAndRegisterUIRoot()
         {
             var uiRoot = CreateUIRoot();
-            _container.RegisterInstance(uiRoot);
+            _container.RegisterInstance(uiRoot);    
         }
 
         private void RegisterEventBus()
