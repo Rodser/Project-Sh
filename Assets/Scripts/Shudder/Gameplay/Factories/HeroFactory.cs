@@ -29,36 +29,20 @@ namespace Shudder.Gameplay.Factories
                         ground = ng;
                 }
             }
-            var position = ground.AnchorPoint.position;
-
+            
+            Debug.Log(ground.AnchorPoint);
+            
             var hero = new Hero(_container, _heroConfig.SpeedMove)
             {
                 Health = 3,
             };
             
+            var position = ground.AnchorPoint.position;
             var heroView = Object.Instantiate(_heroConfig.Prefab, position, Quaternion.identity, ground.AnchorPoint);
             var presenter = new HeroPresenter(hero);
             heroView.Construct(_container, presenter);
             hero.SetGround(ground);
             return hero;
-        }
-
-        public void CreateEmpty(Ground[,] grounds)
-        {
-            var ground = grounds[_heroConfig.StartPositionX, _heroConfig.StartPositionY];
-            if (ground.GroundType == GroundType.Pit)
-            {
-                foreach (var ng in ground.Neighbors)
-                {
-                    if (ng.GroundType != GroundType.Pit)
-                        ground = ng;
-                }
-            }
-            var position = ground.AnchorPoint.position;
-            var hero = new Hero();
-            var heroView = Object.Instantiate(_heroConfig.Prefab, position, Quaternion.identity, ground.AnchorPoint);
-            var presenter = new HeroPresenter(hero);
-            heroView.Construct(_container, presenter);
         }
     }
 }

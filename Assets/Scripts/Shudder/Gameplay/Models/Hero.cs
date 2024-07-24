@@ -10,19 +10,17 @@ namespace Shudder.Gameplay.Models
 {
     public class Hero : IHero
     {
+        private readonly DIContainer _container;
         private readonly ITriggerOnlyEventBus _triggerEventBus;
-        private readonly IndicatorService _indicatorService;
+        
+        private IndicatorService _indicatorService;
 
         public Hero(DIContainer container, float speed)
         {
+            _container = container;
             Speed = speed;
             
             _triggerEventBus = container.Resolve<ITriggerOnlyEventBus>();
-            _indicatorService = container.Resolve<IndicatorService>();
-        }
-
-        public Hero()
-        {
         }
         
         public float Speed { get; set;}
@@ -37,7 +35,7 @@ namespace Shudder.Gameplay.Models
 
         public void ChangeGround(IGround ground)
         {
-            _indicatorService.RemoveSelectIndicators();
+            _indicatorService?.RemoveSelectIndicators();
             Presenter.View.ChangeGround(ground.Presenter.View.transform);
             CurrentGround = ground;
             _triggerEventBus.TriggerChangeHeroParentGround(ground.AnchorPoint);
@@ -48,7 +46,12 @@ namespace Shudder.Gameplay.Models
             CurrentGround = ground;
             Presenter.View.transform.position = ground.AnchorPoint.position;
             await UniTask.Delay(500);
-            _indicatorService.CreateSelectIndicators(ground);
+            _indicatorService?.CreateSelectIndicators(ground);
+        }
+
+        public void EnableIndicators()
+        {
+            _indicatorService = _container.Resolve<IndicatorService>();
         }
     }
 }

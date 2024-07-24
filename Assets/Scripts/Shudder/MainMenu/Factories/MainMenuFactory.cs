@@ -31,13 +31,13 @@ namespace Shudder.MainMenu.Factories
                 .Resolve<GridFactory>("MenuGrid")
                 .Create(-1, true);
             
+            var hero = _container.Resolve<HeroFactory>().Create(menuGrid.Grounds);
             _container.Resolve<LightFactory>().Create(_menuConfig.Light, menuGrid);
-            _container.Resolve<HeroFactory>().CreateEmpty(menuGrid.Grounds);
             await MoveCamera();
 
             var menuUI = CreateUIMainMenu();
             menuUI.Bind(_triggerEventBus);
-            var menu = new Models.MainMenu(_container, menuGrid);
+            var menu = new Models.MainMenu(_container, menuGrid, _menuConfig, hero);
         }
 
         private async UniTask MoveCamera()

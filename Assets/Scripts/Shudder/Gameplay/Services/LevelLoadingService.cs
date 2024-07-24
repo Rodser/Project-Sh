@@ -39,7 +39,8 @@ namespace Shudder.Gameplay.Services
             var hero = _container
                 .Resolve<HeroFactory>()
                 .Create(currentGrid.Grounds);
-
+            
+            hero.EnableIndicators();
             game.Hero = hero;
             
             var moveService = _container.Resolve<HeroMoveService>();

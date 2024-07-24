@@ -22,12 +22,12 @@ namespace Shudder.Services
         
         public async UniTask MoveCameraAsync(Vector3 target, float durationMove)
         {
-            View.transform.DOJump(target, 1.4f, 1, durationMove);
+            View.transform.DOJump(target, 1f, 1, durationMove);
             View.transform.DORotate(Vector3.zero, durationMove);
-            await UniTask.Delay((int)(durationMove * 1000));
+            await UniTask.Delay((int)(durationMove * 1000) - 100);
 
-            target.y -= 2f;
-            View.transform.DOMove(target, 0.4f, true);
+            target.y -= 5f;
+            View.transform.DOMove(target, 0.4f);
             await UniTask.Delay(400);
         }
         
