@@ -15,16 +15,16 @@ MonoBehaviour:
   <GroundConfig>k__BackingField: {fileID: 11400000, guid: d855ac658bf66f04f9055f7ff8c20aa3,
     type: 2}
   <SpaceBetweenCells>k__BackingField: 0.88
-  <CaneraOffset>k__BackingField: 12
-  <Width>k__BackingField: 7
-  <Height>k__BackingField: 7
-  <MinHolePositionForX>k__BackingField: 1
-  <MaxHolePositionForX>k__BackingField: 6
-  <MinHolePositionForY>k__BackingField: 5
-  <MaxHolePositionForY>k__BackingField: 7
+  <CaneraOffset>k__BackingField: 10
+  <Width>k__BackingField: 5
+  <Height>k__BackingField: 5
+  <MinHolePositionForX>k__BackingField: 2
+  <MaxHolePositionForX>k__BackingField: 5
+  <MinHolePositionForY>k__BackingField: 4
+  <MaxHolePositionForY>k__BackingField: 5
   <PitCount>k__BackingField: 3
   <ChanceOfPit>k__BackingField: 0.273
-  <MinPitPositionForX>k__BackingField: 2
-  <MaxPitPositionForX>k__BackingField: 6
-  <MinPitPositionForY>k__BackingField: 5
-  <MaxPitPositionForY>k__BackingField: 10
+  <MinPitPositionForX>k__BackingField: 0
+  <MaxPitPositionForX>k__BackingField: 10
+  <MinPitPositionForY>k__BackingField: 0
+  <MaxPitPositionForY>k__BackingField: 20

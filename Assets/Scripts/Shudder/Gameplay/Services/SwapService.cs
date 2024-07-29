@@ -79,7 +79,7 @@ namespace Shudder.Gameplay.Services
             }
             ground.ChangeGroundType(groundType);
 
-            _container.Resolve<LiftService>().MoveAsync(ground.Presenter.View, ground.OffsetPosition.y);
+            _container.Resolve<LiftService>().MoveAsync(ground.Presenter.View, ground.OffsetPosition.y, false);
         }
         
         private static bool IsStationary(GroundType groundType)

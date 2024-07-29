@@ -37,7 +37,7 @@ namespace Shudder.Factories
                 GroundType.Pit => GroundInstantiate(_groundConfig.PrefabPit, positionCell),
                 GroundType.Hole => GroundInstantiate(_groundConfig.PrefabHole, positionCell),
                 GroundType.Wall => GroundInstantiate(_groundConfig.PrefabWall, positionCell),
-                _ => GroundInstantiate(_groundConfig.Prefab, positionCell)
+                _ => GroundInstantiate(_groundConfig.ChoiceGroundPrefab(), positionCell)
             };
             var groundId = new Vector2(x, z);
 
@@ -45,8 +45,7 @@ namespace Shudder.Factories
             var presenter = new GroundPresenter(ground);
             groundView.Construct(presenter);
             
-            if (!isMenu)            
-                _container.Resolve<LiftService>().MoveAsync(groundView, offsetPosition.y);
+            _container.Resolve<LiftService>().MoveAsync(groundView, offsetPosition.y, isMenu);
 
             await UniTask.Yield();
             return (Ground)ground;

@@ -12,6 +12,7 @@ namespace Shudder.Gameplay.Views
     public class HeroView : MonoBehaviour
     {
         private ITriggerOnlyEventBus _triggerEventBus;
+        private bool _hasRunLevel = false;
 
         public HeroPresenter Presenter { get; set; }
 
@@ -52,6 +53,10 @@ namespace Shudder.Gameplay.Views
 
         private async void RunNewLevel(Transform groundAnchorPoint)
         {
+            if(_hasRunLevel)
+                return;
+            
+            _hasRunLevel = true;
             await UniTask.Delay(500);
             _triggerEventBus.TriggerVictory(groundAnchorPoint);
         }
