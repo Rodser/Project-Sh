@@ -26,6 +26,8 @@ namespace Shudder.Models
         public Vector3 OffsetPosition { get; }
         public List<Ground> Neighbors { get; set; }
         public GroundPresenter Presenter { get; set; }
+        public bool IsStatic { get; set; }
+        
 
         internal void AddNeighbors(List<Ground> neighbors)
         {
@@ -39,9 +41,10 @@ namespace Shudder.Models
 
         public async void ToDestroy()
         {
-            if(GroundType == GroundType.Hole || GroundType == GroundType.Pit)
+            if(IsStatic)
                 return;
-            
+            if(GroundType == GroundType.Portal || GroundType == GroundType.Pit)
+                return;
             if(Presenter.View == null)
                 return;
             

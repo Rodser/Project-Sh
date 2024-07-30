@@ -35,7 +35,7 @@ namespace Shudder.Factories
             var groundView = groundType switch
             {
                 GroundType.Pit => GroundInstantiate(_groundConfig.PrefabPit, positionCell),
-                GroundType.Hole => GroundInstantiate(_groundConfig.PrefabHole, positionCell),
+                GroundType.Portal => GroundInstantiate(_groundConfig.PrefabHole, positionCell),
                 GroundType.Wall => GroundInstantiate(_groundConfig.PrefabWall, positionCell),
                 _ => GroundInstantiate(_groundConfig.ChoiceGroundPrefab(), positionCell)
             };

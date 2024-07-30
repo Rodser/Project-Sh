@@ -29,4 +29,6 @@ MonoBehaviour:
     type: 3}
   <Light>k__BackingField: {fileID: 2212752190946412240, guid: 33147493b382dfc4cb7f1452f91c74b5,
     type: 3}
+  <JewelKeyView>k__BackingField: {fileID: -8719366356033604258, guid: 4f3836b0df29a384093cab75e6259821,
+    type: 3}
   <CameraRotation>k__BackingField: {x: -25, y: 30, z: 0}

@@ -84,7 +84,7 @@ namespace Shudder.Gameplay.Services
         
         private static bool IsStationary(GroundType groundType)
         {
-            return groundType == GroundType.Pit || groundType == GroundType.Hole || groundType == GroundType.Wall;
+            return groundType == GroundType.Pit || groundType == GroundType.Portal || groundType == GroundType.Wall;
         }
     }
 }

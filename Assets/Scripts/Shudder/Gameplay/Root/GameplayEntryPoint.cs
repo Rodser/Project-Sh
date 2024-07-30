@@ -45,7 +45,8 @@ namespace Shudder.Gameplay.Root
                 new GridFactory(_container, _gameConfig.LevelGridConfigs));
             _container.RegisterSingleton(c => new BuilderGridService(_container));
             _container.RegisterSingleton(c => new GroundFactory(_container));
-            _container.RegisterSingleton(c => new LightFactory());
+            _container.RegisterSingleton(c => new LightFactory());      
+            _container.RegisterSingleton(c => new JewelKeyFactory());
             _container.RegisterSingleton(c => new HeroFactory(_container, _gameConfig.GetConfig<HeroConfig>()));
             _container.RegisterSingleton(c => new SoundFactory(_gameConfig.GetConfig<SFXConfig>()));
         }
@@ -61,6 +62,7 @@ namespace Shudder.Gameplay.Root
             _container.RegisterTransient(c => new LiftService());
             _container.RegisterTransient(c => new SwapService(_container));
             _container.RegisterSingleton(c => new JumpService());
+            _container.RegisterSingleton(c => new ActivationPortalService());
 
         }
         

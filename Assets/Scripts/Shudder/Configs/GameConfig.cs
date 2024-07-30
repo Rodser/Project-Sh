@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Shudder.Gameplay.Models;
+using Shudder.Gameplay.Views;
 using Shudder.Vews;
 using UnityEngine;
 
@@ -12,7 +13,8 @@ namespace Shudder.Configs
         [field: SerializeField] public HexogenGridConfig[] LevelGridConfigs { get; private set; } = null;
         [field: SerializeField] public Indicator SelectIndicator { get; private set; } = null;
         [field: SerializeField] public LightPointView Light{ get; private set; } = null;
-     
+        [field: SerializeField] public JewelKeyView JewelKeyView { get; private set; }
+        
         [field: Space, Header("Camera")]
         [field: SerializeField] public Vector3 CameraRotation { get; private set; }
 

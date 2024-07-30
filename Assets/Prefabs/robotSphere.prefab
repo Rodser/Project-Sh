@@ -2719,6 +2719,7 @@ GameObject:
   - component: {fileID: 95320324289322388}
   - component: {fileID: 6474093185641635932}
   - component: {fileID: 3032623474956690496}
+  - component: {fileID: 437569328965844299}
   m_Layer: 0
   m_Name: robotSphere
   m_TagString: Untagged
@@ -2801,6 +2802,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d16830c8f0354cacb187dbfb87c574d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &437569328965844299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528915638184230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c569d35c5574d91a042644f45c2ae0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1533244445735912

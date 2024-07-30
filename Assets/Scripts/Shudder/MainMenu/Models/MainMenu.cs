@@ -40,10 +40,10 @@ namespace Shudder.MainMenu.Models
                 .Jump(
                     _menuConfig.HeroConfig.JumpConfig,
                     _hero.Presenter.View.transform,
-                    _menuGrid.Hole.AnchorPoint
+                    _menuGrid.Portal.AnchorPoint
                     );
             
-            await cameraService.MoveCameraAsync(_menuGrid.Hole.AnchorPoint.position, 2f);
+            await cameraService.MoveCameraAsync(_menuGrid.Portal.AnchorPoint.position, 2f);
             
             _triggerEventBus.TriggerStartGameplayScene();
         }

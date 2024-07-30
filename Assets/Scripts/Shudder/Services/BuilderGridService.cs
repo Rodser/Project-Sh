@@ -63,12 +63,12 @@ namespace Shudder.Services
             return this;
         }
 
-        public BuilderGridService EstablishHole()
+        public BuilderGridService EstablishPortal()
         {
             var v = CalculateHolePosition(_config);
-                    _cells[v.x, v.y].GroundType = GroundType.Hole;
+                    _cells[v.x, v.y].GroundType = GroundType.Portal;
                 
-            Debug.Log("Establish Hole");
+            Debug.Log("Establish Portal");
             return this;
         }
 
@@ -81,8 +81,8 @@ namespace Shudder.Services
                         _grid.Grounds[x, z] = await _groundFactory
                             .Create(_config, _grid.Presenter.View.transform, x, z, _offsetPosition,  _cells[x, z].GroundType, _isMenu);
                         
-                        if (_cells[x, z].GroundType == GroundType.Hole)
-                            _grid.Hole = _grid.Grounds[x, z];
+                        if (_cells[x, z].GroundType == GroundType.Portal)
+                            _grid.Portal = _grid.Grounds[x, z];
                 }
             }
 
@@ -114,7 +114,7 @@ namespace Shudder.Services
 
             return _container.Resolve<CameraService>().CameraFollow.Presenter.View.transform.position - new Vector3(x, y, z);
         }
-      
+
         private bool TryGetPit(int x, int y)
         {
             if (_grid.CountPit >= _config.PitCount)

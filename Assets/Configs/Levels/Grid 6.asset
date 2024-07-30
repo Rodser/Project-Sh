@@ -15,13 +15,18 @@ MonoBehaviour:
   <GroundConfig>k__BackingField: {fileID: 11400000, guid: d855ac658bf66f04f9055f7ff8c20aa3,
     type: 2}
   <SpaceBetweenCells>k__BackingField: 0.88
-  <CaneraOffset>k__BackingField: 12
+  <CameraOffset>k__BackingField: 5
   <Width>k__BackingField: 4
   <Height>k__BackingField: 8
   <MinHolePositionForX>k__BackingField: 1
   <MaxHolePositionForX>k__BackingField: 4
   <MinHolePositionForY>k__BackingField: 5
   <MaxHolePositionForY>k__BackingField: 8
+  <IsKey>k__BackingField: 0
+  <MinKeyPositionForX>k__BackingField: 1
+  <MaxKeyPositionForX>k__BackingField: 4
+  <MinKeyPositionForY>k__BackingField: 3
+  <MaxKeyPositionForY>k__BackingField: 8
   <PitCount>k__BackingField: 10
   <ChanceOfPit>k__BackingField: 0.22
   <MinPitPositionForX>k__BackingField: 0

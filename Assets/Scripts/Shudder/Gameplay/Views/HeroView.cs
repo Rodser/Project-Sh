@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Events;
 using Shudder.Gameplay.Presenters;
+using Shudder.Gameplay.Services;
 using Shudder.Models;
 using Shudder.Vews;
 using UnityEngine;
@@ -13,13 +14,13 @@ namespace Shudder.Gameplay.Views
     {
         private ITriggerOnlyEventBus _triggerEventBus;
         private bool _hasRunLevel = false;
+        private ActivationPortalService _activationService;
 
         public HeroPresenter Presenter { get; set; }
 
         public void Construct(DIContainer container, HeroPresenter presenter)
         {
             _triggerEventBus = container.Resolve<ITriggerOnlyEventBus>();
-            var readEventBus = container.Resolve<IReadOnlyEventBus>();
             
             Presenter = presenter;
             Presenter.SetView(this);
@@ -32,15 +33,15 @@ namespace Shudder.Gameplay.Views
 
         private void OnTriggerEnter(Collider other)
         {
-            var ground = other.GetComponentInParent<GroundView>();
-            if (ground is null)
+            var groundView = other.GetComponentInParent<GroundView>();
+            if (groundView is null)
                 return;
 
-            switch (ground.Presenter.Ground.GroundType)
+            switch (groundView.Presenter.Ground.GroundType)
             {
-                case GroundType.Hole:
+                case GroundType.Portal:
                     Debug.Log("Victory");
-                    RunNewLevel(ground.AnchorPoint);
+                    RunNewLevel(groundView.AnchorPoint);
                     break;
                 case GroundType.Pit:
                     Destroy(gameObject, 1000);

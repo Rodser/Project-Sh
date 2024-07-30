@@ -1,9 +1,11 @@
 using Cysharp.Threading.Tasks;
 using DI;
+using Shudder.Configs;
 using Shudder.Events;
 using Shudder.Gameplay.Models.Interfaces;
 using Shudder.Gameplay.Presenters;
 using Shudder.Gameplay.Services;
+using Shudder.Gameplay.Views;
 using Shudder.Models.Interfaces;
 
 namespace Shudder.Gameplay.Models
@@ -52,6 +54,11 @@ namespace Shudder.Gameplay.Models
         public void EnableIndicators()
         {
             _indicatorService = _container.Resolve<IndicatorService>();
+        }
+
+        public void ActivateTriggerKew(HexogenGridConfig config)
+        {
+            Presenter.View.GetComponent<TriggerKeyView>().Activate(_container, config.IsKey);
         }
     }
 }

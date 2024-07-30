@@ -41,7 +41,7 @@ namespace Shudder.Factories
             {
                return await builderGridService
                     .CreateGrounds(grid, _hexogenGridConfig, isMenu)
-                    .EstablishHole()
+                    .EstablishPortal()
                     .EstablishPit()
                     .GetBuild();
             }
@@ -50,7 +50,7 @@ namespace Shudder.Factories
                 return await builderGridService
                     .CreateGrounds(grid, _hexogenGridConfigs[level], isMenu)
                     .EstablishPit()
-                    .EstablishHole()
+                    .EstablishPortal()
                     .GetBuild();
             }
         }

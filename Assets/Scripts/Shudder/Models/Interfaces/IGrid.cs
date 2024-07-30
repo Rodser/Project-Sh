@@ -6,6 +6,6 @@ namespace Shudder.Models.Interfaces
     {
         GridPresenter Presenter { get; set; }
         Ground[,] Grounds { get; set; }
-        Ground Hole { get; set; }
+        Ground Portal { get; set; }
     }
 }
