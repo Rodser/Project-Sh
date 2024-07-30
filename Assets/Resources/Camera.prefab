@@ -42,9 +42,9 @@ Light:
   m_GameObject: {fileID: 1525438347892512398}
   m_Enabled: 1
   serializedVersion: 11
-  m_Type: 2
-  m_Color: {r: 0.87664646, g: 0.91914225, b: 0.9433962, a: 1}
-  m_Intensity: 0.35
+  m_Type: 1
+  m_Color: {r: 0.9528302, g: 0.7775454, b: 0.7865845, a: 1}
+  m_Intensity: 0.44
   m_Range: 20
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -165,7 +165,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.09594162, g: 0.2172037, b: 0.41509432, a: 1}
+  m_BackGroundColor: {r: 0.18405126, g: 0.58545023, b: 0.8301887, a: 1}
   m_projectionMatrixMode: 2
   m_GateFitMode: 2
   m_FOVAxisMode: 0

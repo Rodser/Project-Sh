@@ -10,8 +10,11 @@ namespace Shudder.Factories
         {
             foreach (var ground in grid.Grounds)
             {
-                if(CanCreate() && ground.Presenter.View != null)
-                    Object.Instantiate(light, ground.AnchorPoint);
+                if (!CanCreate() || ground.Presenter.View == null) 
+                    continue;
+                
+                var position = ground.AnchorPoint.position;
+                Object.Instantiate(light, position, Quaternion.identity, grid.Presenter.View.transform);
             }
         }
 
