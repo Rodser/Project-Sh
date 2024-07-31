@@ -48,9 +48,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _anchorPoint: {fileID: 2796818697387237434}
-  _top: {fileID: 0}
-  _colors:
-  - {r: 0.08784264, g: 0.8867924, b: 0.5751956, a: 0}
 --- !u!65 &4909380172065614510
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -129,17 +126,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 65eccc33634e892438970b917b617de5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.5682745
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 65eccc33634e892438970b917b617de5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 65eccc33634e892438970b917b617de5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.822839
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 65eccc33634e892438970b917b617de5,
         type: 3}
@@ -154,7 +151,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 65eccc33634e892438970b917b617de5,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -249.26
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 65eccc33634e892438970b917b617de5,
         type: 3}

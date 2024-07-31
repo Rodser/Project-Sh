@@ -48,9 +48,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _anchorPoint: {fileID: 2796818697387237434}
-  _top: {fileID: 0}
-  _colors:
-  - {r: 0.08784264, g: 0.8867924, b: 0.5751956, a: 0}
 --- !u!65 &4909380172065614510
 BoxCollider:
   m_ObjectHideFlags: 0

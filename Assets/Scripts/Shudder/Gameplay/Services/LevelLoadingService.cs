@@ -31,6 +31,8 @@ namespace Shudder.Gameplay.Services
             var currentGrid = await CreateGrid(level);
             game.SetCurrentGrid(currentGrid);
             CreateLights(currentGrid);
+            _container.Resolve<ItemFactory>().Create(_gameConfig.Items, currentGrid);
+
             var hero = CreateHero(currentGrid);
             CreateActivatePortal(level, hero, currentGrid);
             hero.EnableIndicators();
@@ -65,7 +67,7 @@ namespace Shudder.Gameplay.Services
         {
             _container
                 .Resolve<LightFactory>()
-                .Create(_gameConfig.Light, currentGrid);
+                .Create(_gameConfig.Lights, currentGrid);
         }
 
         private async Task<Grid> CreateGrid(int level)

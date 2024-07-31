@@ -34,6 +34,7 @@ namespace Shudder.MainMenu.Root
             _container.RegisterSingleton(c => new BuilderGridService(_container));
             _container.RegisterSingleton(c => new GroundFactory(_container));
             _container.RegisterSingleton(c => new LightFactory());
+            _container.RegisterSingleton(c => new ItemFactory());      
             _container.RegisterSingleton(c => new LiftService());
             _container.RegisterSingleton(c => new HeroFactory(_container, _menuConfiguration.HeroConfig));
         }

@@ -11,7 +11,8 @@ namespace Shudder.MainMenu.Configs
     {
         [field: SerializeField] public HexogenGridConfig MenuGridConfig { get; private set; } = null;
         [field: SerializeField] public GameObject Title { get; private set; } = null;
-        [field: SerializeField] public LightPointView Light{ get; private set; } = null;
+        [field: SerializeField] public LightPointView[] Lights{ get; private set; } = null;
+        [field: SerializeField] public ItemView[] Items{ get; private set; } = null;
         [field: SerializeField] public UIMenuView UIMenuView { get; private set; } = null;
 
         [field: Space, Header("Hero in Menu")]

@@ -46,6 +46,7 @@ namespace Shudder.Gameplay.Root
             _container.RegisterSingleton(c => new BuilderGridService(_container));
             _container.RegisterSingleton(c => new GroundFactory(_container));
             _container.RegisterSingleton(c => new LightFactory());      
+            _container.RegisterSingleton(c => new ItemFactory());      
             _container.RegisterSingleton(c => new JewelKeyFactory());
             _container.RegisterSingleton(c => new HeroFactory(_container, _gameConfig.GetConfig<HeroConfig>()));
             _container.RegisterSingleton(c => new SoundFactory(_gameConfig.GetConfig<SFXConfig>()));
