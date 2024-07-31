@@ -6,7 +6,6 @@ using Shudder.Factories;
 using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Models;
 using Shudder.Gameplay.Root;
-using Shudder.UI;
 using UnityEngine;
 using Grid = Shudder.Models.Grid;
 
@@ -27,70 +26,54 @@ namespace Shudder.Gameplay.Services
         {
             var level = game.CurrentLevel;
             Debug.Log($"Load Level {level}");
+            game.DestroyGrid();
 
-            var loadingScreenView = _container.Resolve<UIRootView>().LoadingScreenView;
-            loadingScreenView.Report(0f);
-            
-            DestroyOld(game, loadingScreenView);
-
-            var currentGrid = await CreateGrid(level, loadingScreenView);
+            var currentGrid = await CreateGrid(level);
             game.SetCurrentGrid(currentGrid);
-            CreateLights(currentGrid, loadingScreenView);
-            var hero = CreateHero(currentGrid, loadingScreenView);
-            CreateActivatePortal(level, hero, currentGrid, loadingScreenView);
+            CreateLights(currentGrid);
+            var hero = CreateHero(currentGrid);
+            CreateActivatePortal(level, hero, currentGrid);
             hero.EnableIndicators();
             game.Hero = hero;
             
             var moveService = _container.Resolve<HeroMoveService>();
             moveService.Subscribe(hero);
-            loadingScreenView.Report(1f);
         }
 
-        private void CreateActivatePortal(int level, Hero hero, Grid currentGrid, LoadingScreenView loadingScreenView)
+        private void CreateActivatePortal(int level, Hero hero, Grid currentGrid)
         {
-            if (_gameConfig.LevelGridConfigs[level].IsKey)
-            {
-                hero.ActivateTriggerKew(_gameConfig.LevelGridConfigs[level]);
-                _container.Resolve<ActivationPortalService>().Construct(currentGrid, _gameConfig.LevelGridConfigs[level].IsKey);
+            if (!_gameConfig.LevelGridConfigs[level].IsKey)
+                return;
+            
+            hero.ActivateTriggerKew(_gameConfig.LevelGridConfigs[level]);
+            _container.Resolve<ActivationPortalService>().Construct(currentGrid, _gameConfig.LevelGridConfigs[level].IsKey);
                 
-                _container
-                    .Resolve<JewelKeyFactory>()
-                    .Create(_gameConfig.JewelKeyView, _gameConfig.LevelGridConfigs[level], currentGrid);
-            }
-
-            loadingScreenView.Report(0.7f);
+            _container
+                .Resolve<JewelKeyFactory>()
+                .Create(_gameConfig.JewelKeyView, _gameConfig.LevelGridConfigs[level], currentGrid);
         }
 
-        private Hero CreateHero(Grid currentGrid, LoadingScreenView loadingScreenView)
+        private Hero CreateHero(Grid currentGrid)
         {
             var hero = _container
                 .Resolve<HeroFactory>()
                 .Create(currentGrid.Grounds);
-            loadingScreenView.Report(0.6f);
             return hero;
         }
 
-        private void CreateLights(Grid currentGrid, LoadingScreenView loadingScreenView)
+        private void CreateLights(Grid currentGrid)
         {
             _container
                 .Resolve<LightFactory>()
                 .Create(_gameConfig.Light, currentGrid);
-            loadingScreenView.Report(0.5f);
         }
 
-        private async Task<Grid> CreateGrid(int level, LoadingScreenView loadingScreenView)
+        private async Task<Grid> CreateGrid(int level)
         {
             var currentGrid = await _container
                 .Resolve<GridFactory>("LevelGrid")
                 .Create(level);
-            loadingScreenView.Report(0.4f);
             return currentGrid;
-        }
-
-        private static void DestroyOld(Game game, LoadingScreenView loadingScreenView)
-        {
-            game.DestroyGrid();
-            loadingScreenView.Report(0.1f);
         }
     }
 }

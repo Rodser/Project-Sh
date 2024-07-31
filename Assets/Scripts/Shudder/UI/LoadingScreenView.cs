@@ -1,18 +1,15 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Shudder.UI
 {
-    public class LoadingScreenView : MonoBehaviour, IProgress<float>
+    public class LoadingScreenView : MonoBehaviour
     {
-        [SerializeField] private Slider _progressSlider;
-        
-        public void Report(float value)
+        [SerializeField] private Image loadingIndicator;
+
+        private void Update()
         {
-            _progressSlider.SetValueWithoutNotify(value);
-            // _progressSlider.value = value;
-            Debug.Log($"Slider value: {value}");
+            loadingIndicator.transform.Rotate(0f, 0f, -100f* Time.deltaTime);
         }
     }
 }

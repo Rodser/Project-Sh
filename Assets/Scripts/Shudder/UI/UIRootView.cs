@@ -7,8 +7,6 @@ namespace Shudder.UI
         [SerializeField] private Transform _uiSceneContainer;
         [SerializeField] private LoadingScreenView _loadingScreenView;
 
-        public LoadingScreenView LoadingScreenView => _loadingScreenView;
-        
         private void Awake()
         {
             HideLoadingScreen();
@@ -27,7 +25,6 @@ namespace Shudder.UI
         public void AttachSceneUI(GameObject sceneUI)
         {
             CleanSceneUI();
-
             sceneUI.transform.SetParent(_uiSceneContainer, false);
         }
 
