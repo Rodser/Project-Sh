@@ -32,7 +32,7 @@ namespace Shudder.Gameplay.Root
             await _container
                 .Resolve<CameraService>()
                 .MoveCameraAsync(Hero.Presenter.View.transform.position, rotation, 2.5f);
-            
+
             _container.Resolve<CameraSurveillanceService>().Follow(CameraFollow.Presenter.View, Hero);
         }
 

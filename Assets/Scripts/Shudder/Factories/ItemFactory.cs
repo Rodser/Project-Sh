@@ -7,11 +7,11 @@ namespace Shudder.Factories
 {
     public class ItemFactory
     {
-        public void Create(ItemView[] items, Grid grid)
+        public void Create(ItemView[] items, Grid grid, float chance)
         {
             foreach (var ground in grid.Grounds)
             {
-                if (!CanCreate()
+                if (!CanCreate(chance)
                     || ground.Presenter.View == null
                     || ground.GroundType == GroundType.Pit
                     || ground.GroundType == GroundType.Portal) 
@@ -23,10 +23,10 @@ namespace Shudder.Factories
             }
         }
 
-        private bool CanCreate()
+        private bool CanCreate(float chance)
         {
             var value = Random.value;
-            return value > 0.4f;
+            return value < chance;
         }
     }
 }

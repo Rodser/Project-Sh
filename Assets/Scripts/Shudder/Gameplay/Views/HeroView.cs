@@ -4,6 +4,7 @@ using Shudder.Events;
 using Shudder.Gameplay.Presenters;
 using Shudder.Gameplay.Services;
 using Shudder.Models;
+using Shudder.Services;
 using Shudder.Vews;
 using UnityEngine;
 
@@ -15,12 +16,14 @@ namespace Shudder.Gameplay.Views
         private ITriggerOnlyEventBus _triggerEventBus;
         private bool _hasRunLevel = false;
         private ActivationPortalService _activationService;
+        private SfxService _sfx;
 
         public HeroPresenter Presenter { get; set; }
 
         public void Construct(DIContainer container, HeroPresenter presenter)
         {
             _triggerEventBus = container.Resolve<ITriggerOnlyEventBus>();
+            _sfx = container.Resolve<SfxService>();
             
             Presenter = presenter;
             Presenter.SetView(this);
@@ -41,6 +44,7 @@ namespace Shudder.Gameplay.Views
             {
                 case GroundType.Portal:
                     Debug.Log("Victory");
+                    _sfx.InPortal();
                     RunNewLevel(groundView.AnchorPoint);
                     break;
                 case GroundType.Pit:

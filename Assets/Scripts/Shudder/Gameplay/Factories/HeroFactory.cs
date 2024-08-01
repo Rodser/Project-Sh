@@ -3,6 +3,7 @@ using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Models;
 using Shudder.Gameplay.Presenters;
 using Shudder.Models;
+using Shudder.Services;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Factories
@@ -30,8 +31,6 @@ namespace Shudder.Gameplay.Factories
                 }
             }
             
-            Debug.Log(ground.AnchorPoint);
-            
             var hero = new Hero(_container, _heroConfig.SpeedMove)
             {
                 Health = 3,
@@ -42,6 +41,9 @@ namespace Shudder.Gameplay.Factories
             var presenter = new HeroPresenter(hero);
             heroView.Construct(_container, presenter);
             hero.SetGround(ground);
+
+            _container.Resolve<SfxService>().CreateHeroSfx(_heroConfig.HeroSfxConfig, heroView.transform);
+            
             return hero;
         }
     }

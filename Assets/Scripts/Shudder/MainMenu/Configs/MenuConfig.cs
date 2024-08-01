@@ -1,3 +1,4 @@
+using Config;
 using Shudder.Configs;
 using Shudder.Gameplay.Configs;
 using Shudder.UI;
@@ -14,7 +15,8 @@ namespace Shudder.MainMenu.Configs
         [field: SerializeField] public LightPointView[] Lights{ get; private set; } = null;
         [field: SerializeField] public ItemView[] Items{ get; private set; } = null;
         [field: SerializeField] public UIMenuView UIMenuView { get; private set; } = null;
-
+        [field: SerializeField] public SFXConfig SfxConfig { get; private set; } = null;
+        
         [field: Space, Header("Hero in Menu")]
         [field: SerializeField]public HeroConfig HeroConfig { get; private set; }
       

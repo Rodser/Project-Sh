@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Constants;
 using Shudder.Events;
+using Shudder.Factories;
 using Shudder.Gameplay.Root;
 using Shudder.MainMenu.Root;
 using Shudder.Services;
@@ -22,6 +23,8 @@ namespace Shudder.Root
             
             CreateAndRegisterUIRoot();
             
+            // ...
+            _container.RegisterSingleton(c => new SoundFactory());
             RegisterEventBus();
             RegisterService();
 
@@ -41,6 +44,9 @@ namespace Shudder.Root
                 case SceneName.MAIN_MENU:
                     LoadAndStartMainMenuScene();
                     break;
+                case SceneName.TEST:
+                    LoadAndStartMainMenuScene();
+                    return;
             }
 
             if (sceneName != SceneName.BOOT)
@@ -111,6 +117,7 @@ namespace Shudder.Root
         private void RegisterService()
         {
             _container.RegisterSingleton(c => new InputService());
+            _container.RegisterSingleton(c => new SfxService(_container));
         }
 
         private async UniTask LoadSceneAsync(string sceneName)

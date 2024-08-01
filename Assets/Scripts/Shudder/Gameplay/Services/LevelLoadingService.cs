@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using Config;
 using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Configs;
@@ -6,6 +6,7 @@ using Shudder.Factories;
 using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Models;
 using Shudder.Gameplay.Root;
+using Shudder.Services;
 using UnityEngine;
 using Grid = Shudder.Models.Grid;
 
@@ -31,7 +32,8 @@ namespace Shudder.Gameplay.Services
             var currentGrid = await CreateGrid(level);
             game.SetCurrentGrid(currentGrid);
             CreateLights(currentGrid);
-            _container.Resolve<ItemFactory>().Create(_gameConfig.Items, currentGrid);
+            CreateItems(currentGrid);
+            CreateMusic(currentGrid);
 
             var hero = CreateHero(currentGrid);
             CreateActivatePortal(level, hero, currentGrid);
@@ -40,6 +42,19 @@ namespace Shudder.Gameplay.Services
             
             var moveService = _container.Resolve<HeroMoveService>();
             moveService.Subscribe(hero);
+        }
+
+        private void CreateMusic(Grid currentGrid)
+        {
+           var service = _container
+                .Resolve<SfxService>();
+           service.CreateMusic(_gameConfig.GetConfig<SFXConfig>(), currentGrid.Presenter.View.transform);
+           service.StartMusic();
+        }
+
+        private void CreateItems(Grid currentGrid)
+        {
+            _container.Resolve<ItemFactory>().Create(_gameConfig.Items, currentGrid, 0.7f);
         }
 
         private void CreateActivatePortal(int level, Hero hero, Grid currentGrid)
@@ -67,10 +82,10 @@ namespace Shudder.Gameplay.Services
         {
             _container
                 .Resolve<LightFactory>()
-                .Create(_gameConfig.Lights, currentGrid);
+                .Create(_gameConfig.Lights, currentGrid, 0.2f);
         }
 
-        private async Task<Grid> CreateGrid(int level)
+        private async UniTask<Grid> CreateGrid(int level)
         {
             var currentGrid = await _container
                 .Resolve<GridFactory>("LevelGrid")

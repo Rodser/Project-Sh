@@ -34,8 +34,8 @@ namespace Shudder.Gameplay.Factories
 
         private Vector2Int CalculatePosition(HexogenGridConfig config)
         {
-            var x = Random.Range(config.MinKeyPositionForX - 1, config.MaxKeyPositionForX);
-            var y = Random.Range(config.MinKeyPositionForY - 1, config.MaxKeyPositionForY);
+            var x = Random.Range(config.MinKeyPositionForX, config.MaxKeyPositionForX);
+            var y = Random.Range(config.MinKeyPositionForY, config.MaxKeyPositionForY);
             return new Vector2Int(x, y);
         }
     }

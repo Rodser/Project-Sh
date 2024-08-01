@@ -6,11 +6,11 @@ namespace Shudder.Factories
 {
     public class LightFactory
     {
-        public void Create(LightPointView[] lights, Grid grid)
+        public void Create(LightPointView[] lights, Grid grid, float chance)
         {
             foreach (var ground in grid.Grounds)
             {
-                if (!CanCreate() || ground.Presenter.View == null) 
+                if (!CanCreate(chance) || ground.Presenter.View == null) 
                     continue;
 
                 var prefabLight = lights[Random.Range(0, lights.Length)];
@@ -20,10 +20,10 @@ namespace Shudder.Factories
             }
         }
 
-        private bool CanCreate()
+        private bool CanCreate(float chance)
         {
             var value = Random.value;
-            return value > 0.9f;
+            return value < chance;
         }
     }
 }

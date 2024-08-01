@@ -7,6 +7,7 @@ using Shudder.MainMenu.Configs;
 using Shudder.Services;
 using Shudder.UI;
 using UnityEngine;
+using Grid = Shudder.Models.Grid;
 
 namespace Shudder.MainMenu.Factories
 {
@@ -27,13 +28,12 @@ namespace Shudder.MainMenu.Factories
 
         public async void Create()
         {
-            var menuGrid = await _container
-                .Resolve<GridFactory>("MenuGrid")
-                .Create(-1, true);
-            
+            var menuGrid = await CreateGrid();
             var hero = _container.Resolve<HeroFactory>().Create(menuGrid.Grounds);
-            _container.Resolve<LightFactory>().Create(_menuConfig.Lights, menuGrid);
-            _container.Resolve<ItemFactory>().Create(_menuConfig.Items, menuGrid);
+            _container.Resolve<LightFactory>().Create(_menuConfig.Lights, menuGrid, 0.2f);
+            _container.Resolve<ItemFactory>().Create(_menuConfig.Items, menuGrid, 0.7f);
+            
+            CreateMusic(menuGrid);
             await MoveCamera();
 
             var menuUI = CreateUIMainMenu();
@@ -41,6 +41,22 @@ namespace Shudder.MainMenu.Factories
             var menu = new Models.MainMenu(_container, menuGrid, _menuConfig, hero);
         }
 
+        private async UniTask<Grid> CreateGrid()
+        {
+            var menuGrid = await _container
+                .Resolve<GridFactory>("MenuGrid")
+                .Create(-1, true);
+            return menuGrid;
+        }
+
+        private void CreateMusic(Grid grid)
+        {
+            var service = _container.Resolve<SfxService>();
+                
+            service.CreateMusicMenu(_menuConfig.SfxConfig, grid.Presenter.View.transform);
+            service.StartMusicMenu();
+        }
+        
         private async UniTask MoveCamera()
         {
             var position = _menuConfig.CameraPosition; 

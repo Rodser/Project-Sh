@@ -63,6 +63,8 @@ namespace Shudder.Gameplay.Services
 
         private async void RunSwapWave(IGround ground)
         {
+            _container.Resolve<SfxService>().Thunder();
+            
             await _container
                 .Resolve<SwapService>()
                 .SwapWaveAsync(ground, new List<Vector2>(), true);
@@ -95,6 +97,7 @@ namespace Shudder.Gameplay.Services
 
         private async UniTask MoveToTarget(Transform target)
         {
+            _container.Resolve<SfxService>().Jump();
             await _jumpService.Jump(_heroConfig.JumpConfig, _hero.Presenter.View.transform, target);
         }
     }

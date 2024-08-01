@@ -8,9 +8,9 @@ namespace Shudder.Gameplay.Configs
     {
         [field: SerializeField] public HeroView Prefab { get; private set; }
         [field: SerializeField] public JumpConfig JumpConfig { get; private set; }
+        [field: SerializeField] public HeroSfxConfig HeroSfxConfig { get; private set; }
         [field: SerializeField] public int StartPositionX { get; private set; }
         [field: SerializeField] public int StartPositionY { get; private set; }
-        [field: SerializeField] public int StartPositionZ { get; private set; }
         [field: SerializeField] public float SpeedMove { get; private set; }
     }
 }

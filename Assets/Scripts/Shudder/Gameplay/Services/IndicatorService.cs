@@ -22,7 +22,6 @@ namespace Shudder.Gameplay.Services
             _gameConfig = gameConfig;
         }
 
-
         public void CreateSelectIndicators(IGround ground)
         {
             if(ground.Neighbors == null)
@@ -33,7 +32,8 @@ namespace Shudder.Gameplay.Services
             foreach (Ground neighbor in ground.Neighbors)
             {
                 if (_container.Resolve<CheckingPossibilityOfJumpService>()
-                    .CheckPossible(neighbor.GroundType, ground.GroundType))
+                    .CheckPossible(neighbor.GroundType, ground.GroundType)
+                    && neighbor.GroundType != GroundType.Pit)
                 {
                     var indicator = Object.Instantiate(_gameConfig.SelectIndicator, neighbor.AnchorPoint);
                     _boxSelectIndicators.Add(indicator);
