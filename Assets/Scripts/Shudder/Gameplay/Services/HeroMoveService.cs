@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Models.Interfaces;
+using Shudder.Gameplay.Views;
 using Shudder.Models.Interfaces;
 using Shudder.Services;
 using Shudder.Vews;
@@ -98,6 +99,7 @@ namespace Shudder.Gameplay.Services
         private async UniTask MoveToTarget(Transform target)
         {
             _container.Resolve<SfxService>().Jump();
+            _container.Resolve<AnimationHeroService>().Jump();
             await _jumpService.Jump(_heroConfig.JumpConfig, _hero.Presenter.View.transform, target);
         }
     }

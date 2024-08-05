@@ -25,6 +25,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bb8778a7f189b4d45994e03f8daae730, type: 2}
   - {fileID: 11400000, guid: 0d394ba9f21940d498174b91b2082595, type: 2}
   - {fileID: 11400000, guid: e56038032f94e634891678d383d2cb17, type: 2}
+  - {fileID: 11400000, guid: 46f1843cee6708e4eb0858f4caeb0c4c, type: 2}
+  - {fileID: 11400000, guid: d9ee0dd87d494764881bc8c92a9f100a, type: 2}
+  - {fileID: 11400000, guid: e4285d09a5a4c8e458d9f172c4ce45a7, type: 2}
   <SelectIndicator>k__BackingField: {fileID: 8478324856384917096, guid: 978788be5a66a15478b5464689a0440a,
     type: 3}
   <Lights>k__BackingField:

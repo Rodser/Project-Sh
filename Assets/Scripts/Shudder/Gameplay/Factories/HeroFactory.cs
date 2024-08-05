@@ -2,6 +2,7 @@ using DI;
 using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Models;
 using Shudder.Gameplay.Presenters;
+using Shudder.Gameplay.Services;
 using Shudder.Models;
 using Shudder.Services;
 using UnityEngine;
@@ -30,18 +31,17 @@ namespace Shudder.Gameplay.Factories
                         ground = ng;
                 }
             }
-            
-            var hero = new Hero(_container, _heroConfig.SpeedMove)
-            {
-                Health = 3,
-            };
-            
+
+            var hero = new Hero(_container, _heroConfig.SpeedMove);
             var position = ground.AnchorPoint.position;
             var heroView = Object.Instantiate(_heroConfig.Prefab, position, Quaternion.identity, ground.AnchorPoint);
             var presenter = new HeroPresenter(hero);
             heroView.Construct(_container, presenter);
             hero.SetGround(ground);
 
+            _container.Resolve<RotationService>().LookRotation(hero.Presenter.View.transform, _container.Resolve<CameraService>().Camera.transform.position);
+            
+            _container.Resolve<AnimationHeroService>().SetAnimator(heroView.GetComponent<Animator>());
             _container.Resolve<SfxService>().CreateHeroSfx(_heroConfig.HeroSfxConfig, heroView.transform);
             
             return hero;

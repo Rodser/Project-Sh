@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <GroundConfig>k__BackingField: {fileID: 11400000, guid: d855ac658bf66f04f9055f7ff8c20aa3,
     type: 2}
-  <SpaceBetweenCells>k__BackingField: 0.88
+  <SpaceBetweenCells>k__BackingField: 0.99
   <CameraOffset>k__BackingField: 5
   <Width>k__BackingField: 4
   <Height>k__BackingField: 8

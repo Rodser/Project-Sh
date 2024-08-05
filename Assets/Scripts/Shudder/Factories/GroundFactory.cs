@@ -53,7 +53,8 @@ namespace Shudder.Factories
 
         private GroundView GroundInstantiate(GroundView prefab, Vector3 positionCell)
         {
-            return Object.Instantiate(prefab, positionCell, Quaternion.identity, _parent);
+            var rotate = new Vector3(0, Random.Range(0, 6) * 60, 0);
+            return Object.Instantiate(prefab, positionCell, Quaternion.Euler(rotate), _parent);
         }
 
         private Vector3 GetPositionCell(int x, int z, Vector3 offsetPosition, float rowOffset)

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d22fa90e0240c58151648b842b5220, type: 3}
   m_Name: Hero
   m_EditorClassIdentifier: 
-  <Prefab>k__BackingField: {fileID: 3032623474956690496, guid: 8e0f285c21cdcf14e8d5c06c57ba936b,
+  <Prefab>k__BackingField: {fileID: 3337131006018901402, guid: 703d802bc94427b4e9617af1f745c7a1,
     type: 3}
   <JumpConfig>k__BackingField: {fileID: 11400000, guid: 16c6991abef3d9241843cfd95b676a8b,
     type: 2}

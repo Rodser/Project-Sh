@@ -29,12 +29,12 @@ namespace Shudder.MainMenu.Factories
         public async void Create()
         {
             var menuGrid = await CreateGrid();
-            var hero = _container.Resolve<HeroFactory>().Create(menuGrid.Grounds);
             _container.Resolve<LightFactory>().Create(_menuConfig.Lights, menuGrid, 0.2f);
             _container.Resolve<ItemFactory>().Create(_menuConfig.Items, menuGrid, 0.7f);
             
             CreateMusic(menuGrid);
             await MoveCamera();
+            var hero = _container.Resolve<HeroFactory>().Create(menuGrid.Grounds);
 
             var menuUI = CreateUIMainMenu();
             menuUI.Bind(_triggerEventBus);

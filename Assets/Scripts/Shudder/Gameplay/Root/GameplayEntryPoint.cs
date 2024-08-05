@@ -60,7 +60,6 @@ namespace Shudder.Gameplay.Root
             _container.RegisterSingleton(c => new IndicatorService(_container, _gameConfig));
             _container.RegisterTransient(c => new LiftService());
             _container.RegisterTransient(c => new SwapService(_container));
-            _container.RegisterSingleton(c => new JumpService());
             _container.RegisterSingleton(c => new ActivationPortalService());
 
         }

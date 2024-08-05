@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d438032ecef7374b9b8d052523266ae, type: 3}
+  m_Name: Grid 10
+  m_EditorClassIdentifier: 
+  <GroundConfig>k__BackingField: {fileID: 11400000, guid: d855ac658bf66f04f9055f7ff8c20aa3,
+    type: 2}
+  <SpaceBetweenCells>k__BackingField: 0.99
+  <CameraOffset>k__BackingField: 5
+  <Width>k__BackingField: 12
+  <Height>k__BackingField: 12
+  <MinHolePositionForX>k__BackingField: 4
+  <MaxHolePositionForX>k__BackingField: 8
+  <MinHolePositionForY>k__BackingField: 8
+  <MaxHolePositionForY>k__BackingField: 12
+  <IsKey>k__BackingField: 1
+  <MinKeyPositionForX>k__BackingField: 0
+  <MaxKeyPositionForX>k__BackingField: 8
+  <MinKeyPositionForY>k__BackingField: 6
+  <MaxKeyPositionForY>k__BackingField: 10
+  <PitCount>k__BackingField: 24
+  <ChanceOfPit>k__BackingField: 0.22
+  <MinPitPositionForX>k__BackingField: 0
+  <MaxPitPositionForX>k__BackingField: 10
+  <MinPitPositionForY>k__BackingField: 0
+  <MaxPitPositionForY>k__BackingField: 20

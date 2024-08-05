@@ -4,6 +4,7 @@ using Shudder.Constants;
 using Shudder.Events;
 using Shudder.Factories;
 using Shudder.Gameplay.Root;
+using Shudder.Gameplay.Services;
 using Shudder.MainMenu.Root;
 using Shudder.Services;
 using Shudder.UI;
@@ -118,6 +119,10 @@ namespace Shudder.Root
         {
             _container.RegisterSingleton(c => new InputService());
             _container.RegisterSingleton(c => new SfxService(_container));
+            _container.RegisterSingleton(c => new AnimationHeroService());
+            _container.RegisterSingleton(c => new RotationService());
+            _container.RegisterSingleton(c => new JumpService(_container));
+
         }
 
         private async UniTask LoadSceneAsync(string sceneName)

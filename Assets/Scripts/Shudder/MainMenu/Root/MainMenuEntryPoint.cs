@@ -43,7 +43,6 @@ namespace Shudder.MainMenu.Root
         {
             CameraFollow cameraFollow = new CameraFollowFactory().Create();
             _container.RegisterSingleton(c => new CameraService(cameraFollow));
-            _container.RegisterSingleton(c => new JumpService());
         }
     }
 }
