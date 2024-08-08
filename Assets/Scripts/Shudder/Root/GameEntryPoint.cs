@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Constants;
+using Shudder.Data;
 using Shudder.Events;
 using Shudder.Factories;
 using Shudder.Gameplay.Root;
@@ -122,6 +123,7 @@ namespace Shudder.Root
             _container.RegisterSingleton(c => new AnimationHeroService());
             _container.RegisterSingleton(c => new RotationService());
             _container.RegisterSingleton(c => new JumpService(_container));
+            _container.RegisterInstance(new StorageService());
 
         }
 

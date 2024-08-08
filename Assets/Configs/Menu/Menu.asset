@@ -22,7 +22,7 @@ MonoBehaviour:
   <Items>k__BackingField:
   - {fileID: -5563503668851799990, guid: 573c43c7465a11d479fa89a6f6f6e356, type: 3}
   - {fileID: 4804937333857991296, guid: 5f3087197d445eb47961ea6d250ef327, type: 3}
-  <UIMenuView>k__BackingField: {fileID: 7604280713154014770, guid: 33aaf7cb44533fc4e827602d14eb1c99,
+  <UIMenuView>k__BackingField: {fileID: 6774967520915213019, guid: 5dc05bd13da8c254f86009e8f6fce9bf,
     type: 3}
   <SfxConfig>k__BackingField: {fileID: 11400000, guid: 269f08b5a17de984b8a66e0a8cab2b88,
     type: 2}

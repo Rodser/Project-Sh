@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Configs;
+using Shudder.Data;
 using Shudder.Gameplay.Root;
 using Shudder.UI;
 
@@ -20,8 +21,8 @@ namespace Shudder.Gameplay.Services
         public async void HasVictory(Game game)
         {
             await UniTask.Delay(500);
-            if(game.CurrentLevel < _gameConfig.LevelGridConfigs.Length - 1)
-                game.CurrentLevel++;
+            game.UpLevel();
+            _container.Resolve<StorageService>().SaveProgress(game.Progress);
             await _container.Resolve<LevelLoadingService>().LoadAsync(game);
             _container.Resolve<UIRootView>().HideLoadingScreen();
             game.Run();

@@ -56,7 +56,7 @@ namespace Shudder.Gameplay.Models
             _indicatorService = _container.Resolve<IndicatorService>();
         }
 
-        public void ActivateTriggerKew(HexogenGridConfig config)
+        public void ActivateTriggerKew(GridConfig config)
         {
             Presenter.View.GetComponent<TriggerKeyView>().Activate(_container, config.IsKey);
         }

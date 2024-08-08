@@ -10,7 +10,7 @@ namespace Shudder.MainMenu.Configs
     [CreateAssetMenu(fileName = "Menu", menuName = "Game/Menu", order = 12)]
     public class MenuConfig : ScriptableObject
     {
-        [field: SerializeField] public HexogenGridConfig MenuGridConfig { get; private set; } = null;
+        [field: SerializeField] public GridConfig MenuGridConfig { get; private set; } = null;
         [field: SerializeField] public GameObject Title { get; private set; } = null;
         [field: SerializeField] public LightPointView[] Lights{ get; private set; } = null;
         [field: SerializeField] public ItemView[] Items{ get; private set; } = null;

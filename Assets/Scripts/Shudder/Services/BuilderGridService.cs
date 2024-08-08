@@ -14,7 +14,7 @@ namespace Shudder.Services
     {
         private readonly DIContainer _container;
         private Grid _grid;
-        private HexogenGridConfig _config;
+        private GridConfig _config;
         private GroundFactory _groundFactory;
         private Vector3 _offsetPosition;
         private bool _isMenu;
@@ -25,7 +25,7 @@ namespace Shudder.Services
             _container = container;
         }
 
-        public  BuilderGridService CreateGrounds(Grid grid, HexogenGridConfig config, bool isMenu)
+        public  BuilderGridService CreateGrounds(Grid grid, GridConfig config, bool isMenu)
         {
             _grid = grid;
             _config = config;
@@ -104,7 +104,7 @@ namespace Shudder.Services
             Debug.Log("Set Neighbors");
         }
 
-        private Vector3 GetOffsetPosition(HexogenGridConfig config)
+        private Vector3 GetOffsetPosition(GridConfig config)
         {
             var rowOffset = config.Height % 2 * 0.5f;
 
@@ -130,7 +130,7 @@ namespace Shudder.Services
             return true;
         }
 
-        private bool TryGetWall(HexogenGridConfig config, int x, int y)
+        private bool TryGetWall(GridConfig config, int x, int y)
         {
             if (x == 0 || x == config.Width - 1)
                 return true;
@@ -141,7 +141,7 @@ namespace Shudder.Services
             return false;
         }
 
-        private Vector2Int CalculateHolePosition(HexogenGridConfig config)
+        private Vector2Int CalculateHolePosition(GridConfig config)
         {
             var xHole = Random.Range(config.MinHolePositionForX - 1, config.MaxHolePositionForX);
             var yHole = Random.Range(config.MinHolePositionForY - 1, config.MaxHolePositionForY);

@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using DI;
+using Shudder.Data;
 using Shudder.Events;
 using Shudder.Factories;
 using Shudder.Gameplay.Factories;
@@ -38,6 +39,10 @@ namespace Shudder.MainMenu.Factories
 
             var menuUI = CreateUIMainMenu();
             menuUI.Bind(_triggerEventBus);
+            var progress = _container.Resolve<StorageService>().LoadProgress();
+            menuUI.SetCoin(progress.Coin);
+            menuUI.SetDiamond(progress.Diamond);
+            menuUI.SetLevel(progress.Level, progress.GetLevelProgress());
             var menu = new Models.MainMenu(_container, menuGrid, _menuConfig, hero);
         }
 
@@ -71,6 +76,5 @@ namespace Shudder.MainMenu.Factories
             _container.Resolve<UIRootView>().AttachSceneUI(menuUI.gameObject);
             return menuUI;
         }
-
     }
 }

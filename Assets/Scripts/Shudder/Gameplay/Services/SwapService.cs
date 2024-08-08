@@ -22,7 +22,7 @@ namespace Shudder.Gameplay.Services
         public async UniTask SwapWaveAsync(IGround ground, List<Vector2> offsetItems, bool isHero)
         {
             if(isHero)
-                _swapLimit = 5;
+                _swapLimit = ground.Neighbors.Count;
             
             if (offsetItems.Any(item => item == ground.Id))
                 return;
@@ -75,7 +75,8 @@ namespace Shudder.Gameplay.Services
             groundType -= 1;
             if (groundType < 0)
             {
-                groundType = isHero ? GroundType.TileLow : GroundType.TileHigh;
+                groundType = 0;
+                // groundType = isHero ? GroundType.TileLow : GroundType.TileHigh;
             }
             ground.ChangeGroundType(groundType);
 

@@ -2,11 +2,13 @@ using Config;
 using Cysharp.Threading.Tasks;
 using DI;
 using Shudder.Configs;
+using Shudder.Data;
 using Shudder.Factories;
 using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Models;
 using Shudder.Gameplay.Root;
 using Shudder.Services;
+using Shudder.UI;
 using UnityEngine;
 using Grid = Shudder.Models.Grid;
 
@@ -25,7 +27,9 @@ namespace Shudder.Gameplay.Services
 
         public async UniTask LoadAsync(Game game)
         {
-            var level = game.CurrentLevel;
+            var progress = _container.Resolve<StorageService>().LoadProgress();
+            game.SetProgress(progress);
+            var level = game.Progress.Level - 1;
             Debug.Log($"Load Level {level}");
             game.DestroyGrid();
 
@@ -35,6 +39,7 @@ namespace Shudder.Gameplay.Services
             CreateItems(currentGrid);
             CreateMusic(currentGrid);
 
+            CreateHud(progress);
             var hero = CreateHero(currentGrid);
             CreateActivatePortal(level, hero, currentGrid);
             hero.EnableIndicators();
@@ -44,6 +49,16 @@ namespace Shudder.Gameplay.Services
             moveService.Subscribe(hero);
         }
 
+        private void CreateHud(PlayerProgress progress)
+        {
+            var prefab = _gameConfig.HudView;
+            var hudView = Object.Instantiate(prefab);
+            hudView.SetLevel(progress.Level);
+            hudView.SetCoin(progress.Coin);
+            hudView.SetDiamond(progress.Diamond);
+            _container.Resolve<UIRootView>().AttachSceneUI(hudView.gameObject);
+        }
+        
         private void CreateMusic(Grid currentGrid)
         {
            var service = _container

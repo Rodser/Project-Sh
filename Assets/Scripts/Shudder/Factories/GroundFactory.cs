@@ -23,7 +23,7 @@ namespace Shudder.Factories
             _container = container;
         }
 
-        public async UniTask<Ground> Create(HexogenGridConfig hexGridConfig, Transform parent, int x, int z, Vector3 offsetPosition, GroundType groundType, bool isMenu)
+        public async UniTask<Ground> Create(GridConfig hexGridConfig, Transform parent, int x, int z, Vector3 offsetPosition, GroundType groundType, bool isMenu)
         {
             _groundConfig = hexGridConfig.GroundConfig;
             _spaceBetweenCells = hexGridConfig.SpaceBetweenCells;

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: JumpHero
   m_EditorClassIdentifier: 
   <DurationJump>k__BackingField: 0.8
-  <PowerJump>k__BackingField: 0.6
+  <PowerJump>k__BackingField: 0.2
   <DurationClench>k__BackingField: 0.2
   <ScaleClench>k__BackingField: {x: 1.3, y: 0.7, z: 1.3}

@@ -1,4 +1,5 @@
 using Shudder.Events;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,15 +9,17 @@ namespace Shudder.UI
     {
         private ITriggerOnlyEventBus _eventBus;
         
-        [field: SerializeField] public Button StartButton { get; private set; }    
-        [field: SerializeField] public Button BackButton { get; private set; }    
+        [field: SerializeField] public Button PlayButton { get; private set; }    
         [field: SerializeField] public Button OptionButton { get; private set; }    
-        [field: SerializeField] public Button ExitButton { get; private set; }
+        [field: SerializeField] public Button LeaderboardsButton { get; private set; }    
+        [field: SerializeField] public Button RewardsButton { get; private set; }    
+        [field: SerializeField] public Button ShopButton { get; private set; }
+        
+        [SerializeField] private Image _LevelProgress;    
 
-        private void Start()
-        {
-            BackButton.gameObject.SetActive(false);
-        }
+        [SerializeField] private TextMeshProUGUI _coin;
+        [SerializeField] private TextMeshProUGUI _diamond;    
+        [SerializeField] private TextMeshProUGUI _level;    
 
         public void Bind(ITriggerOnlyEventBus eventBus)
         {
@@ -28,15 +31,21 @@ namespace Shudder.UI
             _eventBus.TriggerFlyCamera();
             gameObject.SetActive(false);
         }
-
-        public void ExitGame()
+        
+        public void SetCoin(int value)
         {
-            _eventBus.TriggerExitGame();
+            _coin.text = value.ToString();
+        }
+        
+        public void SetDiamond(int value)
+        {
+            _diamond.text = value.ToString();
         }
 
-        public void ActivateBackButton()
+        public void SetLevel(int level, float levelProgress)
         {
-            BackButton.gameObject.SetActive(true);
+            _level.text = level.ToString();
+            _LevelProgress.fillAmount = levelProgress;
         }
     }
 }

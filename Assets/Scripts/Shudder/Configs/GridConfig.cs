@@ -2,16 +2,16 @@ using UnityEngine;
 
 namespace Shudder.Configs
 {
-    [CreateAssetMenu(fileName = "HexogenGrid", menuName = "Game/HexogenGrid", order = 7)]
-    public class HexogenGridConfig : ScriptableObject
+    [CreateAssetMenu(fileName = "Grid", menuName = "Game/HexogenGrid", order = 7)]
+    public class GridConfig : ScriptableObject
     {
         [field: SerializeField] public GroundConfig GroundConfig { get; private set; } = null;
         [field: SerializeField] public float SpaceBetweenCells { get; private set; } = 0.86f;
         [field: SerializeField, Range(5, 20)] public int CameraOffset { get; private set; }
 
         [field: Space(10), Header("Size grid")]
-        [field: SerializeField, Range(4, 30)] public int Width { get; private set; } = 5;
-        [field: SerializeField, Range(4, 50)] public int Height { get; private set; } = 10;
+        [field: SerializeField, Range(2, 30)] public int Width { get; private set; } = 5;
+        [field: SerializeField, Range(2, 50)] public int Height { get; private set; } = 10;
        
         [field: Space(10), Header("Portal")]
         [field: SerializeField, Range(0, 10)] public int MinHolePositionForX { get; private set; }

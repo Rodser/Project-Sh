@@ -1,5 +1,6 @@
 using DI;
 using Shudder.Configs;
+using Shudder.Data;
 using Shudder.Gameplay.Models.Interfaces;
 using Shudder.Gameplay.Services;
 using Shudder.Models;
@@ -14,7 +15,7 @@ namespace Shudder.Gameplay.Root
         private readonly DIContainer _container;
         private readonly GameConfig _gameConfig;
 
-        public int CurrentLevel { get; set; }
+        public PlayerProgress Progress { get; private set; }
         public CameraFollow CameraFollow { get; set; }
         public Grid CurrentGrid { get; private set; }
         public IHero Hero { get; set; }
@@ -62,6 +63,20 @@ namespace Shudder.Gameplay.Root
             CurrentGrid.Grounds = null;
             Object.Destroy(CurrentGrid.Presenter.View.gameObject);
             CurrentGrid = null;
+        }
+
+        public void UpLevel()
+        {
+            if (Progress.Level >= _gameConfig.LevelGridConfigs.Length - 1) 
+                return;
+            
+            Progress.Coin += 77;
+            Progress.Level++;
+        }
+
+        public void SetProgress(PlayerProgress progress)
+        {
+            Progress = progress;
         }
     }
 }

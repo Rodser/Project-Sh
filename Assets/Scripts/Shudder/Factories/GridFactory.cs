@@ -13,19 +13,19 @@ namespace Shudder.Factories
     public class GridFactory
     {
         private readonly DIContainer _container;
-        private readonly HexogenGridConfig[] _hexogenGridConfigs;
-        private readonly HexogenGridConfig _hexogenGridConfig;
+        private readonly GridConfig[] _hexogenGridConfigs;
+        private readonly GridConfig _gridConfig;
 
-        public GridFactory(DIContainer container, HexogenGridConfig[] hexogenGridConfigs)
+        public GridFactory(DIContainer container, GridConfig[] hexogenGridConfigs)
         {
             _container = container;
             _hexogenGridConfigs = hexogenGridConfigs;
         }
 
-        public GridFactory(DIContainer container, HexogenGridConfig hexogenGridConfig)
+        public GridFactory(DIContainer container, GridConfig gridConfig)
         {
             _container = container;
-            _hexogenGridConfig = hexogenGridConfig;
+            _gridConfig = gridConfig;
         }
 
         public async UniTask<Grid> Create(int level = -1, bool isMenu = false)
@@ -40,7 +40,7 @@ namespace Shudder.Factories
             if (isMenu)
             {
                return await builderGridService
-                    .CreateGrounds(grid, _hexogenGridConfig, isMenu)
+                    .CreateGrounds(grid, _gridConfig, isMenu)
                     .EstablishPit()
                     .EstablishPortal()
                     .GetBuild();

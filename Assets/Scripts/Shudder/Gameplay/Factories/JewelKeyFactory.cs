@@ -8,14 +8,14 @@ namespace Shudder.Gameplay.Factories
 {
     public class JewelKeyFactory
     {
-        public JewelKeyView Create(JewelKeyView jewelKeyView, HexogenGridConfig config, Grid grid)
+        public JewelKeyView Create(JewelKeyView jewelKeyView, GridConfig config, Grid grid)
         {
             var parent = GetParent(grid, config);
             
             return Object.Instantiate(jewelKeyView, parent.AnchorPoint);
         }
 
-        private Ground GetParent(Grid grid, HexogenGridConfig config)
+        private Ground GetParent(Grid grid, GridConfig config)
         {
             var position = CalculatePosition(config);
             var parent = grid.Grounds[position.x, position.y];
@@ -32,7 +32,7 @@ namespace Shudder.Gameplay.Factories
             return parent;
         }
 
-        private Vector2Int CalculatePosition(HexogenGridConfig config)
+        private Vector2Int CalculatePosition(GridConfig config)
         {
             var x = Random.Range(config.MinKeyPositionForX, config.MaxKeyPositionForX);
             var y = Random.Range(config.MinKeyPositionForY, config.MaxKeyPositionForY);
