@@ -12,6 +12,7 @@ namespace Shudder.Services
 
         private UISettingView _uiSettingViewPrefab;
         private LevelLoadingService _levelLoadingService;
+        private CameraSurveillanceService _cameraSurveillanceService;
 
         public SettingService(DIContainer container)
         {
@@ -22,22 +23,29 @@ namespace Shudder.Services
             readOnlyEventBus.RefreshLevel.AddListener(RefreshLevel);
         }
 
-        public void Init(UISettingView uiSettingView, LevelLoadingService levelLoadingService = null)
+        public void Init(UISettingView uiSettingView, LevelLoadingService levelLoadingService = null,
+            CameraSurveillanceService cameraSurveillanceService = null)
         {
             _uiSettingViewPrefab = uiSettingView;
             _levelLoadingService = levelLoadingService;
+            _cameraSurveillanceService = cameraSurveillanceService;
         }
 
         private void CreateSetting()
         {
+            _container.Resolve<InputService>().Disable();
+
             var ui = Object.Instantiate(_uiSettingViewPrefab);
-            ui.Bind(_container.Resolve<ITriggerOnlyEventBus>());
+            ui.Bind(_container.Resolve<ITriggerOnlyEventBus>(), _container.Resolve<InputService>());
             _container.Resolve<UIRootView>().AttachUI(ui.gameObject);
             ui.ShowWindow();
         }
 
         private async void RefreshLevel()
         {
+            _cameraSurveillanceService.UnFollow();
+            _container.Resolve<InputService>().Disable();
+            
             await _levelLoadingService.LoadAsync();
             _container.Resolve<UIRootView>().HideLoadingScreen();
         }

@@ -35,6 +35,7 @@ namespace Shudder.Gameplay.Root
                 .MoveCameraAsync(Hero.Presenter.View.transform.position, rotation, 2.5f);
 
             _container.Resolve<CameraSurveillanceService>().Follow(CameraFollow.Presenter.View, Hero);
+            _container.Resolve<InputService>().Enable();
         }
 
         public void SetCurrentGrid(Grid currentGrid)

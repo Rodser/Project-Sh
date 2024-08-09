@@ -33,6 +33,7 @@ namespace Shudder.MainMenu.Factories
         {
             _cameraService.Reset();
             var menuGrid = await CreateGrid();
+            menuGrid.FreezePortal();
             _container.Resolve<LightFactory>().Create(_menuConfig.Lights, menuGrid, 0.2f);
             _container.Resolve<ItemFactory>().Create(_menuConfig.Items, menuGrid, 0.7f);
             _container.Resolve<SettingService>().Init(_menuConfig.UISettingView);
@@ -40,6 +41,7 @@ namespace Shudder.MainMenu.Factories
             CreateMusic(menuGrid);
             await MoveCamera();
             var hero = _container.Resolve<HeroFactory>().Create(menuGrid.Grounds);
+            var menu = new Models.MainMenu(_container, menuGrid, _menuConfig, hero);
 
             var menuUI = CreateUIMainMenu();
             var progress = _container.Resolve<StorageService>().LoadProgress();
@@ -47,7 +49,6 @@ namespace Shudder.MainMenu.Factories
             menuUI.SetDiamond(progress.Diamond);
             menuUI.SetLevel(progress.Level, progress.GetLevelProgress());
             menuUI.Bind(_triggerEventBus);
-            var menu = new Models.MainMenu(_container, menuGrid, _menuConfig, hero);
         }
 
         private async UniTask<Grid> CreateGrid()

@@ -15,5 +15,11 @@ namespace Shudder.Gameplay.Views
         {
             portal.SetActive(true);
         }
+
+        public void Freeze()
+        {
+            var portalCollider = GetComponentInChildren<Collider>();
+            portalCollider.gameObject.SetActive(false);
+        }
     }
 }

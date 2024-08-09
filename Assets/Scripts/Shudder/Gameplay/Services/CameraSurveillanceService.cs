@@ -1,5 +1,4 @@
 using BaCon;
-using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Shudder.Gameplay.Models.Interfaces;
 using Shudder.Vews;
@@ -39,8 +38,8 @@ namespace Shudder.Gameplay.Services
                 if(_cameraFollowView == null)
                     return; 
                
-                _cameraFollowView.transform.DOMove(_hero.Presenter.View.transform.position, duration);
-                await UniTask.Yield();
+                var  move = _cameraFollowView.transform.DOMove(_hero.Presenter.View.transform.position, duration);
+                await move.AsyncWaitForCompletion();
             }
         }
     }

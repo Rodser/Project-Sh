@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Shudder.Events;
+using Shudder.Services;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,9 +15,11 @@ namespace Shudder.UI
         [field: SerializeField] public Slider SoundSlider { get; private set; }    
 
         private ITriggerOnlyEventBus _triggerOnlyEventBus;
+        private InputService _inputService;
 
-        public void Bind(ITriggerOnlyEventBus eventBus)
+        public void Bind(ITriggerOnlyEventBus eventBus, InputService inputService)
         {
+            _inputService = inputService;
             _triggerOnlyEventBus = eventBus;
         }
         
@@ -56,6 +59,7 @@ namespace Shudder.UI
         {
             var tween = transform.DOScale(Vector3.zero, AnimDuration);
             await tween.AsyncWaitForCompletion();
+            _inputService.Enable();
             Destroy(gameObject);
         }
     }

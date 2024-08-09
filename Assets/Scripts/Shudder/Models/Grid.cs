@@ -20,5 +20,11 @@ namespace Shudder.Models
             else
                 portalView?.HidePortal();
         }
+        
+        public void FreezePortal()
+        {
+            var portalView = Portal.Presenter.View.GetComponent<PortalView>();
+            portalView.Freeze();
+        }
     }
 }

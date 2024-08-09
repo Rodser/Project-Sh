@@ -11,7 +11,6 @@ namespace Shudder.Services
         public InputService()
         {
             _inputAControl = new InputControl();
-            Enable();
             
             Click = _inputAControl.FindAction("Click");
             Position = _inputAControl.FindAction("Position");
@@ -44,7 +43,8 @@ namespace Shudder.Services
 
         public void Dispose()
         {
-            _inputAControl.Actionmap.Disable();
+            Clear();
+            Disable();
         }
     }
 }

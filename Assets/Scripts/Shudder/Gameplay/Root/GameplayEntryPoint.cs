@@ -31,7 +31,7 @@ namespace Shudder.Gameplay.Root
             loadingService.Init(_game);
             _container
                 .Resolve<SettingService>().
-                Init(_gameConfig.HudView.UISettingView, loadingService);
+                Init(_gameConfig.HudView.UISettingView, loadingService, _container.Resolve<CameraSurveillanceService>());
 
             await loadingService.LoadAsync();
         }
