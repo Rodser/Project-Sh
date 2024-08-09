@@ -11,13 +11,15 @@ namespace Shudder.MainMenu.Configs
     public class MenuConfig : ScriptableObject
     {
         [field: SerializeField] public GridConfig MenuGridConfig { get; private set; } = null;
-        [field: SerializeField] public GameObject Title { get; private set; } = null;
         [field: SerializeField] public LightPointView[] Lights{ get; private set; } = null;
         [field: SerializeField] public ItemView[] Items{ get; private set; } = null;
-        [field: SerializeField] public UIMenuView UIMenuView { get; private set; } = null;
         [field: SerializeField] public SFXConfig SfxConfig { get; private set; } = null;
         
-        [field: Space, Header("Hero in Menu")]
+        [field: Space, Header("UI")]
+        [field: SerializeField] public UIMenuView UIMenuView { get; private set; } = null;
+        [field: SerializeField] public UISettingView UISettingView { get; private set; } = null;
+        
+        [field: Space, Header("Hero")]
         [field: SerializeField]public HeroConfig HeroConfig { get; private set; }
       
         [field: Space, Header("Camera")]

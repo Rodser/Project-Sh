@@ -38,5 +38,10 @@ namespace Shudder.Services
             
             await UniTask.Delay((int)(durationMove * 1000));
         }
+
+        public void Reset()
+        {
+            View.transform.position = Vector3.zero;
+        }
     }
 }

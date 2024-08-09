@@ -22,10 +22,15 @@ namespace Shudder.UI
             _loadingScreenView.gameObject.SetActive(false);
         }
 
-        public void AttachSceneUI(GameObject sceneUI)
+        public void ChangeSceneUI(GameObject sceneUI)
         {
             CleanSceneUI();
-            sceneUI.transform.SetParent(_uiSceneContainer, false);
+            AttachUI(sceneUI);
+        }
+        
+        public void AttachUI(GameObject ui)
+        {
+            ui.transform.SetParent(_uiSceneContainer, false);
         }
 
         private void CleanSceneUI()

@@ -1,10 +1,9 @@
-using DI;
+using BaCon;
 using Shudder.Factories;
 using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Services;
 using Shudder.MainMenu.Configs;
 using Shudder.MainMenu.Factories;
-using Shudder.Models;
 using Shudder.Services;
 using UnityEngine;
 
@@ -18,31 +17,25 @@ namespace Shudder.MainMenu.Root
 
         public void Initialisation(DIContainer container)
         {
-            _container = new DIContainer(container);
+            _container = container;
 
-            InitializeServices();
-            InitializeFactories();
+            Registration();
 
             var menuFactory = new MainMenuFactory(_container, _menuConfiguration);
             menuFactory.Create();
         }
         
-        private void InitializeFactories()
+        private void Registration()
         {
-            _container.RegisterSingleton("MenuGrid",c => 
-                new GridFactory(_container, _menuConfiguration.MenuGridConfig));
-            _container.RegisterSingleton(c => new BuilderGridService(_container));
-            _container.RegisterSingleton(c => new GroundFactory(_container));
-            _container.RegisterSingleton(c => new LightFactory());
-            _container.RegisterSingleton(c => new ItemFactory());      
-            _container.RegisterSingleton(c => new LiftService());
-            _container.RegisterSingleton(c => new HeroFactory(_container, _menuConfiguration.HeroConfig));
-        }
-
-        private void InitializeServices()
-        {
-            CameraFollow cameraFollow = new CameraFollowFactory().Create();
-            _container.RegisterSingleton(c => new CameraService(cameraFollow));
+            _container.RegisterInstance(new BuilderGridService(_container));
+            _container.RegisterInstance(new LiftService());
+            
+            _container.RegisterFactory("MenuGrid",c => 
+                new GridFactory(_container, _menuConfiguration.MenuGridConfig)).AsSingle();
+            _container.RegisterFactory(c => new GroundFactory(_container)).AsSingle();
+            _container.RegisterFactory(c => new LightFactory()).AsSingle();
+            _container.RegisterFactory(c => new ItemFactory()).AsSingle();   
+            _container.RegisterFactory(c => new HeroFactory(_container, _menuConfiguration.HeroConfig)).AsSingle();
         }
     }
 }

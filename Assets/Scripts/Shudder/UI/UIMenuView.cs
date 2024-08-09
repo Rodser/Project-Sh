@@ -1,3 +1,5 @@
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Shudder.Events;
 using TMPro;
 using UnityEngine;
@@ -7,7 +9,7 @@ namespace Shudder.UI
 {
     public class UIMenuView : MonoBehaviour
     {
-        private ITriggerOnlyEventBus _eventBus;
+        private ITriggerOnlyEventBus _triggerOnlyEvent;
         
         [field: SerializeField] public Button PlayButton { get; private set; }    
         [field: SerializeField] public Button OptionButton { get; private set; }    
@@ -21,15 +23,21 @@ namespace Shudder.UI
         [SerializeField] private TextMeshProUGUI _diamond;    
         [SerializeField] private TextMeshProUGUI _level;    
 
-        public void Bind(ITriggerOnlyEventBus eventBus)
+        public async void Bind(ITriggerOnlyEventBus eventBus)
         {
-            _eventBus = eventBus;
+            _triggerOnlyEvent = eventBus;
+            await ShowWindow();
         }
 
-        public void StartGame()
+        public async void StartGame()
         {
-            _eventBus.TriggerFlyCamera();
-            gameObject.SetActive(false);
+            await CloseWindow();
+            _triggerOnlyEvent.TriggerFlyCamera();
+        }
+        
+        public void OpenSettings()
+        {
+            _triggerOnlyEvent.TriggerOpenSettings();
         }
         
         public void SetCoin(int value)
@@ -46,6 +54,19 @@ namespace Shudder.UI
         {
             _level.text = level.ToString();
             _LevelProgress.fillAmount = levelProgress;
+        }
+
+        private async UniTask ShowWindow()
+        {
+            transform.localScale = Vector3.zero;
+            var tween = transform.DOScale(Vector3.one, 0.2f);
+            await tween.AsyncWaitForCompletion();
+        }
+
+        private async UniTask CloseWindow()
+        {
+            var tween = transform.DOScale(Vector3.zero, 0.2f);
+            await tween.AsyncWaitForCompletion();
         }
     }
 }

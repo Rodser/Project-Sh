@@ -739,9 +739,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: ShowDialog
+      - m_Target: {fileID: 8035724082234770687}
+        m_TargetAssemblyTypeName: Shudder.UI.HudView, Assembly-CSharp
+        m_MethodName: OpenSettings
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -832,6 +832,8 @@ MonoBehaviour:
   <LeaderboardsButton>k__BackingField: {fileID: 6155638858076444825}
   <RewardsButton>k__BackingField: {fileID: 3380911156299367775}
   <ShopButton>k__BackingField: {fileID: 88858700394697695}
+  <UISettingView>k__BackingField: {fileID: 6359260336104786049, guid: ffab17a1bd67cf740a9c4c608910218c,
+    type: 3}
   _Level: {fileID: 6302876022264174905}
   _coin: {fileID: 2806238828174239259}
   _diamond: {fileID: 2108412990251007555}

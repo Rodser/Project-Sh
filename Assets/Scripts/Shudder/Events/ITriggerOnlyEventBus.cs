@@ -6,8 +6,10 @@ namespace Shudder.Events
     {
         void TriggerStartGameplayScene();
         void TriggerFlyCamera();
-        void TriggerExitGame();
         void TriggerChangeHeroParentGround(Transform parent);
         void TriggerVictory(Transform groundAnchorPoint);
+        void TriggerOpenSettings();
+        void TriggerRefreshLevel();
+        void TriggerGoMenu();
     }
 }

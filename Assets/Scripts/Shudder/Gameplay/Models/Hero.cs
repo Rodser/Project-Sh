@@ -1,5 +1,5 @@
+using BaCon;
 using Cysharp.Threading.Tasks;
-using DI;
 using Shudder.Configs;
 using Shudder.Events;
 using Shudder.Gameplay.Models.Interfaces;

@@ -1,5 +1,5 @@
+using BaCon;
 using Cysharp.Threading.Tasks;
-using DI;
 using Shudder.Constants;
 using Shudder.Data;
 using Shudder.Events;
@@ -17,19 +17,13 @@ namespace Shudder.Root
 {
     public class GameEntryPoint
     {
-        private readonly DIContainer _container;
+        private readonly DIContainer _rootDiContainer;
 
         public GameEntryPoint()
         {
-            _container = new DIContainer();
+            _rootDiContainer = new DIContainer();
             
-            CreateAndRegisterUIRoot();
-            
-            // ...
-            _container.RegisterSingleton(c => new SoundFactory());
-            RegisterEventBus();
-            RegisterService();
-
+            Registration();
             Subscribe();
         }
 
@@ -61,30 +55,54 @@ namespace Shudder.Root
 
         private async void LoadAndStartMainMenuScene()
         {
-            var uiRoot = _container.Resolve<UIRootView>();
+            var uiRoot = _rootDiContainer.Resolve<UIRootView>();
             uiRoot.ShowLoadingScreen();
 
             await LoadSceneAsync(SceneName.BOOT);
             await LoadSceneAsync(SceneName.MAIN_MENU);
            
             var entryPoint = Object.FindFirstObjectByType<MainMenuEntryPoint>();
-            entryPoint.Initialisation(_container);
             
+            var diContainer = new DIContainer(_rootDiContainer);
+            entryPoint.Initialisation(diContainer);
             uiRoot.HideLoadingScreen();
         }
 
         private async void LoadAndStartGameplayScene()
         {
-            var uiRoot = _container.Resolve<UIRootView>();
+            var uiRoot = _rootDiContainer.Resolve<UIRootView>();
             uiRoot.ShowLoadingScreen();
 
             await LoadSceneAsync(SceneName.BOOT);
             await LoadSceneAsync(SceneName.GAMEPLAY);
 
             var gameplay = Object.FindFirstObjectByType<GameplayEntryPoint>();
-            await gameplay.Initialisation(_container);
+            var diContainer = new DIContainer(_rootDiContainer);
+            await gameplay.Initialisation(diContainer);
             
             uiRoot.HideLoadingScreen();
+        }
+
+        private void Registration()
+        {
+            var cameraFollow = new CameraFollowFactory().Create();
+            _rootDiContainer.RegisterInstance(new CameraService(cameraFollow));
+        
+            var uiRoot = CreateUIRoot();
+            _rootDiContainer.RegisterInstance(uiRoot);    
+            
+            var eventBus = new EventBus();
+            _rootDiContainer.RegisterInstance((ITriggerOnlyEventBus)eventBus);
+            _rootDiContainer.RegisterInstance((IReadOnlyEventBus)eventBus);
+
+            _rootDiContainer.RegisterInstance(new InputService());
+            _rootDiContainer.RegisterInstance(new SfxService(_rootDiContainer));
+            _rootDiContainer.RegisterInstance(new AnimationHeroService());
+            _rootDiContainer.RegisterInstance(new RotationService());
+            _rootDiContainer.RegisterInstance(new JumpService(_rootDiContainer));
+            _rootDiContainer.RegisterInstance(new StorageService());
+            _rootDiContainer.RegisterInstance(new SettingService(_rootDiContainer));
+
         }
 
         private UIRootView CreateUIRoot()
@@ -97,34 +115,10 @@ namespace Shudder.Root
 
         private void Subscribe()
         {
-            _container
-                .Resolve<IReadOnlyEventBus>()
-                .StartGameplayScene
-                .AddListener(LoadAndStartGameplayScene);
-        }
-
-        private void CreateAndRegisterUIRoot()
-        {
-            var uiRoot = CreateUIRoot();
-            _container.RegisterInstance(uiRoot);    
-        }
-
-        private void RegisterEventBus()
-        {
-            var eventBus = new EventBus();
-            _container.RegisterInstance((ITriggerOnlyEventBus)eventBus);
-            _container.RegisterInstance((IReadOnlyEventBus)eventBus);
-        }
-
-        private void RegisterService()
-        {
-            _container.RegisterSingleton(c => new InputService());
-            _container.RegisterSingleton(c => new SfxService(_container));
-            _container.RegisterSingleton(c => new AnimationHeroService());
-            _container.RegisterSingleton(c => new RotationService());
-            _container.RegisterSingleton(c => new JumpService(_container));
-            _container.RegisterInstance(new StorageService());
-
+            var readOnlyEventBus = _rootDiContainer.Resolve<IReadOnlyEventBus>();
+                
+            readOnlyEventBus.StartGameplayScene.AddListener(LoadAndStartGameplayScene);
+            readOnlyEventBus.GoMenu.AddListener(LoadAndStartMainMenuScene);
         }
 
         private async UniTask LoadSceneAsync(string sceneName)

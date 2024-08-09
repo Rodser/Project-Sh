@@ -1,8 +1,9 @@
+using BaCon;
 using Config;
 using Cysharp.Threading.Tasks;
-using DI;
 using Shudder.Configs;
 using Shudder.Data;
+using Shudder.Events;
 using Shudder.Factories;
 using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Models;
@@ -18,6 +19,7 @@ namespace Shudder.Gameplay.Services
     {
         private readonly DIContainer _container;
         private readonly GameConfig _gameConfig;
+        private Game _game;
 
         public LevelLoadingService(DIContainer container, GameConfig gameConfig)
         {
@@ -25,40 +27,60 @@ namespace Shudder.Gameplay.Services
             _gameConfig = gameConfig;
         }
 
-        public async UniTask LoadAsync(Game game)
+        public void Init(Game game)
         {
+            _game = game;
             var progress = _container.Resolve<StorageService>().LoadProgress();
-            game.SetProgress(progress);
-            var level = game.Progress.Level - 1;
+            _game.SetProgress(progress);
+        }
+
+        public async UniTask LoadAsync()
+        {
+            var level = _game.Progress.Level - 1;
             Debug.Log($"Load Level {level}");
-            game.DestroyGrid();
+            _game.DestroyGrid();
 
             var currentGrid = await CreateGrid(level);
-            game.SetCurrentGrid(currentGrid);
+            _game.SetCurrentGrid(currentGrid);
             CreateLights(currentGrid);
             CreateItems(currentGrid);
             CreateMusic(currentGrid);
 
-            CreateHud(progress);
+            CreateHud(_game.Progress);
             var hero = CreateHero(currentGrid);
             CreateActivatePortal(level, hero, currentGrid);
             hero.EnableIndicators();
-            game.Hero = hero;
+            _game.Hero = hero;
             
             var moveService = _container.Resolve<HeroMoveService>();
             moveService.Subscribe(hero);
+            _container.Resolve<IReadOnlyEventBus>().HasVictory.AddListener(OnHasVictory);
+            _game.Run();
+        }
+        
+        private async void OnHasVictory(Transform groundAnchorPoint)
+        {
+            _container.Resolve<CameraSurveillanceService>().UnFollow();
+            
+            await _container
+                .Resolve<CameraService>()
+                .MoveCameraAsync(groundAnchorPoint.position, 2f);
+            
+            _container.Resolve<UIRootView>().ShowLoadingScreen();
+            _container.Resolve<VictoryHandlerService>().HasVictory(_game);
         }
 
         private void CreateHud(PlayerProgress progress)
         {
             var prefab = _gameConfig.HudView;
             var hudView = Object.Instantiate(prefab);
+            hudView.Bind(_container.Resolve<ITriggerOnlyEventBus>());
             hudView.SetLevel(progress.Level);
             hudView.SetCoin(progress.Coin);
             hudView.SetDiamond(progress.Diamond);
-            _container.Resolve<UIRootView>().AttachSceneUI(hudView.gameObject);
+            _container.Resolve<UIRootView>().ChangeSceneUI(hudView.gameObject);
         }
-        
+
         private void CreateMusic(Grid currentGrid)
         {
            var service = _container

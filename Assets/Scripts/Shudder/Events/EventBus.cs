@@ -10,6 +10,9 @@ namespace Shudder.Events
         public UnityEvent ExitGame { get; } = new();
         public UnityEvent<Transform> ChangeHeroParentGround { get; } = new();
         public UnityEvent<Transform> HasVictory { get; } = new();
+        public UnityEvent OpenSettings { get; } = new();
+        public UnityEvent RefreshLevel { get; } = new();
+        public UnityEvent GoMenu { get; } = new();
 
         public void TriggerStartGameplayScene() => 
             StartGameplayScene?.Invoke();
@@ -25,5 +28,20 @@ namespace Shudder.Events
 
         public void TriggerVictory(Transform groundAnchorPoint) =>
             HasVictory?.Invoke(groundAnchorPoint);
+
+        public void TriggerOpenSettings()
+        {
+            OpenSettings?.Invoke();
+        }
+
+        public void TriggerRefreshLevel()
+        {
+            RefreshLevel?.Invoke();
+        }
+
+        public void TriggerGoMenu()
+        {
+            GoMenu?.Invoke();
+        }
     }
 }

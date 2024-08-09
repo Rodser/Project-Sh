@@ -1,5 +1,5 @@
+using BaCon;
 using Config;
-using DI;
 using Shudder.Factories;
 using Shudder.Gameplay.Configs;
 using UnityEngine;
@@ -19,44 +19,30 @@ namespace Shudder.Services
 
         public SfxService(DIContainer container)
         {
-            _soundFactory = container.Resolve<SoundFactory>();
+            _soundFactory = new SoundFactory();
         }
 
-        public void Thunder()
-        {
+        public void Thunder() => 
             _boom.Play();
-        }
 
-        public void Jump()
-        {
+        public void Jump() => 
             _jump.Play();
-        }
-        
-        public void Take()
-        {
+
+        public void Take() => 
             _take.Play();
-        }
 
-        public void InPortal()
-        {
+        public void InPortal() => 
             _portal.Play();
-        }
 
-        public void StartMusic()
-        {
+        public void StartMusic() => 
             _music.Play();
-        }
-        
-        public void StartMusicMenu()
-        {
-            _musicMenu.Play();
-        }
 
-        public void CreateMusic(SFXConfig config, Transform target)
-        {
+        public void StartMusicMenu() => 
+            _musicMenu.Play();
+
+        public void CreateMusic(SFXConfig config, Transform target) => 
             _music = _soundFactory.Create(config.Music, target);
-        }
-        
+
         public void CreateHeroSfx(HeroSfxConfig heroSfxConfig, Transform hero)
         {
             _boom =  _soundFactory.Create(heroSfxConfig.BoomSFX, hero);
@@ -65,9 +51,7 @@ namespace Shudder.Services
             _portal =  _soundFactory.Create(heroSfxConfig.PortalSFX, hero);
         }
 
-        public void CreateMusicMenu(SFXConfig config, Transform target)
-        {
+        public void CreateMusicMenu(SFXConfig config, Transform target) => 
             _musicMenu = _soundFactory.Create(config.Music, target);
-        }
     }
 }

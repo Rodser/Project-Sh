@@ -1,15 +1,12 @@
-using Config;
+using BaCon;
 using Cysharp.Threading.Tasks;
-using DI;
 using Shudder.Configs;
-using Shudder.Events;
 using Shudder.Factories;
 using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Services;
 using Shudder.Models;
 using Shudder.Services;
-using Shudder.UI;
 using Shudder.Vews;
 using UnityEngine;
 
@@ -24,43 +21,42 @@ namespace Shudder.Gameplay.Root
 
         public async UniTask Initialisation(DIContainer container)
         {
-            _container = new DIContainer(container);
+            _container = container;
 
             InitializeCameraService();
-            InitializeFactories();
-            InitializeServices();
+            Registration();
 
             _game = new Game(_container, _gameConfig);
+            var loadingService = _container.Resolve<LevelLoadingService>();
+            loadingService.Init(_game);
+            _container
+                .Resolve<SettingService>().
+                Init(_gameConfig.HudView.UISettingView, loadingService);
 
-            await _container.Resolve<LevelLoadingService>().LoadAsync(_game);
-            Subscribe();
-
-            _game.Run();
+            await loadingService.LoadAsync();
         }
 
-        private void InitializeFactories()
+        private void Registration()
         {
-            _container.RegisterSingleton("LevelGrid",c => 
-                new GridFactory(_container, _gameConfig.LevelGridConfigs));
-            _container.RegisterSingleton(c => new BuilderGridService(_container));
-            _container.RegisterSingleton(c => new GroundFactory(_container));
-            _container.RegisterSingleton(c => new LightFactory());      
-            _container.RegisterSingleton(c => new ItemFactory());      
-            _container.RegisterSingleton(c => new JewelKeyFactory());
-            _container.RegisterSingleton(c => new HeroFactory(_container, _gameConfig.GetConfig<HeroConfig>()));
-        }
-
-        private void InitializeServices()
-        {      
-            _container.RegisterSingleton(c => new CameraSurveillanceService(_container));
-            _container.RegisterSingleton(c => new HeroMoveService(_container, _gameConfig.GetConfig<HeroConfig>()));
-            _container.RegisterSingleton(c => new CheckingPossibilityOfJumpService());
-            _container.RegisterSingleton(c => new LevelLoadingService(_container, _gameConfig));
-            _container.RegisterSingleton(c => new VictoryHandlerService(_container, _gameConfig));
-            _container.RegisterSingleton(c => new IndicatorService(_container, _gameConfig));
-            _container.RegisterTransient(c => new LiftService());
-            _container.RegisterTransient(c => new SwapService(_container));
-            _container.RegisterSingleton(c => new ActivationPortalService());
+            _container.RegisterFactory("LevelGrid",c => 
+                new GridFactory(_container, _gameConfig.LevelGridConfigs)).AsSingle();
+            _container.RegisterFactory(c => new BuilderGridService(_container)).AsSingle();
+            _container.RegisterFactory(c => new GroundFactory(_container)).AsSingle();
+            _container.RegisterFactory(c => new LightFactory()).AsSingle();      
+            _container.RegisterFactory(c => new ItemFactory()).AsSingle();      
+            _container.RegisterFactory(c => new JewelKeyFactory()).AsSingle();
+            _container.RegisterFactory(c => new LiftService());
+            _container.RegisterFactory(c => new SwapService(_container));
+            _container.RegisterFactory(c => 
+                    new HeroFactory(_container, _gameConfig.GetConfig<HeroConfig>())).AsSingle();
+       
+            _container.RegisterInstance(new CameraSurveillanceService(_container));
+            _container.RegisterInstance(new HeroMoveService(_container, _gameConfig.GetConfig<HeroConfig>()));
+            _container.RegisterInstance(new CheckingPossibilityOfJumpService());
+            _container.RegisterInstance(new LevelLoadingService(_container, _gameConfig));
+            _container.RegisterInstance(new VictoryHandlerService(_container));
+            _container.RegisterInstance(new IndicatorService(_container, _gameConfig));
+            _container.RegisterInstance(new ActivationPortalService());
 
         }
         
@@ -72,24 +68,7 @@ namespace Shudder.Gameplay.Root
                 ? new CameraFollowFactory().Create() 
                 : cameraFollowView.Presenter.CameraFollow;  
             
-            _container.RegisterSingleton(c => new CameraService(cameraFollow));
-        }
-
-        private void Subscribe()
-        {
-            _container.Resolve<IReadOnlyEventBus>().HasVictory.AddListener(OnHasVictory);
-        }
-
-        private async void OnHasVictory(Transform groundAnchorPoint)
-        {
-            _container.Resolve<CameraSurveillanceService>().UnFollow();
-            
-            await _container
-                .Resolve<CameraService>()
-                .MoveCameraAsync(groundAnchorPoint.position, 2f);
-            
-            _container.Resolve<UIRootView>().ShowLoadingScreen();
-            _container.Resolve<VictoryHandlerService>().HasVictory(_game);
+            _container.RegisterInstance(new CameraService(cameraFollow));
         }
     }
 }

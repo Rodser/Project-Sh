@@ -1,5 +1,5 @@
+using BaCon;
 using Cysharp.Threading.Tasks;
-using DI;
 using Shudder.Data;
 using Shudder.Events;
 using Shudder.Factories;
@@ -18,6 +18,7 @@ namespace Shudder.MainMenu.Factories
         private readonly MenuConfig _menuConfig;
         
         private readonly ITriggerOnlyEventBus _triggerEventBus;
+        private readonly CameraService _cameraService;
 
         public MainMenuFactory(DIContainer container, MenuConfig menuConfig)
         {
@@ -25,24 +26,27 @@ namespace Shudder.MainMenu.Factories
             _menuConfig = menuConfig;
             
             _triggerEventBus = _container.Resolve<ITriggerOnlyEventBus>();
+            _cameraService = _container.Resolve<CameraService>();
         }
 
         public async void Create()
         {
+            _cameraService.Reset();
             var menuGrid = await CreateGrid();
             _container.Resolve<LightFactory>().Create(_menuConfig.Lights, menuGrid, 0.2f);
             _container.Resolve<ItemFactory>().Create(_menuConfig.Items, menuGrid, 0.7f);
+            _container.Resolve<SettingService>().Init(_menuConfig.UISettingView);
             
             CreateMusic(menuGrid);
             await MoveCamera();
             var hero = _container.Resolve<HeroFactory>().Create(menuGrid.Grounds);
 
             var menuUI = CreateUIMainMenu();
-            menuUI.Bind(_triggerEventBus);
             var progress = _container.Resolve<StorageService>().LoadProgress();
             menuUI.SetCoin(progress.Coin);
             menuUI.SetDiamond(progress.Diamond);
             menuUI.SetLevel(progress.Level, progress.GetLevelProgress());
+            menuUI.Bind(_triggerEventBus);
             var menu = new Models.MainMenu(_container, menuGrid, _menuConfig, hero);
         }
 
@@ -66,14 +70,14 @@ namespace Shudder.MainMenu.Factories
         {
             var position = _menuConfig.CameraPosition; 
             var rotation = _menuConfig.CameraRotation; 
-            await _container.Resolve<CameraService>().MoveCameraAsync(position, rotation);
+            await _cameraService.MoveCameraAsync(position, rotation);
         }
 
         private UIMenuView CreateUIMainMenu()
         {
             var prefab = _menuConfig.UIMenuView;
             var menuUI = Object.Instantiate(prefab);
-            _container.Resolve<UIRootView>().AttachSceneUI(menuUI.gameObject);
+            _container.Resolve<UIRootView>().ChangeSceneUI(menuUI.gameObject);
             return menuUI;
         }
     }

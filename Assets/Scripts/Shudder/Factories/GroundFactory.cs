@@ -1,5 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
-using DI;
+﻿using BaCon;
+using Cysharp.Threading.Tasks;
 using Shudder.Configs;
 using Shudder.Constants;
 using Shudder.Gameplay.Services;

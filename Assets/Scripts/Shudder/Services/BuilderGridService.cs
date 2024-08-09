@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using BaCon;
 using Cysharp.Threading.Tasks;
-using DI;
 using Shudder.Configs;
 using Shudder.Constants;
 using Shudder.Factories;
@@ -112,7 +112,7 @@ namespace Shudder.Services
             var z = config.Height * config.SpaceBetweenCells * Coefficient.InnerRadiusCoefficient * 0.5f;
             var y = 0f; 
 
-            return _container.Resolve<CameraService>().CameraFollow.Presenter.View.transform.position - new Vector3(x, y, z);
+            return _container.Resolve<CameraService>().View.transform.position - new Vector3(x, y, z);
         }
 
         private bool TryGetPit(int x, int y)

@@ -1,9 +1,8 @@
 using System.Collections.Generic;
+using BaCon;
 using Cysharp.Threading.Tasks;
-using DI;
 using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Models.Interfaces;
-using Shudder.Gameplay.Views;
 using Shudder.Models.Interfaces;
 using Shudder.Services;
 using Shudder.Vews;
