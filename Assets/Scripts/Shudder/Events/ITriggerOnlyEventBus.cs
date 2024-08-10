@@ -5,8 +5,7 @@ namespace Shudder.Events
     public interface ITriggerOnlyEventBus
     {
         void TriggerStartGameplayScene();
-        void TriggerFlyCamera();
-        void TriggerChangeHeroParentGround(Transform parent);
+        void TriggerPlayGame();
         void TriggerVictory(Transform groundAnchorPoint);
         void TriggerOpenSettings();
         void TriggerRefreshLevel();

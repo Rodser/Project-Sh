@@ -46,6 +46,8 @@ namespace Shudder.Services
             _cameraSurveillanceService.UnFollow();
             _container.Resolve<InputService>().Disable();
             
+            _container.Resolve<UIRootView>().ShowLoadingScreen();
+            await _levelLoadingService.DestroyLevelAsync();
             await _levelLoadingService.LoadAsync();
             _container.Resolve<UIRootView>().HideLoadingScreen();
         }

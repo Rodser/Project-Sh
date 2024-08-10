@@ -34,26 +34,30 @@ namespace Shudder.Gameplay.Services
             _game.SetProgress(progress);
         }
 
+        public async UniTask DestroyLevelAsync()
+        {
+            _container.Resolve<IReadOnlyEventBus>().HasVictory.RemoveListener(OnHasVictory);
+            await _game.DestroyGrid();
+        }
+
         public async UniTask LoadAsync()
         {
-            var level = _game.Progress.Level - 1;
-            Debug.Log($"Load Level {level}");
-            _game.DestroyGrid();
-
+            var level = _game.Progress.Level;
             var currentGrid = await CreateGrid(level);
             _game.SetCurrentGrid(currentGrid);
             CreateLights(currentGrid);
             CreateItems(currentGrid);
             CreateMusic(currentGrid);
-
             CreateHud(_game.Progress);
+            
             var hero = CreateHero(currentGrid);
             CreateActivatePortal(level, hero, currentGrid);
             hero.EnableIndicators();
             _game.Hero = hero;
-            
             var moveService = _container.Resolve<HeroMoveService>();
             moveService.Subscribe(hero);
+            
+            Debug.Log($"Load Level progress {_container.Resolve<StorageService>().LoadProgress().Level}");
             _container.Resolve<IReadOnlyEventBus>().HasVictory.AddListener(OnHasVictory);
             _game.Run();
         }

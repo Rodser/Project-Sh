@@ -28,11 +28,10 @@ namespace Shudder.MainMenu.Models
             _triggerEventBus = _container.Resolve<ITriggerOnlyEventBus>();
             var readEventBus = _container.Resolve<IReadOnlyEventBus>();
             
-            readEventBus.FlyCamera.AddListener(FlyCameraAndStartGameplayAsync);
-            readEventBus.ExitGame.AddListener(ExitGame);
+            readEventBus.PlayGame.AddListener(OnPlayGame);
         }
 
-        private async void FlyCameraAndStartGameplayAsync()
+        private async void OnPlayGame()
         {
             var cameraService = _container.Resolve<CameraService>();
             await _container
@@ -46,14 +45,6 @@ namespace Shudder.MainMenu.Models
             await cameraService.MoveCameraAsync(_menuGrid.Portal.AnchorPoint.position, 2f);
             
             _triggerEventBus.TriggerStartGameplayScene();
-        }
-        
-        private void ExitGame()
-        {
-#if UNITY_EDITOR
-            EditorApplication.ExitPlaymode();
-#endif
-            Application.Quit();
         }
     }
 }

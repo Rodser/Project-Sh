@@ -116,9 +116,22 @@ namespace Shudder.Root
         private void Subscribe()
         {
             var readOnlyEventBus = _rootDiContainer.Resolve<IReadOnlyEventBus>();
-                
-            readOnlyEventBus.StartGameplayScene.AddListener(LoadAndStartGameplayScene);
-            readOnlyEventBus.GoMenu.AddListener(LoadAndStartMainMenuScene);
+
+            readOnlyEventBus.UnSubscribe();
+            readOnlyEventBus.StartGameplayScene.AddListener(OnLoadAndStartGameplayScene);
+            readOnlyEventBus.GoMenu.AddListener(OnLoadAndStartMainMenuScene);
+        }
+
+        private void OnLoadAndStartMainMenuScene()
+        {
+            Subscribe();
+            LoadAndStartMainMenuScene();
+        }
+
+        private void OnLoadAndStartGameplayScene()
+        {
+            Subscribe();
+            LoadAndStartGameplayScene();
         }
 
         private async UniTask LoadSceneAsync(string sceneName)

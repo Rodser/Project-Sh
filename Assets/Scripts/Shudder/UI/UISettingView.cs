@@ -12,8 +12,10 @@ namespace Shudder.UI
         private const float AnimDuration = 0.2f;
        
         [field: SerializeField] public Slider MusicSlider { get; private set; }    
-        [field: SerializeField] public Slider SoundSlider { get; private set; }    
+        [field: SerializeField] public Slider SoundSlider { get; private set; }
 
+        [SerializeField] private Transform _window;
+        
         private ITriggerOnlyEventBus _triggerOnlyEventBus;
         private InputService _inputService;
 
@@ -43,21 +45,22 @@ namespace Shudder.UI
         
         public async void RefreshLevel()
         {
-            await UniTask.Delay(400);
+            var tween = _window.DOScale(Vector3.zero, AnimDuration);
+            await tween.AsyncWaitForCompletion();
             _triggerOnlyEventBus.TriggerRefreshLevel();
             Debug.Log("Refresh level");
-            CloseWindow();
+            Destroy(gameObject);
         }
         
         public void ShowWindow()
         {
-            transform.localScale = Vector3.zero;
-            transform.DOScale(Vector3.one, AnimDuration);
+            _window.localScale = Vector3.zero;
+            _window.DOScale(Vector3.one, AnimDuration);
         }
 
         public async void CloseWindow()
         {
-            var tween = transform.DOScale(Vector3.zero, AnimDuration);
+            var tween = _window.DOScale(Vector3.zero, AnimDuration);
             await tween.AsyncWaitForCompletion();
             _inputService.Enable();
             Destroy(gameObject);

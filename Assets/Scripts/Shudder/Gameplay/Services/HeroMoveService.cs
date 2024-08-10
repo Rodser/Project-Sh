@@ -3,6 +3,7 @@ using BaCon;
 using Cysharp.Threading.Tasks;
 using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Models.Interfaces;
+using Shudder.Models;
 using Shudder.Models.Interfaces;
 using Shudder.Services;
 using Shudder.Vews;
@@ -35,7 +36,7 @@ namespace Shudder.Gameplay.Services
         {
             if (!TryGetSelectGround(out var selectGround))
                 return;
-
+            
             if (selectGround.Id == _hero.CurrentGround.Id)
             {
                 await MoveHero(selectGround.Presenter.Ground);
@@ -89,7 +90,9 @@ namespace Shudder.Gameplay.Services
 
             if (selectGround == null)
                 return false;
-
+            if(selectGround.GroundType == GroundType.Pit)
+                return false;
+            
             return _container
                 .Resolve<CheckingPossibilityOfJumpService>()
                 .CheckPossible(selectGround.GroundType, _hero.CurrentGround.GroundType);

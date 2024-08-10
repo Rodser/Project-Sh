@@ -1,5 +1,5 @@
 {
-  "idSave": 6,
+  "idSave": 5,
   "isFirstSession": false,
   "language": "ru",
   "promptDone": false,
@@ -11,9 +11,9 @@
     false
   ],
   "PlayerProgress": {
-    "Level": 7,
-    "Coin": 562,
+    "Level": 5,
+    "Coin": 317,
     "Diamond": 3,
-    "MaxLevel": 100
+    "MaxLevel": 22
   }
 }

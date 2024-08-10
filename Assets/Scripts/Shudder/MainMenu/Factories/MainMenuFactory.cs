@@ -33,7 +33,8 @@ namespace Shudder.MainMenu.Factories
         {
             _cameraService.Reset();
             var menuGrid = await CreateGrid();
-            menuGrid.FreezePortal();
+            menuGrid.OffPortalCollider();
+            
             _container.Resolve<LightFactory>().Create(_menuConfig.Lights, menuGrid, 0.2f);
             _container.Resolve<ItemFactory>().Create(_menuConfig.Items, menuGrid, 0.7f);
             _container.Resolve<SettingService>().Init(_menuConfig.UISettingView);
@@ -45,6 +46,8 @@ namespace Shudder.MainMenu.Factories
 
             var menuUI = CreateUIMainMenu();
             var progress = _container.Resolve<StorageService>().LoadProgress();
+            Debug.Log($"progress level: {progress.Level}");
+            
             menuUI.SetCoin(progress.Coin);
             menuUI.SetDiamond(progress.Diamond);
             menuUI.SetLevel(progress.Level, progress.GetLevelProgress());

@@ -7,10 +7,7 @@ namespace Shudder.Gameplay.Models.Interfaces
     {
         HeroPresenter Presenter { get; set; }
         IGround CurrentGround { get; set; }
-        float Speed { get; set;}
-        int Health { get; set;}
 
-        void Damage();
         void ChangeGround(IGround ground);
         void SetGround(IGround ground);
     }

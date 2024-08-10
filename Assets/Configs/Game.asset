@@ -27,7 +27,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e56038032f94e634891678d383d2cb17, type: 2}
   - {fileID: 11400000, guid: 46f1843cee6708e4eb0858f4caeb0c4c, type: 2}
   - {fileID: 11400000, guid: d9ee0dd87d494764881bc8c92a9f100a, type: 2}
-  - {fileID: 11400000, guid: e4285d09a5a4c8e458d9f172c4ce45a7, type: 2}
+  - {fileID: 11400000, guid: f911fbc3b8cf4df4c9ae7e3a42a30137, type: 2}
+  - {fileID: 11400000, guid: ee42832a1ead1fa4aae97d3fd4a195cb, type: 2}
+  - {fileID: 11400000, guid: dcbf96a73afb32d49959394a6a3d4956, type: 2}
+  - {fileID: 11400000, guid: 73554acfbcc9cf547bff0e7b76bff2d3, type: 2}
+  - {fileID: 11400000, guid: ee2021cefff70ed4e9e5a761f373c5bb, type: 2}
+  - {fileID: 11400000, guid: bb8778a7f189b4d45994e03f8daae730, type: 2}
   <SelectIndicator>k__BackingField: {fileID: 8478324856384917096, guid: 978788be5a66a15478b5464689a0440a,
     type: 3}
   <Lights>k__BackingField:

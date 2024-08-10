@@ -1,8 +1,8 @@
 using BaCon;
-using Cysharp.Threading.Tasks;
 using Shudder.Data;
 using Shudder.Gameplay.Root;
 using Shudder.UI;
+using UnityEngine;
 
 namespace Shudder.Gameplay.Services
 {
@@ -17,9 +17,10 @@ namespace Shudder.Gameplay.Services
 
         public async void HasVictory(Game game)
         {
-            await UniTask.Delay(500);
             game.UpLevel();
+            Debug.Log("Has Victory, level Up");
             _container.Resolve<StorageService>().SaveProgress(game.Progress);
+            await _container.Resolve<LevelLoadingService>().DestroyLevelAsync();
             await _container.Resolve<LevelLoadingService>().LoadAsync();
             _container.Resolve<UIRootView>().HideLoadingScreen();
         }

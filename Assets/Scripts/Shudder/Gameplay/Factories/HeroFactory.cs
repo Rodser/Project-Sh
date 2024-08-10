@@ -32,15 +32,16 @@ namespace Shudder.Gameplay.Factories
                 }
             }
 
-            var hero = new Hero(_container, _heroConfig.SpeedMove);
+            var hero = new Hero(_container);
             var position = ground.AnchorPoint.position;
             var heroView = Object.Instantiate(_heroConfig.Prefab, position, Quaternion.identity, ground.AnchorPoint);
             var presenter = new HeroPresenter(hero);
             heroView.Construct(_container, presenter);
             hero.SetGround(ground);
 
-            _container.Resolve<RotationService>().LookRotation(hero.Presenter.View.transform, _container.Resolve<CameraService>().Camera.transform.position);
-            
+            _container
+                .Resolve<RotationService>()
+                .LookRotation(hero.Presenter.View.transform, _container.Resolve<CameraService>().Camera.transform.position);
             _container.Resolve<AnimationHeroService>().SetAnimator(heroView.GetComponent<Animator>());
             _container.Resolve<SfxService>().CreateHeroSfx(_heroConfig.HeroSfxConfig, heroView.transform);
             

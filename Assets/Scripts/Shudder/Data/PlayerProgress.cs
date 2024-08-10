@@ -21,7 +21,7 @@ namespace Shudder.Data
 
         public float GetLevelProgress()
         {
-            return MaxLevel * Level * 0.0001f;
+            return (Level + 1) * MaxLevel * 0.0001f;
         }
     }
 }

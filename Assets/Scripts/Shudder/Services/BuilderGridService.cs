@@ -42,7 +42,6 @@ namespace Shudder.Services
                     _cells[x, z] = new Ground(GetGroundType());
                 }
             }
-            Debug.Log("Create Grounds");
             return this;
         }
 
@@ -58,7 +57,6 @@ namespace Shudder.Services
                     _cells[x, y].GroundType = GroundType.Pit;
                 }
             }
-            Debug.Log("Establish Pit");
 
             return this;
         }
@@ -68,7 +66,6 @@ namespace Shudder.Services
             var v = CalculateHolePosition(_config);
                     _cells[v.x, v.y].GroundType = GroundType.Portal;
                 
-            Debug.Log("Establish Portal");
             return this;
         }
 
@@ -87,6 +84,7 @@ namespace Shudder.Services
             }
 
             await SetNeighbors();
+            Debug.Log("Create Grounds");
             return _grid;
         }
 
@@ -100,8 +98,6 @@ namespace Shudder.Services
                     await UniTask.Yield();
                 }
             }
-
-            Debug.Log("Set Neighbors");
         }
 
         private Vector3 GetOffsetPosition(GridConfig config)

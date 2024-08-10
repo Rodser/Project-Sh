@@ -32,7 +32,7 @@ namespace Shudder.UI
         public async void StartGame()
         {
             await CloseWindow();
-            _triggerOnlyEvent.TriggerFlyCamera();
+            _triggerOnlyEvent.TriggerPlayGame();
         }
         
         public void OpenSettings()
@@ -52,6 +52,7 @@ namespace Shudder.UI
 
         public void SetLevel(int level, float levelProgress)
         {
+            level++;
             _level.text = level.ToString();
             _LevelProgress.fillAmount = levelProgress;
         }

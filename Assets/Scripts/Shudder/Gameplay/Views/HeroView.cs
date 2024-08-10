@@ -14,9 +14,9 @@ namespace Shudder.Gameplay.Views
     public class HeroView : MonoBehaviour
     {
         private ITriggerOnlyEventBus _triggerEventBus;
-        private bool _hasRunLevel = false;
         private ActivationPortalService _activationService;
         private SfxService _sfx;
+        private bool _canUsePortal = false;
 
         public HeroPresenter Presenter { get; set; }
 
@@ -29,6 +29,11 @@ namespace Shudder.Gameplay.Views
             Presenter.SetView(this);
         }
 
+        public void CanUsePortal()
+        {
+            _canUsePortal = true;
+        }
+        
         public void ChangeGround(Transform parentGround)
         {
             transform.SetParent(parentGround);
@@ -39,30 +44,19 @@ namespace Shudder.Gameplay.Views
             var groundView = other.GetComponentInParent<GroundView>();
             if (groundView is null)
                 return;
-
-            switch (groundView.Presenter.Ground.GroundType)
-            {
-                case GroundType.Portal:
-                    Debug.Log("Victory");
-                    _sfx.InPortal();
-                    RunNewLevel(groundView.AnchorPoint);
-                    break;
-                case GroundType.Pit:
-                    Destroy(gameObject, 1000);
-                    Debug.Log("Looser");
-                    break;
-                default:
-                    return;
-            }
-        }
-
-        private async void RunNewLevel(Transform groundAnchorPoint)
-        {
-            if(_hasRunLevel)
+            if (groundView.Presenter.Ground.GroundType != GroundType.Portal)
+                return;
+            if(!_canUsePortal)
                 return;
             
-            _hasRunLevel = true;
-            await UniTask.Delay(500);
+            _sfx.InPortal();
+            RunNewLevel(groundView.AnchorPoint);
+        }
+
+        private void RunNewLevel(Transform groundAnchorPoint)
+        {
+            Debug.Log("Victory!!! Run New Level");
+            _canUsePortal = false;
             _triggerEventBus.TriggerVictory(groundAnchorPoint);
         }
     }

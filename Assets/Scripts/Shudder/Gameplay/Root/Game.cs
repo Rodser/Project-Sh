@@ -1,4 +1,5 @@
 using BaCon;
+using Cysharp.Threading.Tasks;
 using Shudder.Configs;
 using Shudder.Data;
 using Shudder.Gameplay.Models.Interfaces;
@@ -36,6 +37,7 @@ namespace Shudder.Gameplay.Root
 
             _container.Resolve<CameraSurveillanceService>().Follow(CameraFollow.Presenter.View, Hero);
             _container.Resolve<InputService>().Enable();
+            Hero.Presenter.View.CanUsePortal();
         }
 
         public void SetCurrentGrid(Grid currentGrid)
@@ -43,7 +45,7 @@ namespace Shudder.Gameplay.Root
             CurrentGrid = currentGrid;
         }
 
-        public void DestroyGrid()
+        public async UniTask DestroyGrid()
         {
             if(CurrentGrid is null)
                 return;
@@ -58,6 +60,7 @@ namespace Shudder.Gameplay.Root
                         continue;
                     Object.Destroy(ground.Presenter.View.gameObject);
                     ground.Presenter.View = null;
+                    await UniTask.Yield();
                 }
             }
 

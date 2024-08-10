@@ -5,6 +5,7 @@ namespace Shudder.Gameplay.Views
     public class PortalView : MonoBehaviour
     {
         [SerializeField] private GameObject portal;
+        [SerializeField] private Collider portalCollider;
 
         public void HidePortal()
         {
@@ -16,9 +17,8 @@ namespace Shudder.Gameplay.Views
             portal.SetActive(true);
         }
 
-        public void Freeze()
+        public void OffCollider()
         {
-            var portalCollider = GetComponentInChildren<Collider>();
             portalCollider.gameObject.SetActive(false);
         }
     }

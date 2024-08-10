@@ -31,6 +31,7 @@ namespace Shudder.UI
         
         public void SetLevel(int value)
         {
+            value++;
             _Level.text = value.ToString();
         }
         

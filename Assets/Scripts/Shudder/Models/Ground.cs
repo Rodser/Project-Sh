@@ -48,11 +48,16 @@ namespace Shudder.Models
             if(Presenter.View == null)
                 return;
             
+            GroundType = GroundType.Pit;
             var tr = Presenter.View.transform;
             var tween = tr.DOMoveY(tr.position.y - 5, 0.7f);
             await tween.AsyncWaitForCompletion();
-            Object.Destroy(Presenter.View.gameObject);
-            GroundType = GroundType.Pit;
+
+            var childs = Presenter.View.gameObject.GetComponentsInChildren<Transform>();
+            for (int i = 0; i < childs.Length; i++)
+            {
+                Object.Destroy(childs[i].gameObject);
+            }
 
             for (var n = 0; n < Neighbors.Count; n++)
             {

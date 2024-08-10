@@ -1,6 +1,6 @@
 namespace Shudder.Constants
 {
-    public class SceneName
+    public abstract class SceneName
     {
         public const string BOOT = "Boot";
         public const string GAMEPLAY = "Gameplay";
