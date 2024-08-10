@@ -65,13 +65,16 @@ namespace Shudder.Gameplay.Services
         private async void OnHasVictory(Transform groundAnchorPoint)
         {
             _container.Resolve<CameraSurveillanceService>().UnFollow();
-            
-            await _container
-                .Resolve<CameraService>()
-                .MoveCameraAsync(groundAnchorPoint.position, 2f);
-            
-            _container.Resolve<UIRootView>().ShowLoadingScreen();
-            _container.Resolve<VictoryHandlerService>().HasVictory(_game);
+            var coin = LevelUp();
+            _container.Resolve<VictoryHandlerService>().OpenVictoryWindow(coin, groundAnchorPoint);
+        }
+
+        private int LevelUp()
+        {
+            var oldCoin = _game.Progress.Coin;
+            _game.UpLevel();
+            var newCoiin = _game.Progress.Coin;
+            return newCoiin - oldCoin;
         }
 
         private void CreateHud(PlayerProgress progress)

@@ -6,6 +6,7 @@ using Shudder.Gameplay.Models.Interfaces;
 using Shudder.Gameplay.Services;
 using Shudder.Models;
 using Shudder.Services;
+using UnityEditor;
 using UnityEngine;
 using Grid = Shudder.Models.Grid;
 
@@ -74,13 +75,23 @@ namespace Shudder.Gameplay.Root
             if (Progress.Level >= _gameConfig.LevelGridConfigs.Length - 1) 
                 return;
             
-            Progress.Coin += 77;
+            Progress.Coin += MakeMoney();
             Progress.Level++;
+            _container.Resolve<StorageService>().SaveProgress(Progress);
         }
 
         public void SetProgress(PlayerProgress progress)
         {
             Progress = progress;
+        }
+
+        public int MakeMoney()
+        {
+            var coin = 222; 
+            
+            // Calculate
+            
+            return coin;
         }
     }
 }

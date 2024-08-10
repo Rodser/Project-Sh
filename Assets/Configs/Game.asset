@@ -47,4 +47,6 @@ MonoBehaviour:
     type: 3}
   <HudView>k__BackingField: {fileID: 8035724082234770687, guid: d99f00005980c9b44974d27807771e49,
     type: 3}
+  <UIVictoryWindowView>k__BackingField: {fileID: 1430806584580356058, guid: 30a4c5bbd50d3f7419332097097ebc6b,
+    type: 3}
   <CameraRotation>k__BackingField: {x: -25, y: 30, z: 0}

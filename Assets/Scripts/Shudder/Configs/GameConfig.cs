@@ -16,11 +16,14 @@ namespace Shudder.Configs
         [field: SerializeField] public LightPointView[] Lights{ get; private set; } = null;
         [field: SerializeField] public ItemView[] Items{ get; private set; } = null;
         [field: SerializeField] public JewelKeyView JewelKeyView { get; private set; }
+
+        [field: Space, Header("UI")]
         [field: SerializeField] public HudView HudView { get; private set; }
+        [field: SerializeField] public UIVictoryWindowView UIVictoryWindowView { get; private set; }
 
         [field: Space, Header("Camera")]
         [field: SerializeField] public Vector3 CameraRotation { get; private set; }
-
+        
         public T GetConfig<T>()
         {
             return Configs.Where(c => 

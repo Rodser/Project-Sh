@@ -11,6 +11,7 @@ namespace Shudder.Events
         UnityEvent OpenSettings { get; }
         UnityEvent RefreshLevel { get; }
         UnityEvent GoMenu { get; }
+        UnityEvent PlayNextLevel { get; }
         void UnSubscribe();
     }
 }

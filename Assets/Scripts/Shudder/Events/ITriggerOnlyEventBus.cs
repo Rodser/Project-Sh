@@ -10,5 +10,6 @@ namespace Shudder.Events
         void TriggerOpenSettings();
         void TriggerRefreshLevel();
         void TriggerGoMenu();
+        void TriggerPlayNextLevel();
     }
 }
