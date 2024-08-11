@@ -19,30 +19,36 @@ namespace Shudder.Gameplay.Services
     {
         private readonly DIContainer _container;
         private readonly GameConfig _gameConfig;
+        private readonly VictoryHandlerService _victoryService;
+        
         private Game _game;
+        private StorageService _storage;
+        private IReadOnlyEventBus _readOnlyEvent;
 
         public LevelLoadingService(DIContainer container, GameConfig gameConfig)
         {
             _container = container;
             _gameConfig = gameConfig;
+            _storage = container.Resolve<StorageService>();
+            _victoryService = container.Resolve<VictoryHandlerService>();
+            _readOnlyEvent = container.Resolve<IReadOnlyEventBus>();
         }
 
         public void Init(Game game)
         {
             _game = game;
-            var progress = _container.Resolve<StorageService>().LoadProgress();
-            _game.SetProgress(progress);
+            _storage.LoadProgress();
         }
 
         public async UniTask DestroyLevelAsync()
         {
-            _container.Resolve<IReadOnlyEventBus>().HasVictory.RemoveListener(OnHasVictory);
+            _readOnlyEvent.HasVictory.RemoveListener(OnHasVictory);
             await _game.DestroyGrid();
         }
 
         public async UniTask LoadAsync()
         {
-            var level = _game.Progress.Level;
+            var level = _storage.Progress.Level;
             var currentGrid = await CreateGrid(level);
             _game.SetCurrentGrid(currentGrid);
             CreateLights(currentGrid);
@@ -57,24 +63,17 @@ namespace Shudder.Gameplay.Services
             var moveService = _container.Resolve<HeroMoveService>();
             moveService.Subscribe(hero);
             
-            Debug.Log($"Load Level progress {_container.Resolve<StorageService>().LoadProgress().Level}");
-            _container.Resolve<IReadOnlyEventBus>().HasVictory.AddListener(OnHasVictory);
+            Debug.Log($"Load Level progress {_storage.Progress.Level}");
+            _readOnlyEvent.HasVictory.AddListener(OnHasVictory);
             _game.Run();
         }
         
         private void OnHasVictory(Transform groundAnchorPoint)
         {
             _container.Resolve<CameraSurveillanceService>().UnFollow();
-            var coin = LevelUp();
-            _container.Resolve<VictoryHandlerService>().OpenVictoryWindow(coin, groundAnchorPoint);
-        }
-
-        private int LevelUp()
-        {
-            var oldCoin = _game.Progress.Coin;
-            _game.UpLevel();
-            var newCoiin = _game.Progress.Coin;
-            return newCoiin - oldCoin;
+            
+            var coin = _storage.LevelUp(_gameConfig.LevelGridConfigs.Length - 1);
+            _victoryService.OpenVictoryWindow(coin, groundAnchorPoint);
         }
 
         private void CreateHud()

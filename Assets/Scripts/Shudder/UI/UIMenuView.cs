@@ -1,9 +1,11 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Shudder.Constants;
 using Shudder.Events;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 namespace Shudder.UI
 {
@@ -30,8 +32,12 @@ namespace Shudder.UI
         
         public void OpenSettings()
         {
-            Debug.Log("Open Setting");
             _triggerOnlyEvent.TriggerOpenSettings();
+        }
+        
+        public void Reward()
+        {
+            YandexGame.RewVideoShow(GameConstant.RewardIndex);
         }
         
         public void SetCoin(int value)
@@ -43,12 +49,16 @@ namespace Shudder.UI
         {
             _diamond.text = value.ToString();
         }
-
-        public void SetLevel(int level, float levelProgress)
+        
+        public void SetProgress(float value)
+        {
+            _LevelProgress.fillAmount = value;
+        }
+        
+        public void SetLevel(int level)
         {
             level++;
             _level.text = level.ToString();
-            _LevelProgress.fillAmount = levelProgress;
         }
 
         private async UniTask ShowWindow()
@@ -60,7 +70,7 @@ namespace Shudder.UI
 
         private async UniTask CloseWindow()
         {
-            var tween = transform.DOScale(Vector3.zero, 0.2f);
+            var tween = transform.DOScale(new Vector3(2,2,2), 0.2f);
             await tween.AsyncWaitForCompletion();
         }
     }

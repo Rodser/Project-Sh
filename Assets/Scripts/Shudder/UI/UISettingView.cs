@@ -23,7 +23,7 @@ namespace Shudder.UI
         public async void GoToMenu()
         {        
             await UniTask.Delay(400);
-            _triggerOnlyEventBus.TriggerGoMenu();
+            _triggerOnlyEvent.TriggerGoMenu();
             Debug.Log("Exit to menu");
             CloseWindow();
         }
@@ -32,7 +32,7 @@ namespace Shudder.UI
         {
             var tween = _window.DOScale(Vector3.zero, AnimDuration);
             await tween.AsyncWaitForCompletion();
-            _triggerOnlyEventBus.TriggerRefreshLevel();
+            _triggerOnlyEvent.TriggerRefreshLevel();
             Debug.Log("Refresh level");
             Destroy(gameObject);
         }

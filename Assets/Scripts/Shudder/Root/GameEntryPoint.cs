@@ -100,7 +100,8 @@ namespace Shudder.Root
             _rootDiContainer.RegisterInstance(new AnimationHeroService());
             _rootDiContainer.RegisterInstance(new RotationService());
             _rootDiContainer.RegisterInstance(new JumpService(_rootDiContainer));
-            _rootDiContainer.RegisterInstance(new StorageService());
+            _rootDiContainer.RegisterInstance(new CoinService());
+            _rootDiContainer.RegisterInstance(new StorageService(_rootDiContainer));
             _rootDiContainer.RegisterInstance(new SettingService(_rootDiContainer));
             _rootDiContainer.RegisterInstance(new RewardService(_rootDiContainer));
 

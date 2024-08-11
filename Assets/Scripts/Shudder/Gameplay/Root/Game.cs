@@ -15,51 +15,56 @@ namespace Shudder.Gameplay.Root
 {
     public class Game
     {
-        private readonly DIContainer _container;
+        private readonly StorageService _storage;
         private readonly GameConfig _gameConfig;
+        private readonly CameraService _cameraService;
+        private readonly CameraSurveillanceService _cameraSurveillanceService;
+        private readonly InputService _inputService;
+        private readonly CameraFollow _cameraFollow;
 
-        public PlayerProgress Progress { get; private set; }
-        public CameraFollow CameraFollow { get; set; }
-        public Grid CurrentGrid { get; private set; }
-        public IHero Hero { get; set; }
-        public HudView HUD { get; set; }
+        private Grid _currentGrid;
 
         public Game(DIContainer container, GameConfig gameConfig)
         {
-            _container = container;
             _gameConfig = gameConfig;
-            CameraFollow = _container.Resolve<CameraService>().CameraFollow;
+            _storage = container.Resolve<StorageService>();
+            _cameraService = container.Resolve<CameraService>();
+            _inputService = container.Resolve<InputService>();
+            _cameraSurveillanceService= container.Resolve<CameraSurveillanceService>();
+            _cameraFollow = container.Resolve<CameraService>().CameraFollow;
+            
+            container.Resolve<IReadOnlyEventBus>().UpdateUI.AddListener(UpdateHud);
         }
+
+        public IHero Hero { get; set; }
+        public HudView HUD { get; set; }
 
         public async void Run()
         {
             var rotation = _gameConfig.CameraRotation;
-            await _container
-                .Resolve<CameraService>()
-                .MoveCameraAsync(Hero.Presenter.View.transform.position, rotation, 2.5f);
-
-            _container.Resolve<IReadOnlyEventBus>().UpdateCoin.AddListener(UpdateHud);
-            _container.Resolve<CameraSurveillanceService>().Follow(CameraFollow.Presenter.View, Hero);
-            _container.Resolve<InputService>().Enable();
+            await _cameraService.MoveCameraAsync(Hero.Presenter.View.transform.position, rotation, 2.5f);
+            
+            _cameraSurveillanceService.Follow(_cameraFollow.Presenter.View, Hero);
+            _inputService.Enable();
             
             Hero.Presenter.View.CanUsePortal();
         }
 
         public void SetCurrentGrid(Grid currentGrid)
         {
-            CurrentGrid = currentGrid;
+            _currentGrid = currentGrid;
         }
 
         public async UniTask DestroyGrid()
         {
-            if(CurrentGrid is null)
+            if(_currentGrid is null)
                 return;
             
-            for (var x = 0; x < CurrentGrid.Grounds.GetLength(0); x++)
+            for (var x = 0; x < _currentGrid.Grounds.GetLength(0); x++)
             {
-                for (var y = 0; y < CurrentGrid.Grounds.GetLength(1); y++)
+                for (var y = 0; y < _currentGrid.Grounds.GetLength(1); y++)
                 {
-                    var ground = CurrentGrid.Grounds[x, y];
+                    var ground = _currentGrid.Grounds[x, y];
 
                     if(ground.GroundType == GroundType.Pit)
                         continue;
@@ -69,40 +74,16 @@ namespace Shudder.Gameplay.Root
                 }
             }
 
-            CurrentGrid.Grounds = null;
-            Object.Destroy(CurrentGrid.Presenter.View.gameObject);
-            CurrentGrid = null;
-        }
-
-        public void UpLevel()
-        {
-            if (Progress.Level >= _gameConfig.LevelGridConfigs.Length - 1) 
-                return;
-            
-            Progress.Coin += MakeMoney();
-            Progress.Level++;
-            _container.Resolve<StorageService>().SaveProgress(Progress);
-        }
-
-        public void SetProgress(PlayerProgress progress)
-        {
-            Progress = progress;
-        }
-
-        public int MakeMoney()
-        {
-            var coin = 222; 
-            
-            // Calculate
-            
-            return coin;
+            _currentGrid.Grounds = null;
+            Object.Destroy(_currentGrid.Presenter.View.gameObject);
+            _currentGrid = null;
         }
 
         public void UpdateHud()
         {
-            HUD.SetLevel(Progress.Level);
-            HUD.SetCoin(Progress.Coin);
-            HUD.SetDiamond(Progress.Diamond);
+            HUD.SetLevel(_storage.Progress.Level);
+            HUD.SetCoin(_storage.Progress.Coin);
+            HUD.SetDiamond(_storage.Progress.Diamond);
         }
     }
 }

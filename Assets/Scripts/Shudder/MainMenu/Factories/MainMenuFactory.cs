@@ -1,10 +1,10 @@
 using BaCon;
 using Cysharp.Threading.Tasks;
-using Shudder.Data;
 using Shudder.Events;
 using Shudder.Factories;
 using Shudder.Gameplay.Factories;
 using Shudder.MainMenu.Configs;
+using Shudder.MainMenu.Models;
 using Shudder.Services;
 using Shudder.UI;
 using UnityEngine;
@@ -42,15 +42,11 @@ namespace Shudder.MainMenu.Factories
             CreateMusic(menuGrid);
             await MoveCamera();
             var hero = _container.Resolve<HeroFactory>().Create(menuGrid.Grounds);
-            var menu = new Models.MainMenu(_container, menuGrid, _menuConfig, hero);
 
             var menuUI = CreateUIMainMenu();
-            var progress = _container.Resolve<StorageService>().LoadProgress();
-            Debug.Log($"progress level: {progress.Level}");
-            
-            menuUI.SetCoin(progress.Coin);
-            menuUI.SetDiamond(progress.Diamond);
-            menuUI.SetLevel(progress.Level, progress.GetLevelProgress());
+            var menu = new Menu(_container, menuGrid, _menuConfig, menuUI, hero);
+            menu.OnUpdateUI();
+            menu.UpdateProgress();
             menuUI.Bind(_triggerEventBus);
         }
 

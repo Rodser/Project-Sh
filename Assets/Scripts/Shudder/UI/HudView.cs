@@ -3,7 +3,6 @@ using Shudder.Constants;
 using Shudder.Events;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using YG;
 
 namespace Shudder.UI

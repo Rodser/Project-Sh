@@ -17,6 +17,7 @@ namespace Shudder.Gameplay.Services
         {
             _container = container;
             _gameConfig = gameConfig;
+            
             _container.Resolve<IReadOnlyEventBus>().PlayNextLevel.AddListener(OnPlayNextLevel);
         }
 

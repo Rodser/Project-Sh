@@ -58,6 +58,7 @@ namespace Shudder.Gameplay.Views
             Debug.Log("Victory!!! Run New Level");
             _canUsePortal = false;
             _triggerEventBus.TriggerVictory(groundAnchorPoint);
+            gameObject.SetActive(false);
         }
     }
 }

@@ -11,13 +11,13 @@ namespace Shudder.UI
 
         [SerializeField] protected Transform _window;
         
-        protected ITriggerOnlyEventBus _triggerOnlyEventBus;
+        protected ITriggerOnlyEventBus _triggerOnlyEvent;
         protected InputService _inputService;
 
         public void Bind(ITriggerOnlyEventBus eventBus, InputService inputService)
         {
             _inputService = inputService;
-            _triggerOnlyEventBus = eventBus;
+            _triggerOnlyEvent = eventBus;
         }
         
         public void ShowWindow()

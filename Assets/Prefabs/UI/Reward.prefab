@@ -1411,6 +1411,16 @@ PrefabInstance:
       propertyPath: m_text
       value: "\u0417\u0430\u0431\u0440\u0430\u0442\u044C"
       objectReference: {fileID: 0}
+    - target: {fileID: 7392391877038461126, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392391877038461126, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 8789489104796993698, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
         type: 3}
       propertyPath: en

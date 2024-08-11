@@ -7,18 +7,23 @@ using Shudder.UI;
 using UnityEngine;
 using YG;
 using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 
 namespace Shudder.Services
 {
     public class RewardService: IDisposable
     {
-        private readonly DIContainer _container;
         private MenuConfig _config;
+        private readonly ITriggerOnlyEventBus _triggerOnlyEvent;
+        private readonly InputService _inputService;
+        private readonly UIRootView _uiRootView;
+        private readonly CoinService _coinService;
 
         public RewardService(DIContainer container)
         {
-            _container = container;
+            _triggerOnlyEvent = container.Resolve<ITriggerOnlyEventBus>();
+            _inputService = container.Resolve<InputService>();
+            _uiRootView = container.Resolve<UIRootView>();
+            _coinService = container.Resolve<CoinService>();
             YandexGame.RewardVideoEvent += OnRewardVideoEvent;
         }
 
@@ -33,18 +38,18 @@ namespace Shudder.Services
             if(GameConstant.RewardIndex != index)
                 return;
             var ui = CreateRewardWindow();
-            var coin = Random.Range(1, 10) * 50;
+            var coin = _coinService.GetRewardedBonus();
             ui.SetCoin(coin);
             ui.ShowWindow();
         }
 
         private UIRewardWindowView CreateRewardWindow()
         {
-            _container.Resolve<InputService>().Disable();
+            _inputService.Disable();
             var prefab = _config.UIRewardWindowView;
             var window = Object.Instantiate(prefab);
-            window.Bind(_container.Resolve<ITriggerOnlyEventBus>(), _container.Resolve<InputService>());
-            _container.Resolve<UIRootView>().AttachUI(window.gameObject);
+            window.Bind(_triggerOnlyEvent, _inputService);
+            _uiRootView.AttachUI(window.gameObject);
             return window;
         }
 
