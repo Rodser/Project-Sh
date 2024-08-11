@@ -48,7 +48,7 @@ namespace Shudder.Gameplay.Services
             CreateLights(currentGrid);
             CreateItems(currentGrid);
             CreateMusic(currentGrid);
-            CreateHud(_game.Progress);
+            CreateHud();
             
             var hero = CreateHero(currentGrid);
             CreateActivatePortal(level, hero, currentGrid);
@@ -62,7 +62,7 @@ namespace Shudder.Gameplay.Services
             _game.Run();
         }
         
-        private async void OnHasVictory(Transform groundAnchorPoint)
+        private void OnHasVictory(Transform groundAnchorPoint)
         {
             _container.Resolve<CameraSurveillanceService>().UnFollow();
             var coin = LevelUp();
@@ -77,14 +77,13 @@ namespace Shudder.Gameplay.Services
             return newCoiin - oldCoin;
         }
 
-        private void CreateHud(PlayerProgress progress)
+        private void CreateHud()
         {
             var prefab = _gameConfig.HudView;
             var hudView = Object.Instantiate(prefab);
-            hudView.Bind(_container.Resolve<ITriggerOnlyEventBus>());
-            hudView.SetLevel(progress.Level);
-            hudView.SetCoin(progress.Coin);
-            hudView.SetDiamond(progress.Diamond);
+            hudView.Bind(_container);
+            _game.HUD = hudView;
+            _game.UpdateHud();
             _container.Resolve<UIRootView>().ChangeSceneUI(hudView.gameObject);
         }
 

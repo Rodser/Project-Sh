@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMPComponent: {fileID: 3496445941485392915}
-  uniqueFontTMP: {fileID: 11400000, guid: 4ee05c596acf4294097bf9381f17476c, type: 2}
+  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -739,7 +739,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8035724082234770687}
+      - m_Target: {fileID: -10194884428468168}
         m_TargetAssemblyTypeName: Shudder.UI.HudView, Assembly-CSharp
         m_MethodName: OpenSettings
         m_Mode: 1
@@ -782,7 +782,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2313777513412945752}
-  - component: {fileID: 8035724082234770687}
+  - component: {fileID: -10194884428468168}
   m_Layer: 0
   m_Name: HUD
   m_TagString: Untagged
@@ -816,7 +816,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8035724082234770687
+--- !u!114 &-10194884428468168
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -828,12 +828,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f895c1f92ca47b99017626fe08f4d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <OptionButton>k__BackingField: {fileID: 180163150551900165}
-  <LeaderboardsButton>k__BackingField: {fileID: 6155638858076444825}
-  <RewardsButton>k__BackingField: {fileID: 3380911156299367775}
-  <ShopButton>k__BackingField: {fileID: 88858700394697695}
-  <UISettingView>k__BackingField: {fileID: 6359260336104786049, guid: ffab17a1bd67cf740a9c4c608910218c,
-    type: 3}
   _Level: {fileID: 6302876022264174905}
   _coin: {fileID: 2806238828174239259}
   _diamond: {fileID: 2108412990251007555}
@@ -1056,6 +1050,36 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2313777513412945752}
     m_Modifications:
+    - target: {fileID: 3746940327623083267, guid: 0bc6dd7bd4bd1c34496f543dcc94d302,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3746940327623083267, guid: 0bc6dd7bd4bd1c34496f543dcc94d302,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3746940327623083267, guid: 0bc6dd7bd4bd1c34496f543dcc94d302,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: -10194884428468168}
+    - target: {fileID: 3746940327623083267, guid: 0bc6dd7bd4bd1c34496f543dcc94d302,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Reward
+      objectReference: {fileID: 0}
+    - target: {fileID: 3746940327623083267, guid: 0bc6dd7bd4bd1c34496f543dcc94d302,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Shudder.UI.HudView, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3746940327623083267, guid: 0bc6dd7bd4bd1c34496f543dcc94d302,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 4173306090808671020, guid: 0bc6dd7bd4bd1c34496f543dcc94d302,
         type: 3}
       propertyPath: m_Name
@@ -1166,18 +1190,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0bc6dd7bd4bd1c34496f543dcc94d302, type: 3}
---- !u!114 &3380911156299367775 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3746940327623083267, guid: 0bc6dd7bd4bd1c34496f543dcc94d302,
-    type: 3}
-  m_PrefabInstance: {fileID: 2095482969785253980}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &5135375138650259364 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6507739748792057848, guid: 0bc6dd7bd4bd1c34496f543dcc94d302,
@@ -1302,18 +1314,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ece2254c66e5bbf44987113584409844, type: 3}
---- !u!114 &88858700394697695 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2869704570792497059, guid: ece2254c66e5bbf44987113584409844,
-    type: 3}
-  m_PrefabInstance: {fileID: 2803646478728060028}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &6263045131938501073 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8071087988965330349, guid: ece2254c66e5bbf44987113584409844,
@@ -1438,18 +1438,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f174bf8c294dd0a4197ab0b732660de1, type: 3}
---- !u!114 &6155638858076444825 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 76737746624620505, guid: f174bf8c294dd0a4197ab0b732660de1,
-    type: 3}
-  m_PrefabInstance: {fileID: 6088189945142345536}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &8633943378838751385 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2570558945015199705, guid: f174bf8c294dd0a4197ab0b732660de1,

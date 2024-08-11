@@ -11,14 +11,7 @@ namespace Shudder.UI
     {
         private ITriggerOnlyEventBus _triggerOnlyEvent;
         
-        [field: SerializeField] public Button PlayButton { get; private set; }    
-        [field: SerializeField] public Button OptionButton { get; private set; }    
-        [field: SerializeField] public Button LeaderboardsButton { get; private set; }    
-        [field: SerializeField] public Button RewardsButton { get; private set; }    
-        [field: SerializeField] public Button ShopButton { get; private set; }
-        
         [SerializeField] private Image _LevelProgress;    
-
         [SerializeField] private TextMeshProUGUI _coin;
         [SerializeField] private TextMeshProUGUI _diamond;    
         [SerializeField] private TextMeshProUGUI _level;    
@@ -37,6 +30,7 @@ namespace Shudder.UI
         
         public void OpenSettings()
         {
+            Debug.Log("Open Setting");
             _triggerOnlyEvent.TriggerOpenSettings();
         }
         

@@ -2,11 +2,12 @@ using BaCon;
 using Cysharp.Threading.Tasks;
 using Shudder.Configs;
 using Shudder.Data;
+using Shudder.Events;
 using Shudder.Gameplay.Models.Interfaces;
 using Shudder.Gameplay.Services;
 using Shudder.Models;
 using Shudder.Services;
-using UnityEditor;
+using Shudder.UI;
 using UnityEngine;
 using Grid = Shudder.Models.Grid;
 
@@ -21,6 +22,7 @@ namespace Shudder.Gameplay.Root
         public CameraFollow CameraFollow { get; set; }
         public Grid CurrentGrid { get; private set; }
         public IHero Hero { get; set; }
+        public HudView HUD { get; set; }
 
         public Game(DIContainer container, GameConfig gameConfig)
         {
@@ -36,8 +38,10 @@ namespace Shudder.Gameplay.Root
                 .Resolve<CameraService>()
                 .MoveCameraAsync(Hero.Presenter.View.transform.position, rotation, 2.5f);
 
+            _container.Resolve<IReadOnlyEventBus>().UpdateCoin.AddListener(UpdateHud);
             _container.Resolve<CameraSurveillanceService>().Follow(CameraFollow.Presenter.View, Hero);
             _container.Resolve<InputService>().Enable();
+            
             Hero.Presenter.View.CanUsePortal();
         }
 
@@ -92,6 +96,13 @@ namespace Shudder.Gameplay.Root
             // Calculate
             
             return coin;
+        }
+
+        public void UpdateHud()
+        {
+            HUD.SetLevel(Progress.Level);
+            HUD.SetCoin(Progress.Coin);
+            HUD.SetDiamond(Progress.Diamond);
         }
     }
 }

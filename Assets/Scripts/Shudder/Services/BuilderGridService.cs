@@ -105,7 +105,7 @@ namespace Shudder.Services
             var rowOffset = config.Height % 2 * 0.5f;
 
             var x = (config.Width + rowOffset) * config.SpaceBetweenCells * 0.5f;
-            var z = config.Height * config.SpaceBetweenCells * Coefficient.InnerRadiusCoefficient * 0.5f;
+            var z = config.Height * config.SpaceBetweenCells * GameConstant.InnerRadiusCoefficient * 0.5f;
             var y = 0f; 
 
             return _container.Resolve<CameraService>().View.transform.position - new Vector3(x, y, z);

@@ -8,6 +8,7 @@ namespace Shudder.Events
         public UnityEvent StartGameplayScene { get; } = new();
         public UnityEvent PlayGame { get; } = new();
         public UnityEvent PlayNextLevel { get; } = new();
+        public UnityEvent UpdateCoin { get; } = new();
         public UnityEvent<Transform> HasVictory { get; } = new();
         public UnityEvent OpenSettings { get; } = new();
         public UnityEvent RefreshLevel { get; } = new();
@@ -20,6 +21,7 @@ namespace Shudder.Events
             HasVictory.RemoveAllListeners();
             StartGameplayScene.RemoveAllListeners();
             GoMenu.RemoveAllListeners();
+            OpenSettings.RemoveAllListeners();
         }
 
         public void TriggerStartGameplayScene() => 
@@ -42,5 +44,8 @@ namespace Shudder.Events
 
         public void TriggerPlayNextLevel() => 
             PlayNextLevel?.Invoke();
+
+        public void TriggerUpdateCoin() => 
+            UpdateCoin?.Invoke();
     }
 }

@@ -63,7 +63,7 @@ namespace Shudder.Factories
             {
                 x = (x + rowOffset) * _spaceBetweenCells,
                 y = 0f,
-                z = z * _spaceBetweenCells * Coefficient.InnerRadiusCoefficient
+                z = z * _spaceBetweenCells * GameConstant.InnerRadiusCoefficient
             };
             positionCell += offsetPosition;
             return positionCell;

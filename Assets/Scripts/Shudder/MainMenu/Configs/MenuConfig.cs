@@ -18,6 +18,7 @@ namespace Shudder.MainMenu.Configs
         [field: Space, Header("UI")]
         [field: SerializeField] public UIMenuView UIMenuView { get; private set; } = null;
         [field: SerializeField] public UISettingView UISettingView { get; private set; } = null;
+        [field: SerializeField] public UIRewardWindowView UIRewardWindowView { get; private set; } = null;
         
         [field: Space, Header("Hero")]
         [field: SerializeField]public HeroConfig HeroConfig { get; private set; }

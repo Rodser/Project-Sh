@@ -33,6 +33,7 @@ namespace Shudder.Services
 
         private void CreateSetting()
         {
+            Debug.Log("Setting");
             _container.Resolve<InputService>().Disable();
 
             var ui = Object.Instantiate(_uiSettingViewPrefab);

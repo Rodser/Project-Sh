@@ -1,27 +1,29 @@
+using BaCon;
+using Shudder.Constants;
 using Shudder.Events;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 namespace Shudder.UI
 {
     public class HudView : MonoBehaviour
     {
-        [field: SerializeField] public Button OptionButton { get; private set; }    
-        [field: SerializeField] public Button LeaderboardsButton { get; private set; }    
-        [field: SerializeField] public Button RewardsButton { get; private set; }    
-        [field: SerializeField] public Button ShopButton { get; private set; }
-        [field: SerializeField] public UISettingView UISettingView { get; private set; }
-
         [SerializeField] private TextMeshProUGUI _Level;
         [SerializeField] private TextMeshProUGUI _coin;
         [SerializeField] private TextMeshProUGUI _diamond;
         
         private ITriggerOnlyEventBus _triggerOnlyEventBus;
 
-        public void Bind(ITriggerOnlyEventBus eventBus)
+        public void Bind(DIContainer container)
         {
-            _triggerOnlyEventBus = eventBus;
+            _triggerOnlyEventBus = container.Resolve<ITriggerOnlyEventBus>();
+        }
+        
+        public void Reward()
+        {
+            YandexGame.RewVideoShow(GameConstant.RewardIndex);
         }
         
         public void OpenSettings()

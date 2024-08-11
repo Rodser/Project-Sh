@@ -12,6 +12,7 @@ namespace Shudder.Events
         UnityEvent RefreshLevel { get; }
         UnityEvent GoMenu { get; }
         UnityEvent PlayNextLevel { get; }
+        UnityEvent UpdateCoin { get; }
         void UnSubscribe();
     }
 }

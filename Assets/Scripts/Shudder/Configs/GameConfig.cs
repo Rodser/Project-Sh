@@ -19,6 +19,7 @@ namespace Shudder.Configs
 
         [field: Space, Header("UI")]
         [field: SerializeField] public HudView HudView { get; private set; }
+        [field: SerializeField] public UISettingView UISettingView { get; private set; }
         [field: SerializeField] public UIVictoryWindowView UIVictoryWindowView { get; private set; }
 
         [field: Space, Header("Camera")]
