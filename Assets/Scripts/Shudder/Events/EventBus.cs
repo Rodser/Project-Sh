@@ -14,6 +14,7 @@ namespace Shudder.Events
         public UnityEvent OpenSettings { get; } = new();
         public UnityEvent RefreshLevel { get; } = new();
         public UnityEvent GoMenu { get; } = new();
+        public UnityEvent OpenLeaderboards { get; } = new();
         
         public void UnSubscribe()
         {
@@ -52,5 +53,8 @@ namespace Shudder.Events
 
         public void TriggerUpdateUI() => 
             UpdateUI?.Invoke();
+
+        public void TriggerOpenLeaderboards() => 
+            OpenLeaderboards?.Invoke();
     }
 }

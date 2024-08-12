@@ -1,2 +1,0 @@
-Build path: D:/Build/Shudder/RGDS.Shudder.0.4.8
-Build number: 14

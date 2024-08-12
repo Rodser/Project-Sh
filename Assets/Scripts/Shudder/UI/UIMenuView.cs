@@ -35,7 +35,12 @@ namespace Shudder.UI
             _triggerOnlyEvent.TriggerOpenSettings();
         }
         
-        public void Reward()
+        public void OpenLeaderboards()
+        {
+            _triggerOnlyEvent.TriggerOpenLeaderboards();
+        }
+        
+        public void OpenReward()
         {
             YandexGame.RewVideoShow(GameConstant.RewardIndex);
         }

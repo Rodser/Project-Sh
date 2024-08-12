@@ -104,6 +104,7 @@ namespace Shudder.Root
             _rootDiContainer.RegisterInstance(new StorageService(_rootDiContainer));
             _rootDiContainer.RegisterInstance(new SettingService(_rootDiContainer));
             _rootDiContainer.RegisterInstance(new RewardService(_rootDiContainer));
+            _rootDiContainer.RegisterInstance(new LeaderBoardsService(_rootDiContainer));
 
         }
 

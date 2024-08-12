@@ -19,6 +19,7 @@ namespace Shudder.MainMenu.Root
         {
             _container = container;
             _container.Resolve<RewardService>().Init(_menuConfiguration);
+            _container.Resolve<LeaderBoardsService>().Init(_menuConfiguration);
 
             Registration();
 

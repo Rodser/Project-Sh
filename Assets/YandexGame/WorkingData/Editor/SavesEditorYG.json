@@ -7,7 +7,7 @@
   "newPlayerName": "Hello!",
   "openLevels": [
     false,
-    false,
+    true,
     false
   ],
   "PlayerProgress": {

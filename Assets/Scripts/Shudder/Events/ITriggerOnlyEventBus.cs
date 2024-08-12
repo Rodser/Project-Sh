@@ -13,5 +13,6 @@ namespace Shudder.Events
         void TriggerPlayNextLevel();
         void TriggerUpdateCoin(int value);
         void TriggerUpdateUI();
+        void TriggerOpenLeaderboards();
     }
 }

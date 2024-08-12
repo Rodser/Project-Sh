@@ -14,6 +14,7 @@ namespace Shudder.Events
         UnityEvent PlayNextLevel { get; }
         UnityEvent<int> UpdateCoin { get; }
         UnityEvent UpdateUI { get; }
+        UnityEvent OpenLeaderboards { get; }
         void UnSubscribe();
     }
 }

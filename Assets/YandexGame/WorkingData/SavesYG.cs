@@ -1,4 +1,5 @@
-﻿using Shudder.Data;
+﻿
+using Shudder.Data;
 
 namespace YG
 {
@@ -19,7 +20,6 @@ namespace YG
 
         // Ваши сохранения
 
-        public PlayerProgress PlayerProgress = new ();
         // ...
 
         // Поля (сохранения) можно удалять и создавать новые. При обновлении игры сохранения ломаться не должны
@@ -30,6 +30,9 @@ namespace YG
         {
             // Допустим, задать значения по умолчанию для отдельных элементов массива
 
+            openLevels[1] = true;
         }
+
+        public PlayerProgress PlayerProgress { get; set; } = new();
     }
 }
