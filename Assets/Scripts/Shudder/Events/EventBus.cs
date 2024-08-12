@@ -15,7 +15,9 @@ namespace Shudder.Events
         public UnityEvent RefreshLevel { get; } = new();
         public UnityEvent GoMenu { get; } = new();
         public UnityEvent OpenLeaderboards { get; } = new();
-        
+        public UnityEvent<float> MusicMute { get; } = new();
+        public UnityEvent<float> SoundMute { get; } = new();
+
         public void UnSubscribe()
         {
             PlayGame.RemoveAllListeners();
@@ -56,5 +58,11 @@ namespace Shudder.Events
 
         public void TriggerOpenLeaderboards() => 
             OpenLeaderboards?.Invoke();
+
+        public void TriggerMusicMute(float value) => 
+            MusicMute?.Invoke(value);
+
+        public void TriggerSoundMute(float value) => 
+            SoundMute?.Invoke(value);
     }
 }

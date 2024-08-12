@@ -15,6 +15,8 @@ namespace Shudder.Events
         UnityEvent<int> UpdateCoin { get; }
         UnityEvent UpdateUI { get; }
         UnityEvent OpenLeaderboards { get; }
+        UnityEvent<float> MusicMute { get;}
+        UnityEvent<float> SoundMute { get;}
         void UnSubscribe();
     }
 }

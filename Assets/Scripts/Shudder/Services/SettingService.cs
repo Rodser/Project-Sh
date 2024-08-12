@@ -8,17 +8,22 @@ namespace Shudder.Services
 {
     public class SettingService
     {
-        private readonly DIContainer _container;
-
+        private readonly InputService _inputService;
+        
         private UISettingView _uiSettingViewPrefab;
         private LevelLoadingService _levelLoadingService;
         private CameraSurveillanceService _cameraSurveillanceService;
+        private readonly UIRootView _uiRootView;
+        private readonly ITriggerOnlyEventBus _triggerOnlyEvent;
+        private readonly SfxService _sfxService;
 
         public SettingService(DIContainer container)
         {
-            _container = container;
-            var readOnlyEventBus = _container.Resolve<IReadOnlyEventBus>();
-            
+            _inputService = container.Resolve<InputService>();
+            _uiRootView = container.Resolve<UIRootView>();
+            _sfxService = container.Resolve<SfxService>();
+            _triggerOnlyEvent = container.Resolve<ITriggerOnlyEventBus>();
+            var readOnlyEventBus = container.Resolve<IReadOnlyEventBus>();
             readOnlyEventBus.OpenSettings.AddListener(CreateSetting);
             readOnlyEventBus.RefreshLevel.AddListener(RefreshLevel);
         }
@@ -33,23 +38,27 @@ namespace Shudder.Services
 
         private void CreateSetting()
         {
-            _container.Resolve<InputService>().Disable();
+            _inputService.Disable();
 
             var ui = Object.Instantiate(_uiSettingViewPrefab);
-            ui.Bind(_container.Resolve<ITriggerOnlyEventBus>(), _container.Resolve<InputService>());
-            _container.Resolve<UIRootView>().AttachUI(ui.gameObject);
+            ui.Bind(
+                _triggerOnlyEvent,
+                _inputService,
+                _sfxService
+                );
+            _uiRootView.AttachUI(ui.gameObject);
             ui.ShowWindow();
         }
 
         private async void RefreshLevel()
         {
             _cameraSurveillanceService.UnFollow();
-            _container.Resolve<InputService>().Disable();
+            _inputService.Disable();
             
-            _container.Resolve<UIRootView>().ShowLoadingScreen();
+            _uiRootView.ShowLoadingScreen();
             await _levelLoadingService.DestroyLevelAsync();
             await _levelLoadingService.LoadAsync();
-            _container.Resolve<UIRootView>().HideLoadingScreen();
+            _uiRootView.HideLoadingScreen();
         }
     }
 }

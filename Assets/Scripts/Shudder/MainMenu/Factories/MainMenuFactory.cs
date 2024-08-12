@@ -62,7 +62,7 @@ namespace Shudder.MainMenu.Factories
         {
             var service = _container.Resolve<SfxService>();
                 
-            service.CreateMusicMenu(_menuConfig.SfxConfig, grid.Presenter.View.transform);
+            service.CreateMusicMenu(_menuConfig.SfxConfig);
             service.StartMusicMenu();
         }
         

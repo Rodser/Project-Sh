@@ -43,7 +43,7 @@ namespace Shudder.Gameplay.Factories
                 .Resolve<RotationService>()
                 .LookRotation(hero.Presenter.View.transform, _container.Resolve<CameraService>().Camera.transform.position);
             _container.Resolve<AnimationHeroService>().SetAnimator(heroView.GetComponent<Animator>());
-            _container.Resolve<SfxService>().CreateHeroSfx(_heroConfig.HeroSfxConfig, heroView.transform);
+            _container.Resolve<SfxService>().CreateHeroSfx(_heroConfig.HeroSfxConfig);
             
             return hero;
         }

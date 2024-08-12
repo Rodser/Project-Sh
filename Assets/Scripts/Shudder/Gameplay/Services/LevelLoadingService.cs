@@ -90,7 +90,7 @@ namespace Shudder.Gameplay.Services
         {
            var service = _container
                 .Resolve<SfxService>();
-           service.CreateMusic(_gameConfig.GetConfig<SFXConfig>(), currentGrid.Presenter.View.transform);
+           service.CreateMusic(_gameConfig.GetConfig<SFXConfig>());
            service.StartMusic();
         }
 

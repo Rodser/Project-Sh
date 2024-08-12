@@ -1,7 +1,11 @@
 using BaCon;
 using Config;
+using JetBrains.Annotations;
+using Shudder.Events;
+using Shudder.Extensions;
 using Shudder.Factories;
 using Shudder.Gameplay.Configs;
+using Shudder.Models;
 using UnityEngine;
 
 namespace Shudder.Services
@@ -16,42 +20,102 @@ namespace Shudder.Services
         private AudioSource _portal;
         private AudioSource _music;
         private AudioSource _musicMenu;
+        private float _soundMute = 1f;
+        private float _musicMute = 1f;
+        private readonly Transform _cameraTransform;
 
         public SfxService(DIContainer container)
         {
             _soundFactory = new SoundFactory();
+            _cameraTransform = container.Resolve<CameraService>().CameraFollow.Presenter.View.transform;
+            var readOnlyEvent = container.Resolve<IReadOnlyEventBus>();
+            
+            readOnlyEvent.MusicMute.AddListener(OnMusicMute);
+            readOnlyEvent.SoundMute.AddListener(OnSoundMute);
+        }
+
+        public float MusicMute
+        {
+            get
+            {
+                MusicOnOff(_musicMute);
+                return _musicMute;
+            }
+            private set
+            {
+                MusicOnOff(value);
+                _musicMute = value;
+            }
+        }
+
+        public float SoundMute
+        {
+            get
+            {
+                SoundOnOff(_soundMute);
+                return _soundMute;
+            }
+            private set
+            {
+                SoundOnOff(value);
+                _soundMute = value;
+            }
+        }
+
+        private void OnMusicMute(float value) => 
+            MusicMute = value;
+
+        private void OnSoundMute(float value) => 
+            SoundMute = value;
+
+        private void MusicOnOff(float value)
+        {
+            _music.SetMute(value);
+            _musicMenu.SetMute(value);
+        }
+
+        private void SoundOnOff(float value)
+        {
+            _boom.SetMute(value);
+            _jump.SetMute(value);
+            _take.SetMute(value);
+            _portal.SetMute(value);
         }
 
         public void Thunder() => 
-            _boom.Play();
+            _boom?.Play();
 
         public void Jump() => 
-            _jump.Play();
+            _jump?.Play();
 
         public void Take() => 
-            _take.Play();
+            _take?.Play();
 
         public void InPortal() => 
-            _portal.Play();
+            _portal?.Play();
 
         public void StartMusic() => 
-            _music.Play();
+            _music?.Play();
 
         public void StartMusicMenu() => 
-            _musicMenu.Play();
+            _musicMenu?.Play();
 
-        public void CreateMusic(SFXConfig config, Transform target) => 
-            _music = _soundFactory.Create(config.Music, target);
-
-        public void CreateHeroSfx(HeroSfxConfig heroSfxConfig, Transform hero)
+        public void CreateMusicMenu(SFXConfig config)
         {
-            _boom =  _soundFactory.Create(heroSfxConfig.BoomSFX, hero);
-            _jump =  _soundFactory.Create(heroSfxConfig.JumpSFX, hero);
-            _take =  _soundFactory.Create(heroSfxConfig.TakeSFX, hero);
-            _portal =  _soundFactory.Create(heroSfxConfig.PortalSFX, hero);
+            _musicMenu = _musicMenu.Create(config.Music, _cameraTransform);
         }
 
-        public void CreateMusicMenu(SFXConfig config, Transform target) => 
-            _musicMenu = _soundFactory.Create(config.Music, target);
+        public void CreateMusic(SFXConfig config)
+        {
+            _music =_music.Create(config.Music, _cameraTransform);
+        }
+
+        public void CreateHeroSfx(HeroSfxConfig heroSfxConfig)
+        {
+            _boom = _boom.Create(heroSfxConfig.BoomSFX, _cameraTransform);
+            _jump = _jump.Create(heroSfxConfig.JumpSFX, _cameraTransform);
+            _take = _take.Create(heroSfxConfig.TakeSFX, _cameraTransform);
+            _portal = _portal.Create(heroSfxConfig.PortalSFX, _cameraTransform);
+        }
     }
 }

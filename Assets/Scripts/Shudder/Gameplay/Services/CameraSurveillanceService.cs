@@ -1,3 +1,4 @@
+using System.Threading;
 using BaCon;
 using DG.Tweening;
 using Shudder.Gameplay.Models.Interfaces;
@@ -11,6 +12,7 @@ namespace Shudder.Gameplay.Services
         
         private CameraFollowView _cameraFollowView;
         private IHero _hero;
+        private CancellationTokenSource _tokenSource = new();
 
         public CameraSurveillanceService(DIContainer container)
         {

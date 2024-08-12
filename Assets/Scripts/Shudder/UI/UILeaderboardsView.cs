@@ -9,7 +9,7 @@ namespace Shudder.UI
     {
         [SerializeField] private LeaderboardYG _leaderboardYg;
         
-        public void Bind(ITriggerOnlyEventBus triggerOnlyEvent, InputService inputService)
+        public new void Bind(ITriggerOnlyEventBus triggerOnlyEvent, InputService inputService)
         {
             base.Bind(triggerOnlyEvent, inputService);
             YandexGame.GetLeaderboard(
