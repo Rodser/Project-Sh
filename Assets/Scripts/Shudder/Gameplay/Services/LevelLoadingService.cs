@@ -53,7 +53,7 @@ namespace Shudder.Gameplay.Services
             _game.SetCurrentGrid(currentGrid);
             CreateLights(currentGrid);
             CreateItems(currentGrid);
-            CreateMusic(currentGrid);
+            CreateMusic();
             CreateHud();
             
             var hero = CreateHero(currentGrid);
@@ -86,7 +86,7 @@ namespace Shudder.Gameplay.Services
             _container.Resolve<UIRootView>().ChangeSceneUI(hudView.gameObject);
         }
 
-        private void CreateMusic(Grid currentGrid)
+        private void CreateMusic()
         {
            var service = _container
                 .Resolve<SfxService>();

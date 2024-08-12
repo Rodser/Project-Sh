@@ -26,6 +26,7 @@ namespace Shudder.Services
             var readOnlyEventBus = container.Resolve<IReadOnlyEventBus>();
             readOnlyEventBus.OpenSettings.AddListener(CreateSetting);
             readOnlyEventBus.RefreshLevel.AddListener(RefreshLevel);
+            readOnlyEventBus.LevelToMenu.AddListener(GoMenu);
         }
 
         public void Init(UISettingView uiSettingView, LevelLoadingService levelLoadingService = null,
@@ -48,6 +49,13 @@ namespace Shudder.Services
                 );
             _uiRootView.AttachUI(ui.gameObject);
             ui.ShowWindow();
+        }
+
+        private void GoMenu()
+        {
+            _cameraSurveillanceService.UnFollow();
+            _inputService.Disable();
+            _triggerOnlyEvent.TriggerGoMenu();
         }
 
         private async void RefreshLevel()

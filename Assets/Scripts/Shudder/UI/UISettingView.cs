@@ -34,7 +34,7 @@ namespace Shudder.UI
         public async void GoToMenu()
         {        
             await UniTask.Delay(400);
-            _triggerOnlyEvent.TriggerGoMenu();
+            _triggerOnlyEvent.TriggerLevelToMenu();
             Debug.Log("Exit to menu");
             CloseWindow();
         }

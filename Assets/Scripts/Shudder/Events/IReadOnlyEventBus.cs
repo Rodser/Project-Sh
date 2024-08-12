@@ -17,6 +17,7 @@ namespace Shudder.Events
         UnityEvent OpenLeaderboards { get; }
         UnityEvent<float> MusicMute { get;}
         UnityEvent<float> SoundMute { get;}
+        UnityEvent LevelToMenu { get;}
         void UnSubscribe();
     }
 }

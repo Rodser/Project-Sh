@@ -50,7 +50,7 @@ namespace Shudder.Gameplay.Root
             _container.RegisterFactory(c => 
                     new HeroFactory(_container, _gameConfig.GetConfig<HeroConfig>())).AsSingle();
        
-            _container.RegisterInstance(new CameraSurveillanceService(_container));
+            _container.RegisterInstance(new CameraSurveillanceService());
             _container.RegisterInstance(new HeroMoveService(_container, _gameConfig.GetConfig<HeroConfig>()));
             _container.RegisterInstance(new CheckingPossibilityOfJumpService());
             _container.RegisterInstance(new VictoryHandlerService(_container, _gameConfig));

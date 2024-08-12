@@ -1,5 +1,5 @@
 using System.Threading;
-using BaCon;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Shudder.Gameplay.Models.Interfaces;
 using Shudder.Vews;
@@ -8,39 +8,35 @@ namespace Shudder.Gameplay.Services
 {
     public class CameraSurveillanceService
     {
-        private readonly DIContainer _container;
+        private readonly CancellationTokenSource _cancellationTokenSource = new();
         
         private CameraFollowView _cameraFollowView;
         private IHero _hero;
-        private CancellationTokenSource _tokenSource = new();
-
-        public CameraSurveillanceService(DIContainer container)
-        {
-            _container = container;
-        }
 
         public void Follow(CameraFollowView cameraFollowView, IHero hero)
         {
             _cameraFollowView = cameraFollowView;
             _hero = hero;
-            ChangePosition();
+            ChangePosition().ToCancellationToken(_cancellationTokenSource.Token);
         }
         
         public void UnFollow()
         {
             _cameraFollowView = null;
             _hero = null;
+            _cancellationTokenSource.Cancel();
         }
 
-        private async void ChangePosition()
+        private async UniTask ChangePosition()
         {
-            var duration = 0.6f;
-            while (_hero != null)
+            const float duration = 0.6f;
+            while (_hero is not null)
             {
-                if(_cameraFollowView == null)
-                    return; 
-               
-                var  move = _cameraFollowView.transform.DOMove(_hero.Presenter.View.transform.position, duration);
+                var heroView = _hero.Presenter.View;
+                if(heroView is null)
+                    return;
+                var move =
+                    _cameraFollowView.transform.DOMove(heroView.transform.position, duration);
                 await move.AsyncWaitForCompletion();
             }
         }

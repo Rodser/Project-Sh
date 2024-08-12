@@ -17,6 +17,7 @@ namespace Shudder.Events
         public UnityEvent OpenLeaderboards { get; } = new();
         public UnityEvent<float> MusicMute { get; } = new();
         public UnityEvent<float> SoundMute { get; } = new();
+        public UnityEvent LevelToMenu { get; } = new();
 
         public void UnSubscribe()
         {
@@ -64,5 +65,8 @@ namespace Shudder.Events
 
         public void TriggerSoundMute(float value) => 
             SoundMute?.Invoke(value);
+
+        public void TriggerLevelToMenu() => 
+            LevelToMenu?.Invoke();
     }
 }
