@@ -22,6 +22,7 @@ namespace Shudder.Gameplay.Root
         public async UniTask Initialisation(DIContainer container)
         {
             _container = container;
+            _container.Resolve<SfxService>().StopMusic();
 
             InitializeCameraService();
             Registration();

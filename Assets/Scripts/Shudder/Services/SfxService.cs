@@ -1,32 +1,28 @@
 using BaCon;
 using Config;
-using JetBrains.Annotations;
 using Shudder.Events;
 using Shudder.Extensions;
-using Shudder.Factories;
 using Shudder.Gameplay.Configs;
-using Shudder.Models;
 using UnityEngine;
 
 namespace Shudder.Services
 {
     public class SfxService
     {
-        private readonly SoundFactory _soundFactory;
-        
         private AudioSource _boom;
         private AudioSource _jump;
         private AudioSource _take;
         private AudioSource _portal;
         private AudioSource _music;
         private AudioSource _musicMenu;
+        private AudioSource _currentMusic;
+
         private float _soundMute = 1f;
         private float _musicMute = 1f;
         private readonly Transform _cameraTransform;
 
         public SfxService(DIContainer container)
         {
-            _soundFactory = new SoundFactory();
             _cameraTransform = container.Resolve<CameraService>().CameraFollow.Presenter.View.transform;
             var readOnlyEvent = container.Resolve<IReadOnlyEventBus>();
             
@@ -62,26 +58,6 @@ namespace Shudder.Services
             }
         }
 
-        private void OnMusicMute(float value) => 
-            MusicMute = value;
-
-        private void OnSoundMute(float value) => 
-            SoundMute = value;
-
-        private void MusicOnOff(float value)
-        {
-            _music.SetMute(value);
-            _musicMenu.SetMute(value);
-        }
-
-        private void SoundOnOff(float value)
-        {
-            _boom.SetMute(value);
-            _jump.SetMute(value);
-            _take.SetMute(value);
-            _portal.SetMute(value);
-        }
-
         public void Thunder() => 
             _boom?.Play();
 
@@ -95,19 +71,23 @@ namespace Shudder.Services
             _portal?.Play();
 
         public void StartMusic() => 
-            _music?.Play();
+            _currentMusic?.Play();
 
-        public void StartMusicMenu() => 
-            _musicMenu?.Play();
+        public void StopMusic() => 
+            _currentMusic?.Stop();
 
         public void CreateMusicMenu(SFXConfig config)
         {
             _musicMenu = _musicMenu.Create(config.Music, _cameraTransform);
+            _currentMusic = _musicMenu;
+            StartMusic();
         }
 
         public void CreateMusic(SFXConfig config)
         {
-            _music =_music.Create(config.Music, _cameraTransform);
+            _music = _music.Create(config.Music, _cameraTransform);
+            _currentMusic = _music;
+            StartMusic();
         }
 
         public void CreateHeroSfx(HeroSfxConfig heroSfxConfig)
@@ -116,6 +96,25 @@ namespace Shudder.Services
             _jump = _jump.Create(heroSfxConfig.JumpSFX, _cameraTransform);
             _take = _take.Create(heroSfxConfig.TakeSFX, _cameraTransform);
             _portal = _portal.Create(heroSfxConfig.PortalSFX, _cameraTransform);
+        }
+
+        private void OnMusicMute(float value) => 
+            MusicMute = value;
+
+        private void OnSoundMute(float value) => 
+            SoundMute = value;
+
+        private void MusicOnOff(float value)
+        {
+            _currentMusic.SetMute(value);
+        }
+
+        private void SoundOnOff(float value)
+        {
+            _boom.SetMute(value);
+            _jump.SetMute(value);
+            _take.SetMute(value);
+            _portal.SetMute(value);
         }
     }
 }

@@ -91,7 +91,6 @@ namespace Shudder.Gameplay.Services
            var service = _container
                 .Resolve<SfxService>();
            service.CreateMusic(_gameConfig.GetConfig<SFXConfig>());
-           service.StartMusic();
         }
 
         private void CreateItems(Grid currentGrid)

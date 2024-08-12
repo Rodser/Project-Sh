@@ -39,7 +39,7 @@ namespace Shudder.MainMenu.Factories
             _container.Resolve<ItemFactory>().Create(_menuConfig.Items, menuGrid, 0.7f);
             _container.Resolve<SettingService>().Init(_menuConfig.UISettingView);
             
-            CreateMusic(menuGrid);
+            CreateMusic();
             await MoveCamera();
             var hero = _container.Resolve<HeroFactory>().Create(menuGrid.Grounds);
 
@@ -58,12 +58,11 @@ namespace Shudder.MainMenu.Factories
             return menuGrid;
         }
 
-        private void CreateMusic(Grid grid)
+        private void CreateMusic()
         {
             var service = _container.Resolve<SfxService>();
                 
             service.CreateMusicMenu(_menuConfig.SfxConfig);
-            service.StartMusicMenu();
         }
         
         private async UniTask MoveCamera()
