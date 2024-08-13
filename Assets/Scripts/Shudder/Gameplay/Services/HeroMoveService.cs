@@ -6,7 +6,7 @@ using Shudder.Gameplay.Models.Interfaces;
 using Shudder.Models;
 using Shudder.Models.Interfaces;
 using Shudder.Services;
-using Shudder.Vews;
+using Shudder.Views;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

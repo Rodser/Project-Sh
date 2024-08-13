@@ -43,6 +43,8 @@ MonoBehaviour:
   - {fileID: -5563503668851799990, guid: 573c43c7465a11d479fa89a6f6f6e356, type: 3}
   - {fileID: 4080844236572867622, guid: 5e683ff0abd5408478772f0dfb8aff34, type: 3}
   - {fileID: 4804937333857991296, guid: 5f3087197d445eb47961ea6d250ef327, type: 3}
+  <Coin>k__BackingField: {fileID: 5679786476331694916, guid: 6a8e91da1f20cea4f9b92f28dbd19884,
+    type: 3}
   <JewelKeyView>k__BackingField: {fileID: -8719366356033604258, guid: 4f3836b0df29a384093cab75e6259821,
     type: 3}
   <HudView>k__BackingField: {fileID: -10194884428468168, guid: d99f00005980c9b44974d27807771e49,

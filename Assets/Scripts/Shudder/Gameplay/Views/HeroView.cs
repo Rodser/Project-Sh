@@ -1,11 +1,9 @@
 using BaCon;
-using Cysharp.Threading.Tasks;
 using Shudder.Events;
 using Shudder.Gameplay.Presenters;
 using Shudder.Gameplay.Services;
-using Shudder.Models;
 using Shudder.Services;
-using Shudder.Vews;
+using Shudder.Views;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Views
@@ -41,16 +39,21 @@ namespace Shudder.Gameplay.Views
 
         private void OnTriggerEnter(Collider other)
         {
-            var groundView = other.GetComponentInParent<GroundView>();
-            if (groundView is null)
-                return;
-            if (groundView.Presenter.Ground.GroundType != GroundType.Portal)
-                return;
-            if(!_canUsePortal)
-                return;
-            
-            _sfx.InPortal();
-            RunNewLevel(groundView.AnchorPoint);
+            if (other.transform.parent.TryGetComponent(out PortalView portalView))
+            {
+                Debug.Log("Portal");
+                if (!_canUsePortal)
+                    return;
+                var groundView = portalView.GetComponentInParent<GroundView>();
+                _sfx.InPortal();
+                RunNewLevel(groundView.AnchorPoint);
+            }
+            else if(other.transform.parent.TryGetComponent(out CoinView coinView))
+            {
+                Debug.Log("Take Coin");
+                _triggerEventBus.TriggerTakeCoin();
+                Destroy(coinView.gameObject);
+            }
         }
 
         private void RunNewLevel(Transform groundAnchorPoint)

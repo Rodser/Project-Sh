@@ -20,6 +20,15 @@ namespace Shudder.Gameplay.Services
         private readonly DIContainer _container;
         private readonly GameConfig _gameConfig;
         private readonly VictoryHandlerService _victoryService;
+        private readonly HeroMoveService _heroMoveService;
+        private readonly ItemFactory _itemFactory;
+        private readonly CameraSurveillanceService _cameraSurveillanceService;
+        private readonly SfxService _sfxService;
+        private readonly UIRootView _uiRootView;
+        private readonly GridFactory _gridFactory;
+        private readonly HeroFactory _heroFactory;
+        private readonly JewelKeyFactory _jewelKeyFactory;
+        private readonly ActivationPortalService _activationPortalService;
         
         private Game _game;
         private StorageService _storage;
@@ -32,6 +41,15 @@ namespace Shudder.Gameplay.Services
             _storage = container.Resolve<StorageService>();
             _victoryService = container.Resolve<VictoryHandlerService>();
             _readOnlyEvent = container.Resolve<IReadOnlyEventBus>();
+            _gridFactory = container.Resolve<GridFactory>("LevelGrid");
+            _jewelKeyFactory = container.Resolve<JewelKeyFactory>();
+            _itemFactory = container.Resolve<ItemFactory>();
+            _activationPortalService = container.Resolve<ActivationPortalService>();
+            _heroFactory = container.Resolve<HeroFactory>();
+            _cameraSurveillanceService = container.Resolve<CameraSurveillanceService>();
+            _sfxService = container.Resolve<SfxService>();
+            _uiRootView = container.Resolve<UIRootView>();
+            _heroMoveService = container.Resolve<HeroMoveService>();
         }
 
         public void Init(Game game)
@@ -51,7 +69,7 @@ namespace Shudder.Gameplay.Services
             var level = _storage.Progress.Level;
             var currentGrid = await CreateGrid(level);
             _game.SetCurrentGrid(currentGrid);
-            CreateLights(currentGrid);
+            CreateCoins(currentGrid, level);
             CreateItems(currentGrid);
             CreateMusic();
             CreateHud();
@@ -60,8 +78,7 @@ namespace Shudder.Gameplay.Services
             CreateActivatePortal(level, hero, currentGrid);
             hero.EnableIndicators();
             _game.Hero = hero;
-            var moveService = _container.Resolve<HeroMoveService>();
-            moveService.Subscribe(hero);
+            _heroMoveService.Subscribe(hero);
             
             Debug.Log($"Load Level progress {_storage.Progress.Level}");
             _readOnlyEvent.HasVictory.AddListener(OnHasVictory);
@@ -70,7 +87,7 @@ namespace Shudder.Gameplay.Services
         
         private void OnHasVictory(Transform groundAnchorPoint)
         {
-            _container.Resolve<CameraSurveillanceService>().UnFollow();
+            _cameraSurveillanceService.UnFollow();
             
             var coin = _storage.LevelUp(_gameConfig.LevelGridConfigs.Length - 1);
             _victoryService.OpenVictoryWindow(coin, groundAnchorPoint);
@@ -83,20 +100,14 @@ namespace Shudder.Gameplay.Services
             hudView.Bind(_container);
             _game.HUD = hudView;
             _game.UpdateHud();
-            _container.Resolve<UIRootView>().ChangeSceneUI(hudView.gameObject);
+            _uiRootView.ChangeSceneUI(hudView.gameObject);
         }
 
-        private void CreateMusic()
-        {
-           var service = _container
-                .Resolve<SfxService>();
-           service.CreateMusic(_gameConfig.GetConfig<SFXConfig>());
-        }
+        private void CreateMusic() => 
+            _sfxService.CreateMusic(_gameConfig.GetConfig<SFXConfig>());
 
-        private void CreateItems(Grid currentGrid)
-        {
-            _container.Resolve<ItemFactory>().Create(_gameConfig.Items, currentGrid, 0.7f);
-        }
+        private void CreateItems(Grid currentGrid) => 
+            _itemFactory.Create(_gameConfig.Items, currentGrid, 0.7f);
 
         private void CreateActivatePortal(int level, Hero hero, Grid currentGrid)
         {
@@ -104,34 +115,21 @@ namespace Shudder.Gameplay.Services
                 return;
             
             hero.ActivateTriggerKew(_gameConfig.LevelGridConfigs[level]);
-            _container.Resolve<ActivationPortalService>().Construct(currentGrid, _gameConfig.LevelGridConfigs[level].IsKey);
-                
-            _container
-                .Resolve<JewelKeyFactory>()
-                .Create(_gameConfig.JewelKeyView, _gameConfig.LevelGridConfigs[level], currentGrid);
+            _activationPortalService.Construct(currentGrid, _gameConfig.LevelGridConfigs[level].IsKey);
+            _jewelKeyFactory.Create(_gameConfig.JewelKeyView, _gameConfig.LevelGridConfigs[level], currentGrid);
         }
 
-        private Hero CreateHero(Grid currentGrid)
-        {
-            var hero = _container
-                .Resolve<HeroFactory>()
-                .Create(currentGrid.Grounds);
-            return hero;
-        }
+        private Hero CreateHero(Grid currentGrid) => 
+            _heroFactory.Create(currentGrid.Grounds);
 
-        private void CreateLights(Grid currentGrid)
-        {
-            _container
-                .Resolve<LightFactory>()
-                .Create(_gameConfig.Lights, currentGrid, 0.2f);
-        }
+        private void CreateCoins(Grid currentGrid, int level) => 
+            _itemFactory.Create(
+                _gameConfig.Coin,
+                currentGrid,
+                _gameConfig.LevelGridConfigs[level].CountCoin,
+                _gameConfig.LevelGridConfigs[level].ChanceCoin);
 
-        private async UniTask<Grid> CreateGrid(int level)
-        {
-            var currentGrid = await _container
-                .Resolve<GridFactory>("LevelGrid")
-                .Create(level);
-            return currentGrid;
-        }
+        private async UniTask<Grid> CreateGrid(int level) => 
+            await _gridFactory.Create(level);
     }
 }

@@ -6,7 +6,7 @@ using Shudder.Gameplay.Services;
 using Shudder.Models;
 using Shudder.Models.Interfaces;
 using Shudder.Presenters;
-using Shudder.Vews;
+using Shudder.Views;
 using UnityEngine;
 
 namespace Shudder.Factories

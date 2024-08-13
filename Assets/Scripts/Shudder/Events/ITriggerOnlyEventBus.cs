@@ -17,5 +17,6 @@ namespace Shudder.Events
         void TriggerMusicMute(float value);
         void TriggerSoundMute(float value);
         void TriggerLevelToMenu();
+        void TriggerTakeCoin();
     }
 }

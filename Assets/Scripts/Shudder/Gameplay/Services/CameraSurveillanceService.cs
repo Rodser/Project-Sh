@@ -2,7 +2,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Shudder.Gameplay.Models.Interfaces;
-using Shudder.Vews;
+using Shudder.Views;
 
 namespace Shudder.Gameplay.Services
 {

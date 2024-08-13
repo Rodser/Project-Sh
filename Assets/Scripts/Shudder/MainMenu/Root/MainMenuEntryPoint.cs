@@ -36,7 +36,6 @@ namespace Shudder.MainMenu.Root
             _container.RegisterFactory("MenuGrid",c => 
                 new GridFactory(_container, _menuConfiguration.MenuGridConfig)).AsSingle();
             _container.RegisterFactory(c => new GroundFactory(_container)).AsSingle();
-            _container.RegisterFactory(c => new LightFactory()).AsSingle();
             _container.RegisterFactory(c => new ItemFactory()).AsSingle();   
             _container.RegisterFactory(c => new HeroFactory(_container, _menuConfiguration.HeroConfig)).AsSingle();
         }

@@ -7,7 +7,7 @@ using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Services;
 using Shudder.Models;
 using Shudder.Services;
-using Shudder.Vews;
+using Shudder.Views;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Root
@@ -43,7 +43,6 @@ namespace Shudder.Gameplay.Root
                 new GridFactory(_container, _gameConfig.LevelGridConfigs)).AsSingle();
             _container.RegisterFactory(c => new BuilderGridService(_container)).AsSingle();
             _container.RegisterFactory(c => new GroundFactory(_container)).AsSingle();
-            _container.RegisterFactory(c => new LightFactory()).AsSingle();      
             _container.RegisterFactory(c => new ItemFactory()).AsSingle();      
             _container.RegisterFactory(c => new JewelKeyFactory()).AsSingle();
             _container.RegisterFactory(c => new LiftService());
@@ -52,12 +51,12 @@ namespace Shudder.Gameplay.Root
                     new HeroFactory(_container, _gameConfig.GetConfig<HeroConfig>())).AsSingle();
        
             _container.RegisterInstance(new CameraSurveillanceService());
-            _container.RegisterInstance(new HeroMoveService(_container, _gameConfig.GetConfig<HeroConfig>()));
             _container.RegisterInstance(new CheckingPossibilityOfJumpService());
+            _container.RegisterInstance(new ActivationPortalService());
+            _container.RegisterInstance(new HeroMoveService(_container, _gameConfig.GetConfig<HeroConfig>()));
             _container.RegisterInstance(new VictoryHandlerService(_container, _gameConfig));
             _container.RegisterInstance(new LevelLoadingService(_container, _gameConfig));
             _container.RegisterInstance(new IndicatorService(_container, _gameConfig));
-            _container.RegisterInstance(new ActivationPortalService());
 
         }
         

@@ -1,8 +1,8 @@
 using Cysharp.Threading.Tasks;
 using Shudder.Models;
-using Shudder.Vews;
 using UnityEngine;
 using DG.Tweening;
+using Shudder.Views;
 
 namespace Shudder.Services
 {

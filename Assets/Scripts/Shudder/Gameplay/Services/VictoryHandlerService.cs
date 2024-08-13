@@ -11,24 +11,37 @@ namespace Shudder.Gameplay.Services
     {
         private readonly DIContainer _container;
         private readonly GameConfig _gameConfig;
+        private readonly UIRootView _uiRootView;
+        private readonly SfxService _sfxService;
+        private readonly InputService _inputService;
+        private readonly ITriggerOnlyEventBus _triggerOnlyEvent;
+        private readonly LevelLoadingService _levelLoadingService;
+        private readonly CameraService _cameraService;
+        
         private Transform _portalPoint;
 
         public VictoryHandlerService(DIContainer container, GameConfig gameConfig)
         {
             _container = container;
             _gameConfig = gameConfig;
+            _inputService = container.Resolve<InputService>();
+            _triggerOnlyEvent = container.Resolve<ITriggerOnlyEventBus>();
+            _sfxService = container.Resolve<SfxService>();
+            _uiRootView = container.Resolve<UIRootView>();
+            _cameraService = container.Resolve<CameraService>();
             
-            _container.Resolve<IReadOnlyEventBus>().PlayNextLevel.AddListener(OnPlayNextLevel);
+            container.Resolve<IReadOnlyEventBus>().PlayNextLevel.AddListener(OnPlayNextLevel);
         }
 
         public void OpenVictoryWindow(int coin, Transform portalPoint)
         {
             _portalPoint = portalPoint;
-            _container.Resolve<InputService>().Disable();
+            _inputService.Disable();
+            _sfxService.StopMusic();
             var prefab = _gameConfig.UIVictoryWindowView;
             var window = Object.Instantiate(prefab);
-            window.Bind(_container.Resolve<ITriggerOnlyEventBus>(), _container.Resolve<InputService>());
-            _container.Resolve<UIRootView>().AttachUI(window.gameObject);
+            window.Bind(_triggerOnlyEvent, _inputService);
+            _uiRootView.AttachUI(window.gameObject);
 
             window.SetCoin(coin);
             window.ShowWindow();
@@ -36,15 +49,13 @@ namespace Shudder.Gameplay.Services
 
         private async void OnPlayNextLevel()
         {
-            await _container
-                .Resolve<CameraService>()
-                .MoveCameraAsync(_portalPoint.position, 2f);
+            await _cameraService.MoveCameraAsync(_portalPoint.position, 2f);
             
-            _container.Resolve<UIRootView>().ShowLoadingScreen();
-            
-            await _container.Resolve<LevelLoadingService>().DestroyLevelAsync();
-            await _container.Resolve<LevelLoadingService>().LoadAsync();
-            _container.Resolve<UIRootView>().HideLoadingScreen();
+            _uiRootView.ShowLoadingScreen();
+            var levelLoadingService = _container.Resolve<LevelLoadingService>();
+            await levelLoadingService.DestroyLevelAsync();
+            await levelLoadingService.LoadAsync();
+            _uiRootView.HideLoadingScreen();
         }
     }
 }

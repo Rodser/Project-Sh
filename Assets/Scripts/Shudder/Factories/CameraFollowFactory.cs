@@ -1,6 +1,6 @@
 using Shudder.Models;
 using Shudder.Presenters;
-using Shudder.Vews;
+using Shudder.Views;
 using UnityEngine;
 
 namespace Shudder.Factories

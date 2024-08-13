@@ -1,4 +1,4 @@
-﻿using Shudder.Vews;
+﻿using Shudder.Views;
 using UnityEngine;
 
 namespace Shudder.Configs

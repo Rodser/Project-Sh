@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using Shudder.Configs;
 using Shudder.Presenters;
 using Shudder.Services;
-using Shudder.Vews;
+using Shudder.Views;
 using UnityEngine;
 using Grid = Shudder.Models.Grid;
 

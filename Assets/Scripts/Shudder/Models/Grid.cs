@@ -1,6 +1,7 @@
 using Shudder.Gameplay.Views;
 using Shudder.Models.Interfaces;
 using Shudder.Presenters;
+using Unity.VisualScripting;
 
 namespace Shudder.Models
 {
@@ -23,7 +24,7 @@ namespace Shudder.Models
 
         public void OffPortalCollider()
         {
-            Portal.Presenter.View.GetComponent<PortalView>().OffCollider();
+            Portal.Presenter.View.GetComponentInChildren<PortalView>().OffCollider();
         }
     }
 }

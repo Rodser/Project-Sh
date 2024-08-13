@@ -18,6 +18,7 @@ namespace Shudder.Events
         UnityEvent<float> MusicMute { get;}
         UnityEvent<float> SoundMute { get;}
         UnityEvent LevelToMenu { get;}
+        UnityEvent TakeCoin { get; }
         void UnSubscribe();
     }
 }

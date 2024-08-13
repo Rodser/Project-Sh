@@ -2,7 +2,7 @@ using Config;
 using Shudder.Configs;
 using Shudder.Gameplay.Configs;
 using Shudder.UI;
-using Shudder.Vews;
+using Shudder.Views;
 using UnityEngine;
 
 namespace Shudder.MainMenu.Configs
@@ -11,8 +11,10 @@ namespace Shudder.MainMenu.Configs
     public class MenuConfig : ScriptableObject
     {
         [field: SerializeField] public GridConfig MenuGridConfig { get; private set; } = null;
-        [field: SerializeField] public LightPointView[] Lights{ get; private set; } = null;
+        [field: SerializeField] public ItemView Coin { get; private set; } = null;
+        [field: SerializeField, Range(0, 1)] public float ChanceCoin { get; private set; } = 0.5f;
         [field: SerializeField] public ItemView[] Items{ get; private set; } = null;
+        [field: SerializeField, Range(0, 1)] public float ChanceItem { get; private set; } = 0.5f;
         [field: SerializeField] public SFXConfig SfxConfig { get; private set; } = null;
         
         [field: Space, Header("UI")]

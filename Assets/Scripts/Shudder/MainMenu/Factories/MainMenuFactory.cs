@@ -16,9 +16,14 @@ namespace Shudder.MainMenu.Factories
     {
         private readonly DIContainer _container;
         private readonly MenuConfig _menuConfig;
-        
         private readonly ITriggerOnlyEventBus _triggerEventBus;
         private readonly CameraService _cameraService;
+        private readonly ItemFactory _itemFactory;
+        private readonly SettingService _settingService;
+        private readonly HeroFactory _heroFactory;
+        private readonly GridFactory _gridFactory;
+        private readonly SfxService _sfxService;
+        private readonly UIRootView _uiRootView;
 
         public MainMenuFactory(DIContainer container, MenuConfig menuConfig)
         {
@@ -27,6 +32,12 @@ namespace Shudder.MainMenu.Factories
             
             _triggerEventBus = _container.Resolve<ITriggerOnlyEventBus>();
             _cameraService = _container.Resolve<CameraService>();
+            _itemFactory = _container.Resolve<ItemFactory>();
+            _settingService = _container.Resolve<SettingService>();
+            _heroFactory = _container.Resolve<HeroFactory>();
+            _gridFactory = _container.Resolve<GridFactory>("MenuGrid");
+            _sfxService = _container.Resolve<SfxService>();
+            _uiRootView = _container.Resolve<UIRootView>();
         }
 
         public async void Create()
@@ -35,13 +46,17 @@ namespace Shudder.MainMenu.Factories
             var menuGrid = await CreateGrid();
             menuGrid.OffPortalCollider();
             
-            _container.Resolve<LightFactory>().Create(_menuConfig.Lights, menuGrid, 0.2f);
-            _container.Resolve<ItemFactory>().Create(_menuConfig.Items, menuGrid, 0.7f);
-            _container.Resolve<SettingService>().Init(_menuConfig.UISettingView);
+            _itemFactory.Create(
+                _menuConfig.Coin,
+                menuGrid, 
+                _menuConfig.MenuGridConfig.CountCoin,
+                _menuConfig.MenuGridConfig.ChanceCoin);
+            _itemFactory.Create(_menuConfig.Items, menuGrid, 0.7f);
+            _settingService.Init(_menuConfig.UISettingView);
             
             CreateMusic();
             await MoveCamera();
-            var hero = _container.Resolve<HeroFactory>().Create(menuGrid.Grounds);
+            var hero = _heroFactory.Create(menuGrid.Grounds);
 
             var menuUI = CreateUIMainMenu();
             var menu = new Menu(_container, menuGrid, _menuConfig, menuUI, hero);
@@ -50,21 +65,12 @@ namespace Shudder.MainMenu.Factories
             menuUI.Bind(_triggerEventBus);
         }
 
-        private async UniTask<Grid> CreateGrid()
-        {
-            var menuGrid = await _container
-                .Resolve<GridFactory>("MenuGrid")
-                .Create(-1, true);
-            return menuGrid;
-        }
+        private async UniTask<Grid> CreateGrid() => 
+            await _gridFactory.Create(-1, true);
 
-        private void CreateMusic()
-        {
-            var service = _container.Resolve<SfxService>();
-                
-            service.CreateMusicMenu(_menuConfig.SfxConfig);
-        }
-        
+        private void CreateMusic() => 
+            _sfxService.CreateMusicMenu(_menuConfig.SfxConfig);
+
         private async UniTask MoveCamera()
         {
             var position = _menuConfig.CameraPosition; 
@@ -76,7 +82,7 @@ namespace Shudder.MainMenu.Factories
         {
             var prefab = _menuConfig.UIMenuView;
             var menuUI = Object.Instantiate(prefab);
-            _container.Resolve<UIRootView>().ChangeSceneUI(menuUI.gameObject);
+            _uiRootView.ChangeSceneUI(menuUI.gameObject);
             return menuUI;
         }
     }

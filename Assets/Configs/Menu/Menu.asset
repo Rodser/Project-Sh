@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MenuGridConfig>k__BackingField: {fileID: 11400000, guid: 738987c2cbd3a4e4bb367f785fa0285e,
     type: 2}
-  <Lights>k__BackingField:
-  - {fileID: 2212752190946412240, guid: c5beef1c57183604caa280a65d1ed554, type: 3}
-  - {fileID: 2212752190946412240, guid: 33147493b382dfc4cb7f1452f91c74b5, type: 3}
+  <Coin>k__BackingField: {fileID: 5679786476331694916, guid: 6a8e91da1f20cea4f9b92f28dbd19884,
+    type: 3}
+  <ChanceCoin>k__BackingField: 0.275
   <Items>k__BackingField:
   - {fileID: -5563503668851799990, guid: 573c43c7465a11d479fa89a6f6f6e356, type: 3}
   - {fileID: 4804937333857991296, guid: 5f3087197d445eb47961ea6d250ef327, type: 3}
+  <ChanceItem>k__BackingField: 0.406
   <SfxConfig>k__BackingField: {fileID: 11400000, guid: 269f08b5a17de984b8a66e0a8cab2b88,
     type: 2}
   <UIMenuView>k__BackingField: {fileID: 6774967520915213019, guid: 5dc05bd13da8c254f86009e8f6fce9bf,
