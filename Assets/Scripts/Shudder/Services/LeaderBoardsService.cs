@@ -3,6 +3,7 @@ using Shudder.Events;
 using Shudder.MainMenu.Configs;
 using Shudder.UI;
 using UnityEngine;
+using YG;
 
 namespace Shudder.Services
 {
@@ -21,19 +22,21 @@ namespace Shudder.Services
             
         }
 
+        public LeaderboardYG Leaderboard { get; private set; }
+        
         public void Init(MenuConfig config)
         {
             _config = config;
         }
 
-        public UILeaderboardsView CreateRewardWindow()
+        public void CreateRewardWindow()
         {
             Debug.Log("CreateRewardWindow");
             _inputService.Disable();
             var window = Object.Instantiate(_config.UILeaderboardsView);
             window.Bind(_triggerOnlyEvent, _inputService);
             _uiRootView.AttachUI(window.gameObject);
-            return window;
+            Leaderboard = window.leaderboardYg;
         }
     }
 }

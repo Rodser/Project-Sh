@@ -19,7 +19,7 @@ namespace Shudder.MainMenu.Models
         private readonly Hero _hero;
         private readonly ITriggerOnlyEventBus _triggerEventBus;
         private readonly StorageService _storage;
-        private readonly LeaderBoardsService _leaderboards;
+        private readonly LeaderBoardsService _leaderboardsService;
 
         public Menu(DIContainer container, Grid menuGrid, MenuConfig menuConfig, UIMenuView menuView, Hero hero)
         {
@@ -30,7 +30,7 @@ namespace Shudder.MainMenu.Models
             _hero = hero;
 
             _storage = container.Resolve<StorageService>();
-            _leaderboards = container.Resolve<LeaderBoardsService>();
+            _leaderboardsService = container.Resolve<LeaderBoardsService>();
             _storage.LoadProgress();
             _triggerEventBus = _container.Resolve<ITriggerOnlyEventBus>();
             var readOnlyEvent = _container.Resolve<IReadOnlyEventBus>();
@@ -41,7 +41,7 @@ namespace Shudder.MainMenu.Models
 
         private void OnOpenLeaderboards()
         {
-            _leaderboards.CreateRewardWindow();
+           _leaderboardsService.CreateRewardWindow();
         }
 
         public void UpdateProgress()

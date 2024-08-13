@@ -7,17 +7,12 @@ namespace Shudder.UI
 {
     public class UILeaderboardsView : PopUpView
     {
-        [SerializeField] private LeaderboardYG _leaderboardYg;
+        [field: SerializeField] public LeaderboardYG leaderboardYg { get; private set; }
         
         public new void Bind(ITriggerOnlyEventBus triggerOnlyEvent, InputService inputService)
         {
             base.Bind(triggerOnlyEvent, inputService);
-            YandexGame.GetLeaderboard(
-                _leaderboardYg.nameLB,
-                _leaderboardYg.maxQuantityPlayers,
-                _leaderboardYg.quantityTop,
-                _leaderboardYg.quantityAround,
-                "small");
+            leaderboardYg.UpdateLB();
         }
 
         public void GoBack()

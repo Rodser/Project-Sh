@@ -8,6 +8,7 @@ namespace Shudder.Data
     {
         public int Level;
         public int Coin;
+        public int Record;
         public int Diamond;
         public int MaxLevel;
 

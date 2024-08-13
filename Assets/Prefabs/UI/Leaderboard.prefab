@@ -897,7 +897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 423e13a42d313f948a13bcedae13febe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameLB: BasicLeaders
+  nameLB: Basic
   maxQuantityPlayers: 25
   quantityTop: 3
   quantityAround: 10
@@ -927,7 +927,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _window: {fileID: 3912732721292781639}
-  _leaderboardYg: {fileID: 1054271821221292146}
+  <leaderboardYg>k__BackingField: {fileID: 1054271821221292146}
 --- !u!1001 &280595077473601419
 PrefabInstance:
   m_ObjectHideFlags: 0

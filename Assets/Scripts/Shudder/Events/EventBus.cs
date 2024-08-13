@@ -29,6 +29,7 @@ namespace Shudder.Events
             GoMenu.RemoveAllListeners();
             UpdateCoin.RemoveAllListeners();
             UpdateUI.RemoveAllListeners();
+            OpenLeaderboards.RemoveAllListeners();
             Debug.Log("UnSubscribe");
         }
 
