@@ -50,10 +50,11 @@ namespace Shudder.Gameplay.Services
                 if (indicator is null)
                     continue;
                 
-                _boxSelectIndicators.Remove(indicator);
+                //_boxSelectIndicators.Remove(indicator);
                 Object.Destroy(indicator.gameObject);
                 await UniTask.Yield();
             }
+            _boxSelectIndicators.Clear();
         }
     }
 }
