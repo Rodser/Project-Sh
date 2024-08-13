@@ -58,7 +58,7 @@ namespace Shudder.Gameplay.Services
 
         private async UniTask MoveHero(IGround ground)
         {
-            _hero.ChangeGround(ground);
+            await _hero.ChangeGround(ground);
             await MoveToTarget(ground.AnchorPoint);
         }
 

@@ -23,9 +23,10 @@ namespace Shudder.Gameplay.Models
         public IGround CurrentGround { get; set; }
         public HeroPresenter Presenter { get; set; }
 
-        public void ChangeGround(IGround ground)
+        public async UniTask ChangeGround(IGround ground)
         {
-            _indicatorService?.RemoveSelectIndicators();
+            if(_indicatorService is not null)
+                await _indicatorService.RemoveSelectIndicators();
             Presenter.View.ChangeGround(ground.Presenter.View.transform);
             CurrentGround = ground;
         }

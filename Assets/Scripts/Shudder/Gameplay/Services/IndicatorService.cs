@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
 using BaCon;
+using Cysharp.Threading.Tasks;
 using Shudder.Configs;
 using Shudder.Gameplay.Models;
 using Shudder.Models;
@@ -11,28 +11,27 @@ namespace Shudder.Gameplay.Services
 {
     public class IndicatorService
     {
-        private readonly DIContainer _container;
         private readonly GameConfig _gameConfig;
         
         private List<Indicator> _boxSelectIndicators;
+        private readonly CheckingPossibilityOfJumpService _checkingPossibilityOfJump;
 
         public IndicatorService(DIContainer container, GameConfig gameConfig)
         {
-            _container = container;
             _gameConfig = gameConfig;
+            _checkingPossibilityOfJump = container.Resolve<CheckingPossibilityOfJumpService>();
+            _boxSelectIndicators = new List<Indicator>();
         }
 
-        public void CreateSelectIndicators(IGround ground)
+        public async void CreateSelectIndicators(IGround ground)
         {
             if(ground.Neighbors == null)
                 return;
-            
-            _boxSelectIndicators = new List<Indicator>();
-            
+
+            await RemoveSelectIndicators();
             foreach (Ground neighbor in ground.Neighbors)
             {
-                if (_container.Resolve<CheckingPossibilityOfJumpService>()
-                    .CheckPossible(neighbor.GroundType, ground.GroundType)
+                if (_checkingPossibilityOfJump.CheckPossible(neighbor.GroundType, ground.GroundType)
                     && neighbor.GroundType != GroundType.Pit)
                 {
                     var indicator = Object.Instantiate(_gameConfig.SelectIndicator, neighbor.AnchorPoint);
@@ -41,18 +40,20 @@ namespace Shudder.Gameplay.Services
             }
         }
         
-        public void RemoveSelectIndicators()
+        public async UniTask RemoveSelectIndicators()
         {
-            if(_boxSelectIndicators == null)
+            if (_boxSelectIndicators == null)
                 return;
-            
-            foreach (var indicator in _boxSelectIndicators
-                         .Where(i => i != null))
+            for (var i = 0; i < _boxSelectIndicators.Count; i++)
             {
+                var indicator = _boxSelectIndicators[i];
+                if (indicator is null)
+                    continue;
+                
+                _boxSelectIndicators.Remove(indicator);
                 Object.Destroy(indicator.gameObject);
+                await UniTask.Yield();
             }
-
-            _boxSelectIndicators = null;
         }
     }
 }

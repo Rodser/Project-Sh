@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Shudder.Gameplay.Presenters;
 using Shudder.Models.Interfaces;
 
@@ -8,7 +9,7 @@ namespace Shudder.Gameplay.Models.Interfaces
         HeroPresenter Presenter { get; set; }
         IGround CurrentGround { get; set; }
 
-        void ChangeGround(IGround ground);
+        UniTask ChangeGround(IGround ground);
         void SetGround(IGround ground);
     }
 }
