@@ -52,7 +52,7 @@ namespace Shudder.Gameplay.Views
             {
                 Debug.Log("Take Coin");
                 _triggerEventBus.TriggerTakeCoin();
-                Destroy(coinView.gameObject);
+                coinView.TakeCoin();
             }
         }
 

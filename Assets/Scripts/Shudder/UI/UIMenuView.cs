@@ -16,7 +16,10 @@ namespace Shudder.UI
         [SerializeField] private Image _LevelProgress;    
         [SerializeField] private TextMeshProUGUI _coin;
         [SerializeField] private TextMeshProUGUI _diamond;    
-        [SerializeField] private TextMeshProUGUI _level;    
+        [SerializeField] private TextMeshProUGUI _level;
+        
+        private int _currentCoin;
+        private int _currentDiamond;
 
         public async void Bind(ITriggerOnlyEventBus eventBus)
         {
@@ -47,12 +50,20 @@ namespace Shudder.UI
         
         public void SetCoin(int value)
         {
+            if(_currentCoin == value)
+                return;
+            _currentCoin = value;
             _coin.text = value.ToString();
+            _coin?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f);
         }
         
         public void SetDiamond(int value)
         {
+            if(_currentDiamond == value)
+                return;
+            _currentDiamond = value;
             _diamond.text = value.ToString();
+            _diamond?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f);
         }
         
         public void SetProgress(float value)

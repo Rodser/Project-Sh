@@ -8,6 +8,7 @@ namespace Shudder.Gameplay.Configs
         [field: SerializeField] public AudioSource BoomSFX { get; private set; } = null;
         [field: SerializeField] public AudioSource JumpSFX { get; private set; } = null;
         [field: SerializeField] public AudioSource TakeSFX { get; private set; } = null;
+        [field: SerializeField] public AudioSource TakeCoinSFX { get; private set; } = null;
         [field: SerializeField] public AudioSource PortalSFX { get; private set; } = null;
     }
 }

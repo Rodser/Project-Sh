@@ -18,5 +18,7 @@ MonoBehaviour:
     type: 3}
   <TakeSFX>k__BackingField: {fileID: 4851624645008334375, guid: babd0bd381d2df54f8bc1910a192dfa2,
     type: 3}
+  <TakeCoinSFX>k__BackingField: {fileID: 4851624645008334375, guid: c0b8a7ca1f3459248a608794794b8072,
+    type: 3}
   <PortalSFX>k__BackingField: {fileID: 4851624645008334375, guid: 97922e2c54aae364aa4d7e1de2518b36,
     type: 3}

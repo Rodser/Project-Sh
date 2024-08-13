@@ -14,7 +14,7 @@ namespace Shudder.Models
 
         public void ActivatePortal(bool activate = true)
         {
-            var portalView = Portal.Presenter.View.GetComponent<PortalView>();
+            var portalView = Portal.Presenter.View.GetComponentInChildren<PortalView>();
             
             if(activate)
                 portalView?.ShowPortal();

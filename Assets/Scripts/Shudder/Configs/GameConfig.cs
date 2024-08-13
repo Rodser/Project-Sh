@@ -13,7 +13,6 @@ namespace Shudder.Configs
         [field: SerializeField] public Object[] Configs { get; private set; } = null;
         [field: SerializeField] public GridConfig[] LevelGridConfigs { get; private set; } = null;
         [field: SerializeField] public Indicator SelectIndicator { get; private set; } = null;
-        [field: SerializeField] public LightPointView[] Lights{ get; private set; } = null;
         [field: SerializeField] public ItemView[] Items{ get; private set; } = null;
         [field: SerializeField] public ItemView Coin { get; private set; } = null;
         [field: SerializeField] public JewelKeyView JewelKeyView { get; private set; }

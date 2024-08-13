@@ -13,6 +13,7 @@ namespace Shudder.Data
         public StorageService(DIContainer container)
         {
             _coinService = container.Resolve<CoinService>();
+            _coinService.Init(this);
             _triggerOnlyEvent = container.Resolve<ITriggerOnlyEventBus>();
             
             container.Resolve<IReadOnlyEventBus>().UpdateCoin.AddListener(UpCoin);

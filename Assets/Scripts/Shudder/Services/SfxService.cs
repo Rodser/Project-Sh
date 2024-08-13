@@ -16,6 +16,7 @@ namespace Shudder.Services
         private AudioSource _music;
         private AudioSource _musicMenu;
         private AudioSource _currentMusic;
+        private AudioSource _takeCoin;
 
         private float _soundMute = 1f;
         private float _musicMute = 1f;
@@ -67,6 +68,9 @@ namespace Shudder.Services
         public void Take() => 
             _take?.Play();
 
+        public void TakeCoin() => 
+            _takeCoin?.Play();
+        
         public void InPortal() => 
             _portal?.Play();
 
@@ -95,6 +99,7 @@ namespace Shudder.Services
             _boom = _boom.Create(heroSfxConfig.BoomSFX, _cameraTransform);
             _jump = _jump.Create(heroSfxConfig.JumpSFX, _cameraTransform);
             _take = _take.Create(heroSfxConfig.TakeSFX, _cameraTransform);
+            _takeCoin = _take.Create(heroSfxConfig.TakeCoinSFX, _cameraTransform);
             _portal = _portal.Create(heroSfxConfig.PortalSFX, _cameraTransform);
         }
 
