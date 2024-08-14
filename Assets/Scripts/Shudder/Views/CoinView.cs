@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -9,76 +8,51 @@ using Random = UnityEngine.Random;
 
 namespace Shudder.Views
 {
-    public class CoinView : MonoBehaviour, IDisposable
+    public class CoinView : MonoBehaviour
     {
         [SerializeField] private Transform _coin;
         [SerializeField] private GameObject _coinMessage;
         
-        private CancellationTokenSource _token = new();
-        private bool _isRun;
-        private TweenerCore<Quaternion,Vector3,QuaternionOptions> _tw;
+        private readonly CancellationTokenSource _token = new();
+        
         private float _angle = 0f;
+        private Sequence _sequence;
+        private TweenerCore<Quaternion,Vector3,QuaternionOptions> _tw;
 
         private void OnEnable()
         {
-            _isRun = true;
-            RotateCoin().ToCancellationToken(_token.Token);
+           RotateCoinAsync().ToCancellationToken(_token.Token);
         }
 
         private void OnDisable()
         {
-            _isRun = false;
             _token.Cancel();
         }
 
-        public async void TakeCoin()
+        public void TakeCoin()
         {
-            _isRun = false;
-            _token.Cancel();
-            _coin.gameObject.SetActive(false);
+            _coin?.gameObject.SetActive(false);
             _coinMessage.SetActive(true);
             if (Camera.main is not null) 
                 _coinMessage.transform.forward = Camera.main.transform.forward;
-            await UniTask.Delay(1500);
-            Destroy(gameObject);
+            Destroy(gameObject, 2f);
+        }
+        
+        private async UniTask RotateCoinAsync()
+        {
+            await UniTask.Delay(Random.Range(1000, 2000));
+            var duration = Random.Range(5, 10);
+            
+            _coin
+                .DOLocalRotate(GetAngle(duration), duration, RotateMode.FastBeyond360)
+                .SetLink(gameObject)
+                .SetLoops(-1, LoopType.Yoyo); 
         }
 
-        public void Dispose()
+        private Vector3 GetAngle(int duration)
         {
-            _tw?.Kill();
-            _token?.Cancel();
-            _token?.Dispose();
-        }
-
-        private async UniTask RotateCoin()
-        {
-            await UniTask.Delay(Random.Range(500, 1500));
-            var angle = GetAngle();
-            _tw = _coin.DOLocalRotate(angle, 9f, RotateMode.FastBeyond360).SetAutoKill(false);
-
-            while (_isRun)
-            {
-                await UniTask.Delay(9000);
-                var oldAngle = angle;
-                angle = GetAngle();
-                _tw.ChangeValues(oldAngle, angle, 8f);
-                _tw.Play();
-            }
-            _tw.Kill();
-        }
-
-        private Vector3 GetAngle()
-        {
-            if (_angle == 0f)
-            {
-                _angle = 1200f;
-                return new Vector3(0f, 0f, _angle);
-            }
-            else
-            {
-                _angle = 0f;
-                return Vector3.zero;
-            }
+            var angle = Random.Range(500, duration * 100);
+            return new Vector3(0f, 0f, angle);
         }
     }
 }
