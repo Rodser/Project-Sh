@@ -54,7 +54,6 @@ namespace Shudder.UI
                 return;
             _currentCoin = value;
             _coin.text = value.ToString();
-            //_coin?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f);
         }
         
         public void SetDiamond(int value)

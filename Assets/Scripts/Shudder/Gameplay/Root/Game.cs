@@ -36,6 +36,7 @@ namespace Shudder.Gameplay.Root
             container.Resolve<IReadOnlyEventBus>().UpdateUI.AddListener(UpdateHud);
         }
 
+        public SceneActiveChecked SceneActiveChecked { get; set; } = new();
         public IHero Hero { get; set; }
         public HudView HUD { get; set; }
 

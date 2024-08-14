@@ -5,6 +5,7 @@ using Shudder.Gameplay.Models.Interfaces;
 using Shudder.Gameplay.Presenters;
 using Shudder.Gameplay.Services;
 using Shudder.Gameplay.Views;
+using Shudder.Models;
 using Shudder.Models.Interfaces;
 
 namespace Shudder.Gameplay.Models
@@ -35,8 +36,8 @@ namespace Shudder.Gameplay.Models
         {
             CurrentGround = ground;
             Presenter.View.transform.position = ground.AnchorPoint.position;
-            await UniTask.Delay(500);
-            _indicatorService?.CreateSelectIndicators(ground);
+           if(_indicatorService is not null)
+                await _indicatorService.CreateSelectIndicators(ground);
         }
 
         public void EnableIndicators()

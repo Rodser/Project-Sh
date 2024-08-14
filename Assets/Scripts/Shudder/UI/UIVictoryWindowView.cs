@@ -1,7 +1,8 @@
 using Cysharp.Threading.Tasks;
+using Shudder.Constants;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
+using YG;
 
 namespace Shudder.UI
 {
@@ -12,20 +13,19 @@ namespace Shudder.UI
 
         public async void PlayNextLevel()
         {
-            await UniTask.Delay(400);
             _triggerOnlyEvent.TriggerUpdateCoin(_coin);
+            await UniTask.Delay(400);
             _triggerOnlyEvent.TriggerPlayNextLevel();
             Debug.Log("Next Level");
             CloseWindow();
         }
         
-        public async void GoToMenu()
+        public async void RewardToNext()
         {        
             await UniTask.Delay(400);
-            _triggerOnlyEvent.TriggerUpdateCoin(_coin);
-            _triggerOnlyEvent.TriggerGoMenu();
-            Debug.Log("Exit to menu");
+            Debug.Log("Reward To Next");
             CloseWindow();
+            YandexGame.RewVideoShow(GameConstant.RewardIndexNextLevel);
         }
         
         public void SetCoin(int value)

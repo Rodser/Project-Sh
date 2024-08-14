@@ -19,6 +19,7 @@ namespace Shudder.Events
         public UnityEvent<float> SoundMute { get; } = new();
         public UnityEvent LevelToMenu { get; } = new();
         public UnityEvent TakeCoin { get; } = new();
+        public UnityEvent DieHero { get; } = new();
 
         public void UnSubscribe()
         {
@@ -74,5 +75,8 @@ namespace Shudder.Events
 
         public void TriggerTakeCoin() => 
             TakeCoin?.Invoke();
+
+        public void TriggerDieHero() => 
+            DieHero?.Invoke();
     }
 }

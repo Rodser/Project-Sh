@@ -38,14 +38,11 @@ namespace Shudder.Data
 
         public int LevelUp(int maxLevel)
         {
-            var coin = _coinService.MakeMoney();
-            Progress.Coin += coin;
-            Progress.Record += coin * Progress.Level;
             if(Progress.Level < maxLevel)
                 Progress.Level++;
             SaveProgress();
             _triggerOnlyEvent.TriggerUpdateUI();
-            return coin;
+            return Progress.Level;
         }
 
         public void UpCoin(int value)

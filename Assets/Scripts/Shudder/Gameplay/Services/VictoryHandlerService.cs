@@ -1,6 +1,7 @@
 using BaCon;
 using Shudder.Configs;
 using Shudder.Events;
+using Shudder.Models;
 using Shudder.Services;
 using Shudder.UI;
 using UnityEngine;
@@ -17,13 +18,16 @@ namespace Shudder.Gameplay.Services
         private readonly ITriggerOnlyEventBus _triggerOnlyEvent;
         private readonly LevelLoadingService _levelLoadingService;
         private readonly CameraService _cameraService;
+        private readonly CoinService _coinService;
         
         private Transform _portalPoint;
+        private SceneActiveChecked _sceneActiveChecked;
 
         public VictoryHandlerService(DIContainer container, GameConfig gameConfig)
         {
             _container = container;
             _gameConfig = gameConfig;
+            _coinService = container.Resolve<CoinService>();
             _inputService = container.Resolve<InputService>();
             _triggerOnlyEvent = container.Resolve<ITriggerOnlyEventBus>();
             _sfxService = container.Resolve<SfxService>();
@@ -33,8 +37,9 @@ namespace Shudder.Gameplay.Services
             container.Resolve<IReadOnlyEventBus>().PlayNextLevel.AddListener(OnPlayNextLevel);
         }
 
-        public void OpenVictoryWindow(int coin, Transform portalPoint)
+        public void OpenVictoryWindow(SceneActiveChecked sceneActiveChecked, Transform portalPoint, int level)
         {
+            _sceneActiveChecked = sceneActiveChecked;
             _portalPoint = portalPoint;
             _inputService.Disable();
             _sfxService.StopMusic();
@@ -43,12 +48,14 @@ namespace Shudder.Gameplay.Services
             window.Bind(_triggerOnlyEvent, _inputService);
             _uiRootView.AttachUI(window.gameObject);
 
+            var coin = _coinService.MakeMoney(level);
             window.SetCoin(coin);
             window.ShowWindow();
         }
 
         private async void OnPlayNextLevel()
         {
+            _sceneActiveChecked.IsRun = false;
             await _cameraService.MoveCameraAsync(_portalPoint.position, 2f);
             
             _uiRootView.ShowLoadingScreen();

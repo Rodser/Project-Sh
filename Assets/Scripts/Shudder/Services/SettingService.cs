@@ -1,6 +1,7 @@
 using BaCon;
 using Shudder.Events;
 using Shudder.Gameplay.Services;
+using Shudder.Models;
 using Shudder.UI;
 using UnityEngine;
 
@@ -9,13 +10,14 @@ namespace Shudder.Services
     public class SettingService
     {
         private readonly InputService _inputService;
+        private readonly SfxService _sfxService;
+        private readonly UIRootView _uiRootView;
+        private readonly ITriggerOnlyEventBus _triggerOnlyEvent;
         
         private UISettingView _uiSettingViewPrefab;
         private LevelLoadingService _levelLoadingService;
         private CameraSurveillanceService _cameraSurveillanceService;
-        private readonly UIRootView _uiRootView;
-        private readonly ITriggerOnlyEventBus _triggerOnlyEvent;
-        private readonly SfxService _sfxService;
+        private SceneActiveChecked _sceneActiveChecked;
 
         public SettingService(DIContainer container)
         {
@@ -26,13 +28,21 @@ namespace Shudder.Services
             var readOnlyEventBus = container.Resolve<IReadOnlyEventBus>();
             readOnlyEventBus.OpenSettings.AddListener(CreateSetting);
             readOnlyEventBus.RefreshLevel.AddListener(RefreshLevel);
+            readOnlyEventBus.DieHero.AddListener(DieHero);
             readOnlyEventBus.LevelToMenu.AddListener(GoMenu);
         }
 
-        public void Init(UISettingView uiSettingView, LevelLoadingService levelLoadingService = null,
+        private void DieHero()
+        {
+            if(_sceneActiveChecked.IsRun)
+                RefreshLevel();
+        }
+
+        public void Init(UISettingView uiSettingView, SceneActiveChecked sceneActiveChecked, LevelLoadingService levelLoadingService = null,
             CameraSurveillanceService cameraSurveillanceService = null)
         {
             _uiSettingViewPrefab = uiSettingView;
+            _sceneActiveChecked = sceneActiveChecked;
             _levelLoadingService = levelLoadingService;
             _cameraSurveillanceService = cameraSurveillanceService;
         }
@@ -53,6 +63,7 @@ namespace Shudder.Services
 
         private void GoMenu()
         {
+            _sceneActiveChecked.IsRun = false;
             _cameraSurveillanceService.UnFollow();
             _inputService.Disable();
             _triggerOnlyEvent.TriggerGoMenu();
@@ -60,6 +71,7 @@ namespace Shudder.Services
 
         private async void RefreshLevel()
         {
+            _sceneActiveChecked.IsRun = false;
             _cameraSurveillanceService.UnFollow();
             _inputService.Disable();
             

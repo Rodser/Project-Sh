@@ -16,19 +16,21 @@ MonoBehaviour:
     type: 2}
   <SpaceBetweenCells>k__BackingField: 0.99
   <CameraOffset>k__BackingField: 5
-  <Width>k__BackingField: 8
-  <Height>k__BackingField: 12
-  <MinHolePositionForX>k__BackingField: 4
-  <MaxHolePositionForX>k__BackingField: 8
-  <MinHolePositionForY>k__BackingField: 8
-  <MaxHolePositionForY>k__BackingField: 12
+  <CountCoin>k__BackingField: 5
+  <ChanceCoin>k__BackingField: 0.5
+  <Width>k__BackingField: 3
+  <Height>k__BackingField: 8
+  <MinHolePositionForX>k__BackingField: 2
+  <MaxHolePositionForX>k__BackingField: 3
+  <MinHolePositionForY>k__BackingField: 7
+  <MaxHolePositionForY>k__BackingField: 8
   <IsKey>k__BackingField: 1
   <MinKeyPositionForX>k__BackingField: 0
-  <MaxKeyPositionForX>k__BackingField: 8
-  <MinKeyPositionForY>k__BackingField: 6
-  <MaxKeyPositionForY>k__BackingField: 10
-  <PitCount>k__BackingField: 20
-  <ChanceOfPit>k__BackingField: 0.22
+  <MaxKeyPositionForX>k__BackingField: 3
+  <MinKeyPositionForY>k__BackingField: 4
+  <MaxKeyPositionForY>k__BackingField: 8
+  <PitCount>k__BackingField: 7
+  <ChanceOfPit>k__BackingField: 0.094
   <MinPitPositionForX>k__BackingField: 0
   <MaxPitPositionForX>k__BackingField: 10
   <MinPitPositionForY>k__BackingField: 0

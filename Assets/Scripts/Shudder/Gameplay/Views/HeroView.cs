@@ -27,6 +27,11 @@ namespace Shudder.Gameplay.Views
             Presenter.SetView(this);
         }
 
+        private void OnDestroy()
+        {
+            _triggerEventBus.TriggerDieHero();
+        }
+
         public void CanUsePortal()
         {
             _canUsePortal = true;
@@ -39,7 +44,7 @@ namespace Shudder.Gameplay.Views
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.transform.parent.TryGetComponent(out PortalView portalView))
+            if (other.transform.parent.parent.TryGetComponent(out PortalView portalView))
             {
                 Debug.Log("Portal");
                 if (!_canUsePortal)

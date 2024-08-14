@@ -66,11 +66,10 @@ namespace Shudder.Gameplay.Services
         {
             _container.Resolve<SfxService>().Thunder();
             
+            await _container.Resolve<IndicatorService>().CreateSelectIndicators(_hero.CurrentGround);
             await _container
                 .Resolve<SwapService>()
                 .SwapWaveAsync(ground, new List<Vector2>(), true);
-
-            _container.Resolve<IndicatorService>().CreateSelectIndicators(_hero.CurrentGround);
         }
 
         private bool TryGetSelectGround(out IGround selectGround)

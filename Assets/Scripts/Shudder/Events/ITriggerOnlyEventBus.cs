@@ -18,5 +18,6 @@ namespace Shudder.Events
         void TriggerSoundMute(float value);
         void TriggerLevelToMenu();
         void TriggerTakeCoin();
+        void TriggerDieHero();
     }
 }

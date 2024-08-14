@@ -4,8 +4,10 @@ using Shudder.Events;
 using Shudder.Gameplay.Models;
 using Shudder.Gameplay.Services;
 using Shudder.MainMenu.Configs;
+using Shudder.Models;
 using Shudder.Services;
 using Shudder.UI;
+using UnityEngine;
 using Grid = Shudder.Models.Grid;
 
 namespace Shudder.MainMenu.Models
@@ -39,6 +41,8 @@ namespace Shudder.MainMenu.Models
             readOnlyEvent.OpenLeaderboards.AddListener(OnOpenLeaderboards);
         }
 
+        public SceneActiveChecked SceneActiveChecked { get; set; } = new();
+
         private void OnOpenLeaderboards()
         {
            _leaderboardsService.CreateRewardWindow();
@@ -60,6 +64,7 @@ namespace Shudder.MainMenu.Models
 
         private async void OnPlayGame()
         {
+            SceneActiveChecked.IsRun = false;
             var cameraService = _container.Resolve<CameraService>();
             await _container
                 .Resolve<JumpService>()

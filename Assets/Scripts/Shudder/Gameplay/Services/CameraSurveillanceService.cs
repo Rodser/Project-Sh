@@ -35,8 +35,7 @@ namespace Shudder.Gameplay.Services
                 var heroView = _hero.Presenter.View;
                 if(heroView is null)
                     return;
-                var move =
-                    _cameraFollowView.transform.DOMove(heroView.transform.position, duration);
+                var move = _cameraFollowView.transform.DOMove(heroView.transform.position, duration);
                 await move.AsyncWaitForCompletion();
             }
         }

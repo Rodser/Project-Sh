@@ -89,8 +89,8 @@ namespace Shudder.Gameplay.Services
         {
             _cameraSurveillanceService.UnFollow();
             
-            var coin = _storage.LevelUp(_gameConfig.LevelGridConfigs.Length - 1);
-            _victoryService.OpenVictoryWindow(coin, groundAnchorPoint);
+            var level = _storage.LevelUp(_gameConfig.LevelGridConfigs.Length - 1);
+            _victoryService.OpenVictoryWindow(_game.SceneActiveChecked, groundAnchorPoint, level);
         }
 
         private void CreateHud()

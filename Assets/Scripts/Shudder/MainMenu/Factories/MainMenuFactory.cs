@@ -52,7 +52,6 @@ namespace Shudder.MainMenu.Factories
                 _menuConfig.MenuGridConfig.CountCoin,
                 _menuConfig.MenuGridConfig.ChanceCoin);
             _itemFactory.Create(_menuConfig.Items, menuGrid, 0.7f);
-            _settingService.Init(_menuConfig.UISettingView);
             
             CreateMusic();
             await MoveCamera();
@@ -63,6 +62,7 @@ namespace Shudder.MainMenu.Factories
             menu.OnUpdateUI();
             menu.UpdateProgress();
             menuUI.Bind(_triggerEventBus);
+            _settingService.Init(_menuConfig.UISettingView, menu.SceneActiveChecked);
         }
 
         private async UniTask<Grid> CreateGrid() => 

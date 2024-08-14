@@ -23,8 +23,9 @@ namespace Shudder.Services
             _storageService = storageService;
         }
 
-        public int MakeMoney()
+        public int MakeMoney(int level)
         {
+            _cache += level * 11 + 111;
             var coin = _cache;
             _cache = 0;
 
@@ -41,6 +42,11 @@ namespace Shudder.Services
             _sfxService.TakeCoin();
             _storageService.UpCoin(10);
             _cache += 77;
+        }
+
+        public int GetRewardedNextLevelBonus()
+        {
+            return _cache * 2;
         }
     }
 }

@@ -35,20 +35,33 @@ namespace Shudder.Services
         private void OnRewardVideoEvent(int index)
         {
             Debug.Log($"OnRewardVideoEvent id : {index}");
-            if(GameConstant.RewardIndex != index)
-                return;
-            var ui = CreateRewardWindow();
-            var coin = _coinService.GetRewardedBonus();
-            ui.SetCoin(coin);
-            ui.ShowWindow();
+            switch (index)
+            {
+                case GameConstant.RewardIndex:
+                {
+                    var ui = CreateRewardWindow();
+                    var coin = _coinService.GetRewardedBonus();
+                    ui.SetCoin(coin);
+                    ui.ShowWindow();
+                    break;
+                }
+                case GameConstant.RewardIndexNextLevel:
+                {
+                    var ui = CreateRewardWindow(true);
+                    var coin = _coinService.GetRewardedNextLevelBonus();
+                    ui.SetCoin(coin);
+                    ui.ShowWindow();
+                    break;
+                }
+            }
         }
 
-        private UIRewardWindowView CreateRewardWindow()
+        private UIRewardWindowView CreateRewardWindow(bool nextLevel = false)
         {
             _inputService.Disable();
             var prefab = _config.UIRewardWindowView;
             var window = Object.Instantiate(prefab);
-            window.Bind(_triggerOnlyEvent, _inputService);
+            window.Bind(_triggerOnlyEvent, _inputService, nextLevel);
             _uiRootView.AttachUI(window.gameObject);
             return window;
         }
