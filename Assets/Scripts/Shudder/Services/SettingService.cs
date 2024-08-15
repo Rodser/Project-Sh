@@ -72,7 +72,7 @@ namespace Shudder.Services
         private async void RefreshLevel()
         {
             _sceneActiveChecked.IsRun = false;
-            _cameraSurveillanceService.UnFollow();
+            _cameraSurveillanceService?.UnFollow();
             _inputService.Disable();
             
             _uiRootView.ShowLoadingScreen();
