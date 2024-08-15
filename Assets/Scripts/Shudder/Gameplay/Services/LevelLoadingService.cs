@@ -33,6 +33,7 @@ namespace Shudder.Gameplay.Services
         private Game _game;
         private StorageService _storage;
         private IReadOnlyEventBus _readOnlyEvent;
+        private readonly IndicatorService _indicatorService;
 
         public LevelLoadingService(DIContainer container, GameConfig gameConfig)
         {
@@ -50,6 +51,7 @@ namespace Shudder.Gameplay.Services
             _sfxService = container.Resolve<SfxService>();
             _uiRootView = container.Resolve<UIRootView>();
             _heroMoveService = container.Resolve<HeroMoveService>();
+            _indicatorService = _container.Resolve<IndicatorService>();
         }
 
         public void Init(Game game)
@@ -76,7 +78,6 @@ namespace Shudder.Gameplay.Services
             
             var hero = CreateHero(currentGrid);
             CreateActivatePortal(level, hero, currentGrid);
-            hero.EnableIndicators();
             _game.Hero = hero;
             _heroMoveService.Subscribe(hero);
             
@@ -120,7 +121,7 @@ namespace Shudder.Gameplay.Services
         }
 
         private Hero CreateHero(Grid currentGrid) => 
-            _heroFactory.Create(currentGrid.Grounds);
+            _heroFactory.Create(currentGrid.Grounds, _indicatorService);
 
         private void CreateCoins(Grid currentGrid, int level) => 
             _itemFactory.Create(

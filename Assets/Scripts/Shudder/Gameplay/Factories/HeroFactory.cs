@@ -13,13 +13,21 @@ namespace Shudder.Gameplay.Factories
     {
         private readonly DIContainer _container;
         private readonly HeroConfig _heroConfig;
+        
+        private IndicatorService _indicatorService;
 
         public HeroFactory(DIContainer container, HeroConfig heroConfig)
         {
             _container = container;
             _heroConfig = heroConfig;
         }
-        
+
+        public Hero Create(Ground[,] grounds, IndicatorService indicatorService)
+        {
+            _indicatorService = indicatorService;
+            return Create(grounds);
+        }
+
         public Hero Create(Ground[,] grounds)
         {
             var ground = grounds[_heroConfig.StartPositionX, _heroConfig.StartPositionY];
@@ -37,7 +45,8 @@ namespace Shudder.Gameplay.Factories
             var heroView = Object.Instantiate(_heroConfig.Prefab, position, Quaternion.identity, ground.AnchorPoint);
             var presenter = new HeroPresenter(hero);
             heroView.Construct(_container, presenter);
-            hero.SetGround(ground);
+            hero.Construct(ground, _indicatorService);
+
 
             _container
                 .Resolve<RotationService>()

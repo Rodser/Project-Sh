@@ -32,12 +32,6 @@ namespace Shudder.Services
             readOnlyEventBus.LevelToMenu.AddListener(GoMenu);
         }
 
-        private void DieHero()
-        {
-            if(_sceneActiveChecked.IsRun)
-                RefreshLevel();
-        }
-
         public void Init(UISettingView uiSettingView, SceneActiveChecked sceneActiveChecked, LevelLoadingService levelLoadingService = null,
             CameraSurveillanceService cameraSurveillanceService = null)
         {
@@ -45,6 +39,12 @@ namespace Shudder.Services
             _sceneActiveChecked = sceneActiveChecked;
             _levelLoadingService = levelLoadingService;
             _cameraSurveillanceService = cameraSurveillanceService;
+        }
+
+        private void DieHero()
+        {
+            if(_sceneActiveChecked.IsRun)
+                RefreshLevel();
         }
 
         private void CreateSetting()

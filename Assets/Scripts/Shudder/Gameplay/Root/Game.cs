@@ -49,6 +49,7 @@ namespace Shudder.Gameplay.Root
             _inputService.Enable();
             
             Hero.Presenter.View.CanUsePortal();
+            SceneActiveChecked.IsRun = true;
         }
 
         public void SetCurrentGrid(Grid currentGrid)

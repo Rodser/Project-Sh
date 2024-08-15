@@ -59,8 +59,8 @@ namespace Shudder.Gameplay.Root
             _container.RegisterInstance(new ActivationPortalService());
             _container.RegisterInstance(new HeroMoveService(_container, _gameConfig.GetConfig<HeroConfig>()));
             _container.RegisterInstance(new VictoryHandlerService(_container, _gameConfig));
-            _container.RegisterInstance(new LevelLoadingService(_container, _gameConfig));
             _container.RegisterInstance(new IndicatorService(_container, _gameConfig));
+            _container.RegisterInstance(new LevelLoadingService(_container, _gameConfig));
 
         }
         

@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Shudder.Gameplay.Presenters;
+using Shudder.Gameplay.Services;
 using Shudder.Models.Interfaces;
 
 namespace Shudder.Gameplay.Models.Interfaces
@@ -10,6 +11,6 @@ namespace Shudder.Gameplay.Models.Interfaces
         IGround CurrentGround { get; set; }
 
         UniTask ChangeGround(IGround ground);
-        void SetGround(IGround ground);
+        void Construct(IGround ground, IndicatorService indicatorService);
     }
 }

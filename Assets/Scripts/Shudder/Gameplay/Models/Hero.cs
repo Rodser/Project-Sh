@@ -5,7 +5,6 @@ using Shudder.Gameplay.Models.Interfaces;
 using Shudder.Gameplay.Presenters;
 using Shudder.Gameplay.Services;
 using Shudder.Gameplay.Views;
-using Shudder.Models;
 using Shudder.Models.Interfaces;
 
 namespace Shudder.Gameplay.Models
@@ -15,6 +14,7 @@ namespace Shudder.Gameplay.Models
         private readonly DIContainer _container;
         
         private IndicatorService _indicatorService;
+        private TriggerKeyView _triggerKeyView;
 
         public Hero(DIContainer container)
         {
@@ -32,22 +32,19 @@ namespace Shudder.Gameplay.Models
             CurrentGround = ground;
         }
 
-        public async void SetGround(IGround ground)
+        public async void Construct(IGround ground, IndicatorService indicatorService)
         {
             CurrentGround = ground;
+            _indicatorService = indicatorService;
+            _triggerKeyView = Presenter.View.GetComponent<TriggerKeyView>();
             Presenter.View.transform.position = ground.AnchorPoint.position;
-           if(_indicatorService is not null)
-                await _indicatorService.CreateSelectIndicators(ground);
-        }
-
-        public void EnableIndicators()
-        {
-            _indicatorService = _container.Resolve<IndicatorService>();
+            if(indicatorService is not null)
+                await indicatorService.CreateSelectIndicators(ground);
         }
 
         public void ActivateTriggerKew(GridConfig config)
         {
-            Presenter.View.GetComponent<TriggerKeyView>().Activate(_container, config.IsKey);
+            _triggerKeyView.Activate(_container, config.IsKey);
         }
     }
 }
