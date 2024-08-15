@@ -2,6 +2,7 @@ using System;
 using BaCon;
 using Shudder.Constants;
 using Shudder.Events;
+using Shudder.Gameplay.Services;
 using Shudder.MainMenu.Configs;
 using Shudder.UI;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace Shudder.Services
         private readonly InputService _inputService;
         private readonly UIRootView _uiRootView;
         private readonly CoinService _coinService;
+        private VictoryHandlerService _victoryHandlerService;
 
         public RewardService(DIContainer container)
         {
@@ -25,6 +27,7 @@ namespace Shudder.Services
             _uiRootView = container.Resolve<UIRootView>();
             _coinService = container.Resolve<CoinService>();
             YandexGame.RewardVideoEvent += OnRewardVideoEvent;
+            YandexGame.ErrorVideoEvent += OnErrorVideo;
         }
 
         public void Init(MenuConfig config)
@@ -66,9 +69,20 @@ namespace Shudder.Services
             return window;
         }
 
+        private void OnErrorVideo()
+        {
+            var coin = _coinService.GetEarnedCoin();
+            _victoryHandlerService.OpenWindow(coin);
+        }
+
         public void Dispose()
         {
             YandexGame.RewardVideoEvent -= OnRewardVideoEvent;
+            YandexGame.ErrorVideoEvent -= OnErrorVideo;
+
         }
+
+        public void SetVictoryHandler(VictoryHandlerService victoryHandlerService) =>
+            _victoryHandlerService = victoryHandlerService;
     }
 }

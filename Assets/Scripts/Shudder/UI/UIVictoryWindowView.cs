@@ -9,14 +9,11 @@ namespace Shudder.UI
     public class UIVictoryWindowView : PopUpView
     {
         [SerializeField] private TextMeshProUGUI _coinTM;
-        private int _coin;
 
-        public async void PlayNextLevel()
+        public void PlayNextLevel()
         {
-            _triggerOnlyEvent.TriggerUpdateCoin(_coin);
-            await UniTask.Delay(400);
-            _triggerOnlyEvent.TriggerPlayNextLevel();
             Debug.Log("Next Level");
+            _triggerOnlyEvent.TriggerPlayNextLevel();
             CloseWindow();
         }
         
@@ -30,7 +27,6 @@ namespace Shudder.UI
         
         public void SetCoin(int value)
         {
-            _coin = value;
             _coinTM.text = $"+{value}";
         }
     }

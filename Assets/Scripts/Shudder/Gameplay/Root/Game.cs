@@ -23,6 +23,8 @@ namespace Shudder.Gameplay.Root
         private readonly CameraFollow _cameraFollow;
 
         private Grid _currentGrid;
+        private readonly RewardService _rewardService;
+        private readonly VictoryHandlerService _victoryHandlerService;
 
         public Game(DIContainer container, GameConfig gameConfig)
         {
@@ -32,6 +34,8 @@ namespace Shudder.Gameplay.Root
             _inputService = container.Resolve<InputService>();
             _cameraSurveillanceService= container.Resolve<CameraSurveillanceService>();
             _cameraFollow = container.Resolve<CameraService>().CameraFollow;
+            _rewardService = container.Resolve<RewardService>();
+            _victoryHandlerService = container.Resolve<VictoryHandlerService>();
             
             container.Resolve<IReadOnlyEventBus>().UpdateUI.AddListener(UpdateHud);
         }
@@ -49,6 +53,7 @@ namespace Shudder.Gameplay.Root
             _inputService.Enable();
             
             Hero.Presenter.View.CanUsePortal();
+            _rewardService.SetVictoryHandler(_victoryHandlerService);
             SceneActiveChecked.IsRun = true;
         }
 

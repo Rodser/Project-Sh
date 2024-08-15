@@ -43,21 +43,29 @@ namespace Shudder.Gameplay.Services
             _portalPoint = portalPoint;
             _inputService.Disable();
             _sfxService.StopMusic();
+            var coin = _coinService.MakeMoney(level);
+            OpenWindow(coin);
+        }
+
+        public void OpenWindow(int coin)
+        {
             var prefab = _gameConfig.UIVictoryWindowView;
             var window = Object.Instantiate(prefab);
             window.Bind(_triggerOnlyEvent, _inputService);
             _uiRootView.AttachUI(window.gameObject);
 
-            var coin = _coinService.MakeMoney(level);
             window.SetCoin(coin);
             window.ShowWindow();
         }
 
         private async void OnPlayNextLevel()
-        {
+        {  
+            _triggerOnlyEvent.TriggerUpdateCoin(_coinService.GetEarnedCoin());
+            Debug.Log($"OnPlayNextLevel {_coinService.GetEarnedCoin()} coins");
             _sceneActiveChecked.IsRun = false;
             await _cameraService.MoveCameraAsync(_portalPoint.position, 2f);
             
+            _coinService.Clear();
             _uiRootView.ShowLoadingScreen();
             var levelLoadingService = _container.Resolve<LevelLoadingService>();
             await levelLoadingService.DestroyLevelAsync();

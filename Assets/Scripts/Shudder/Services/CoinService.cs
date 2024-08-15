@@ -7,13 +7,20 @@ namespace Shudder.Services
 {
     public class CoinService
     {
-        private int _cache;
-        private StorageService _storageService;
+        private const int SingleCoin = 7;
+        private const int DefaultCache = 100;
+        
         private readonly SfxService _sfxService;
+        
+        private int _cache;
+        private int _coinCount;
+        private StorageService _storageService;
+
 
         public CoinService(DIContainer container)
         {
             _sfxService = container.Resolve<SfxService>();
+            
             var readOnlyEvent = container.Resolve<IReadOnlyEventBus>();
             readOnlyEvent.TakeCoin.AddListener(TakeCoin);
         }
@@ -25,11 +32,8 @@ namespace Shudder.Services
 
         public int MakeMoney(int level)
         {
-            _cache += level * 11 + 111;
-            var coin = _cache;
-            _cache = 0;
-
-            return coin;
+            _cache += level * SingleCoin + DefaultCache;
+            return _cache;
         }
 
         public int GetRewardedBonus()
@@ -39,14 +43,27 @@ namespace Shudder.Services
 
         private void TakeCoin()
         {
+            _coinCount++;
             _sfxService.TakeCoin();
-            _storageService.UpCoin(10);
-            _cache += 77;
+            var coin = _coinCount * SingleCoin;
+            _storageService.UpCoin(coin);
+            _cache += coin;
         }
 
         public int GetRewardedNextLevelBonus()
         {
             return _cache * 2;
+        }
+            
+        public int GetEarnedCoin()
+        {
+            return _cache;
+        }
+            
+        public void Clear()
+        {
+            _cache = 0;
+            _coinCount = 0;
         }
     }
 }

@@ -20,10 +20,11 @@ namespace Shudder.UI
 
        public void TakeMoney()
         {
-            _triggerOnlyEvent.TriggerUpdateCoin(_coin);
             
             if (_nextLevel) 
                 _triggerOnlyEvent.TriggerPlayNextLevel();
+            else
+                _triggerOnlyEvent.TriggerUpdateCoin(_coin);
 
             CloseWindow();
         }

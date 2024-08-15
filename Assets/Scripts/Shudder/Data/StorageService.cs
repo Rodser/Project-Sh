@@ -2,6 +2,7 @@ using BaCon;
 using Shudder.Constants;
 using Shudder.Events;
 using Shudder.Services;
+using UnityEngine;
 using YG;
 
 namespace Shudder.Data
@@ -9,16 +10,13 @@ namespace Shudder.Data
     public class StorageService
     {
         private readonly ITriggerOnlyEventBus _triggerOnlyEvent;
-        private readonly CoinService _coinService;
-        private readonly LeaderBoardsService _leaderBoardsService;
 
         public StorageService(DIContainer container)
         {
-            _coinService = container.Resolve<CoinService>();
-            _coinService.Init(this);
-            _leaderBoardsService = container.Resolve<LeaderBoardsService>();
+            var coinService = container.Resolve<CoinService>();
+            coinService.Init(this);
             _triggerOnlyEvent = container.Resolve<ITriggerOnlyEventBus>();
-            
+             
             container.Resolve<IReadOnlyEventBus>().UpdateCoin.AddListener(UpCoin);
         }
 
@@ -47,6 +45,7 @@ namespace Shudder.Data
 
         public void UpCoin(int value)
         {
+            Debug.Log($"Update Coin {value}");
             Progress.Coin += value;
             Progress.Record += value;
             SaveProgress();
