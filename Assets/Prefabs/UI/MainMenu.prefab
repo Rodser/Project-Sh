@@ -1395,9 +1395,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _LevelProgress: {fileID: 2417070395203905822}
-  _coin: {fileID: 6344999035659293037}
-  _diamond: {fileID: 6912915270607701068}
-  _level: {fileID: 4313590005969408927}
+  _coinTMPro: {fileID: 6344999035659293037}
+  _diamondTMPro: {fileID: 6912915270607701068}
+  _levelTMPro: {fileID: 4313590005969408927}
 --- !u!1 &6044227396789236605
 GameObject:
   m_ObjectHideFlags: 0

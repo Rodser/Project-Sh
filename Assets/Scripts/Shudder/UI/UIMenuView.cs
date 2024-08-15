@@ -14,9 +14,9 @@ namespace Shudder.UI
         private ITriggerOnlyEventBus _triggerOnlyEvent;
         
         [SerializeField] private Image _LevelProgress;    
-        [SerializeField] private TextMeshProUGUI _coin;
-        [SerializeField] private TextMeshProUGUI _diamond;    
-        [SerializeField] private TextMeshProUGUI _level;
+        [SerializeField] private TextMeshProUGUI _coinTMPro;
+        [SerializeField] private TextMeshProUGUI _diamondTMPro;    
+        [SerializeField] private TextMeshProUGUI _levelTMPro;
         
         private int _currentCoin;
         private int _currentDiamond;
@@ -53,7 +53,9 @@ namespace Shudder.UI
             if(_currentCoin == value)
                 return;
             _currentCoin = value;
-            _coin.text = value.ToString();
+            _coinTMPro.text = value.ToString();
+            _coinTMPro?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f);
+
         }
         
         public void SetDiamond(int value)
@@ -61,11 +63,11 @@ namespace Shudder.UI
             if(_currentDiamond == value)
                 return;
             _currentDiamond = value;
-            _diamond.text = value.ToString();
-            _diamond?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f);
+            _diamondTMPro.text = value.ToString();
+            _diamondTMPro?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f);
         }
         
-        public void SetProgress(float value)
+        public void SetProgressBar(float value)
         {
             _LevelProgress.fillAmount = value;
         }
@@ -73,7 +75,7 @@ namespace Shudder.UI
         public void SetLevel(int level)
         {
             level++;
-            _level.text = level.ToString();
+            _levelTMPro.text = level.ToString();
         }
 
         private async UniTask ShowWindow()

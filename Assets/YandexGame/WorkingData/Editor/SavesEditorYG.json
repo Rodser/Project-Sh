@@ -1,20 +1,13 @@
 {
-  "idSave": 18,
+  "idSave": 61,
   "isFirstSession": false,
   "language": "ru",
   "promptDone": false,
-  "money": 1,
-  "newPlayerName": "Hello!",
-  "openLevels": [
-    false,
-    true,
-    false
-  ],
   "PlayerProgress": {
     "Level": 5,
-    "Coin": 488,
-    "Record": 488,
-    "Diamond": 1,
-    "MaxLevel": 22
+    "Coin": 1102,
+    "Record": 1102,
+    "Diamond": 0,
+    "MaxLevel": 100
   }
 }

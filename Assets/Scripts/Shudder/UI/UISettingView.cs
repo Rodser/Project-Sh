@@ -2,33 +2,44 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Shudder.Events;
 using Shudder.Services;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 namespace Shudder.UI
 {
     public class UISettingView : PopUpView
     {
-        [field: SerializeField] public Slider MusicSlider { get; private set; }    
-        [field: SerializeField] public Slider SoundSlider { get; private set; }
-        
-        public void Bind(ITriggerOnlyEventBus eventBus, InputService inputService, SfxService sfxService)
+        [SerializeField] private Slider _musicSlider;
+        [SerializeField] private Slider _soundSlider;
+        [SerializeField] private TextMeshProUGUI _versionTMPro;
+       
+        public void Bind(ITriggerOnlyEventBus eventBus, InputService inputService, SfxService sfxService,
+            string version)
         {
             base.Bind(eventBus, inputService);
-            MusicSlider.value = sfxService.MusicMute;
-            SoundSlider.value = sfxService.SoundMute;
+            _musicSlider.value = sfxService.MusicMute;
+            _soundSlider.value = sfxService.SoundMute;
+            SetVersion(version);
         }
         
         public void ChangeMusicSlider()
         {        
-            Debug.Log($"Music {MusicSlider.value}");
-            _triggerOnlyEvent.TriggerMusicMute(MusicSlider.value);
+            Debug.Log($"Music {_musicSlider.value}");
+            _triggerOnlyEvent.TriggerMusicMute(_musicSlider.value);
         }
         
         public void ChangeSoundSlider()
         {        
-            Debug.Log($"Sound {SoundSlider.value}");
-            _triggerOnlyEvent.TriggerSoundMute(SoundSlider.value);
+            Debug.Log($"Sound {_soundSlider.value}");
+            _triggerOnlyEvent.TriggerSoundMute(_soundSlider.value);
+        }
+
+        public void ResetProgress()
+        {
+            YandexGame.ResetSaveProgress();
+            _triggerOnlyEvent.TriggerGoMenu();
         }
         
         public async void GoToMenu()
@@ -38,7 +49,7 @@ namespace Shudder.UI
             Debug.Log("Exit to menu");
             CloseWindow();
         }
-        
+
         public async void RefreshLevel()
         {
             var tween = _window.DOScale(Vector3.zero, AnimDuration);
@@ -46,6 +57,11 @@ namespace Shudder.UI
             _triggerOnlyEvent.TriggerRefreshLevel();
             Debug.Log("Refresh level");
             Destroy(gameObject);
+        }
+
+        private void SetVersion(string bundleVersion)
+        {
+            _versionTMPro.text = $"v. {bundleVersion}";
         }
     }
 }

@@ -60,7 +60,7 @@ namespace Shudder.MainMenu.Factories
             var menuUI = CreateUIMainMenu();
             var menu = new Menu(_container, menuGrid, _menuConfig, menuUI, hero);
             menu.OnUpdateUI();
-            menu.UpdateProgress();
+            menu.UpdateProgressBar();
             menuUI.Bind(_triggerEventBus);
             _settingService.Init(_menuConfig.UISettingView, menu.SceneActiveChecked);
         }

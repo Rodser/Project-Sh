@@ -35,6 +35,8 @@ namespace Shudder.MainMenu.Models
             _leaderboardsService = container.Resolve<LeaderBoardsService>();
             _storage.LoadProgress();
             _triggerEventBus = _container.Resolve<ITriggerOnlyEventBus>();
+            SceneActiveChecked.IsRun = false;
+            
             var readOnlyEvent = _container.Resolve<IReadOnlyEventBus>();
             readOnlyEvent.PlayGame.AddListener(OnPlayGame);
             readOnlyEvent.UpdateUI.AddListener(OnUpdateUI);
@@ -48,9 +50,9 @@ namespace Shudder.MainMenu.Models
            _leaderboardsService.CreateRewardWindow();
         }
 
-        public void UpdateProgress()
+        public void UpdateProgressBar()
         {
-            _menuView.SetProgress(_storage.Progress.GetLevelProgress());
+            _menuView.SetProgressBar(_storage.Progress.GetLevelProgress());
         }
         
         public void OnUpdateUI()

@@ -7,6 +7,8 @@ namespace Shudder.UI
         [SerializeField] private Transform _uiSceneContainer;
         [SerializeField] private LoadingScreenView _loadingScreenView;
 
+        public string BundleVersion { get; set; } = "0.5.0";
+
         private void Awake()
         {
             HideLoadingScreen();

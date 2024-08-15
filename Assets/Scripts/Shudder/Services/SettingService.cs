@@ -55,7 +55,8 @@ namespace Shudder.Services
             ui.Bind(
                 _triggerOnlyEvent,
                 _inputService,
-                _sfxService
+                _sfxService,
+                _uiRootView.BundleVersion
                 );
             _uiRootView.AttachUI(ui.gameObject);
             ui.ShowWindow();

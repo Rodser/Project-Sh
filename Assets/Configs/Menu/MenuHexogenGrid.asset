@@ -16,8 +16,8 @@ MonoBehaviour:
     type: 2}
   <SpaceBetweenCells>k__BackingField: 0.77
   <CameraOffset>k__BackingField: 18
-  <CountCoin>k__BackingField: 6
-  <ChanceCoin>k__BackingField: 0.5
+  <CountCoin>k__BackingField: 2
+  <ChanceCoin>k__BackingField: 0.514
   <Width>k__BackingField: 3
   <Height>k__BackingField: 3
   <MinHolePositionForX>k__BackingField: 3
