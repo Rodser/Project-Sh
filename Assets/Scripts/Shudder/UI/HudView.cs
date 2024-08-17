@@ -41,20 +41,22 @@ namespace Shudder.UI
         
         public void SetCoin(int value)
         {
+            _coin?.transform.localScale.Set(1f,1f,1f);
             if(_currentCoin == value)
                 return;
             _currentCoin = value;
             _coin.text = value.ToString();
-            _coin?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f).SetLink(gameObject);
+            _coin?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f).SetLink(_coin.gameObject);
         }
         
         public void SetDiamond(int value)
         {
+            _diamond?.transform.localScale.Set(1f,1f,1f);
             if(_currentDiamond == value)
                 return;
             _currentDiamond = value;
             _diamond.text = value.ToString();
-            _diamond?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f);
+            _diamond?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f).SetLink(_diamond.gameObject);
         }
     }
 }

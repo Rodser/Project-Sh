@@ -3,7 +3,12 @@ guid: eee9380c7560f5e42860d82ffcfeca05
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Environment_material
+    second: {fileID: 2100000, guid: 29ae07b5bae9f184c8555301b8aaca4c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -16,8 +21,6 @@ ModelImporter:
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
-    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -392,7 +395,8 @@ ModelImporter:
     - name: mixamorig:RightToe_End
       parentName: mixamorig:RightToeBase
       position: {x: -0.000000042375177, y: 0.12468929, z: 0.0000000019208528}
-      rotation: {x: 0.000000084372004, y: 0.00000052739233, z: -0.00000010406075, w: 1}
+      rotation: {x: 0.000000084372004, y: 0.00000052739233, z: -0.00000010406075,
+        w: 1}
       scale: {x: 1, y: 0.99999994, z: 1}
     - name: Solder_Sword
       parentName: Solder_Sword(Clone)

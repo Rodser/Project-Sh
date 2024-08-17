@@ -1,7 +1,6 @@
 using Shudder.Gameplay.Views;
 using Shudder.Models.Interfaces;
 using Shudder.Presenters;
-using Unity.VisualScripting;
 
 namespace Shudder.Models
 {

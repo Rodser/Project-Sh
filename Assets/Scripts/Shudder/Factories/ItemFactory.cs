@@ -9,24 +9,26 @@ namespace Shudder.Factories
     {
         public void Create(ItemView[] items, Grid grid, float chance)
         {
-            var prefabItem = items[Random.Range(0, items.Length)];
-            Create(prefabItem, grid, grid.Grounds.Length, chance);
+            foreach (var item in items)
+            {
+                Create(item, grid, grid.Grounds.Length, chance * 0.5f);
+            }
         }
 
         public void Create(ItemView item, Grid grid, int count, float chance)
         {
-            var checkCuont = 0;
+            var checkCount = 0;
             foreach (var ground in grid.Grounds)
             {
-                if(checkCuont >= count)
+                if(checkCount >= count)
                     return;
                 if (!CanCreate(chance)
-                    || ground.Presenter.View == null
+                    || ground.Presenter.View is null
                     || ground.GroundType == GroundType.Pit
                     || ground.GroundType == GroundType.Portal) 
                     continue;
                 
-                checkCuont++;
+                checkCount++;
                 Object.Instantiate(item, ground.AnchorPoint);
             }
         }

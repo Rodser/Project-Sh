@@ -50,21 +50,25 @@ namespace Shudder.UI
         
         public void SetCoin(int value)
         {
+            _coinTMPro?.transform.localScale.Set(1f,1f,1f);
+
             if(_currentCoin == value)
                 return;
             _currentCoin = value;
             _coinTMPro.text = value.ToString();
-            _coinTMPro?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f);
+            _coinTMPro?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f).SetLink(_coinTMPro.gameObject);
 
         }
         
         public void SetDiamond(int value)
         {
+            _diamondTMPro?.transform.localScale.Set(1f,1f,1f);
+
             if(_currentDiamond == value)
                 return;
             _currentDiamond = value;
             _diamondTMPro.text = value.ToString();
-            _diamondTMPro?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f);
+            _diamondTMPro?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f).SetLink(_diamondTMPro.gameObject);
         }
         
         public void SetProgressBar(float value)

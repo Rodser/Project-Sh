@@ -24,7 +24,7 @@ namespace Shudder.Views
             _coinMessage.SetActive(true);
             if (Camera.main is not null) 
                 _coinMessage.transform.forward = Camera.main.transform.forward;
-            Destroy(gameObject, 0.5f);
+            Destroy(gameObject, 2f);
         }
         
         private async void RotateCoinAsync()

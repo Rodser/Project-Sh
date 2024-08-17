@@ -19,6 +19,7 @@ namespace Shudder.Services
         private readonly UIRootView _uiRootView;
         private readonly CoinService _coinService;
         private VictoryHandlerService _victoryHandlerService;
+        private bool _isError;
 
         public RewardService(DIContainer container)
         {
@@ -28,6 +29,7 @@ namespace Shudder.Services
             _coinService = container.Resolve<CoinService>();
             YandexGame.RewardVideoEvent += OnRewardVideoEvent;
             YandexGame.ErrorVideoEvent += OnErrorVideo;
+            YandexGame.CloseVideoEvent += CloseVideo;
         }
 
         public void Init(MenuConfig config)
@@ -71,6 +73,13 @@ namespace Shudder.Services
 
         private void OnErrorVideo()
         {
+            _isError = true;
+        }
+
+        private void CloseVideo()
+        {
+            if(!_isError)
+                return;
             var coin = _coinService.GetEarnedCoin();
             _victoryHandlerService.OpenWindow(coin);
         }
@@ -79,7 +88,7 @@ namespace Shudder.Services
         {
             YandexGame.RewardVideoEvent -= OnRewardVideoEvent;
             YandexGame.ErrorVideoEvent -= OnErrorVideo;
-
+            YandexGame.CloseVideoEvent -= CloseVideo;
         }
 
         public void SetVictoryHandler(VictoryHandlerService victoryHandlerService) =>
