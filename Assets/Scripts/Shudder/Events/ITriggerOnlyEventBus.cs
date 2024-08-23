@@ -19,5 +19,6 @@ namespace Shudder.Events
         void TriggerLevelToMenu();
         void TriggerTakeCoin();
         void TriggerDieHero();
+        void TriggerActivateSuperJump();
     }
 }

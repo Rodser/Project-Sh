@@ -2,6 +2,7 @@ using BaCon;
 using Shudder.Constants;
 using Shudder.Events;
 using Shudder.Services;
+using Unity.Mathematics;
 using UnityEngine;
 using YG;
 
@@ -48,6 +49,27 @@ namespace Shudder.Data
             Debug.Log($"Update Coin {value}");
             Progress.Coin += value;
             Progress.Record += value;
+            SaveProgress();
+            _triggerOnlyEvent.TriggerUpdateUI();
+        }
+
+        public void DeductCoin(int value)
+        {
+            Progress.Coin = Mathf.Max(Progress.Coin - value, 0);
+            SaveProgress();
+            _triggerOnlyEvent.TriggerUpdateUI();
+        }
+
+        public void DeductJumpCount()
+        {
+            Progress.JumpCount--;
+            SaveProgress();
+            _triggerOnlyEvent.TriggerUpdateUI();
+        }
+        
+        public void UpJumpCount()
+        {
+            Progress.JumpCount++;
             SaveProgress();
             _triggerOnlyEvent.TriggerUpdateUI();
         }

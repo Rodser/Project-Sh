@@ -10,9 +10,10 @@ namespace Shudder.UI
 {
     public class HudView : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI _Level;
-        [SerializeField] private TextMeshProUGUI _coin;
-        [SerializeField] private TextMeshProUGUI _diamond;
+        [SerializeField] private TextMeshProUGUI _LevelTMP;
+        [SerializeField] private TextMeshProUGUI _coinTMP;
+        [SerializeField] private TextMeshProUGUI _diamondTMP;
+        [SerializeField] private TextMeshProUGUI _jumpCountTMP;
         
         private ITriggerOnlyEventBus _triggerOnlyEventBus;
         private int _currentDiamond;
@@ -32,31 +33,41 @@ namespace Shudder.UI
         {
             _triggerOnlyEventBus.TriggerOpenSettings();
         }
+         
+        public void ActivateSuperJump()
+        {
+            _triggerOnlyEventBus.TriggerActivateSuperJump();
+        }
+        
+        public void SetJumpCount(int value)
+        {
+            _jumpCountTMP.text = $"x{value}";
+        }
         
         public void SetLevel(int value)
         {
             value++;
-            _Level.text = value.ToString();
+            _LevelTMP.text = value.ToString();
         }
         
         public void SetCoin(int value)
         {
-            _coin?.transform.localScale.Set(1f,1f,1f);
+            _coinTMP?.transform.localScale.Set(1f,1f,1f);
             if(_currentCoin == value)
                 return;
             _currentCoin = value;
-            _coin.text = value.ToString();
-            _coin?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f).SetLink(_coin.gameObject);
+            _coinTMP.text = value.ToString();
+            _coinTMP?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f).SetLink(_coinTMP.gameObject);
         }
         
         public void SetDiamond(int value)
         {
-            _diamond?.transform.localScale.Set(1f,1f,1f);
+            _diamondTMP?.transform.localScale.Set(1f,1f,1f);
             if(_currentDiamond == value)
                 return;
             _currentDiamond = value;
-            _diamond.text = value.ToString();
-            _diamond?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f).SetLink(_diamond.gameObject);
+            _diamondTMP.text = value.ToString();
+            _diamondTMP?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f).SetLink(_diamondTMP.gameObject);
         }
     }
 }

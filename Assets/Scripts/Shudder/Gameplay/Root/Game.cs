@@ -21,8 +21,6 @@ namespace Shudder.Gameplay.Root
         private readonly CameraSurveillanceService _cameraSurveillanceService;
         private readonly InputService _inputService;
         private readonly CameraFollow _cameraFollow;
-
-        private Grid _currentGrid;
         private readonly RewardService _rewardService;
         private readonly VictoryHandlerService _victoryHandlerService;
 
@@ -43,6 +41,7 @@ namespace Shudder.Gameplay.Root
         public SceneActiveChecked SceneActiveChecked { get; set; } = new();
         public IHero Hero { get; set; }
         public HudView HUD { get; set; }
+        public Grid CurrentGrid { get; private set; }
 
         public async void Run()
         {
@@ -59,19 +58,19 @@ namespace Shudder.Gameplay.Root
 
         public void SetCurrentGrid(Grid currentGrid)
         {
-            _currentGrid = currentGrid;
+            CurrentGrid = currentGrid;
         }
 
         public async UniTask DestroyGrid()
         {
-            if(_currentGrid is null)
+            if(CurrentGrid is null)
                 return;
             
-            for (var x = 0; x < _currentGrid.Grounds.GetLength(0); x++)
+            for (var x = 0; x < CurrentGrid.Grounds.GetLength(0); x++)
             {
-                for (var y = 0; y < _currentGrid.Grounds.GetLength(1); y++)
+                for (var y = 0; y < CurrentGrid.Grounds.GetLength(1); y++)
                 {
-                    var ground = _currentGrid.Grounds[x, y];
+                    var ground = CurrentGrid.Grounds[x, y];
 
                     if(ground.GroundType == GroundType.Pit)
                         continue;
@@ -82,9 +81,9 @@ namespace Shudder.Gameplay.Root
                 }
             }
 
-            _currentGrid.Grounds = null;
-            Object.Destroy(_currentGrid.Presenter.View.gameObject);
-            _currentGrid = null;
+            CurrentGrid.Grounds = null;
+            Object.Destroy(CurrentGrid.Presenter.View.gameObject);
+            CurrentGrid = null;
         }
 
         public void UpdateHud()
@@ -92,6 +91,7 @@ namespace Shudder.Gameplay.Root
             HUD.SetLevel(_storage.Progress.Level);
             HUD.SetCoin(_storage.Progress.Coin);
             HUD.SetDiamond(_storage.Progress.Diamond);
+            HUD.SetJumpCount(_storage.Progress.JumpCount);
         }
     }
 }

@@ -9,21 +9,23 @@ namespace Shudder.Gameplay.Services
 {
     public class JumpService
     {
-        private readonly DIContainer _container;
-        private Vector3 _initialScale;
+        private readonly SfxService _sfxService;
+        private readonly AnimationHeroService _animationHeroService;
+        private readonly RotationService _rotationService;
 
         public JumpService(DIContainer container)
         {
-            _container = container;
+            _sfxService = container.Resolve<SfxService>();
+            _animationHeroService = container.Resolve<AnimationHeroService>();
+            _rotationService = container.Resolve<RotationService>();
         }
 
         public async UniTask Jump(JumpConfig jumpConfig, Transform viewTransform, Transform target)
         {
-            _container.Resolve<SfxService>().Jump();
-            _container.Resolve<AnimationHeroService>().Jump();
-            _container.Resolve<RotationService>().LookRotation(viewTransform, target.position);
-            _initialScale = viewTransform.localScale;
-            await UniTask.Delay((int)(jumpConfig.DurationClench * 1000f));
+            _sfxService.Jump();
+            _animationHeroService.Jump();
+            _rotationService.LookRotation(viewTransform, target.position);
+            await UniTask.WaitForSeconds(jumpConfig.DurationClench);
             await JumpTo(jumpConfig,viewTransform, target);
         }
         

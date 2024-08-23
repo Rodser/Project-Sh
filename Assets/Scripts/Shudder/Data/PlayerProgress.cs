@@ -11,6 +11,7 @@ namespace Shudder.Data
         public int Record;
         public int Diamond;
         public int MaxLevel;
+        public int JumpCount;
 
         public PlayerProgress()
         {
@@ -18,6 +19,7 @@ namespace Shudder.Data
             MaxLevel = InitialProgress.MaxLevel;
             Coin = InitialProgress.Coin;
             Diamond = InitialProgress.Diamond;
+            JumpCount = InitialProgress.JumpCount;
         }
 
         public float GetLevelProgress()

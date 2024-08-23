@@ -6,5 +6,6 @@ namespace Shudder.Constants
         public const int Coin = 77;
         public const int Diamond = 1;
         public const int MaxLevel = 100;
+        public const int JumpCount = 1;
     }
 }

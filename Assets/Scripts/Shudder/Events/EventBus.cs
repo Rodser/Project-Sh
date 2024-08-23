@@ -20,6 +20,7 @@ namespace Shudder.Events
         public UnityEvent LevelToMenu { get; } = new();
         public UnityEvent TakeCoin { get; } = new();
         public UnityEvent DieHero { get; } = new();
+        public UnityEvent ActivateSuperJump { get; } = new();
 
         public void UnSubscribe()
         {
@@ -30,6 +31,7 @@ namespace Shudder.Events
             GoMenu.RemoveAllListeners();
             UpdateUI.RemoveAllListeners();
             OpenLeaderboards.RemoveAllListeners();
+            ActivateSuperJump.RemoveAllListeners();
             Debug.Log("UnSubscribe");
         }
 
@@ -77,5 +79,8 @@ namespace Shudder.Events
 
         public void TriggerDieHero() => 
             DieHero?.Invoke();
+
+        public void TriggerActivateSuperJump() => 
+            ActivateSuperJump?.Invoke();
     }
 }

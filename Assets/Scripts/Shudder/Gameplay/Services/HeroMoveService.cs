@@ -14,32 +14,52 @@ namespace Shudder.Gameplay.Services
 {
     public class HeroMoveService
     {
-        private readonly DIContainer _container;
         private readonly HeroConfig _heroConfig;
-        private IHero _hero;
         private readonly JumpService _jumpService;
+        private readonly InputService _inputService;
+        private readonly SfxService _sfxService;
+        private readonly SwapService _swapService;
+        private readonly IndicatorService _indicatorService;
+        private readonly CameraService _cameraService;
+        private readonly CheckingPossibilityOfJumpService _checkingPossibilityService;
+        private readonly AnimationHeroService _animationHeroService;
+        private readonly SuperJumpService _superJumpService;
+
+        private IHero _hero;
 
         public HeroMoveService(DIContainer container, HeroConfig heroConfig)
         {
-            _container = container;
             _heroConfig = heroConfig;
-            _jumpService = _container.Resolve<JumpService>();
+            _jumpService = container.Resolve<JumpService>();
+            _superJumpService = container.Resolve<SuperJumpService>();
+            _inputService = container.Resolve<InputService>();
+            _sfxService = container.Resolve<SfxService>();
+            _swapService = container.Resolve<SwapService>();
+            _indicatorService = container.Resolve<IndicatorService>();
+            _cameraService = container.Resolve<CameraService>();
+            _checkingPossibilityService = container.Resolve<CheckingPossibilityOfJumpService>();
+            _animationHeroService = container.Resolve<AnimationHeroService>();
         }
 
         public void Subscribe(IHero hero)
         {
             _hero = hero;
-            _container.Resolve<InputService>().AddListener(Move);
+            _inputService.AddListener(Move);
         }
 
         private async void Move(InputAction.CallbackContext callback)
         {
             if (!TryGetSelectGround(out var selectGround))
                 return;
-            
+            if (_superJumpService.IsActivationSuperJump)
+            {
+                await MoveHero(selectGround);
+                _superJumpService.Jumped();
+                RunSwapWave(selectGround);
+            }
             if (selectGround.Id == _hero.CurrentGround.Id)
             {
-                await MoveHero(selectGround.Presenter.Ground);
+                // await MoveHero(selectGround.Presenter.Ground);
                 RunSwapWave(selectGround);
             }
             else
@@ -64,19 +84,16 @@ namespace Shudder.Gameplay.Services
 
         private async void RunSwapWave(IGround ground)
         {
-            _container.Resolve<SfxService>().Thunder();
+            _sfxService.Thunder();
             
-            await _container
-                .Resolve<SwapService>()
-                .SwapWaveAsync(ground, new List<Vector2>(), true);
-            await _container.Resolve<IndicatorService>().CreateSelectIndicators(_hero.CurrentGround);
+            await _swapService.SwapWaveAsync(ground, new List<Vector2>(), true);
+            await _indicatorService.CreateSelectIndicators(_hero.CurrentGround);
         }
 
         private bool TryGetSelectGround(out IGround selectGround)
         {
-            var input = _container.Resolve<InputService>();
-            var position = input.Position.ReadValue<Vector2>();
-            var origin = _container.Resolve<CameraService>().Camera.ScreenPointToRay(position);
+            var position = _inputService.Position.ReadValue<Vector2>();
+            var origin = _cameraService.Camera.ScreenPointToRay(position);
 
             Physics.Raycast(origin, out RaycastHit hit);
             if (hit.collider is null)
@@ -92,15 +109,13 @@ namespace Shudder.Gameplay.Services
             if(selectGround.GroundType == GroundType.Pit)
                 return false;
             
-            return _container
-                .Resolve<CheckingPossibilityOfJumpService>()
-                .CheckPossible(selectGround.GroundType, _hero.CurrentGround.GroundType);
+            return _checkingPossibilityService.CheckPossible(selectGround.GroundType, _hero.CurrentGround.GroundType);
         }
 
         private async UniTask MoveToTarget(Transform target)
         {
-            _container.Resolve<SfxService>().Jump();
-            _container.Resolve<AnimationHeroService>().Jump();
+            _sfxService.Jump();
+            _animationHeroService.Jump();
             await _jumpService.Jump(_heroConfig.JumpConfig, _hero.Presenter.View.transform, target);
         }
     }

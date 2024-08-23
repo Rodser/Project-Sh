@@ -30,7 +30,7 @@ namespace Shudder.Gameplay.Services
             if(ground.GroundType == GroundType.Portal)
                 return;
 
-            await RemoveSelectIndicators();
+            await RemoveIndicators();
             foreach (var indicator in from neighbor in ground.Neighbors 
                      where _checkingPossibilityOfJump.CheckPossible(neighbor.GroundType, ground.GroundType)
                            && neighbor.GroundType != GroundType.Pit 
@@ -38,8 +38,26 @@ namespace Shudder.Gameplay.Services
                 _boxSelectIndicators.Add(indicator.SetBox(_boxSelectIndicators));
             await UniTask.Yield();
         }
-        
-        public async UniTask RemoveSelectIndicators()
+
+        public async UniTask CreateAllIndicators(Ground[,] grounds, IGround heroCurrentGround)
+        {
+            await RemoveIndicators();
+            foreach (var ground in grounds)
+            {
+                if(ground.GroundType is GroundType.Pit)
+                    continue;
+                if (!_checkingPossibilityOfJump.CheckPossible(ground.GroundType, heroCurrentGround.GroundType))
+                    continue;
+                
+                var indicator = Object.Instantiate(_gameConfig.SelectIndicator, ground.AnchorPoint);
+                _boxSelectIndicators.Add(indicator.SetBox(_boxSelectIndicators));
+            }
+
+            await UniTask.Yield();
+            
+        }
+
+        public async UniTask RemoveIndicators()
         {
             if (_boxSelectIndicators == null)
                 return;

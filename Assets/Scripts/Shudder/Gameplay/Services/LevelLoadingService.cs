@@ -34,6 +34,7 @@ namespace Shudder.Gameplay.Services
         private StorageService _storage;
         private IReadOnlyEventBus _readOnlyEvent;
         private readonly IndicatorService _indicatorService;
+        private readonly SuperJumpService _superJumpService;
 
         public LevelLoadingService(DIContainer container, GameConfig gameConfig)
         {
@@ -52,6 +53,7 @@ namespace Shudder.Gameplay.Services
             _uiRootView = container.Resolve<UIRootView>();
             _heroMoveService = container.Resolve<HeroMoveService>();
             _indicatorService = _container.Resolve<IndicatorService>();
+            _superJumpService = _container.Resolve<SuperJumpService>();
         }
 
         public void Init(Game game)
@@ -80,6 +82,7 @@ namespace Shudder.Gameplay.Services
             CreateActivatePortal(level, hero, currentGrid);
             _game.Hero = hero;
             _heroMoveService.Subscribe(hero);
+            _superJumpService.Init(currentGrid.Grounds, hero);
             
             Debug.Log($"Load Level progress {_storage.Progress.Level}");
             _readOnlyEvent.HasVictory.AddListener(OnHasVictory);
