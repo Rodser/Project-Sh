@@ -21,6 +21,8 @@ namespace Shudder.Events
         UnityEvent TakeCoin { get; }
         UnityEvent DieHero { get; }
         UnityEvent ActivateSuperJump { get; }
+        UnityEvent OpenShop { get; }
+
         void UnSubscribe();
     }
 }

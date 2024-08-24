@@ -20,5 +20,6 @@ namespace Shudder.Events
         void TriggerTakeCoin();
         void TriggerDieHero();
         void TriggerActivateSuperJump();
+        void TriggerOpenShop();
     }
 }

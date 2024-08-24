@@ -48,6 +48,11 @@ namespace Shudder.UI
             YandexGame.RewVideoShow(GameConstant.RewardIndex);
         }
         
+        public void OpenShop()
+        {
+            _triggerOnlyEvent.TriggerOpenShop();
+        }
+        
         public void SetCoin(int value)
         {
             _coinTMPro?.transform.localScale.Set(1f,1f,1f);

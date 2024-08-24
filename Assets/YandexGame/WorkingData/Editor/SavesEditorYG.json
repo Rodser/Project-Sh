@@ -1,12 +1,12 @@
 {
-  "idSave": 14,
+  "idSave": 112,
   "isFirstSession": false,
   "language": "en",
   "promptDone": false,
   "PlayerProgress": {
-    "Level": 1,
-    "Coin": 450,
-    "Record": 373,
+    "Level": 2,
+    "Coin": 1178,
+    "Record": 2685,
     "Diamond": 1,
     "MaxLevel": 100,
     "JumpCount": 0

@@ -18,6 +18,7 @@ namespace Shudder.MainMenu.Root
         public void Initialisation(DIContainer container)
         {
             _container = container;
+            _container.Resolve<ShopService>().Init(_menuConfiguration);
             _container.Resolve<RewardService>().Init(_menuConfiguration);
             _container.Resolve<LeaderBoardsService>().Init(_menuConfiguration);
             _container.Resolve<SfxService>().StopMusic();

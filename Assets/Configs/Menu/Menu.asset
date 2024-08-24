@@ -31,6 +31,8 @@ MonoBehaviour:
     type: 3}
   <UILeaderboardsView>k__BackingField: {fileID: 3954790735172144395, guid: c256a8ec13dd96442861ae7eb467a154,
     type: 3}
+  <UIShopView>k__BackingField: {fileID: 1182066869301818466, guid: 265e4a9cc43b5064880e6ff57bac9215,
+    type: 3}
   <HeroConfig>k__BackingField: {fileID: 11400000, guid: 548e79446a984e248a4fd5464caa97b3,
     type: 2}
   <CameraPosition>k__BackingField: {x: 0, y: 0, z: 0}

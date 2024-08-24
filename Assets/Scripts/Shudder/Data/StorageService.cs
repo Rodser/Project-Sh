@@ -2,7 +2,6 @@ using BaCon;
 using Shudder.Constants;
 using Shudder.Events;
 using Shudder.Services;
-using Unity.Mathematics;
 using UnityEngine;
 using YG;
 
@@ -25,7 +24,6 @@ namespace Shudder.Data
 
         public void SaveProgress()
         {
-            YandexGame.NewLeaderboardScores(GameConstant.NameLB, Progress.Record);
             YandexGame.savesData.PlayerProgress = Progress;
             YandexGame.SaveProgress();
         }
@@ -49,6 +47,7 @@ namespace Shudder.Data
             Debug.Log($"Update Coin {value}");
             Progress.Coin += value;
             Progress.Record += value;
+            YandexGame.NewLeaderboardScores(GameConstant.NameLB, Progress.Record);
             SaveProgress();
             _triggerOnlyEvent.TriggerUpdateUI();
         }
@@ -67,8 +66,12 @@ namespace Shudder.Data
             _triggerOnlyEvent.TriggerUpdateUI();
         }
         
-        public void UpJumpCount()
+        public void UpJumpCount(int value)
         {
+            if (Progress.Coin < value) 
+                return;
+            
+            Progress.Coin -= value;
             Progress.JumpCount++;
             SaveProgress();
             _triggerOnlyEvent.TriggerUpdateUI();

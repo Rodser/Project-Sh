@@ -33,6 +33,11 @@ namespace Shudder.UI
         {
             _triggerOnlyEventBus.TriggerOpenSettings();
         }
+        
+        public void OpenShop()
+        {
+            _triggerOnlyEventBus.TriggerOpenShop();
+        }
          
         public void ActivateSuperJump()
         {

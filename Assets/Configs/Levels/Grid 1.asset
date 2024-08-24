@@ -14,20 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <GroundConfig>k__BackingField: {fileID: 11400000, guid: d855ac658bf66f04f9055f7ff8c20aa3,
     type: 2}
-  <SpaceBetweenCells>k__BackingField: 0.99
-  <CameraOffset>k__BackingField: 5
+  <SpaceBetweenCells>k__BackingField: 0.81
+  <CameraOffset>k__BackingField: 7
+  <CountCoin>k__BackingField: 10
+  <ChanceCoin>k__BackingField: 0.339
   <Width>k__BackingField: 5
-  <Height>k__BackingField: 5
+  <Height>k__BackingField: 12
   <MinHolePositionForX>k__BackingField: 2
   <MaxHolePositionForX>k__BackingField: 5
-  <MinHolePositionForY>k__BackingField: 4
-  <MaxHolePositionForY>k__BackingField: 5
+  <MinHolePositionForY>k__BackingField: 8
+  <MaxHolePositionForY>k__BackingField: 12
   <IsKey>k__BackingField: 1
   <MinKeyPositionForX>k__BackingField: 2
   <MaxKeyPositionForX>k__BackingField: 5
-  <MinKeyPositionForY>k__BackingField: 2
-  <MaxKeyPositionForY>k__BackingField: 5
-  <PitCount>k__BackingField: 3
+  <MinKeyPositionForY>k__BackingField: 6
+  <MaxKeyPositionForY>k__BackingField: 8
+  <PitCount>k__BackingField: 12
   <ChanceOfPit>k__BackingField: 0.273
   <MinPitPositionForX>k__BackingField: 0
   <MaxPitPositionForX>k__BackingField: 10

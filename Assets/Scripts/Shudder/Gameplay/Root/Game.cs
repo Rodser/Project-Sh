@@ -23,6 +23,7 @@ namespace Shudder.Gameplay.Root
         private readonly CameraFollow _cameraFollow;
         private readonly RewardService _rewardService;
         private readonly VictoryHandlerService _victoryHandlerService;
+        private readonly ShopService _shopService;
 
         public Game(DIContainer container, GameConfig gameConfig)
         {
@@ -34,13 +35,19 @@ namespace Shudder.Gameplay.Root
             _cameraFollow = container.Resolve<CameraService>().CameraFollow;
             _rewardService = container.Resolve<RewardService>();
             _victoryHandlerService = container.Resolve<VictoryHandlerService>();
+            _shopService = container.Resolve<ShopService>();
             
-            container.Resolve<IReadOnlyEventBus>().UpdateUI.AddListener(UpdateHud);
+            var readOnlyEvent = container.Resolve<IReadOnlyEventBus>();
+                readOnlyEvent.UpdateUI.AddListener(UpdateHud);
+                readOnlyEvent.OpenShop.AddListener(OpenShop);
         }
 
         public SceneActiveChecked SceneActiveChecked { get; set; } = new();
+
         public IHero Hero { get; set; }
+
         public HudView HUD { get; set; }
+
         public Grid CurrentGrid { get; private set; }
 
         public async void Run()
@@ -84,6 +91,11 @@ namespace Shudder.Gameplay.Root
             CurrentGrid.Grounds = null;
             Object.Destroy(CurrentGrid.Presenter.View.gameObject);
             CurrentGrid = null;
+        }
+
+        private void OpenShop()
+        {
+            _shopService.CreateShopWindow();
         }
 
         public void UpdateHud()

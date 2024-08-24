@@ -22,6 +22,7 @@ namespace Shudder.MainMenu.Models
         private readonly ITriggerOnlyEventBus _triggerEventBus;
         private readonly StorageService _storage;
         private readonly LeaderBoardsService _leaderboardsService;
+        private readonly ShopService _shopService;
 
         public Menu(DIContainer container, Grid menuGrid, MenuConfig menuConfig, UIMenuView menuView, Hero hero)
         {
@@ -36,26 +37,33 @@ namespace Shudder.MainMenu.Models
             _storage.LoadProgress();
             _triggerEventBus = _container.Resolve<ITriggerOnlyEventBus>();
             SceneActiveChecked.IsRun = false;
+            _shopService = container.Resolve<ShopService>();
             
             var readOnlyEvent = _container.Resolve<IReadOnlyEventBus>();
-            readOnlyEvent.PlayGame.AddListener(OnPlayGame);
-            readOnlyEvent.UpdateUI.AddListener(OnUpdateUI);
-            readOnlyEvent.OpenLeaderboards.AddListener(OnOpenLeaderboards);
+            readOnlyEvent.PlayGame.AddListener(PlayGame);
+            readOnlyEvent.UpdateUI.AddListener(UpdateUI);
+            readOnlyEvent.OpenLeaderboards.AddListener(OpenLeaderboards);
+            readOnlyEvent.OpenShop.AddListener(OpenShop);
         }
 
         public SceneActiveChecked SceneActiveChecked { get; set; } = new();
 
-        private void OnOpenLeaderboards()
+        private void OpenLeaderboards()
         {
            _leaderboardsService.CreateRewardWindow();
         }
 
+        private void OpenShop()
+        {
+            _shopService.CreateShopWindow();
+        }
+        
         public void UpdateProgressBar()
         {
             _menuView.SetProgressBar(_storage.Progress.GetLevelProgress());
         }
         
-        public void OnUpdateUI()
+        public void UpdateUI()
         {
             var progress = _storage.Progress;
             
@@ -64,7 +72,7 @@ namespace Shudder.MainMenu.Models
             _menuView.SetLevel(progress.Level);
         }
 
-        private async void OnPlayGame()
+        private async void PlayGame()
         {
             SceneActiveChecked.IsRun = false;
             var cameraService = _container.Resolve<CameraService>();

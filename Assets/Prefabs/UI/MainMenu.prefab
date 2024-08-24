@@ -2279,8 +2279,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2869704570792497059, guid: ece2254c66e5bbf44987113584409844,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2869704570792497059, guid: ece2254c66e5bbf44987113584409844,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6774967520915213019}
+    - target: {fileID: 2869704570792497059, guid: ece2254c66e5bbf44987113584409844,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ShowCanvas
+      value: OpenShop
+      objectReference: {fileID: 0}
+    - target: {fileID: 2869704570792497059, guid: ece2254c66e5bbf44987113584409844,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Shudder.UI.UIMenuView, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2869704570792497059, guid: ece2254c66e5bbf44987113584409844,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5303280530213068056, guid: ece2254c66e5bbf44987113584409844,
         type: 3}
@@ -2290,7 +2310,7 @@ PrefabInstance:
     - target: {fileID: 5303280530213068056, guid: ece2254c66e5bbf44987113584409844,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8071087988965330349, guid: ece2254c66e5bbf44987113584409844,
         type: 3}

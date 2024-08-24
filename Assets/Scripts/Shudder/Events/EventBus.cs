@@ -21,6 +21,7 @@ namespace Shudder.Events
         public UnityEvent TakeCoin { get; } = new();
         public UnityEvent DieHero { get; } = new();
         public UnityEvent ActivateSuperJump { get; } = new();
+        public UnityEvent OpenShop { get; } = new();
 
         public void UnSubscribe()
         {
@@ -32,6 +33,7 @@ namespace Shudder.Events
             UpdateUI.RemoveAllListeners();
             OpenLeaderboards.RemoveAllListeners();
             ActivateSuperJump.RemoveAllListeners();
+            OpenShop.RemoveAllListeners();
             Debug.Log("UnSubscribe");
         }
 
@@ -76,11 +78,14 @@ namespace Shudder.Events
 
         public void TriggerTakeCoin() => 
             TakeCoin?.Invoke();
-
+        
         public void TriggerDieHero() => 
             DieHero?.Invoke();
-
+        
         public void TriggerActivateSuperJump() => 
             ActivateSuperJump?.Invoke();
+        
+        public void TriggerOpenShop() =>
+            OpenShop?.Invoke();
     }
 }

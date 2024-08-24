@@ -34,8 +34,8 @@ namespace Shudder.Root
 
             switch (sceneName)
             {
-                case SceneName.GAMEPLAY:
-                    LoadAndStartGameplayScene();
+                case SceneName.UI:
+                    LoadAndStartMainMenuScene();
                     return;
                 case SceneName.MAIN_MENU:
                     LoadAndStartMainMenuScene();
@@ -103,6 +103,7 @@ namespace Shudder.Root
             _rootDiContainer.RegisterInstance(new CoinService(_rootDiContainer));
             _rootDiContainer.RegisterInstance(new LeaderBoardsService(_rootDiContainer));
             _rootDiContainer.RegisterInstance(new StorageService(_rootDiContainer));
+            _rootDiContainer.RegisterInstance(new ShopService(_rootDiContainer));
             _rootDiContainer.RegisterInstance(new SettingService(_rootDiContainer));
             _rootDiContainer.RegisterInstance(new RewardService(_rootDiContainer));
 
