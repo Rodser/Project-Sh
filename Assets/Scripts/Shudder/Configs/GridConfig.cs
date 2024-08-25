@@ -7,7 +7,6 @@ namespace Shudder.Configs
     {
         [field: SerializeField] public GroundConfig GroundConfig { get; private set; } = null;
         [field: SerializeField] public float SpaceBetweenCells { get; private set; } = 0.86f;
-        [field: SerializeField, Range(5, 20)] public int CameraOffset { get; private set; }
         [field: SerializeField, Range(1, 50)] public int CountCoin { get; private set; } = 5;
         [field: SerializeField, Range(0, 1)] public float ChanceCoin { get; private set; } = 0.5f;
 
