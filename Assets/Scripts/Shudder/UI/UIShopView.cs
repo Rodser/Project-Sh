@@ -20,7 +20,7 @@ namespace Shudder.UI
             _shopService = shopService;
         }
         
-        public void CloseWindow()
+        public new void CloseWindow()
         {
             _shopService.UnSubscribe();
             base.CloseWindow();

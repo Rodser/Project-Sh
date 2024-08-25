@@ -15,23 +15,17 @@ MonoBehaviour:
   <GroundConfig>k__BackingField: {fileID: 11400000, guid: 67bd75025859c0d49a10f42f7bc6dc8f,
     type: 2}
   <SpaceBetweenCells>k__BackingField: 0.77
-  <CameraOffset>k__BackingField: 18
   <CountCoin>k__BackingField: 2
   <ChanceCoin>k__BackingField: 0.514
   <Width>k__BackingField: 3
   <Height>k__BackingField: 3
-  <MinHolePositionForX>k__BackingField: 3
-  <MaxHolePositionForX>k__BackingField: 3
-  <MinHolePositionForY>k__BackingField: 3
-  <MaxHolePositionForY>k__BackingField: 3
+  <HolePositionForWidth>k__BackingField: {x: 3, y: 3}
+  <HolePositionForHeight>k__BackingField: {x: 3, y: 3}
   <IsKey>k__BackingField: 0
-  <MinKeyPositionForX>k__BackingField: 0
-  <MaxKeyPositionForX>k__BackingField: 1
-  <MinKeyPositionForY>k__BackingField: 0
-  <MaxKeyPositionForY>k__BackingField: 1
-  <PitCount>k__BackingField: 2
+  <KeyPositionForWidth>k__BackingField: {x: 0, y: 0}
+  <KeyPositionForHeight>k__BackingField: {x: 0, y: 0}
+  <IsPit>k__BackingField: 1
+  <PitCount>k__BackingField: 3
   <ChanceOfPit>k__BackingField: 0.28
-  <MinPitPositionForX>k__BackingField: 0
-  <MaxPitPositionForX>k__BackingField: 5
-  <MinPitPositionForY>k__BackingField: 0
-  <MaxPitPositionForY>k__BackingField: 5
+  <PitPositionForWidth>k__BackingField: {x: 0, y: 20}
+  <PitPositionForHeight>k__BackingField: {x: 0, y: 20}

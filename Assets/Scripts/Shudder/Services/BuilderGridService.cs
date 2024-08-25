@@ -115,9 +115,9 @@ namespace Shudder.Services
         {
             if (_grid.CountPit >= _config.PitCount)
                 return false;
-            if (x < _config.MinPitPositionForX - 1 || x >= _config.MaxPitPositionForX)
+            if (x < _config.PitPositionForWidth.x || x >= _config.PitPositionForWidth.y)
                 return false;
-            if (y < _config.MinPitPositionForY - 1 || y >= _config.MaxPitPositionForY)
+            if (y < _config.PitPositionForHeight.x || y >= _config.PitPositionForHeight.y)
                 return false;
             if (!(Random.value < _config.ChanceOfPit))
                 return false;
@@ -139,8 +139,8 @@ namespace Shudder.Services
 
         private Vector2Int CalculateHolePosition(GridConfig config)
         {
-            var xHole = Random.Range(config.MinHolePositionForX - 1, config.MaxHolePositionForX);
-            var yHole = Random.Range(config.MinHolePositionForY - 1, config.MaxHolePositionForY);
+            var xHole = Random.Range(config.HolePositionForWidth.x - 1, config.HolePositionForWidth.y);
+            var yHole = Random.Range(config.HolePositionForHeight.x - 1, config.HolePositionForHeight.y);
             return new Vector2Int(xHole, yHole);
         }
 

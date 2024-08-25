@@ -14,23 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <GroundConfig>k__BackingField: {fileID: 11400000, guid: d855ac658bf66f04f9055f7ff8c20aa3,
     type: 2}
-  <SpaceBetweenCells>k__BackingField: 0.84
-  <CountCoin>k__BackingField: 20
+  <SpaceBetweenCells>k__BackingField: 0.85
+  <Width>k__BackingField: 3
+  <Height>k__BackingField: 4
+  <CountCoin>k__BackingField: 7
   <ChanceCoin>k__BackingField: 0.5
-  <Width>k__BackingField: 11
-  <Height>k__BackingField: 50
-  <MinHolePositionForX>k__BackingField: 4
-  <MaxHolePositionForX>k__BackingField: 5
-  <MinHolePositionForY>k__BackingField: 7
-  <MaxHolePositionForY>k__BackingField: 6
-  <IsKey>k__BackingField: 0
-  <MinKeyPositionForX>k__BackingField: 2
-  <MaxKeyPositionForX>k__BackingField: 5
-  <MinKeyPositionForY>k__BackingField: 2
-  <MaxKeyPositionForY>k__BackingField: 5
+  <HolePositionForWidth>k__BackingField: {x: 1, y: 3}
+  <HolePositionForHeight>k__BackingField: {x: 4, y: 4}
+  <IsKey>k__BackingField: 1
+  <KeyPositionForWidth>k__BackingField: {x: 1, y: 3}
+  <KeyPositionForHeight>k__BackingField: {x: 3, y: 3}
+  <IsPit>k__BackingField: 0
   <PitCount>k__BackingField: 0
-  <ChanceOfPit>k__BackingField: 0.012
-  <MinPitPositionForX>k__BackingField: 0
-  <MaxPitPositionForX>k__BackingField: 10
-  <MinPitPositionForY>k__BackingField: 0
-  <MaxPitPositionForY>k__BackingField: 20
+  <ChanceOfPit>k__BackingField: 0.151
+  <PitPositionForWidth>k__BackingField: {x: 0, y: 7}
+  <PitPositionForHeight>k__BackingField: {x: 0, y: 11}
+  <IsWell>k__BackingField: 0
+  <ChanceOfWell>k__BackingField: 0
+  <WellPositionForWidth>k__BackingField: {x: 0, y: 0}
+  <WellPositionForHeight>k__BackingField: {x: 0, y: 0}
