@@ -35,13 +35,13 @@ namespace Shudder.Root
             switch (sceneName)
             {
                 case SceneName.UI:
-                    LoadAndStartMainMenuScene();
+                    LoadAndStartTest();
                     return;
                 case SceneName.MAIN_MENU:
                     LoadAndStartMainMenuScene();
                     break;
                 case SceneName.TEST:
-                    LoadAndStartMainMenuScene();
+                    LoadAndStartTest();
                     return;
             }
 
@@ -51,6 +51,29 @@ namespace Shudder.Root
             }
 #endif
             LoadAndStartMainMenuScene();
+        }
+
+        private async void LoadAndStartTest()
+        {
+            var uiRoot = _rootDiContainer.Resolve<UIRootView>();
+            uiRoot.ShowLoadingScreen();
+
+            await LoadSceneAsync(SceneName.BOOT);
+            await LoadSceneAsync(SceneName.MAIN_MENU);
+           
+            var mainMenu = Object.FindFirstObjectByType<MainMenuEntryPoint>();
+            
+            var di = new DIContainer(_rootDiContainer);
+            mainMenu.Initialisation(di);
+            
+            await LoadSceneAsync(SceneName.BOOT);
+            await LoadSceneAsync(SceneName.GAMEPLAY);
+
+            var gameplay = Object.FindFirstObjectByType<GameplayEntryPoint>();
+            var diContainer = new DIContainer(_rootDiContainer);
+            await gameplay.Initialisation(diContainer);
+            
+            uiRoot.HideLoadingScreen();
         }
 
         private async void LoadAndStartMainMenuScene()
@@ -111,7 +134,7 @@ namespace Shudder.Root
 
         private UIRootView CreateUIRoot()
         {
-            var prefabUIRoot = Resources.Load<UIRootView>("UIRoot");
+            var prefabUIRoot = Resources.Load<UIRootView>(GameConstant.UiRootPath);
             var uiRoot = Object.Instantiate(prefabUIRoot);
             Object.DontDestroyOnLoad(uiRoot.gameObject);
             return uiRoot;

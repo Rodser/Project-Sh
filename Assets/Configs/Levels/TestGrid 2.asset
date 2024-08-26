@@ -28,8 +28,8 @@ MonoBehaviour:
   <PitCount>k__BackingField: 6
   <ChanceOfPit>k__BackingField: 0.66
   <PitPositionForWidth>k__BackingField: {x: 0, y: 7}
-  <PitPositionForHeight>k__BackingField: {x: 2, y: 3}
+  <PitPositionForHeight>k__BackingField: {x: 1, y: 3}
   <IsWell>k__BackingField: 0
-  <ChanceOfWell>k__BackingField: 0
-  <WellPositionForWidth>k__BackingField: {x: 0, y: 0}
-  <WellPositionForHeight>k__BackingField: {x: 0, y: 0}
+  <ChanceOfWall>k__BackingField: 0
+  <WallPositionForWidth>k__BackingField: {x: 0, y: 0}
+  <WallPositionForHeight>k__BackingField: {x: 0, y: 0}

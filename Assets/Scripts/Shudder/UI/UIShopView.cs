@@ -11,6 +11,8 @@ namespace Shudder.UI
         [SerializeField] private TextMeshProUGUI _diamondTMP;
         [SerializeField] private TextMeshProUGUI _jumpCountTMP;
         [SerializeField] private TextMeshProUGUI _waveCountTMP;
+        [SerializeField] private TextMeshProUGUI _jumpPriceTMP;
+        [SerializeField] private TextMeshProUGUI _wavePriceTMP;
         
         private ShopService _shopService;
 
@@ -26,34 +28,28 @@ namespace Shudder.UI
             base.CloseWindow();
         }
         
-        public void BuySuperJump()
-        {
+        public void BuySuperJump() => 
             _shopService.BuySuperJump();
-        }
-        
-        public void BuyMegaWave()
-        {
+
+        public void BuyMegaWave() => 
             _shopService.BuyMegaWave();
-        }
-        
-        public void SetJumpCount(int value)
-        {
+
+        public void SetJumpCount(int value) => 
             _jumpCountTMP.text = $"x{value}";
-        }
-        
-        public void SetWaveCount(int value)
-        {
+
+        public void SetWaveCount(int value) => 
             _waveCountTMP.text = $"x{value}";
-        }
-        
-        public void SetCoin(int value)
-        {
+
+        public void SetJumpPrice(int value) => 
+            _jumpPriceTMP.text = $"{value}";
+
+        public void SetWavePrice(int value) => 
+            _wavePriceTMP.text = $"{value}";
+
+        public void SetCoin(int value) => 
             _coinTMP.text = value.ToString();
-        }
-        
-        public void SetDiamond(int value)
-        {
+
+        public void SetDiamond(int value) => 
             _diamondTMP.text = value.ToString();
-        }
     }
 }

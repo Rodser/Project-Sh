@@ -26,10 +26,10 @@ MonoBehaviour:
   <KeyPositionForHeight>k__BackingField: {x: 4, y: 4}
   <IsPit>k__BackingField: 1
   <PitCount>k__BackingField: 6
-  <ChanceOfPit>k__BackingField: 0.66
+  <ChanceOfPit>k__BackingField: 0.245
   <PitPositionForWidth>k__BackingField: {x: 0, y: 20}
   <PitPositionForHeight>k__BackingField: {x: 2, y: 3}
   <IsWell>k__BackingField: 1
-  <ChanceOfWall>k__BackingField: 0.308
+  <ChanceOfWall>k__BackingField: 0.541
   <WallPositionForWidth>k__BackingField: {x: 0, y: 20}
   <WallPositionForHeight>k__BackingField: {x: 2, y: 4}

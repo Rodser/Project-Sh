@@ -1,4 +1,5 @@
 using BaCon;
+using Shudder.Configs;
 using Shudder.Data;
 using Shudder.Events;
 using UnityEngine;
@@ -7,14 +8,12 @@ namespace Shudder.Services
 {
     public class CoinService
     {
-        private const int SingleCoin = 7;
-        private const int DefaultCache = 100;
-        
         private readonly SfxService _sfxService;
         
         private int _cache;
         private int _coinCount;
         private StorageService _storageService;
+        private PriceInfo _price;
 
 
         public CoinService(DIContainer container)
@@ -28,24 +27,26 @@ namespace Shudder.Services
         public void Init(StorageService storageService)
         {
             _storageService = storageService;
+            _price = ShopService.LoadPrice();
         }
 
         public int MakeMoney(int level)
         {
-            _cache += level * SingleCoin + DefaultCache;
+            var levelCache = (int)(level * _price.SingleCoin * 0.5f);
+            _cache += levelCache + _price.DefaultCache;
             return _cache;
         }
 
         public int GetRewardedBonus()
         {
-            return Random.Range(1, 10) * 50;
+            return Random.Range(5, 10) * _price.RewardBonus;
         }
 
         private void TakeCoin()
         {
             _coinCount++;
             _sfxService.TakeCoin();
-            var coin = _coinCount * SingleCoin;
+            var coin = _coinCount * _price.SingleCoin;
             _storageService.UpCoin(coin);
             _cache += coin;
         }

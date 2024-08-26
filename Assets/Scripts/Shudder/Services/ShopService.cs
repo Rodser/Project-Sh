@@ -1,4 +1,6 @@
 using BaCon;
+using Shudder.Configs;
+using Shudder.Constants;
 using Shudder.Data;
 using Shudder.Events;
 using Shudder.MainMenu.Configs;
@@ -17,6 +19,7 @@ namespace Shudder.Services
         
         private MenuConfig _config;
         private UIShopView _shopView;
+        private PriceInfo _price;
 
         public ShopService(DIContainer container)
         {
@@ -30,13 +33,14 @@ namespace Shudder.Services
         public void Init(MenuConfig config)
         {
             _config = config;
+            _price = LoadPrice();
         }
 
         public void UnSubscribe()
         {
             _readOnlyEvent.UpdateUI.RemoveListener(UpdateUI);
         }
-        
+
         public void CreateShopWindow()
         {
             Debug.Log("CreateRewardWindow");
@@ -44,24 +48,32 @@ namespace Shudder.Services
             _shopView = Object.Instantiate(_config.UIShopView);
             _shopView.Bind(_triggerOnlyEvent, _inputService, this);
             _uiRootView.AttachUI(_shopView.gameObject);
-            _readOnlyEvent.UpdateUI.AddListener(UpdateUI);
+            
+            _shopView.SetJumpPrice(_price.Jump);
+            _shopView.SetWavePrice(_price.Wave);
             UpdateUI();
+            _readOnlyEvent.UpdateUI.AddListener(UpdateUI);
         }
 
         public void BuySuperJump()
         {
-            var superJumpPrice = 9; // TODO: Create Price
+            var superJumpPrice = _price.Jump;
             
             _storageService.UpJumpCount(superJumpPrice);
         }
-        
+
         public void BuyMegaWave()
         {
-            var wavePrice = 19; // TODO: Create Price
+            var wavePrice = _price.Wave;
             
             _storageService.UpMegaWave(wavePrice);
         }
-        
+
+        public static PriceInfo LoadPrice()
+        {
+            return Resources.Load<PriceInfo>(GameConstant.PricePath);
+        }
+
         private void UpdateUI()
         {
             _shopView.SetCoin(_storageService.Progress.Coin);
