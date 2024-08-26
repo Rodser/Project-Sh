@@ -50,9 +50,16 @@ namespace Shudder.Services
 
         public void BuySuperJump()
         {
-            var superJumpPrice = 99; // TODO: Create Price
+            var superJumpPrice = 9; // TODO: Create Price
             
             _storageService.UpJumpCount(superJumpPrice);
+        }
+        
+        public void BuyMegaWave()
+        {
+            var wavePrice = 19; // TODO: Create Price
+            
+            _storageService.UpMegaWave(wavePrice);
         }
         
         private void UpdateUI()
@@ -60,7 +67,7 @@ namespace Shudder.Services
             _shopView.SetCoin(_storageService.Progress.Coin);
             _shopView.SetDiamond(_storageService.Progress.Diamond);
             _shopView.SetJumpCount(_storageService.Progress.JumpCount);
-            // _shopView.SetWaveCount(_storageService.Progress.WaveCount);
+            _shopView.SetWaveCount(_storageService.Progress.MegaWave);
         }
     }
 }

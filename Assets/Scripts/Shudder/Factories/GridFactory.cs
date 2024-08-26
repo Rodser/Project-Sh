@@ -48,6 +48,7 @@ namespace Shudder.Factories
             {
                 return await builderGridService
                     .CreateGrounds(grid, _gridConfigs[level], isMenu)
+                    .EstablishWall()
                     .EstablishPit()
                     .EstablishPortal()
                     .GetBuild();

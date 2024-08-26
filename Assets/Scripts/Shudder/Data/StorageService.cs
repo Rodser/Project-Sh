@@ -52,9 +52,9 @@ namespace Shudder.Data
             _triggerOnlyEvent.TriggerUpdateUI();
         }
 
-        public void DeductCoin(int value)
+        public void DeductWave()
         {
-            Progress.Coin = Mathf.Max(Progress.Coin - value, 0);
+            Progress.MegaWave--;
             SaveProgress();
             _triggerOnlyEvent.TriggerUpdateUI();
         }
@@ -73,6 +73,17 @@ namespace Shudder.Data
             
             Progress.Coin -= value;
             Progress.JumpCount++;
+            SaveProgress();
+            _triggerOnlyEvent.TriggerUpdateUI();
+        }
+
+        public void UpMegaWave(int value)
+        {
+            if (Progress.Coin < value) 
+                return;
+            
+            Progress.Coin -= value;
+            Progress.MegaWave++;
             SaveProgress();
             _triggerOnlyEvent.TriggerUpdateUI();
         }

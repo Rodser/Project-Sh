@@ -57,11 +57,6 @@ namespace Shudder.Gameplay.Services
                 _superJumpService.Jumped();
                 RunSwapWave(selectGround);
             }
-            if (selectGround.Id == _hero.CurrentGround.Id)
-            {
-                // await MoveHero(selectGround.Presenter.Ground);
-                RunSwapWave(selectGround);
-            }
             else
             {
                 for (int i = 0; i < _hero.CurrentGround.Neighbors.Count; i++)
@@ -86,7 +81,7 @@ namespace Shudder.Gameplay.Services
         {
             _sfxService.Thunder();
             
-            await _swapService.SwapWaveAsync(ground, new List<Vector2>(), true);
+            await _swapService.SwapWaveAsync(ground);
             await _indicatorService.CreateSelectIndicators(_hero.CurrentGround);
         }
 

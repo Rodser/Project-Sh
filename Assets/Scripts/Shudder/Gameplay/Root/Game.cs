@@ -104,6 +104,7 @@ namespace Shudder.Gameplay.Root
             HUD.SetCoin(_storage.Progress.Coin);
             HUD.SetDiamond(_storage.Progress.Diamond);
             HUD.SetJumpCount(_storage.Progress.JumpCount);
+            HUD.SetWaveCount(_storage.Progress.MegaWave);
         }
     }
 }

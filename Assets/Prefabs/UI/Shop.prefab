@@ -2107,7 +2107,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2929024396337743323}
   m_HandleRect: {fileID: 4697725347502421}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -5059,6 +5059,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: Wave
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619627556623431950, guid: dcbbdf1ecd79bfb4caf5fa1d0cfa7989,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619627556623431950, guid: dcbbdf1ecd79bfb4caf5fa1d0cfa7989,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1182066869301818466}
+    - target: {fileID: 4619627556623431950, guid: dcbbdf1ecd79bfb4caf5fa1d0cfa7989,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BuyMegaWave
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619627556623431950, guid: dcbbdf1ecd79bfb4caf5fa1d0cfa7989,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Shudder.UI.UIShopView, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619627556623431950, guid: dcbbdf1ecd79bfb4caf5fa1d0cfa7989,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5024162252173804674, guid: dcbbdf1ecd79bfb4caf5fa1d0cfa7989,
         type: 3}

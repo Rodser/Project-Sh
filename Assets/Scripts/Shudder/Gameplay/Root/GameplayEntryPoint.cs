@@ -50,7 +50,7 @@ namespace Shudder.Gameplay.Root
             _container.RegisterFactory(c => new ItemFactory()).AsSingle();      
             _container.RegisterFactory(c => new JewelKeyFactory()).AsSingle();
             _container.RegisterFactory(c => new LiftService());
-            _container.RegisterFactory(c => new SwapService(_container));
+            _container.RegisterFactory(c => new SwapService(_container)).AsSingle();
             _container.RegisterFactory(c => 
                     new HeroFactory(_container, _gameConfig.GetConfig<HeroConfig>())).AsSingle();
        

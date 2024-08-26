@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d438032ecef7374b9b8d052523266ae, type: 3}
+  m_Name: MenuGrid
+  m_EditorClassIdentifier: 
+  <GroundConfig>k__BackingField: {fileID: 11400000, guid: 67bd75025859c0d49a10f42f7bc6dc8f,
+    type: 2}
+  <SpaceBetweenCells>k__BackingField: 0.77
+  <CountCoin>k__BackingField: 2
+  <ChanceCoin>k__BackingField: 0.514
+  <Width>k__BackingField: 3
+  <Height>k__BackingField: 3
+  <HolePositionForWidth>k__BackingField: {x: 3, y: 3}
+  <HolePositionForHeight>k__BackingField: {x: 3, y: 3}
+  <IsKey>k__BackingField: 0
+  <KeyPositionForWidth>k__BackingField: {x: 0, y: 0}
+  <KeyPositionForHeight>k__BackingField: {x: 0, y: 0}
+  <IsPit>k__BackingField: 1
+  <PitCount>k__BackingField: 3
+  <ChanceOfPit>k__BackingField: 0.28
+  <PitPositionForWidth>k__BackingField: {x: 0, y: 20}
+  <PitPositionForHeight>k__BackingField: {x: 0, y: 20}

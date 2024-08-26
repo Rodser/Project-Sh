@@ -2,6 +2,7 @@ using BaCon;
 using DG.Tweening;
 using Shudder.Constants;
 using Shudder.Events;
+using Shudder.Gameplay.Services;
 using TMPro;
 using UnityEngine;
 using YG;
@@ -14,14 +15,17 @@ namespace Shudder.UI
         [SerializeField] private TextMeshProUGUI _coinTMP;
         [SerializeField] private TextMeshProUGUI _diamondTMP;
         [SerializeField] private TextMeshProUGUI _jumpCountTMP;
-        
+        [SerializeField] private TextMeshProUGUI _waveCountTMP;
+
         private ITriggerOnlyEventBus _triggerOnlyEventBus;
+        private SwapService _swapService;
         private int _currentDiamond;
         private int _currentCoin;
 
         public void Bind(DIContainer container)
         {
             _triggerOnlyEventBus = container.Resolve<ITriggerOnlyEventBus>();
+            _swapService = container.Resolve<SwapService>();
         }
         
         public void Reward()
@@ -39,6 +43,11 @@ namespace Shudder.UI
             _triggerOnlyEventBus.TriggerOpenShop();
         }
          
+        public void RunMegaWave()
+        {
+            _swapService.RunMegaWave();
+        }
+        
         public void ActivateSuperJump()
         {
             _triggerOnlyEventBus.TriggerActivateSuperJump();
@@ -47,6 +56,11 @@ namespace Shudder.UI
         public void SetJumpCount(int value)
         {
             _jumpCountTMP.text = $"x{value}";
+        }
+        
+        public void SetWaveCount(int value)
+        {
+            _waveCountTMP.text = $"x{value}";
         }
         
         public void SetLevel(int value)

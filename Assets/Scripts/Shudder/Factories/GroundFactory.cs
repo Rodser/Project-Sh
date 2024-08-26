@@ -13,14 +13,15 @@ namespace Shudder.Factories
 {
     internal class GroundFactory
     {
+        private readonly LiftService _liftService;
+        
         private float _spaceBetweenCells;
-        private readonly DIContainer _container;
         private Transform _parent;
         private GroundConfig _groundConfig;
 
         public GroundFactory(DIContainer container)
         {
-            _container = container;
+            _liftService = container.Resolve<LiftService>();
         }
 
         public async UniTask<Ground> Create(GridConfig hexGridConfig, Transform parent, int x, int z, Vector3 offsetPosition, GroundType groundType, bool isMenu)
@@ -45,7 +46,7 @@ namespace Shudder.Factories
             var presenter = new GroundPresenter(ground);
             groundView.Construct(presenter);
             
-            _container.Resolve<LiftService>().MoveAsync(groundView, offsetPosition.y, isMenu);
+            await _liftService.MoveAsync(groundView, offsetPosition.y, isMenu);
 
             await UniTask.Yield();
             return (Ground)ground;
@@ -59,7 +60,7 @@ namespace Shudder.Factories
 
         private Vector3 GetPositionCell(int x, int z, Vector3 offsetPosition, float rowOffset)
         {
-            Vector3 positionCell = new Vector3
+            var positionCell = new Vector3
             {
                 x = (x + rowOffset) * _spaceBetweenCells,
                 y = 0f,

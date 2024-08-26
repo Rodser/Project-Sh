@@ -31,6 +31,11 @@ namespace Shudder.UI
             _shopService.BuySuperJump();
         }
         
+        public void BuyMegaWave()
+        {
+            _shopService.BuyMegaWave();
+        }
+        
         public void SetJumpCount(int value)
         {
             _jumpCountTMP.text = $"x{value}";

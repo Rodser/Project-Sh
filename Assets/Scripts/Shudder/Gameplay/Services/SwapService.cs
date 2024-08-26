@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using BaCon;
 using Cysharp.Threading.Tasks;
+using Shudder.Data;
+using Shudder.Gameplay.Models;
 using Shudder.Models;
 using Shudder.Models.Interfaces;
 using UnityEngine;
@@ -10,81 +12,106 @@ namespace Shudder.Gameplay.Services
 {
     public class SwapService
     {
-        private readonly DIContainer _container;
+        private readonly LiftService _liftService;
+        private readonly IndicatorService _indicatorService;
+        private readonly StorageService _storageService;
         
-        private int _swapLimit = 6;
+        private Hero _hero;
 
         public SwapService(DIContainer container)
         {
-            _container = container;
+            _liftService = container.Resolve<LiftService>();
+            _storageService = container.Resolve<StorageService>();
+            _indicatorService = container.Resolve<IndicatorService>();
         }
 
-        public async UniTask SwapWaveAsync(IGround ground, List<Vector2> offsetItems, bool isHero)
+        public void Init(Hero hero)
         {
-            if(isHero)
-                _swapLimit = ground.Neighbors.Count;
+            _hero = hero;
+        }
+
+        public async UniTask SwapWaveAsync(IGround ground)
+        {
+            var swapGrounds = new List<IGround>();
+            AddNeighborGroundToSwap(ground, swapGrounds);
             
-            if (offsetItems.Any(item => item == ground.Id))
+            await Swap(ground);
+            foreach (var swapGround in swapGrounds)
+            {
+                await Swap(swapGround);
+            }
+        }
+
+        public async void RunMegaWave()
+        {
+            if(!TryDeductOfWaveCount())
                 return;
+
+            await _indicatorService.RemoveIndicators();
+            await MegaSwapWaveAsync(_hero.CurrentGround);
+            await _indicatorService.CreateSelectIndicators(_hero.CurrentGround);
+        }
+
+        private async UniTask MegaSwapWaveAsync(IGround ground)
+        {
+            var swapGrounds = new List<IGround>();
+            AddNeighborGroundToSwap(ground, swapGrounds);
             
-            if (_swapLimit == 0)
+            foreach (var neighbor in ground.Neighbors)
+            {
+                AddNeighborGroundToSwap(neighbor, swapGrounds);
+            }
+
+            await Swap(ground);
+            foreach (var swapGround in swapGrounds)
+            {
+                await Swap(swapGround, true);
+            }
+        }
+
+        private void AddNeighborGroundToSwap(IGround ground, List<IGround> swapGrounds)
+        {
+            foreach (var neighbor in ground.Neighbors
+                         .Where(neighbor => !swapGrounds.Contains(neighbor))
+                         .Where(neighbor => neighbor != _hero.CurrentGround)) 
+                swapGrounds.Add(neighbor);
+        }
+        
+        private bool TryDeductOfWaveCount()
+        {
+            if (_storageService.Progress.MegaWave <= 0)
+                return false;
+            
+            _storageService.DeductWave();
+            return true;
+        }
+        
+        private async UniTask Swap(IGround ground, bool isMegaWave = false)
+        {
+            var groundType = ground.GroundType;
+            if (IsStationary(groundType, isMegaWave))
+                return;
+            if (Random.value < 0.2f && ground != _hero.CurrentGround)
             {
                 ground.ToDestroy();
                 return;
             }
-            
-            offsetItems.Add(ground.Id);
-            Swap(ground, isHero);
-            
-            for (var i = 0; i < ground.Neighbors.Count; i++)
-            {
-                var neighbor = ground.Neighbors[i];
-                _swapLimit--;
-                if (_swapLimit < 0)
-                    return;
-                
-                if (_swapLimit == 0)
-                {
-                    if(Random.value < 0.5f)
-                        neighbor.ToDestroy();
-                    return;
-                }
-                
-                Swap(neighbor, false);
-                await UniTask.Delay(50);
-            }
-            
-            // for (var i = 0; i < ground.Neighbors.Count; i++)
-            // {
-            //     var neighbor = ground.Neighbors[i];
-            //     _swapLimit--;
-            //     if (_swapLimit < 0)
-            //         return;
-            //
-            //     await UniTask.Delay(500);
-            //     await SwapWaveAsync(neighbor, offsetItems, false);
-            // }
-        }
-
-        private void Swap(IGround ground, bool isHero)
-        {
-            var groundType = ground.GroundType;
-            if (IsStationary(groundType))
-                return;
 
             groundType -= 1;
             if (groundType < 0)
             {
-                groundType = 0;
-                // groundType = isHero ? GroundType.TileLow : GroundType.TileHigh;
+                groundType = isMegaWave ? GroundType.TileHigh : GroundType.TileLow;
             }
             ground.ChangeGroundType(groundType);
 
-            _container.Resolve<LiftService>().MoveAsync(ground.Presenter.View, ground.OffsetPosition.y, false);
+            await _liftService.MoveAsync(ground.Presenter.View, ground.OffsetPosition.y, false);
         }
-        
-        private static bool IsStationary(GroundType groundType)
+
+        private static bool IsStationary(GroundType groundType,  bool isMegaWave = false)
         {
+            if (isMegaWave)
+                return groundType == GroundType.Pit || groundType == GroundType.Portal;
+            
             return groundType == GroundType.Pit || groundType == GroundType.Portal || groundType == GroundType.Wall;
         }
     }

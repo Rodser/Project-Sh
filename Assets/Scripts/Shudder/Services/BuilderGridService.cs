@@ -45,6 +45,22 @@ namespace Shudder.Services
             return this;
         }
 
+        public BuilderGridService EstablishWall()
+        {
+            for (int y = 0; y < _grid.Grounds.GetLength(1); y++)
+            {
+                for (int x = 0; x < _grid.Grounds.GetLength(0); x++)
+                {
+                    if (!TryGetWall(x, y)) 
+                        continue;
+                    
+                    _cells[x, y].GroundType = GroundType.Wall;
+                }
+            }
+
+            return this;
+        }
+        
         public BuilderGridService EstablishPit()
         {
             for (int y = 0; y < _grid.Grounds.GetLength(1); y++)
@@ -126,15 +142,14 @@ namespace Shudder.Services
             return true;
         }
 
-        private bool TryGetWall(GridConfig config, int x, int y)
+        private bool TryGetWall(int x, int y)
         {
-            if (x == 0 || x == config.Width - 1)
-                return true;
-
-            if (y == 0 || y == config.Height - 1)
-                return true;
-
-            return false;
+            if (x < _config.WallPositionForWidth.x || x >= _config.WallPositionForWidth.y)
+                return false;
+            if (y < _config.WallPositionForHeight.x || y >= _config.WallPositionForHeight.y)
+                return false;
+            
+            return Random.value < _config.ChanceOfWall;
         }
 
         private Vector2Int CalculateHolePosition(GridConfig config)

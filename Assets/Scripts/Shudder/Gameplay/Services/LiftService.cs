@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Shudder.Views;
 
@@ -5,12 +6,12 @@ namespace Shudder.Gameplay.Services
 {
     public class LiftService
     {
-        public async void MoveAsync(GroundView groundView, float offset, bool isMenu)
+        public async UniTask MoveAsync(GroundView groundView, float offset, bool isMenu)
         {
             if(groundView == null)
                 return;
 
-            var heightOffset = 0.5f;
+            var heightOffset = 0.4f;
             if (isMenu)
             {
                 heightOffset = 0.25f;
@@ -20,7 +21,7 @@ namespace Shudder.Gameplay.Services
             var target = groundView.transform.position;
             target.y = height;
 
-            var move = groundView.transform.DOMove(target, 0.2f);
+            var move = groundView.transform.DOMove(target, 0.1f);
             await move.AsyncWaitForCompletion();
         }
     }
