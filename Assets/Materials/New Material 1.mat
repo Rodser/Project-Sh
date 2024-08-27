@@ -130,24 +130,24 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _Power: 20.1
+    - _Power: 7.73
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Scale: 1.56
+    - _Scale: 2.45
     - _Shininess: 0
     - _Smoothness: 0.5
     - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
     - _SpecSource: 0
     - _SpecularHighlights: 1
-    - _Speed: 0.25
+    - _Speed: 0.14
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
-    - _Streight: 10.1
+    - _Streight: 3.67
     - _Surface: 0
     - _WorkflowMode: 1
-    - _Xpos: 0
+    - _Xpos: -46.59
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0

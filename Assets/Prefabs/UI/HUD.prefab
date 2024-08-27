@@ -807,7 +807,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -40}
+  m_AnchoredPosition: {x: 3, y: -35}
   m_SizeDelta: {x: 90, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &400029004863972339
@@ -848,8 +848,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281411351
-  m_fontColor: {r: 0.09019608, g: 0.15294118, b: 0.19215688, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -866,8 +866,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 42
+  m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1006,7 +1006,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -40}
+  m_AnchoredPosition: {x: 3, y: -35}
   m_SizeDelta: {x: 90, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &137039368636989409
@@ -1047,8 +1047,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281411351
-  m_fontColor: {r: 0.09019608, g: 0.15294118, b: 0.19215688, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1065,8 +1065,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 42
+  m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1564,7 +1564,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9bcae52c679904033a5448fe7b3dbcd1,
+      objectReference: {fileID: 21300000, guid: 8046bbcf1200940a2948078aab21e76f,
         type: 3}
     - target: {fileID: 744963908849895536, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
         type: 3}
@@ -1725,6 +1725,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Shudder.UI.HudView, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4046538109337473860, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4046538109337473860, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 11.2
       objectReference: {fileID: 0}
     - target: {fileID: 7392391877038461126, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
         type: 3}
@@ -2082,7 +2092,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9bcae52c679904033a5448fe7b3dbcd1,
+      objectReference: {fileID: 21300000, guid: 2735a0e677ecc412f80dc758c87ff2a9,
         type: 3}
     - target: {fileID: 744963908849895536, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
         type: 3}
@@ -2218,6 +2228,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Shudder.UI.HudView, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4046538109337473860, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -2.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4046538109337473860, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 10.8
       objectReference: {fileID: 0}
     - target: {fileID: 7392391877038461126, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
         type: 3}

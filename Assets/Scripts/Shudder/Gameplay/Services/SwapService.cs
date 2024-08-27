@@ -6,6 +6,7 @@ using Shudder.Data;
 using Shudder.Gameplay.Models;
 using Shudder.Models;
 using Shudder.Models.Interfaces;
+using Shudder.Services;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Services
@@ -15,6 +16,7 @@ namespace Shudder.Gameplay.Services
         private readonly LiftService _liftService;
         private readonly IndicatorService _indicatorService;
         private readonly StorageService _storageService;
+        private readonly SfxService _sfxService;
         
         private Hero _hero;
 
@@ -23,6 +25,7 @@ namespace Shudder.Gameplay.Services
             _liftService = container.Resolve<LiftService>();
             _storageService = container.Resolve<StorageService>();
             _indicatorService = container.Resolve<IndicatorService>();
+            _sfxService = container.Resolve<SfxService>();
         }
 
         public void Init(Hero hero)
@@ -62,9 +65,11 @@ namespace Shudder.Gameplay.Services
                 AddNeighborGroundToSwap(neighbor, swapGrounds);
             }
 
+            _sfxService.Thunder();
             await Swap(ground);
             foreach (var swapGround in swapGrounds)
             {
+                _sfxService.Thunder();
                 await Swap(swapGround, true);
             }
         }
