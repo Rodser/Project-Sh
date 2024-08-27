@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d438032ecef7374b9b8d052523266ae, type: 3}
-  m_Name: TestGrid 0
+  m_Name: Grid 4
   m_EditorClassIdentifier: 
   <GroundConfig>k__BackingField: {fileID: 11400000, guid: d855ac658bf66f04f9055f7ff8c20aa3,
     type: 2}
   <SpaceBetweenCells>k__BackingField: 0.85
-  <Width>k__BackingField: 7
-  <Height>k__BackingField: 7
-  <CountCoin>k__BackingField: 10
+  <Width>k__BackingField: 5
+  <Height>k__BackingField: 5
+  <CountCoin>k__BackingField: 5
   <ChanceCoin>k__BackingField: 0.5
-  <HolePositionForWidth>k__BackingField: {x: 1, y: 7}
-  <HolePositionForHeight>k__BackingField: {x: 7, y: 7}
+  <HolePositionForWidth>k__BackingField: {x: 1, y: 5}
+  <HolePositionForHeight>k__BackingField: {x: 5, y: 5}
   <IsKey>k__BackingField: 1
-  <KeyPositionForWidth>k__BackingField: {x: 1, y: 7}
-  <KeyPositionForHeight>k__BackingField: {x: 6, y: 7}
+  <KeyPositionForWidth>k__BackingField: {x: 1, y: 4}
+  <KeyPositionForHeight>k__BackingField: {x: 4, y: 5}
   <IsPit>k__BackingField: 1
-  <PitCount>k__BackingField: 15
-  <ChanceOfPit>k__BackingField: 0.253
+  <PitCount>k__BackingField: 5
+  <ChanceOfPit>k__BackingField: 0.238
   <PitPositionForWidth>k__BackingField: {x: 0, y: 20}
-  <PitPositionForHeight>k__BackingField: {x: 0, y: 30}
+  <PitPositionForHeight>k__BackingField: {x: 2, y: 4}
   <IsWell>k__BackingField: 1
-  <ChanceOfWall>k__BackingField: 0.203
+  <ChanceOfWall>k__BackingField: 0.238
   <WallPositionForWidth>k__BackingField: {x: 0, y: 20}
-  <WallPositionForHeight>k__BackingField: {x: 0, y: 30}
+  <WallPositionForHeight>k__BackingField: {x: 2, y: 4}
