@@ -2216,9 +2216,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3927969079750676114, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927969079750676114, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927969079750676114, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: -10194884428468168}
+    - target: {fileID: 3927969079750676114, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 8300000, guid: 8bf41b2aebb60e5449bedd77faca40e6, type: 3}
+    - target: {fileID: 3927969079750676114, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3927969079750676114, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -2227,6 +2247,11 @@ PrefabInstance:
     - target: {fileID: 3927969079750676114, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Shudder.UI.HudView, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927969079750676114, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: Shudder.UI.HudView, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4046538109337473860, guid: ed6dbb0110b7e2f41b61e67f896a0b17,

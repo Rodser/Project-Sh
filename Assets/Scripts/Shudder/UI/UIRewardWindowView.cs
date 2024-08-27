@@ -9,17 +9,20 @@ namespace Shudder.UI
     {
        [SerializeField] private TextMeshProUGUI _coinTM;
       
+       private SfxService _sfxService;
        private int _coin;
        private bool _nextLevel;
 
-       public void Bind(ITriggerOnlyEventBus eventBus, InputService inputService, bool nextLevel)
+       public void Bind(ITriggerOnlyEventBus eventBus, InputService inputService, SfxService sfxService, bool nextLevel)
        {
            base.Bind(eventBus, inputService);
+           _sfxService = sfxService;
            _nextLevel = nextLevel;
        }
 
        public void TakeMoney()
         {
+            _sfxService.Click();
             _triggerOnlyEvent.TriggerUpdateCoin(_coin);
             
             if (_nextLevel) 

@@ -15,24 +15,33 @@ namespace Shudder.UI
         [SerializeField] private TextMeshProUGUI _wavePriceTMP;
         
         private ShopService _shopService;
+        private SfxService _sfxService;
 
-        public void Bind(ITriggerOnlyEventBus eventBus, InputService inputService, ShopService shopService)
+        public void Bind(ITriggerOnlyEventBus eventBus, InputService inputService, SfxService sfxService, ShopService shopService)
         {
             base.Bind(eventBus, inputService);
+            _sfxService = sfxService;
             _shopService = shopService;
         }
         
         public new void CloseWindow()
         {
+            _sfxService.Click();
             _shopService.UnSubscribe();
             base.CloseWindow();
         }
         
-        public void BuySuperJump() => 
+        public void BuySuperJump()
+        {
+            _sfxService.Click();
             _shopService.BuySuperJump();
+        }
 
-        public void BuyMegaWave() => 
+        public void BuyMegaWave()
+        {
+            _sfxService.Click();
             _shopService.BuyMegaWave();
+        }
 
         public void SetJumpCount(int value) => 
             _jumpCountTMP.text = $"x{value}";

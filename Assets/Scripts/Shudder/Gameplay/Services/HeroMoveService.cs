@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using BaCon;
 using Cysharp.Threading.Tasks;
 using Shudder.Gameplay.Configs;
@@ -79,8 +78,6 @@ namespace Shudder.Gameplay.Services
 
         private async void RunSwapWave(IGround ground)
         {
-            _sfxService.Thunder();
-            
             await _swapService.SwapWaveAsync(ground);
             await _indicatorService.CreateSelectIndicators(_hero.CurrentGround);
         }

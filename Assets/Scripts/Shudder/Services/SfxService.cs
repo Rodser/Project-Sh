@@ -9,6 +9,8 @@ namespace Shudder.Services
 {
     public class SfxService
     {
+        private readonly Transform _cameraTransform;
+        
         private AudioSource _boom;
         private AudioSource _jump;
         private AudioSource _take;
@@ -17,10 +19,10 @@ namespace Shudder.Services
         private AudioSource _musicMenu;
         private AudioSource _currentMusic;
         private AudioSource _takeCoin;
+        private AudioSource _click;
 
         private float _soundMute = 1f;
         private float _musicMute = 1f;
-        private readonly Transform _cameraTransform;
 
         public SfxService(DIContainer container)
         {
@@ -74,6 +76,9 @@ namespace Shudder.Services
         public void InPortal() => 
             _portal?.Play();
 
+        public void Click() => 
+            _click?.Play();
+
         public void StartMusic() => 
             _currentMusic?.Play();
 
@@ -83,6 +88,7 @@ namespace Shudder.Services
         public void CreateMusicMenu(SFXConfig config)
         {
             _musicMenu = _musicMenu.Create(config.Music, _cameraTransform);
+            _click = _click.Create(config.ButtonSFX, _cameraTransform);
             _currentMusic = _musicMenu;
             StartMusic();
         }
@@ -120,6 +126,7 @@ namespace Shudder.Services
             _jump.SetMute(value);
             _take.SetMute(value);
             _portal.SetMute(value);
+            _click.SetMute(value);
         }
     }
 }

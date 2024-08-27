@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Shudder.Constants;
 using Shudder.Events;
+using Shudder.Services;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,36 +21,43 @@ namespace Shudder.UI
         
         private int _currentCoin;
         private int _currentDiamond;
+        private SfxService _sfxService;
 
-        public async void Bind(ITriggerOnlyEventBus eventBus)
+        public async void Bind(ITriggerOnlyEventBus eventBus, SfxService sfxService)
         {
+            _sfxService = sfxService;
             _triggerOnlyEvent = eventBus;
             await ShowWindow();
         }
 
         public async void StartGame()
         {
+            _sfxService.Click();
             await CloseWindow();
             _triggerOnlyEvent.TriggerPlayGame();
         }
         
         public void OpenSettings()
         {
+            _sfxService.Click();
             _triggerOnlyEvent.TriggerOpenSettings();
         }
         
         public void OpenLeaderboards()
         {
+            _sfxService.Click();
             _triggerOnlyEvent.TriggerOpenLeaderboards();
         }
         
         public void OpenReward()
         {
+            _sfxService.Click();
             YandexGame.RewVideoShow(GameConstant.RewardIndex);
         }
         
         public void OpenShop()
         {
+            _sfxService.Click();
             _triggerOnlyEvent.TriggerOpenShop();
         }
         

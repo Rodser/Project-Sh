@@ -13,13 +13,14 @@ namespace Shudder.Services
         private readonly ITriggerOnlyEventBus _triggerOnlyEvent;
         private readonly InputService _inputService;
         private readonly UIRootView _uiRootView;
+        private readonly SfxService _sfxService;
 
         public LeaderBoardsService(DIContainer container)
         {
             _triggerOnlyEvent = container.Resolve<ITriggerOnlyEventBus>();
             _inputService = container.Resolve<InputService>();
             _uiRootView = container.Resolve<UIRootView>();
-            
+            _sfxService = container.Resolve<SfxService>();
         }
 
         public LeaderboardYG Leaderboard { get; private set; }
@@ -34,7 +35,7 @@ namespace Shudder.Services
             Debug.Log("CreateRewardWindow");
             _inputService.Disable();
             var window = Object.Instantiate(_config.UILeaderboardsView);
-            window.Bind(_triggerOnlyEvent, _inputService);
+            window.Bind(_triggerOnlyEvent, _inputService, _sfxService);
             _uiRootView.AttachUI(window.gameObject);
             Leaderboard = window.leaderboardYg;
         }

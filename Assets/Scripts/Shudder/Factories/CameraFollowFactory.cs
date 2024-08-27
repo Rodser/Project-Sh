@@ -7,9 +7,8 @@ namespace Shudder.Factories
 {
     public class CameraFollowFactory
     {
-        public CameraFollow Create()
+        public CameraFollow Create(CameraFollowView prefab)
         {
-            var prefab = Resources.Load<CameraFollowView>("Camera");
             var cameraFollowView = Object.Instantiate(prefab);
             Object.DontDestroyOnLoad(cameraFollowView.gameObject);
 

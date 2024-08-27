@@ -14,11 +14,14 @@ namespace Shudder.UI
         [SerializeField] private Slider _musicSlider;
         [SerializeField] private Slider _soundSlider;
         [SerializeField] private TextMeshProUGUI _versionTMPro;
-       
+        
+        private SfxService _sfxService;
+
         public void Bind(ITriggerOnlyEventBus eventBus, InputService inputService, SfxService sfxService,
             string version)
         {
             base.Bind(eventBus, inputService);
+            _sfxService = sfxService;
             _musicSlider.value = sfxService.MusicMute;
             _soundSlider.value = sfxService.SoundMute;
             SetVersion(version);
@@ -26,12 +29,14 @@ namespace Shudder.UI
         
         public void ChangeMusicSlider()
         {        
+            _sfxService.Click();
             Debug.Log($"Music {_musicSlider.value}");
             _triggerOnlyEvent.TriggerMusicMute(_musicSlider.value);
         }
         
         public void ChangeSoundSlider()
         {        
+            _sfxService.Click();
             Debug.Log($"Sound {_soundSlider.value}");
             _triggerOnlyEvent.TriggerSoundMute(_soundSlider.value);
         }
@@ -44,6 +49,7 @@ namespace Shudder.UI
         
         public async void GoToMenu()
         {        
+            _sfxService.Click();
             await UniTask.Delay(400);
             _triggerOnlyEvent.TriggerLevelToMenu();
             Debug.Log("Exit to menu");
@@ -52,6 +58,7 @@ namespace Shudder.UI
 
         public async void RefreshLevel()
         {
+            _sfxService.Click();
             var tween = _window.DOScale(Vector3.zero, AnimDuration);
             await tween.AsyncWaitForCompletion();
             _triggerOnlyEvent.TriggerRefreshLevel();

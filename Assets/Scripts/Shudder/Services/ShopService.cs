@@ -16,6 +16,7 @@ namespace Shudder.Services
         private readonly UIRootView _uiRootView;
         private readonly StorageService _storageService;
         private readonly IReadOnlyEventBus _readOnlyEvent;
+        private readonly SfxService _sfxService;
         
         private MenuConfig _config;
         private UIShopView _shopView;
@@ -27,7 +28,8 @@ namespace Shudder.Services
             _triggerOnlyEvent = container.Resolve<ITriggerOnlyEventBus>();
             _uiRootView = container.Resolve<UIRootView>();
             _storageService = container.Resolve<StorageService>();
-            _readOnlyEvent = container.Resolve<IReadOnlyEventBus>();
+            _readOnlyEvent = container.Resolve<IReadOnlyEventBus>();   
+            _sfxService = container.Resolve<SfxService>();
         }
 
         public void Init(MenuConfig config)
@@ -46,7 +48,7 @@ namespace Shudder.Services
             Debug.Log("CreateRewardWindow");
             _inputService.Disable();
             _shopView = Object.Instantiate(_config.UIShopView);
-            _shopView.Bind(_triggerOnlyEvent, _inputService, this);
+            _shopView.Bind(_triggerOnlyEvent, _inputService, _sfxService, this);
             _uiRootView.AttachUI(_shopView.gameObject);
             
             _shopView.SetJumpPrice(_price.Jump);

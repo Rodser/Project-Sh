@@ -3,6 +3,7 @@ using DG.Tweening;
 using Shudder.Constants;
 using Shudder.Events;
 using Shudder.Gameplay.Services;
+using Shudder.Services;
 using TMPro;
 using UnityEngine;
 using YG;
@@ -19,6 +20,7 @@ namespace Shudder.UI
 
         private ITriggerOnlyEventBus _triggerOnlyEventBus;
         private SwapService _swapService;
+        private SfxService _sfxService;
         private int _currentDiamond;
         private int _currentCoin;
 
@@ -26,30 +28,36 @@ namespace Shudder.UI
         {
             _triggerOnlyEventBus = container.Resolve<ITriggerOnlyEventBus>();
             _swapService = container.Resolve<SwapService>();
+            _sfxService = container.Resolve<SfxService>();
         }
         
         public void Reward()
         {
+            _sfxService.Click();
             YandexGame.RewVideoShow(GameConstant.RewardIndex);
         }
         
         public void OpenSettings()
         {
+            _sfxService.Click();
             _triggerOnlyEventBus.TriggerOpenSettings();
         }
         
         public void OpenShop()
         {
+            _sfxService.Click();
             _triggerOnlyEventBus.TriggerOpenShop();
         }
          
         public void RunMegaWave()
         {
+            _sfxService.Click();
             _swapService.RunMegaWave();
         }
         
         public void ActivateSuperJump()
         {
+            _sfxService.Click();
             _triggerOnlyEventBus.TriggerActivateSuperJump();
         }
         

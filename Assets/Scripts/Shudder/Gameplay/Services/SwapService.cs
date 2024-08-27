@@ -37,7 +37,8 @@ namespace Shudder.Gameplay.Services
         {
             var swapGrounds = new List<IGround>();
             AddNeighborGroundToSwap(ground, swapGrounds);
-            
+
+            _sfxService.Thunder();
             await Swap(ground);
             foreach (var swapGround in swapGrounds)
             {

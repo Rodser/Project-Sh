@@ -5,9 +5,7 @@ using Shudder.Factories;
 using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Factories;
 using Shudder.Gameplay.Services;
-using Shudder.Models;
 using Shudder.Services;
-using Shudder.Views;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Root
@@ -24,7 +22,6 @@ namespace Shudder.Gameplay.Root
             _container = container;
             _container.Resolve<SfxService>().StopMusic();
 
-            InitializeCameraService();
             Registration();
 
             _game = new Game(_container, _gameConfig);
@@ -63,17 +60,6 @@ namespace Shudder.Gameplay.Root
             _container.RegisterInstance(new VictoryHandlerService(_container, _gameConfig));
             _container.RegisterInstance(new LevelLoadingService(_container, _gameConfig));
 
-        }
-        
-        private void InitializeCameraService()
-        {
-            CameraFollowView cameraFollowView = FindFirstObjectByType<CameraFollowView>();
-            
-            CameraFollow cameraFollow = cameraFollowView is null 
-                ? new CameraFollowFactory().Create() 
-                : cameraFollowView.Presenter.CameraFollow;  
-            
-            _container.RegisterInstance(new CameraService(cameraFollow));
         }
     }
 }

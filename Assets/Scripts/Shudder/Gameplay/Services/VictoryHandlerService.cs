@@ -51,7 +51,7 @@ namespace Shudder.Gameplay.Services
         {
             var prefab = _gameConfig.UIVictoryWindowView;
             var window = Object.Instantiate(prefab);
-            window.Bind(_triggerOnlyEvent, _inputService);
+            window.Bind(_triggerOnlyEvent, _inputService, _sfxService);
             _uiRootView.AttachUI(window.gameObject);
 
             window.SetCoin(coin);

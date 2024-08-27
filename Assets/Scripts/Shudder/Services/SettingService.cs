@@ -1,4 +1,5 @@
 using BaCon;
+using Shudder.Configs;
 using Shudder.Events;
 using Shudder.Gameplay.Services;
 using Shudder.Models;
@@ -9,6 +10,7 @@ namespace Shudder.Services
 {
     public class SettingService
     {
+        private readonly BuildInfo _buildInfo;
         private readonly InputService _inputService;
         private readonly SfxService _sfxService;
         private readonly UIRootView _uiRootView;
@@ -19,8 +21,9 @@ namespace Shudder.Services
         private CameraSurveillanceService _cameraSurveillanceService;
         private SceneActiveChecked _sceneActiveChecked;
 
-        public SettingService(DIContainer container)
+        public SettingService(DIContainer container, BuildInfo buildInfo)
         {
+            _buildInfo = buildInfo;
             _inputService = container.Resolve<InputService>();
             _uiRootView = container.Resolve<UIRootView>();
             _sfxService = container.Resolve<SfxService>();
@@ -56,7 +59,7 @@ namespace Shudder.Services
                 _triggerOnlyEvent,
                 _inputService,
                 _sfxService,
-                _uiRootView.BundleVersion
+                _buildInfo.BundleVersion
                 );
             _uiRootView.AttachUI(ui.gameObject);
             ui.ShowWindow();

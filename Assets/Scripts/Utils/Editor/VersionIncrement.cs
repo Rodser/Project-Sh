@@ -1,4 +1,6 @@
 using System;
+using Shudder.Configs;
+using Shudder.Constants;
 using Shudder.UI;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -23,8 +25,8 @@ namespace Utils.Editor
             currentVersion = major + "." + minor + "." + build;
             PlayerSettings.bundleVersion = currentVersion;
 
-            var uiRoot = Resources.Load<UIRootView>("UIRoot");
-            uiRoot.BundleVersion = currentVersion;
+            var info = Resources.Load<BuildInfo>(GameConstant.BuildInfoPath);
+            info.BundleVersion = currentVersion;
             
             Debug.Log(currentVersion);
         }

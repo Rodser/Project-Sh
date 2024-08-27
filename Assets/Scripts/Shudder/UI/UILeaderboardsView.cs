@@ -7,16 +7,19 @@ namespace Shudder.UI
 {
     public class UILeaderboardsView : PopUpView
     {
+        private SfxService _sfxService;
         [field: SerializeField] public LeaderboardYG leaderboardYg { get; private set; }
         
-        public new void Bind(ITriggerOnlyEventBus triggerOnlyEvent, InputService inputService)
+        public void Bind(ITriggerOnlyEventBus triggerOnlyEvent, InputService inputService, SfxService sfxService)
         {
             base.Bind(triggerOnlyEvent, inputService);
+            _sfxService = sfxService;
             leaderboardYg.UpdateLB();
         }
 
         public void GoBack()
         {
+            _sfxService.Click();
             CloseWindow();
         }
     }

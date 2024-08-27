@@ -1,5 +1,6 @@
 using BaCon;
 using Cysharp.Threading.Tasks;
+using Shudder.Configs;
 using Shudder.Constants;
 using Shudder.Data;
 using Shudder.Events;
@@ -18,11 +19,12 @@ namespace Shudder.Root
     public class GameEntryPoint
     {
         private readonly DIContainer _rootDiContainer;
+        private readonly BuildInfo _buildInfo;
 
         public GameEntryPoint()
         {
             _rootDiContainer = new DIContainer();
-            
+            _buildInfo = CreateBuildInfo();
             Registration();
             Subscribe();
         }
@@ -108,7 +110,7 @@ namespace Shudder.Root
 
         private void Registration()
         {
-            var cameraFollow = new CameraFollowFactory().Create();
+            var cameraFollow = new CameraFollowFactory().Create(_buildInfo.CameraFollowView);
             _rootDiContainer.RegisterInstance(new CameraService(cameraFollow));
         
             var uiRoot = CreateUIRoot();
@@ -127,15 +129,19 @@ namespace Shudder.Root
             _rootDiContainer.RegisterInstance(new LeaderBoardsService(_rootDiContainer));
             _rootDiContainer.RegisterInstance(new StorageService(_rootDiContainer));
             _rootDiContainer.RegisterInstance(new ShopService(_rootDiContainer));
-            _rootDiContainer.RegisterInstance(new SettingService(_rootDiContainer));
+            _rootDiContainer.RegisterInstance(new SettingService(_rootDiContainer, _buildInfo));
             _rootDiContainer.RegisterInstance(new RewardService(_rootDiContainer));
 
         }
 
+        private BuildInfo CreateBuildInfo()
+        {
+            return Resources.Load<BuildInfo>(GameConstant.BuildInfoPath);
+        }
+        
         private UIRootView CreateUIRoot()
         {
-            var prefabUIRoot = Resources.Load<UIRootView>(GameConstant.UiRootPath);
-            var uiRoot = Object.Instantiate(prefabUIRoot);
+            var uiRoot = Object.Instantiate(_buildInfo.UIRootView);
             Object.DontDestroyOnLoad(uiRoot.gameObject);
             return uiRoot;
         }

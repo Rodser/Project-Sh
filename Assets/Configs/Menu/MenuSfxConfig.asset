@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e63dbef652eab0418308a6270773a74, type: 3}
   m_Name: MenuSfxConfig
   m_EditorClassIdentifier: 
-  <ButtonSFX>k__BackingField: {fileID: 0}
+  <ButtonSFX>k__BackingField: {fileID: 4851624645008334375, guid: c0abc6f0af4d5af42b0b0da678251bbd,
+    type: 3}
   <VinnerSFX>k__BackingField: {fileID: 0}
   <LooserSFX>k__BackingField: {fileID: 0}
   <Music>k__BackingField: {fileID: 4851624645008334375, guid: 182a5a2457746cd42aa6499083e2f8af,
