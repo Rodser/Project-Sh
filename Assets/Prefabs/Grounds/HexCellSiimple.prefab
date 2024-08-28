@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3727912014917743728}
   - component: {fileID: 4909380172065614510}
   m_Layer: 0
-  m_Name: HexCell 3
+  m_Name: HexCellSiimple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,12 +162,12 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 0766e103640a652469e6505618638b91, type: 2}
+      objectReference: {fileID: 2100000, guid: 70300fc910cb07447bef34d788d64219, type: 2}
     - target: {fileID: -895306380916907690, guid: 2143485acbc45cc49b90738230f1007f,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 8ee1c30587c3a2245b8e03ee8d56f3a0, type: 2}
+      objectReference: {fileID: 2100000, guid: 44a1efacec8c86b419b6102ecd49fa56, type: 2}
     - target: {fileID: 919132149155446097, guid: 2143485acbc45cc49b90738230f1007f,
         type: 3}
       propertyPath: m_Name
@@ -182,7 +182,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 8ee1c30587c3a2245b8e03ee8d56f3a0, type: 2}
+      objectReference: {fileID: 2100000, guid: 44a1efacec8c86b419b6102ecd49fa56, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
