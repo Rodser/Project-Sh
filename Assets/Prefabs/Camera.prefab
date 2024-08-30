@@ -386,17 +386,17 @@ PrefabInstance:
     - target: {fileID: 198649629676670238, guid: df0c133e93e92ea43ac4d6bec15faea4,
         type: 3}
       propertyPath: ColorModule.gradient.maxGradient.key1.b
-      value: 0.9339623
+      value: 0.9716981
       objectReference: {fileID: 0}
     - target: {fileID: 198649629676670238, guid: df0c133e93e92ea43ac4d6bec15faea4,
         type: 3}
       propertyPath: ColorModule.gradient.maxGradient.key1.g
-      value: 0.22467959
+      value: 0.59126914
       objectReference: {fileID: 0}
     - target: {fileID: 198649629676670238, guid: df0c133e93e92ea43ac4d6bec15faea4,
         type: 3}
       propertyPath: ColorModule.gradient.maxGradient.key1.r
-      value: 0.74357
+      value: 0.8708108
       objectReference: {fileID: 0}
     - target: {fileID: 198649629676670238, guid: df0c133e93e92ea43ac4d6bec15faea4,
         type: 3}

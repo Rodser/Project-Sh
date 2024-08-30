@@ -12,6 +12,7 @@ using Shudder.Services;
 using Shudder.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using YG;
 using Object = UnityEngine.Object;
 
 namespace Shudder.Root
@@ -159,12 +160,14 @@ namespace Shudder.Root
         {
             Subscribe();
             LoadAndStartMainMenuScene();
+            YandexGame.FullscreenShow();
         }
 
         private void OnLoadAndStartGameplayScene()
         {
             Subscribe();
             LoadAndStartGameplayScene();
+            YandexGame.FullscreenShow();
         }
 
         private async UniTask LoadSceneAsync(string sceneName)

@@ -313,7 +313,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 85c1cc9c2792a4221b65ebd52e27025d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bb45ab79dd4c2744f963fb44b1a25a0d, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -619,7 +619,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -630,7 +630,7 @@ MonoBehaviour:
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.09
+  m_FillAmount: 0.166
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -1566,8 +1566,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f14e325d1c57e4561acfb07e59c1760e, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 9bcae52c679904033a5448fe7b3dbcd1, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2070,6 +2070,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DiamondsLayout
+      objectReference: {fileID: 0}
+    - target: {fileID: 4917750224496170167, guid: 403c0b21941fd654496ce1df60059659,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6368222090469320787, guid: 403c0b21941fd654496ce1df60059659,
         type: 3}
@@ -2632,7 +2637,7 @@ PrefabInstance:
     - target: {fileID: 2118602332487952888, guid: 0bc6dd7bd4bd1c34496f543dcc94d302,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3746940327623083267, guid: 0bc6dd7bd4bd1c34496f543dcc94d302,
         type: 3}

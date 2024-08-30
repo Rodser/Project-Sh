@@ -66,24 +66,26 @@ namespace Shudder.Data
             _triggerOnlyEvent.TriggerUpdateUI();
         }
         
-        public void UpJumpCount(int value)
+        public void UpJumpCount(int price, int count)
         {
-            if (Progress.Coin < value) 
+            var coin = price * count;
+            if (Progress.Coin < coin) 
                 return;
             
-            Progress.Coin -= value;
-            Progress.JumpCount++;
+            Progress.Coin -= coin;
+            Progress.JumpCount += count;
             SaveProgress();
             _triggerOnlyEvent.TriggerUpdateUI();
         }
 
-        public void UpMegaWave(int value)
+        public void UpMegaWave(int price, int count)
         {
-            if (Progress.Coin < value) 
+            var coin = price * count;
+            if (Progress.Coin < coin) 
                 return;
             
-            Progress.Coin -= value;
-            Progress.MegaWave++;
+            Progress.Coin -= coin;
+            Progress.MegaWave += count;
             SaveProgress();
             _triggerOnlyEvent.TriggerUpdateUI();
         }

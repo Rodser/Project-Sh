@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Jump>k__BackingField: 99
   <Wave>k__BackingField: 199
+  <JumpX10>k__BackingField: 900
+  <WaveX10>k__BackingField: 1900
   <SingleCoin>k__BackingField: 10
   <DefaultCache>k__BackingField: 111
   <RewardBonus>k__BackingField: 55

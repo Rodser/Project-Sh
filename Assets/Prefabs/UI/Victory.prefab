@@ -1446,10 +1446,20 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 744963908849895536, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
         type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 744963908849895536, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
+        type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d85f52eb007fa42abac0ec516ea3791c,
+      objectReference: {fileID: 21300000, guid: 9bcae52c679904033a5448fe7b3dbcd1,
         type: 3}
+    - target: {fileID: 744963908849895536, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
+        type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1267955712846446353, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1642,9 +1652,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 744963908849895536, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
         type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 744963908849895536, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
+        type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: ab969bd16146b41e8ba26caf10e0f156,
+      objectReference: {fileID: 21300000, guid: 2735a0e677ecc412f80dc758c87ff2a9,
         type: 3}
     - target: {fileID: 1267955712846446353, guid: ed6dbb0110b7e2f41b61e67f896a0b17,
         type: 3}

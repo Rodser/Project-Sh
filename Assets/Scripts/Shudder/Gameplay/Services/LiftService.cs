@@ -6,18 +6,14 @@ namespace Shudder.Gameplay.Services
 {
     public class LiftService
     {
+        private const float HeightOffset = 0.25f;
+        
         public async UniTask MoveAsync(GroundView groundView, float offset, bool isMenu)
         {
             if(groundView == null)
                 return;
-
-            var heightOffset = 0.4f;
-            if (isMenu)
-            {
-                heightOffset = 0.25f;
-            }
             
-            var height = (int)groundView.Presenter.Ground.GroundType * heightOffset + offset;
+            var height = (int)groundView.Presenter.Ground.GroundType * HeightOffset + offset;
             var target = groundView.transform.position;
             target.y = height;
 

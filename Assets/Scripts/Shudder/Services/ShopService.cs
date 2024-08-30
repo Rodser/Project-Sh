@@ -51,29 +51,36 @@ namespace Shudder.Services
             _shopView.Bind(_triggerOnlyEvent, _inputService, _sfxService, this);
             _uiRootView.AttachUI(_shopView.gameObject);
             
-            _shopView.SetJumpPrice(_price.Jump);
-            _shopView.SetWavePrice(_price.Wave);
+            SetPrice();
             UpdateUI();
             _readOnlyEvent.UpdateUI.AddListener(UpdateUI);
         }
 
-        public void BuySuperJump()
+        public void BuySuperJump(int count)
         {
             var superJumpPrice = _price.Jump;
             
-            _storageService.UpJumpCount(superJumpPrice);
+            _storageService.UpJumpCount(superJumpPrice, count);
         }
 
-        public void BuyMegaWave()
+        public void BuyMegaWave(int count)
         {
             var wavePrice = _price.Wave;
             
-            _storageService.UpMegaWave(wavePrice);
+            _storageService.UpMegaWave(wavePrice, count);
         }
 
         public static PriceInfo LoadPrice()
         {
             return Resources.Load<PriceInfo>(GameConstant.PricePath);
+        }
+
+        private void SetPrice()
+        {
+            _shopView.SetJumpPrice(_price.Jump);
+            _shopView.SetWavePrice(_price.Wave);
+            _shopView.SetJumpPriceX(_price.JumpX10);
+            _shopView.SetWavePriceX(_price.WaveX10);
         }
 
         private void UpdateUI()
