@@ -9,9 +9,15 @@ namespace Shudder.Factories
     {
         public CameraFollow Create(CameraFollowView prefab)
         {
+            var cameraFollow = Instantiate(prefab);
+            Object.DontDestroyOnLoad(cameraFollow.Presenter.View.gameObject);
+            
+            return cameraFollow;
+        }
+        
+        public CameraFollow Instantiate(CameraFollowView prefab)
+        {
             var cameraFollowView = Object.Instantiate(prefab);
-            Object.DontDestroyOnLoad(cameraFollowView.gameObject);
-
             var cameraFollow = new CameraFollow();
             var presenter = new CameraFollowPresenter(cameraFollow);
             cameraFollowView.Construct(presenter);

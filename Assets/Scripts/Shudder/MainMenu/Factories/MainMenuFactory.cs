@@ -24,6 +24,7 @@ namespace Shudder.MainMenu.Factories
         private readonly GridFactory _gridFactory;
         private readonly SfxService _sfxService;
         private readonly UIRootView _uiRootView;
+        private readonly CoinService _coinService;
 
         public MainMenuFactory(DIContainer container, MenuConfig menuConfig)
         {
@@ -37,12 +38,13 @@ namespace Shudder.MainMenu.Factories
             _heroFactory = _container.Resolve<HeroFactory>();
             _gridFactory = _container.Resolve<GridFactory>("MenuGrid");
             _sfxService = _container.Resolve<SfxService>();
+            _coinService = container.Resolve<CoinService>();
             _uiRootView = _container.Resolve<UIRootView>();
         }
 
         public async void Create()
         {
-            _cameraService.Reset();
+            _cameraService?.Reset();
             var menuGrid = await CreateGrid();
             menuGrid.OffPortalCollider();
             
@@ -61,7 +63,7 @@ namespace Shudder.MainMenu.Factories
             var menu = new Menu(_container, menuGrid, _menuConfig, menuUI, hero);
             menu.UpdateUI();
             menu.UpdateProgressBar();
-            menuUI.Bind(_triggerEventBus, _sfxService);
+            menuUI.Bind(_triggerEventBus, _sfxService, _coinService);
             _settingService.Init(_menuConfig.UISettingView, menu.SceneActiveChecked);
         }
 

@@ -7,7 +7,6 @@ namespace Shudder.Gameplay.Configs
     {
         [field: SerializeField] public float DurationJump { get; private set; }
         [field: SerializeField] public float PowerJump { get; private set; }
-        [field: SerializeField] public float DurationClench { get; private set; }
-        [field: SerializeField] public Vector3 ScaleClench { get; private set; }
+        [field: SerializeField] public float Delay { get; private set; }
     }
 }

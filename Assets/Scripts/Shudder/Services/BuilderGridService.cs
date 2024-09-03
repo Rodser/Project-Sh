@@ -12,19 +12,25 @@ namespace Shudder.Services
 {
     public class BuilderGridService
     {
-        private readonly DIContainer _container;
+        private GroundFactory _groundFactory;
+        private CameraService _cameraService;
+        
         private Grid _grid;
         private GridConfig _config;
-        private GroundFactory _groundFactory;
         private Vector3 _offsetPosition;
-        private bool _isMenu;
         private Ground[,] _cells;
+        private bool _isMenu;
 
-        public BuilderGridService(DIContainer container)
+        public BuilderGridService()
         {
-            _container = container;
         }
-
+        
+        public void Construct(CameraService cameraService, GroundFactory groundFactory)
+        {
+            _cameraService = cameraService;
+            _groundFactory = groundFactory;
+        }
+        
         public  BuilderGridService CreateGrounds(Grid grid, GridConfig config, bool isMenu)
         {
             _grid = grid;
@@ -33,7 +39,6 @@ namespace Shudder.Services
             _grid.Grounds = new Ground[config.Width, config.Height];
             _cells = new Ground[config.Width, config.Height];
             _offsetPosition = GetOffsetPosition(config);
-            _groundFactory = _container.Resolve<GroundFactory>();
 
             for (int z = 0; z < config.Height; z++)
             {
@@ -85,14 +90,14 @@ namespace Shudder.Services
             return this;
         }
 
-        public async UniTask<Grid> GetBuild()
+        public async UniTask<Grid> GetBuildAsync()
         {
             for (int z = 0; z < _config.Height; z++)
             {
                 for (int x = 0; x < _config.Width; x++)
                 {
                         _grid.Grounds[x, z] = await _groundFactory
-                            .Create(_config, _grid.Presenter.View.transform, x, z, _offsetPosition,  _cells[x, z].GroundType, _isMenu);
+                            .CreateAsync(_config, _grid.Presenter.View.transform, x, z, _offsetPosition,  _cells[x, z].GroundType, _isMenu);
                         
                         if (_cells[x, z].GroundType == GroundType.Portal)
                             _grid.Portal = _grid.Grounds[x, z];
@@ -102,6 +107,22 @@ namespace Shudder.Services
             await SetNeighbors();
             Debug.Log("Create Grounds");
             return _grid;
+        }
+        
+        public void Build()
+        {
+            for (int z = 0; z < _config.Height; z++)
+            {
+                for (int x = 0; x < _config.Width; x++)
+                {
+                    _grid.Grounds[x, z] = _groundFactory
+                        .Create(_config, _grid.Presenter.View.transform, x, z, _offsetPosition,  _cells[x, z].GroundType);
+                        
+                    if (_cells[x, z].GroundType == GroundType.Portal)
+                        _grid.Portal = _grid.Grounds[x, z];
+                }
+            }
+            Debug.Log("Created Grounds");
         }
 
         private async UniTask SetNeighbors()
@@ -124,7 +145,7 @@ namespace Shudder.Services
             var z = config.Height * config.SpaceBetweenCells * GameConstant.InnerRadiusCoefficient * 0.5f;
             var y = 0f; 
 
-            return _container.Resolve<CameraService>().View.transform.position - new Vector3(x, y, z);
+            return _cameraService.View.transform.position - new Vector3(x, y, z);
         }
 
         private bool TryGetPit(int x, int y)
@@ -164,9 +185,9 @@ namespace Shudder.Services
             var type = GroundType.TileMedium;
 
             var r = Random.value;
-            if (r > 0.7)
+            if (r > 0.5)
                 type = GroundType.TileHigh;
-            else if (r < 0.3)
+            else if (r < 0.2)
                 type = GroundType.TileLow;
             return type;
         }

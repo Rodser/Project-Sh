@@ -1,5 +1,4 @@
-﻿using System;
-using BaCon;
+﻿using BaCon;
 using Cysharp.Threading.Tasks;
 using Shudder.Configs;
 using Shudder.Presenters;
@@ -36,22 +35,25 @@ namespace Shudder.Factories
             presenter.SetView(gridView);
 
             var builderGridService = _container.Resolve<BuilderGridService>();
+            builderGridService.Construct(
+                _container.Resolve<CameraService>(), 
+                _container.Resolve<GroundFactory>());
             if (isMenu)
             {
                return await builderGridService
-                    .CreateGrounds(grid, _gridConfig, isMenu)
+                    .CreateGrounds(grid, _gridConfig, true)
                     .EstablishPit()
                     .EstablishPortal()
-                    .GetBuild();
+                    .GetBuildAsync();
             }
             else
             {
                 return await builderGridService
-                    .CreateGrounds(grid, _gridConfigs[level], isMenu)
+                    .CreateGrounds(grid, _gridConfigs[level], false)
                     .EstablishWall()
                     .EstablishPit()
                     .EstablishPortal()
-                    .GetBuild();
+                    .GetBuildAsync();
             }
         }
     }

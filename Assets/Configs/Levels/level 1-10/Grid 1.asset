@@ -18,7 +18,7 @@ MonoBehaviour:
   <Width>k__BackingField: 3
   <Height>k__BackingField: 3
   <CountCoin>k__BackingField: 3
-  <ChanceCoin>k__BackingField: 0.5
+  <ChanceCoin>k__BackingField: 0.527
   <HolePositionForWidth>k__BackingField: {x: 1, y: 3}
   <HolePositionForHeight>k__BackingField: {x: 3, y: 3}
   <IsKey>k__BackingField: 0
@@ -30,6 +30,7 @@ MonoBehaviour:
   <PitPositionForWidth>k__BackingField: {x: 0, y: 0}
   <PitPositionForHeight>k__BackingField: {x: 0, y: 0}
   <IsWell>k__BackingField: 0
-  <ChanceOfWell>k__BackingField: 0
-  <WellPositionForWidth>k__BackingField: {x: 0, y: 0}
-  <WellPositionForHeight>k__BackingField: {x: 0, y: 0}
+  <ChanceOfWall>k__BackingField: 0
+  <WallPositionForWidth>k__BackingField: {x: 0, y: 0}
+  <WallPositionForHeight>k__BackingField: {x: 0, y: 0}
+  <IsBuilder>k__BackingField: 0

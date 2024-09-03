@@ -17,10 +17,12 @@ namespace Shudder.UI
         [SerializeField] private TextMeshProUGUI _diamondTMP;
         [SerializeField] private TextMeshProUGUI _jumpCountTMP;
         [SerializeField] private TextMeshProUGUI _waveCountTMP;
+        [SerializeField] private TextMeshProUGUI _rewardTMP;
 
         private ITriggerOnlyEventBus _triggerOnlyEventBus;
         private SwapService _swapService;
         private SfxService _sfxService;
+        private CoinService _coinService;
         private int _currentDiamond;
         private int _currentCoin;
 
@@ -29,54 +31,58 @@ namespace Shudder.UI
             _triggerOnlyEventBus = container.Resolve<ITriggerOnlyEventBus>();
             _swapService = container.Resolve<SwapService>();
             _sfxService = container.Resolve<SfxService>();
+            _coinService = container.Resolve<CoinService>();
+
+            SetReward();
         }
-        
+
         public void Reward()
         {
             _sfxService.Click();
             YandexGame.RewVideoShow(GameConstant.RewardIndex);
         }
-        
+
         public void OpenSettings()
         {
             _sfxService.Click();
             _triggerOnlyEventBus.TriggerOpenSettings();
         }
-        
+
         public void OpenShop()
         {
             _sfxService.Click();
+            YandexGame.FullscreenShow();
             _triggerOnlyEventBus.TriggerOpenShop();
         }
-         
+
         public void RunMegaWave()
         {
             _sfxService.Click();
             _swapService.RunMegaWave();
         }
-        
+
         public void ActivateSuperJump()
         {
             _sfxService.Click();
             _triggerOnlyEventBus.TriggerActivateSuperJump();
         }
-        
+
         public void SetJumpCount(int value)
         {
             _jumpCountTMP.text = $"x{value}";
         }
-        
+
         public void SetWaveCount(int value)
         {
             _waveCountTMP.text = $"x{value}";
         }
-        
+
         public void SetLevel(int value)
         {
             value++;
             _LevelTMP.text = value.ToString();
         }
-        
+
         public void SetCoin(int value)
         {
             _coinTMP?.transform.localScale.Set(1f,1f,1f);
@@ -86,7 +92,7 @@ namespace Shudder.UI
             _coinTMP.text = value.ToString();
             _coinTMP?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f).SetLink(_coinTMP.gameObject);
         }
-        
+
         public void SetDiamond(int value)
         {
             _diamondTMP?.transform.localScale.Set(1f,1f,1f);
@@ -95,6 +101,11 @@ namespace Shudder.UI
             _currentDiamond = value;
             _diamondTMP.text = value.ToString();
             _diamondTMP?.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f).SetLink(_diamondTMP.gameObject);
+        }
+
+        private void SetReward()
+        {
+            _rewardTMP.text = $"+{_coinService.GetRewardedBonus()}";
         }
     }
 }

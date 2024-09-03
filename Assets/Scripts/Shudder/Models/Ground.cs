@@ -8,7 +8,7 @@ namespace Shudder.Models
 {
     public class Ground : IGround
     {
-        public Ground(Vector2 groundId, GroundType groundType, Vector3 offsetPosition)
+        public Ground(Vector2Int groundId, GroundType groundType, Vector3 offsetPosition)
         {
             Id = groundId;
             GroundType = groundType;
@@ -20,7 +20,7 @@ namespace Shudder.Models
             GroundType = groundType;
         }
 
-        public Vector2 Id { get; }
+        public Vector2Int Id { get; }
         public Transform AnchorPoint => Presenter.View.AnchorPoint;
         public GroundType GroundType { get; set; }
         public Vector3 OffsetPosition { get; }

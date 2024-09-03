@@ -9,8 +9,7 @@ namespace Shudder.Configs
     {
         [field: SerializeField] public UIRootView UIRootView { get; private set; } = null;
         [field: SerializeField] public CameraFollowView CameraFollowView { get; private set; } = null;
-
-        public string BundleVersion { get; set; } = "0.5";
+        [field: SerializeField] public string BundleVersion { get; set; } = "0.5";
 
     }
 }

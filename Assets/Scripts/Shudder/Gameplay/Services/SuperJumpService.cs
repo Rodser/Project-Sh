@@ -53,5 +53,10 @@ namespace Shudder.Gameplay.Services
         {
             IsActivationSuperJump = false;
         }
+
+        public void RemoveListener()
+        {
+            _readOnlyEvent.ActivateSuperJump.RemoveListener(ActivateSuperJump);
+        }
     }
 }

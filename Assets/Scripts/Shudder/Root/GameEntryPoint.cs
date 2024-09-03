@@ -160,14 +160,12 @@ namespace Shudder.Root
         {
             Subscribe();
             LoadAndStartMainMenuScene();
-            YandexGame.FullscreenShow();
         }
 
         private void OnLoadAndStartGameplayScene()
         {
             Subscribe();
             LoadAndStartGameplayScene();
-            YandexGame.FullscreenShow();
         }
 
         private async UniTask LoadSceneAsync(string sceneName)

@@ -19,5 +19,5 @@ MonoBehaviour:
   <HeroSfxConfig>k__BackingField: {fileID: 11400000, guid: 5de81700b776d5049b38031cd8bab6fc,
     type: 2}
   <StartPositionX>k__BackingField: 1
-  <StartPositionY>k__BackingField: 1
+  <StartPositionY>k__BackingField: 0
   <SpeedMove>k__BackingField: 1

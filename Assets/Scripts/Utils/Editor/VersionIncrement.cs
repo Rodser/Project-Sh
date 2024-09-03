@@ -1,7 +1,6 @@
 using System;
 using Shudder.Configs;
 using Shudder.Constants;
-using Shudder.UI;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
@@ -25,10 +24,18 @@ namespace Utils.Editor
             currentVersion = major + "." + minor + "." + build;
             PlayerSettings.bundleVersion = currentVersion;
 
-            var info = Resources.Load<BuildInfo>(GameConstant.BuildInfoPath);
-            info.BundleVersion = currentVersion;
-            
-            Debug.Log(currentVersion);
+            SaveVersion(currentVersion);
+
+            Debug.Log($"next bundleVersion: {currentVersion}");
+        }
+
+        private static void SaveVersion(string currentVersion)
+        {
+            var buildInfo = Resources.Load<BuildInfo>(GameConstant.BuildInfoPath);
+            buildInfo.BundleVersion = currentVersion;
+
+            Undo.RecordObject(buildInfo, "BundleVersion");
+            EditorUtility.SetDirty(buildInfo);
         }
 
         private static int CheckMaxValue(int minor, ref int major, int value)

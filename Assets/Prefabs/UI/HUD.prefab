@@ -972,6 +972,7 @@ MonoBehaviour:
   _diamondTMP: {fileID: 2108412990251007555}
   _jumpCountTMP: {fileID: 7910126869990326378}
   _waveCountTMP: {fileID: 8395333493235992182}
+  _rewardTMP: {fileID: 5750573434159452516}
 --- !u!1 &7241740273830126131
 GameObject:
   m_ObjectHideFlags: 0
@@ -1541,6 +1542,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 2095482969785253980}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5750573434159452516 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5970227993878008120, guid: 0bc6dd7bd4bd1c34496f543dcc94d302,
+    type: 3}
+  m_PrefabInstance: {fileID: 2095482969785253980}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2753936014679713453
 PrefabInstance:
   m_ObjectHideFlags: 0

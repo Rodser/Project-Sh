@@ -20,5 +20,17 @@ namespace Shudder.Gameplay.Services
             var move = groundView.transform.DOMove(target, 0.1f);
             await move.AsyncWaitForCompletion();
         }
+        
+        public void Move(GroundView groundView, float offset)
+        {
+            if(groundView == null)
+                return;
+            
+            var height = (int)groundView.Presenter.Ground.GroundType * HeightOffset + offset;
+            var target = groundView.transform.position;
+            target.y = height;
+
+            groundView.transform.position = target;
+        }
     }
 }

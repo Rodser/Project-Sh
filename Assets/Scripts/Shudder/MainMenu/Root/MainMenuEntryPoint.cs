@@ -31,8 +31,8 @@ namespace Shudder.MainMenu.Root
         
         private void Registration()
         {
-            _container.RegisterInstance(new BuilderGridService(_container));
             _container.RegisterInstance(new LiftService());
+            _container.RegisterInstance(new BuilderGridService());
             
             _container.RegisterFactory("MenuGrid",c => 
                 new GridFactory(_container, _menuConfiguration.MenuGridConfig)).AsSingle();

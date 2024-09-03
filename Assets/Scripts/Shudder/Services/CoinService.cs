@@ -39,7 +39,7 @@ namespace Shudder.Services
 
         public int GetRewardedBonus()
         {
-            return Random.Range(5, 10) * _price.RewardBonus;
+            return _price.RewardBonus;
         }
 
         private void TakeCoin()

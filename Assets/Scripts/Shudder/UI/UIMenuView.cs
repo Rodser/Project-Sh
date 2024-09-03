@@ -17,17 +17,21 @@ namespace Shudder.UI
         [SerializeField] private Image _LevelProgress;    
         [SerializeField] private TextMeshProUGUI _coinTMPro;
         [SerializeField] private TextMeshProUGUI _diamondTMPro;    
+        [SerializeField] private TextMeshProUGUI _rewardTMP;
         [SerializeField] private TextMeshProUGUI _levelTMPro;
         
         private int _currentCoin;
         private int _currentDiamond;
         private SfxService _sfxService;
+        private CoinService _coinService;
 
-        public async void Bind(ITriggerOnlyEventBus eventBus, SfxService sfxService)
+        public async void Bind(ITriggerOnlyEventBus eventBus, SfxService sfxService, CoinService coinService)
         {
             _sfxService = sfxService;
+            _coinService = coinService;
             _triggerOnlyEvent = eventBus;
             await ShowWindow();
+            SetReward();
         }
 
         public async void StartGame()
@@ -58,6 +62,7 @@ namespace Shudder.UI
         public void OpenShop()
         {
             _sfxService.Click();
+            YandexGame.FullscreenShow();
             _triggerOnlyEvent.TriggerOpenShop();
         }
         
@@ -88,11 +93,16 @@ namespace Shudder.UI
         {
             _LevelProgress.fillAmount = value;
         }
-        
+
         public void SetLevel(int level)
         {
             level++;
             _levelTMPro.text = level.ToString();
+        }
+
+        private void SetReward()
+        {
+            _rewardTMP.text = $"+{_coinService.GetRewardedBonus()}";
         }
 
         private async UniTask ShowWindow()

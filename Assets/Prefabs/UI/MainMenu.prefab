@@ -1397,6 +1397,7 @@ MonoBehaviour:
   _LevelProgress: {fileID: 2417070395203905822}
   _coinTMPro: {fileID: 6344999035659293037}
   _diamondTMPro: {fileID: 6912915270607701068}
+  _rewardTMP: {fileID: 3139913726863067787}
   _levelTMPro: {fileID: 4313590005969408927}
 --- !u!1 &6044227396789236605
 GameObject:
@@ -2785,3 +2786,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8739714861673143219}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3139913726863067787 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5970227993878008120, guid: 0bc6dd7bd4bd1c34496f543dcc94d302,
+    type: 3}
+  m_PrefabInstance: {fileID: 8739714861673143219}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

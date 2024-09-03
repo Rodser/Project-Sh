@@ -67,6 +67,7 @@ namespace Shudder.Gameplay.Services
         public async UniTask DestroyLevelAsync()
         {
             _readOnlyEvent.HasVictory.RemoveListener(OnHasVictory);
+            _superJumpService.RemoveListener();
             await _game.DestroyGrid();
         }
 

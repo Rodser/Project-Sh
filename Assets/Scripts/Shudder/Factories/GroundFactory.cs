@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Shudder.Factories
 {
-    internal class GroundFactory
+    public class GroundFactory
     {
         private readonly LiftService _liftService;
         
@@ -23,8 +23,13 @@ namespace Shudder.Factories
         {
             _liftService = container.Resolve<LiftService>();
         }
+        
+        public GroundFactory(LiftService liftService)
+        {
+            _liftService = liftService;
+        }
 
-        public async UniTask<Ground> Create(GridConfig hexGridConfig, Transform parent, int x, int z, Vector3 offsetPosition, GroundType groundType, bool isMenu)
+        public async UniTask<Ground> CreateAsync(GridConfig hexGridConfig, Transform parent, int x, int z, Vector3 offsetPosition, GroundType groundType, bool isMenu)
         {
             _groundConfig = hexGridConfig.GroundConfig;
             _spaceBetweenCells = hexGridConfig.SpaceBetweenCells;
@@ -40,7 +45,7 @@ namespace Shudder.Factories
                 GroundType.Wall => GroundInstantiate(_groundConfig.PrefabWall, positionCell),
                 _ => GroundInstantiate(_groundConfig.ChoiceGroundPrefab(), positionCell)
             };
-            var groundId = new Vector2(x, z);
+            var groundId = new Vector2Int(x, z);
 
             IGround ground = new Ground(groundId, groundType, offsetPosition);
             var presenter = new GroundPresenter(ground);
@@ -49,6 +54,33 @@ namespace Shudder.Factories
             await _liftService.MoveAsync(groundView, offsetPosition.y, isMenu);
 
             await UniTask.Yield();
+            return (Ground)ground;
+        }
+        
+        public Ground Create(GridConfig hexGridConfig, Transform parent, int x, int z, Vector3 offsetPosition, GroundType groundType)
+        {
+            _groundConfig = hexGridConfig.GroundConfig;
+            _spaceBetweenCells = hexGridConfig.SpaceBetweenCells;
+            _parent = parent;
+            
+            var rowOffset = z % 2 * 0.5f;
+            var positionCell = GetPositionCell(x, z, offsetPosition, rowOffset);
+
+            var groundView = groundType switch
+            {
+                GroundType.Pit => GroundInstantiate(_groundConfig.PrefabPit, positionCell),
+                GroundType.Portal => GroundInstantiate(_groundConfig.PrefabHole, positionCell),
+                GroundType.Wall => GroundInstantiate(_groundConfig.PrefabWall, positionCell),
+                _ => GroundInstantiate(_groundConfig.ChoiceGroundPrefab(), positionCell)
+            };
+            var groundId = new Vector2Int(x, z);
+
+            IGround ground = new Ground(groundId, groundType, offsetPosition);
+            var presenter = new GroundPresenter(ground);
+            groundView.Construct(presenter);
+            
+            _liftService.Move(groundView, offsetPosition.y);
+
             return (Ground)ground;
         }
 

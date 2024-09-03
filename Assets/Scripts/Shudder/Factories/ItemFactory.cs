@@ -27,6 +27,8 @@ namespace Shudder.Factories
                     || ground.GroundType == GroundType.Pit
                     || ground.GroundType == GroundType.Portal) 
                     continue;
+                if(ground.Id is { x: 1, y: 0 })
+                    return;
                 
                 checkCount++;
                 Object.Instantiate(item, ground.AnchorPoint);

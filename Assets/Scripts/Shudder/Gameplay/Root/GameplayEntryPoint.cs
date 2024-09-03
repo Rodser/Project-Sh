@@ -42,7 +42,7 @@ namespace Shudder.Gameplay.Root
         {
             _container.RegisterFactory("LevelGrid",c => 
                 new GridFactory(_container, _gameConfig.LevelGridConfigs)).AsSingle();
-            _container.RegisterFactory(c => new BuilderGridService(_container)).AsSingle();
+            _container.RegisterFactory(c => new BuilderGridService()).AsSingle();
             _container.RegisterFactory(c => new GroundFactory(_container)).AsSingle();
             _container.RegisterFactory(c => new ItemFactory()).AsSingle();      
             _container.RegisterFactory(c => new JewelKeyFactory()).AsSingle();

@@ -1,5 +1,6 @@
 using EditorAttributes;
 using UnityEngine;
+using Utils;
 
 namespace Shudder.Configs
 {
@@ -35,9 +36,17 @@ namespace Shudder.Configs
         
         [field: Space(7), Header("Well")]
         [field: SerializeField] public bool IsWell { get; private set; }
+        [Line(250f, 129f, 120f)]
         [field: SerializeField, ShowField(nameof(IsWell)), Range(0, 1)] public float ChanceOfWall { get; private set; }
         [field: SerializeField, ShowField(nameof(IsWell)), MinMaxSlider(0, 20)] public Vector2Int WallPositionForWidth { get; private set; }
         [field: SerializeField, ShowField(nameof(IsWell)), MinMaxSlider(0, 30)] public Vector2Int WallPositionForHeight { get; private set; }
-
+        
+        [field: Space(14)]
+        [field: SerializeField] public bool IsBuilder { get; private set; }
+        [Button(nameof(IsBuilder), ConditionResult.ShowHide)]
+        public void BuildGrid()
+        {
+            new BuildingTest().BuildGrid(this);
+        }
     }
 }

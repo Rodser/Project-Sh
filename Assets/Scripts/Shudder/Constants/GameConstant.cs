@@ -9,6 +9,5 @@ namespace Shudder.Constants
         public const string NameLB = "Basic";
         public const string PricePath = "Price";
         public const string BuildInfoPath = "BuildInfo";
-
     }
 }

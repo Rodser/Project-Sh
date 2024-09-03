@@ -33,3 +33,4 @@ MonoBehaviour:
   <ChanceOfWall>k__BackingField: 0
   <WallPositionForWidth>k__BackingField: {x: 0, y: 0}
   <WallPositionForHeight>k__BackingField: {x: 0, y: 0}
+  <IsBuilder>k__BackingField: 0
