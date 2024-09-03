@@ -2,7 +2,6 @@ using BaCon;
 using Shudder.Configs;
 using Shudder.Data;
 using Shudder.Events;
-using UnityEngine;
 
 namespace Shudder.Services
 {
@@ -15,6 +14,7 @@ namespace Shudder.Services
         private StorageService _storageService;
         private PriceInfo _price;
 
+        public int CurrentCoinValue { get; private set; }
 
         public CoinService(DIContainer container)
         {
@@ -47,6 +47,7 @@ namespace Shudder.Services
             _coinCount++;
             _sfxService.TakeCoin();
             var coin = _coinCount * _price.SingleCoin;
+            CurrentCoinValue = coin;
             _storageService.UpCoin(coin);
             _cache += coin;
         }

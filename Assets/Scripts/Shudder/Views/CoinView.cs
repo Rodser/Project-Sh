@@ -1,6 +1,7 @@
-using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Shudder.Services;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,23 +11,34 @@ namespace Shudder.Views
     {
         [SerializeField] private Transform _coin;
         [SerializeField] private GameObject _coinMessage;
+        [SerializeField] private TextMeshPro _coinMessageTMP;
         
-        private readonly CancellationTokenSource _token = new();
+        private CoinService _coinService;
 
         private void OnEnable()
         {
+            _coinMessage.SetActive(false);
            RotateCoinAsync();
+        }
+
+        public void Construct(CoinService storageService)
+        {
+            _coinService = storageService;
         }
 
         public void TakeCoin()
         {
             _coin?.gameObject.SetActive(false);
             _coinMessage.SetActive(true);
+            _coinMessage.gameObject.transform.SetParent(gameObject.transform.parent);
+            _coinMessageTMP.text = $"+{_coinService.CurrentCoinValue}";
             if (Camera.main is not null) 
                 _coinMessage.transform.forward = Camera.main.transform.forward;
-            Destroy(gameObject, 2f);
+            
+            Destroy( _coinMessage.gameObject, 2f);
+            Destroy(gameObject);
         }
-        
+
         private async void RotateCoinAsync()
         {
             await UniTask.Delay(Random.Range(1000, 2000));

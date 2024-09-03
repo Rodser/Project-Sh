@@ -1,4 +1,6 @@
+using BaCon;
 using Shudder.Models;
+using Shudder.Services;
 using Shudder.Views;
 using UnityEngine;
 using Grid = Shudder.Models.Grid;
@@ -7,6 +9,13 @@ namespace Shudder.Factories
 {
     public class ItemFactory
     {
+        private readonly CoinService _coinService;
+
+        public ItemFactory(DIContainer container)
+        {
+            _coinService = container.Resolve<CoinService>();
+        }
+
         public void Create(ItemView[] items, Grid grid, float chance)
         {
             foreach (var item in items)
@@ -27,11 +36,13 @@ namespace Shudder.Factories
                     || ground.GroundType == GroundType.Pit
                     || ground.GroundType == GroundType.Portal) 
                     continue;
-                if(ground.Id is { x: 1, y: 0 })
-                    return;
                 
                 checkCount++;
-                Object.Instantiate(item, ground.AnchorPoint);
+                var view = Object.Instantiate(item, ground.AnchorPoint);
+                if (view.TryGetComponent(out CoinView coinView))
+                {
+                    coinView.Construct(_coinService);
+                }
             }
         }
         

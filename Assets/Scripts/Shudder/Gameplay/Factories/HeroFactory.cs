@@ -5,6 +5,7 @@ using Shudder.Gameplay.Presenters;
 using Shudder.Gameplay.Services;
 using Shudder.Models;
 using Shudder.Services;
+using Shudder.Views;
 using UnityEngine;
 
 namespace Shudder.Gameplay.Factories
@@ -38,6 +39,11 @@ namespace Shudder.Gameplay.Factories
                     if (ng.GroundType != GroundType.Pit)
                         ground = ng;
                 }
+            }
+
+            if (ground.Presenter.View.TryGetComponent(out CoinView coinView))
+            {
+                Object.Destroy(coinView.gameObject);
             }
 
             var hero = new Hero(_container);

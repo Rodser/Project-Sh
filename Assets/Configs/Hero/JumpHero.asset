@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d3527b3e01c403b93e70c0b9f193baa, type: 3}
   m_Name: JumpHero
   m_EditorClassIdentifier: 
-  <DurationJump>k__BackingField: 0.8
+  <DurationJump>k__BackingField: 0.5
   <PowerJump>k__BackingField: 0.2
-  <DurationClench>k__BackingField: 0
+  <Delay>k__BackingField: 0.06

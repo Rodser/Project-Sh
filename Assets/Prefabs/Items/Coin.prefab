@@ -61,6 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _coin: {fileID: 7503958814733799501}
   _coinMessage: {fileID: 4020660774943914618}
+  _coinMessageTMP: {fileID: 368905972498603134}
 --- !u!1 &4020660774943914618
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,7 +77,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4154323952494030491
 Transform:
   m_ObjectHideFlags: 0
