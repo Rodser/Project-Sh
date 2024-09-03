@@ -1,3 +1,4 @@
+using System.Linq;
 using BaCon;
 using Shudder.Gameplay.Configs;
 using Shudder.Gameplay.Models;
@@ -34,17 +35,15 @@ namespace Shudder.Gameplay.Factories
             var ground = grounds[_heroConfig.StartPositionX, _heroConfig.StartPositionY];
             if (ground.GroundType == GroundType.Pit)
             {
-                foreach (var ng in ground.Neighbors)
+                foreach (var ng in ground.Neighbors.Where(ng => ng.GroundType != GroundType.Pit))
                 {
-                    if (ng.GroundType != GroundType.Pit)
-                        ground = ng;
+                    ground = ng;
                 }
             }
 
-            if (ground.Presenter.View.TryGetComponent(out CoinView coinView))
-            {
+            var coinView = ground.Presenter.View.gameObject.GetComponentInChildren<CoinView>();
+            if (coinView is not null) 
                 Object.Destroy(coinView.gameObject);
-            }
 
             var hero = new Hero(_container);
             var position = ground.AnchorPoint.position;

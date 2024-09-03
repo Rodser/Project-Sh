@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d75a7362af394b51b80ebfcfb18b61d0, type: 3}
   m_Name: Price
   m_EditorClassIdentifier: 
-  <Jump>k__BackingField: 99
-  <Wave>k__BackingField: 199
-  <JumpX10>k__BackingField: 900
-  <WaveX10>k__BackingField: 1900
-  <SingleCoin>k__BackingField: 10
+  <Jump>k__BackingField: 199
+  <Wave>k__BackingField: 399
+  <JumpX10>k__BackingField: 1779
+  <WaveX10>k__BackingField: 3779
+  <SingleCoin>k__BackingField: 7
   <DefaultCache>k__BackingField: 111
   <RewardBonus>k__BackingField: 555

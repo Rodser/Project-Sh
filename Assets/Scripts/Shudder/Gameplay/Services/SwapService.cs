@@ -72,6 +72,7 @@ namespace Shudder.Gameplay.Services
             {
                 _sfxService.Thunder();
                 await Swap(swapGround, true);
+                await Swap(swapGround, true);
             }
         }
 
