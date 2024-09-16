@@ -1,11 +1,12 @@
 using System.Collections.Generic;
-using BaCon;
 using Cysharp.Threading.Tasks;
 using Shudder.Configs;
 using Shudder.Constants;
+using Shudder.Data;
 using Shudder.Factories;
 using Shudder.Models;
 using UnityEngine;
+using Utils;
 using Grid = Shudder.Models.Grid;
 
 namespace Shudder.Services
@@ -18,40 +19,63 @@ namespace Shudder.Services
         private Grid _grid;
         private GridConfig _config;
         private Vector3 _offsetPosition;
-        private Ground[,] _cells;
-        private bool _isMenu;
+        private Cell[,] _cells;
 
-        public BuilderGridService()
-        {
-        }
-        
         public void Construct(CameraService cameraService, GroundFactory groundFactory)
         {
             _cameraService = cameraService;
             _groundFactory = groundFactory;
         }
         
-        public  BuilderGridService CreateGrounds(Grid grid, GridConfig config, bool isMenu)
+        public void Construct(GroundFactory groundFactory)
+        {
+            _groundFactory = groundFactory;
+        }
+        
+        public  BuilderGridService CreateGrounds(Grid grid, GridConfig config)
         {
             _grid = grid;
             _config = config;
-            _isMenu = isMenu;
             _grid.Grounds = new Ground[config.Width, config.Height];
-            _cells = new Ground[config.Width, config.Height];
-            _offsetPosition = GetOffsetPosition(config);
+            _cells = new Cell[config.Width, config.Height];
+            _offsetPosition = GetOffsetPositionEditor(config);
 
             for (int z = 0; z < config.Height; z++)
             {
                 for (int x = 0; x < config.Width; x++)
                 {
-                    _cells[x, z] = new Ground(GetGroundType());
+                    _cells[x, z] = new Cell(new Vector2Int(x, z), GetGroundType());
                 }
             }
+            
+            return this;
+        }
+        
+        public  BuilderGridService SetGrounds(Grid grid, GridConfig config, LevelGridData levelGridData)
+        {
+            _grid = grid;
+            _config = config;
+            _grid.Grounds = new Ground[levelGridData.Width, levelGridData.Height];
+            _offsetPosition = GetOffsetPosition(config);
+            _cells = new Cell[levelGridData.Width, levelGridData.Height];
+
+            for (int z = 0; z < levelGridData.Height; z++)
+            {
+                for (int x = 0; x < levelGridData.Width; x++)
+                {
+                    // Debug.Log($"{levelGridData.Cells[x, z].ID} : {levelGridData.Cells[x, z].GroundType}");
+                    _cells[x, z] = new Cell(levelGridData.Cells[x, z].ID, levelGridData.Cells[x, z].GroundType);
+                }
+            }
+
             return this;
         }
 
         public BuilderGridService EstablishWall()
         {
+            if (!_config.IsWall)
+                return this;
+                    
             for (int y = 0; y < _grid.Grounds.GetLength(1); y++)
             {
                 for (int x = 0; x < _grid.Grounds.GetLength(0); x++)
@@ -68,6 +92,9 @@ namespace Shudder.Services
         
         public BuilderGridService EstablishPit()
         {
+            if (!_config.IsPit)
+                return this;
+            
             for (int y = 0; y < _grid.Grounds.GetLength(1); y++)
             {
                 for (int x = 0; x < _grid.Grounds.GetLength(0); x++)
@@ -92,12 +119,12 @@ namespace Shudder.Services
 
         public async UniTask<Grid> GetBuildAsync()
         {
-            for (int z = 0; z < _config.Height; z++)
+            for (int z = 0; z < _cells.GetLength(1); z++)
             {
-                for (int x = 0; x < _config.Width; x++)
+                for (int x = 0; x < _cells.GetLength(0); x++)
                 {
-                        _grid.Grounds[x, z] = await _groundFactory
-                            .CreateAsync(_config, _grid.Presenter.View.transform, x, z, _offsetPosition,  _cells[x, z].GroundType, _isMenu);
+                        _grid.Grounds[x, z] = _groundFactory
+                            .Create(_config, _grid.Presenter.View.transform, x, z, _offsetPosition,  _cells[x, z].GroundType);
                         
                         if (_cells[x, z].GroundType == GroundType.Portal)
                             _grid.Portal = _grid.Grounds[x, z];
@@ -108,22 +135,25 @@ namespace Shudder.Services
             Debug.Log("Create Grounds");
             return _grid;
         }
-        
+
+#if UNITY_EDITOR
         public void Build()
         {
             for (int z = 0; z < _config.Height; z++)
             {
                 for (int x = 0; x < _config.Width; x++)
                 {
-                    _grid.Grounds[x, z] = _groundFactory
+                     var ground = _groundFactory
                         .Create(_config, _grid.Presenter.View.transform, x, z, _offsetPosition,  _cells[x, z].GroundType);
-                        
+                     ground.Presenter.View.gameObject.AddComponent<GroundModifier>().Init(ground, _groundFactory, _config, _grid.Presenter.View.transform, _offsetPosition);
+                     _grid.Grounds[x, z] = ground;
                     if (_cells[x, z].GroundType == GroundType.Portal)
                         _grid.Portal = _grid.Grounds[x, z];
                 }
             }
             Debug.Log("Created Grounds");
         }
+#endif
 
         private async UniTask SetNeighbors()
         {
@@ -148,6 +178,17 @@ namespace Shudder.Services
             return _cameraService.View.transform.position - new Vector3(x, y, z);
         }
 
+        private Vector3 GetOffsetPositionEditor(GridConfig config)
+        {
+            var rowOffset = config.Height % 2 * 0.5f;
+
+            var x = (config.Width + rowOffset) * config.SpaceBetweenCells * 0.5f;
+            var z = config.Height * config.SpaceBetweenCells * GameConstant.InnerRadiusCoefficient * 0.5f;
+            var y = 0f; 
+
+            return Vector3.zero - new Vector3(x, y, z);
+        }
+        
         private bool TryGetPit(int x, int y)
         {
             if (_grid.CountPit >= _config.PitCount)
@@ -175,8 +216,8 @@ namespace Shudder.Services
 
         private Vector2Int CalculateHolePosition(GridConfig config)
         {
-            var xHole = Random.Range(config.HolePositionForWidth.x - 1, config.HolePositionForWidth.y);
-            var yHole = Random.Range(config.HolePositionForHeight.x - 1, config.HolePositionForHeight.y);
+            var xHole = Random.Range(config.HolePositionForWidth.x - 1, config.HolePositionForWidth.y - 1);
+            var yHole = Random.Range(config.HolePositionForHeight.x - 1, config.HolePositionForHeight.y - 1);
             return new Vector2Int(xHole, yHole);
         }
 

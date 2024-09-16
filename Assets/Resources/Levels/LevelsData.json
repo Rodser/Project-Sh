@@ -1,0 +1,258 @@
+{
+  "Levels": {
+    "0": {
+      "Level": 0,
+      "IsBuilt": true,
+      "SpaceBetweenCells": 0.87,
+      "ChanceDestroy": 0.0,
+      "Width": 3,
+      "Height": 4,
+      "CountCoin": 3,
+      "ChanceCoin": 0.407,
+      "IsKey": false,
+      "Cells": [
+        [
+          {
+            "ID": {
+              "x": 0,
+              "y": 0,
+              "magnitude": 0.0,
+              "sqrMagnitude": 0
+            },
+            "GroundType": -2
+          },
+          {
+            "ID": {
+              "x": 0,
+              "y": 1,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1
+            },
+            "GroundType": 1
+          },
+          {
+            "ID": {
+              "x": 0,
+              "y": 2,
+              "magnitude": 2.0,
+              "sqrMagnitude": 4
+            },
+            "GroundType": 0
+          },
+          {
+            "ID": {
+              "x": 0,
+              "y": 3,
+              "magnitude": 3.0,
+              "sqrMagnitude": 9
+            },
+            "GroundType": 1
+          }
+        ],
+        [
+          {
+            "ID": {
+              "x": 1,
+              "y": 0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1
+            },
+            "GroundType": 2
+          },
+          {
+            "ID": {
+              "x": 1,
+              "y": 1,
+              "magnitude": 1.41421354,
+              "sqrMagnitude": 2
+            },
+            "GroundType": -2
+          },
+          {
+            "ID": {
+              "x": 1,
+              "y": 2,
+              "magnitude": 2.236068,
+              "sqrMagnitude": 5
+            },
+            "GroundType": -2
+          },
+          {
+            "ID": {
+              "x": 1,
+              "y": 3,
+              "magnitude": 3.1622777,
+              "sqrMagnitude": 10
+            },
+            "GroundType": -1
+          }
+        ],
+        [
+          {
+            "ID": {
+              "x": 2,
+              "y": 0,
+              "magnitude": 2.0,
+              "sqrMagnitude": 4
+            },
+            "GroundType": -2
+          },
+          {
+            "ID": {
+              "x": 2,
+              "y": 1,
+              "magnitude": 2.236068,
+              "sqrMagnitude": 5
+            },
+            "GroundType": 3
+          },
+          {
+            "ID": {
+              "x": 2,
+              "y": 2,
+              "magnitude": 2.828427,
+              "sqrMagnitude": 8
+            },
+            "GroundType": -2
+          },
+          {
+            "ID": {
+              "x": 2,
+              "y": 3,
+              "magnitude": 3.60555124,
+              "sqrMagnitude": 13
+            },
+            "GroundType": -2
+          }
+        ]
+      ]
+    },
+    "1": {
+      "Level": 1,
+      "IsBuilt": true,
+      "SpaceBetweenCells": 0.86,
+      "ChanceDestroy": 0.269,
+      "Width": 3,
+      "Height": 4,
+      "CountCoin": 3,
+      "ChanceCoin": 0.424,
+      "IsKey": false,
+      "Cells": [
+        [
+          {
+            "ID": {
+              "x": 0,
+              "y": 0,
+              "magnitude": 0.0,
+              "sqrMagnitude": 0
+            },
+            "GroundType": -2
+          },
+          {
+            "ID": {
+              "x": 0,
+              "y": 1,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1
+            },
+            "GroundType": -2
+          },
+          {
+            "ID": {
+              "x": 0,
+              "y": 2,
+              "magnitude": 2.0,
+              "sqrMagnitude": 4
+            },
+            "GroundType": -2
+          },
+          {
+            "ID": {
+              "x": 0,
+              "y": 3,
+              "magnitude": 3.0,
+              "sqrMagnitude": 9
+            },
+            "GroundType": -1
+          }
+        ],
+        [
+          {
+            "ID": {
+              "x": 1,
+              "y": 0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1
+            },
+            "GroundType": 2
+          },
+          {
+            "ID": {
+              "x": 1,
+              "y": 1,
+              "magnitude": 1.41421354,
+              "sqrMagnitude": 2
+            },
+            "GroundType": 2
+          },
+          {
+            "ID": {
+              "x": 1,
+              "y": 2,
+              "magnitude": 2.236068,
+              "sqrMagnitude": 5
+            },
+            "GroundType": -2
+          },
+          {
+            "ID": {
+              "x": 1,
+              "y": 3,
+              "magnitude": 3.1622777,
+              "sqrMagnitude": 10
+            },
+            "GroundType": 0
+          }
+        ],
+        [
+          {
+            "ID": {
+              "x": 2,
+              "y": 0,
+              "magnitude": 2.0,
+              "sqrMagnitude": 4
+            },
+            "GroundType": -2
+          },
+          {
+            "ID": {
+              "x": 2,
+              "y": 1,
+              "magnitude": 2.236068,
+              "sqrMagnitude": 5
+            },
+            "GroundType": -2
+          },
+          {
+            "ID": {
+              "x": 2,
+              "y": 2,
+              "magnitude": 2.828427,
+              "sqrMagnitude": 8
+            },
+            "GroundType": 1
+          },
+          {
+            "ID": {
+              "x": 2,
+              "y": 3,
+              "magnitude": 3.60555124,
+              "sqrMagnitude": 13
+            },
+            "GroundType": 2
+          }
+        ]
+      ]
+    }
+  }
+}

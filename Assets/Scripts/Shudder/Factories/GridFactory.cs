@@ -1,6 +1,8 @@
 ﻿using BaCon;
 using Cysharp.Threading.Tasks;
 using Shudder.Configs;
+using Shudder.Data;
+using Shudder.Models;
 using Shudder.Presenters;
 using Shudder.Services;
 using Shudder.Views;
@@ -32,7 +34,7 @@ namespace Shudder.Factories
             var grid = new Grid();
             var gridView = new GameObject("Grid").AddComponent<GridView>();
             var presenter = new GridPresenter(grid);
-            presenter.SetView(gridView);
+            gridView.Construct(presenter);
 
             var builderGridService = _container.Resolve<BuilderGridService>();
             builderGridService.Construct(
@@ -41,20 +43,39 @@ namespace Shudder.Factories
             if (isMenu)
             {
                return await builderGridService
-                    .CreateGrounds(grid, _gridConfig, true)
+                    .CreateGrounds(grid, _gridConfig)
                     .EstablishPit()
                     .EstablishPortal()
                     .GetBuildAsync();
             }
             else
             {
+                var data = LoadConfig(level);
+                var config = _gridConfigs[level];
+                if (data.IsBuilt)
+                {
+                    return await builderGridService
+                        .SetGrounds(grid, config, data)
+                        .GetBuildAsync();
+                }
+                
                 return await builderGridService
-                    .CreateGrounds(grid, _gridConfigs[level], false)
+                    .CreateGrounds(grid, config)
                     .EstablishWall()
                     .EstablishPit()
                     .EstablishPortal()
                     .GetBuildAsync();
             }
+        }
+
+        private LevelGridData LoadConfig(int level)
+        {
+            var service = new JsonSaveLoadService();
+            var levelsData = service.Load("LevelsData", new LevelsData());
+
+            var gridCo = levelsData.Get(level);
+            
+            return gridCo;
         }
     }
 }

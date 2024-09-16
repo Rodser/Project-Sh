@@ -81,16 +81,18 @@ namespace Shudder.Gameplay.Root
 
                     if(ground.GroundType == GroundType.Pit)
                         continue;
+                    ground.ToDestroy();
                     if(ground.Presenter.View is not null)
                         Object.Destroy(ground.Presenter.View.gameObject);
                     ground.Presenter.View = null;
-                    await UniTask.Yield();
                 }
             }
 
             CurrentGrid.Grounds = null;
             Object.Destroy(CurrentGrid.Presenter.View.gameObject);
             CurrentGrid = null;
+                   
+            await UniTask.Yield();
         }
 
         private void OpenShop()

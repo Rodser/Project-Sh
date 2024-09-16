@@ -14,5 +14,6 @@ namespace Shudder.Models.Interfaces
         GroundPresenter Presenter { get; set; }
         void ChangeGroundType(GroundType groundType);
         void ToDestroy();
+        void ToDestroyAsync();
     }
 }

@@ -1,5 +1,4 @@
 using Shudder.Configs;
-using Shudder.Constants;
 using Shudder.Factories;
 using Shudder.Gameplay.Services;
 using Shudder.Presenters;
@@ -8,9 +7,9 @@ using Shudder.Views;
 using UnityEngine;
 using Grid = Shudder.Models.Grid;
 
-namespace Utils
+namespace Utils.Editor
 {
-    public class BuildingTest
+    public class BuildingGridServiceEditor
     {
         public void BuildGrid(GridConfig config)
         {
@@ -18,15 +17,12 @@ namespace Utils
 
             var grid = new Grid();
             var presenter = new GridPresenter(grid);
-            presenter.SetView(gridView);
+            gridView.Construct(presenter);
 
-            var buildInfo = Resources.Load<BuildInfo>(GameConstant.BuildInfoPath);
-            var cameraFollow = new CameraFollowFactory().Instantiate(buildInfo.CameraFollowView);
-            
             var builderGridService = new BuilderGridService();
-            builderGridService.Construct(new CameraService(cameraFollow), new GroundFactory(new LiftService()));
+            builderGridService.Construct(new GroundFactory(new LiftService()));
             builderGridService
-                .CreateGrounds(grid, config, false)
+                .CreateGrounds(grid, config)
                 .EstablishWall()
                 .EstablishPit()
                 .EstablishPortal()

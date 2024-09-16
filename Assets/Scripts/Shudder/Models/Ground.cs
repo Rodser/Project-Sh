@@ -38,8 +38,26 @@ namespace Shudder.Models
         {
             GroundType = groundType;
         }
+        
+        public void ToDestroy()
+        {
+            if(IsStatic)
+                return;
+            if(GroundType == GroundType.Portal || GroundType == GroundType.Pit)
+                return;
+            if(Presenter.View == null)
+                return;
+            
+            GroundType = GroundType.Pit;
 
-        public async void ToDestroy()
+            var childs = Presenter.View.gameObject.GetComponentsInChildren<Transform>();
+            for (int i = 0; i < childs.Length; i++)
+            {
+                Object.Destroy(childs[i].gameObject);
+            }
+        }
+        
+        public async void ToDestroyAsync()
         {
             if(IsStatic)
                 return;

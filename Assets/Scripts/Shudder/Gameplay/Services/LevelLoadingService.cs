@@ -86,7 +86,7 @@ namespace Shudder.Gameplay.Services
             _game.Hero = hero;
             _heroMoveService.Subscribe(hero);
             _superJumpService.Init(currentGrid.Grounds, hero);
-            _swapService.Init(hero);
+            _swapService.Init(hero, _gameConfig.LevelGridConfigs[level].ChanceDestroy);
             
             Debug.Log($"Load Level progress {_storage.Progress.Level}");
             _readOnlyEvent.HasVictory.AddListener(OnHasVictory);

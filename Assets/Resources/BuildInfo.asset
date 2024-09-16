@@ -16,4 +16,4 @@ MonoBehaviour:
     type: 3}
   <CameraFollowView>k__BackingField: {fileID: 5884073621532618455, guid: 5c51148eaa5bfdd429f064d2c3618667,
     type: 3}
-  <BundleVersion>k__BackingField: 0.6.2
+  <BundleVersion>k__BackingField: 0.6.3

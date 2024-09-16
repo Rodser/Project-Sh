@@ -29,7 +29,7 @@ namespace Shudder.Factories
             _liftService = liftService;
         }
 
-        public async UniTask<Ground> CreateAsync(GridConfig hexGridConfig, Transform parent, int x, int z, Vector3 offsetPosition, GroundType groundType, bool isMenu)
+        public async UniTask<Ground> CreateAsync(GridConfig hexGridConfig, Transform parent, int x, int z, Vector3 offsetPosition, GroundType groundType)
         {
             _groundConfig = hexGridConfig.GroundConfig;
             _spaceBetweenCells = hexGridConfig.SpaceBetweenCells;
@@ -51,8 +51,7 @@ namespace Shudder.Factories
             var presenter = new GroundPresenter(ground);
             groundView.Construct(presenter);
             
-            await _liftService.MoveAsync(groundView, offsetPosition.y, isMenu);
-
+            _liftService.Move(groundView, offsetPosition.y);
             await UniTask.Yield();
             return (Ground)ground;
         }

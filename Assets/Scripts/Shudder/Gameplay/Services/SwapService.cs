@@ -19,6 +19,7 @@ namespace Shudder.Gameplay.Services
         private readonly SfxService _sfxService;
         
         private Hero _hero;
+        private float _chanceDestroy;
 
         public SwapService(DIContainer container)
         {
@@ -28,9 +29,10 @@ namespace Shudder.Gameplay.Services
             _sfxService = container.Resolve<SfxService>();
         }
 
-        public void Init(Hero hero)
+        public void Init(Hero hero, float chanceDestroy)
         {
             _hero = hero;
+            _chanceDestroy = chanceDestroy;
         }
 
         public async UniTask SwapWaveAsync(IGround ground)
@@ -98,9 +100,9 @@ namespace Shudder.Gameplay.Services
             var groundType = ground.GroundType;
             if (IsStationary(groundType, isMegaWave))
                 return;
-            if (Random.value < 0.2f && ground != _hero.CurrentGround)
+            if (Random.value < _chanceDestroy && ground != _hero.CurrentGround)
             {
-                ground.ToDestroy();
+                ground.ToDestroyAsync();
                 return;
             }
 

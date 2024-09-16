@@ -12,25 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d438032ecef7374b9b8d052523266ae, type: 3}
   m_Name: TestGrid 0
   m_EditorClassIdentifier: 
-  <GroundConfig>k__BackingField: {fileID: 11400000, guid: d855ac658bf66f04f9055f7ff8c20aa3,
-    type: 2}
-  <SpaceBetweenCells>k__BackingField: 0.85
-  <Width>k__BackingField: 12
-  <Height>k__BackingField: 12
-  <CountCoin>k__BackingField: 10
-  <ChanceCoin>k__BackingField: 0.5
-  <HolePositionForWidth>k__BackingField: {x: 1, y: 7}
-  <HolePositionForHeight>k__BackingField: {x: 7, y: 11}
-  <IsKey>k__BackingField: 0
-  <KeyPositionForWidth>k__BackingField: {x: 1, y: 7}
-  <KeyPositionForHeight>k__BackingField: {x: 6, y: 7}
-  <IsPit>k__BackingField: 1
-  <PitCount>k__BackingField: 15
-  <ChanceOfPit>k__BackingField: 0.219
-  <PitPositionForWidth>k__BackingField: {x: 0, y: 20}
-  <PitPositionForHeight>k__BackingField: {x: 0, y: 30}
-  <IsWell>k__BackingField: 1
-  <ChanceOfWall>k__BackingField: 0.212
-  <WallPositionForWidth>k__BackingField: {x: 0, y: 20}
-  <WallPositionForHeight>k__BackingField: {x: 0, y: 30}
-  <IsBuilder>k__BackingField: 1
+  Level: 0
+  GroundConfig: {fileID: 11400000, guid: d855ac658bf66f04f9055f7ff8c20aa3, type: 2}
+  SpaceBetweenCells: 0.87
+  ChanceDestroy: 0
+  Width: 3
+  Height: 4
+  CountCoin: 3
+  ChanceCoin: 0.407
+  HolePositionForWidth: {x: 1, y: 3}
+  HolePositionForHeight: {x: 4, y: 4}
+  IsKey: 0
+  KeyPositionForWidth: {x: 1, y: 3}
+  KeyPositionForHeight: {x: 3, y: 5}
+  IsPit: 0
+  PitCount: 10
+  ChanceOfPit: 0.37
+  PitPositionForWidth: {x: 1, y: 3}
+  PitPositionForHeight: {x: 1, y: 8}
+  IsWall: 0
+  ChanceOfWall: 0.53
+  WallPositionForWidth: {x: 1, y: 3}
+  WallPositionForHeight: {x: 1, y: 8}
+  IsBuilt: 1
